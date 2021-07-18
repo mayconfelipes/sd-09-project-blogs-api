@@ -19,3 +19,4 @@ app.get('/user/:id', validateJWT, User.getById);
 app.post('/login', User.login);
 
 app.post('/categories', validateJWT, Category.addCategory);
+app.get('/categories', validateJWT, Category.getAllCategories);

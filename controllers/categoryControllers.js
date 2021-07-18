@@ -10,10 +10,20 @@ const addCategory = async (req, res) => {
     }
     return res.status(201).json(createdCategory);
   } catch (error) {
-    res.status(500).json({ message: 'Internal Error' });
+    res.status(500).json({ message: 'Internal Error', error });
+  }
+};
+
+const getAllCategories = async (req, res) => {
+  try {
+    const categories = await Category.getAllCategories();
+    return res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Error', error });
   }
 };
 
 module.exports = {
   addCategory,
+  getAllCategories,
 };
