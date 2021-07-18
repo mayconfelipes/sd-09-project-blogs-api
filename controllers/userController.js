@@ -15,6 +15,28 @@ const addUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (_req, res) => {
+  const allUsers = await User.getAllUsers();
+  return res.status(200).json(allUsers);
+};
+
+const login = async (req, res) => {
+  const userLogin = req.body;
+  try {
+    const loginResponse = await User.login(userLogin);
+    if (loginResponse.error) {
+      return res.status(loginResponse.error.code)
+      .json({ message: loginResponse.error.message }); 
+    }
+    return res.status(200).json(loginResponse);
+  } catch (error) {
+    console.log('Deu ruim');
+    res.status(500).json({ message: 'Internal Error', error });
+  }
+};
+
 module.exports = {
   addUser,
+  getAllUsers,
+  login,
 };

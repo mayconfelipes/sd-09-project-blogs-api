@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const isEmail = require('./isEmail');
 
 const MIN_LENGTH = 8;
 const PASSWORD_MIN_LENGTH = 6;
@@ -23,8 +24,8 @@ const emailValidator = (email) => {
       },
     };
   }
-  const regex = /\S+@\S+\.\S+/;
-  if (!regex.test(email)) {
+  
+  if (!isEmail(email)) {
     return {
       error: {
         code: 400,
@@ -73,7 +74,7 @@ const userValidator = async (user) => {
   if (displayNameValidation) return displayNameValidation;
   if (emailValidation) return emailValidation;
   if (passwordValidation) return passwordValidation;
-  
+
   const findUserFromDB = await userFromDB(user.email);
   if (findUserFromDB) return findUserFromDB;
   return {
