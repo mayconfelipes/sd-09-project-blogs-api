@@ -17,6 +17,19 @@ const getAllUsers = async () => {
   return allUsers;
 };
 
+const getById = async (id) => {
+  const user = await User.findByPk(id);
+  if (!user) {
+    return {
+      error: {
+        code: 404,
+        message: 'User does not exist',
+      },
+    };
+  }
+  return user;
+};
+
 const login = async ({ email, password }) => {
   const loginValidation = await loginValidator(email, password);
   if (loginValidation.error) return loginValidation;
@@ -28,5 +41,6 @@ const login = async ({ email, password }) => {
 module.exports = {
   addUser,
   getAllUsers,
+  getById,
   login,
 };
