@@ -1,5 +1,6 @@
 const { BlogPost, PostCategory, User, Category } = require('../models');
 const postValidator = require('../utils/postValidator');
+const updateValidator = require('../utils/updateValidator');
 
 const addPost = async (newPost, userId) => {
   const postValidation = await postValidator(newPost);
@@ -43,8 +44,19 @@ const getById = async (id) => {
   return post;
 };
 
+const updatePost = async (data, userId, postId) => {
+  const updateValidation = await updateValidator(data, userId, postId);
+  if (updateValidation.error) return updateValidation;
+  await BlogPost.update(
+    { ...data, updated: new Date() },
+    { where: { id: postId } },
+  );
+  return updateValidation;
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getById,
+  updatePost,
 };
