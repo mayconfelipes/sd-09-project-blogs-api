@@ -21,7 +21,6 @@ const verifyUser = async (data, id, postId) => {
     ],
   });
   const { userId, categories } = post;
-  console.log('post.UserId', userId);
   if (userId !== id) {
   return {
       error: {
@@ -53,7 +52,6 @@ const verifyData = ({ title, content }) => {
 };
 
 const updateValidator = async (data, userId, postId) => {
-  console.log('matriz =>', userId);
   const dataValidation = verifyData(data);
   const categoryValidation = verifyCategory(data);
   const userValidation = verifyUser(data, userId, postId);

@@ -45,9 +45,24 @@ const updatePost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  const { id } = req.user;
+  try {
+    const response = await BlogPost.deletePost(req.params.id, id);
+    if (response) {
+      return res.status(response.error.code)
+      .json({ message: response.error.message }); 
+}
+    return res.status(204).json();
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal Error', error });
+  }
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getById,
   updatePost,
+  deletePost,
 };
