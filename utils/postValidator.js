@@ -35,7 +35,6 @@ const verifyCategoryIds = (categoryIds) => {
 const verifyCategoryExist = async (categoryIds) => {
   const categories = await Category.findAll();
   const categoriesFromDB = JSON.parse(JSON.stringify(categories));
-  console.log(categoriesFromDB);
   const categoriesVerify = categoryIds.map((id) => categoriesFromDB.some((item) => item.id === id));
   const result = categoriesVerify.every((item) => item === true);
   if (result === false) {
