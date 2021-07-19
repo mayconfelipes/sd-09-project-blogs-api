@@ -24,3 +24,4 @@ app.get('/categories', validateJWT, Category.getAllCategories);
 
 app.post('/post', validateJWT, BlogPost.addPost);
 app.get('/post', validateJWT, BlogPost.getAllPosts);
+app.get('/post/:id', validateJWT, BlogPost.getById);
