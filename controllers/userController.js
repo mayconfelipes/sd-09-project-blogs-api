@@ -46,9 +46,16 @@ const login = async (req, res) => {
   }
 };
 
+const deleteMe = async (req, res) => {
+  const { id } = req.user;
+  await User.deleteMe(id);
+  res.status(204).json();
+};
+
 module.exports = {
   addUser,
   getAllUsers,
   getById,
   login,
+  deleteMe,
 };

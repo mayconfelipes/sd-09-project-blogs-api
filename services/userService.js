@@ -38,9 +38,14 @@ const login = async ({ email, password }) => {
   };
 };
 
+const deleteMe = async (userId) => {
+  await User.destroy({ where: { id: userId } });
+};
+
 module.exports = {
   addUser,
   getAllUsers,
   getById,
   login,
+  deleteMe,
 };

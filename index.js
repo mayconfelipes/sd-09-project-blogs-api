@@ -17,6 +17,7 @@ app.get('/', (request, response) => {
 app.post('/user', User.addUser);
 app.get('/user', validateJWT, User.getAllUsers);
 app.get('/user/:id', validateJWT, User.getById);
+app.delete('/user/me', validateJWT, User.deleteMe);
 app.post('/login', User.login);
 
 app.post('/categories', validateJWT, Category.addCategory);
