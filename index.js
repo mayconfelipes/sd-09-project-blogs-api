@@ -2,6 +2,7 @@ const express = require('express');
 const validateJWT = require('./middlewares/validateJWT');
 const User = require('./controllers/userController');
 const Category = require('./controllers/categoryControllers');
+const BlogPost = require('./controllers/blogPostControllers');
 
 const app = express();
 app.use(express.json());
@@ -20,3 +21,5 @@ app.post('/login', User.login);
 
 app.post('/categories', validateJWT, Category.addCategory);
 app.get('/categories', validateJWT, Category.getAllCategories);
+
+app.post('/post', validateJWT, BlogPost.addPost);

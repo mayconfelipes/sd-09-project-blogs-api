@@ -19,7 +19,7 @@ const validateJWT = async (req, res, next) => {
     const decoded = jwt.verify(token, secret);
     const user = await User.findOne({ where: { email: decoded.email } });
     if (!user) return res.status(NOT_FOUND).json({ message: 'User not found' });
-    req.user = { displayName: user.displayName, email: decoded.email };
+    req.user = { id: user.id, displayName: user.displayName, email: decoded.email };
 
     next();
   } catch (error) {
