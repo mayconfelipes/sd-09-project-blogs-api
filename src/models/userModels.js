@@ -16,6 +16,13 @@ const postNewUser = async (userData) => {
   // console.log(newUser);
 };
 
+const getAllUsers = async () => {
+  const allUsers = User.findAll();
+
+  return allUsers;
+};
+
 module.exports = {
   postNewUser,
+  getAllUsers,
 };

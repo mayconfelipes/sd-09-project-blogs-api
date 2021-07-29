@@ -13,6 +13,13 @@ const postNewUser = async (req, res, next) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  const result = await userServices.getAllUsers();
+
+  res.status(200).json(result);
+};
+
 module.exports = {
   postNewUser,
+  getAllUsers,
 };

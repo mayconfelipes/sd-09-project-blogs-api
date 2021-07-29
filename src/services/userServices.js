@@ -14,6 +14,13 @@ const postNewUser = async (userData) => {
   return { token };
 };
 
+const getAllUsers = async () => {
+  const result = await userModels.getAllUsers();
+
+  return result;
+};
+
 module.exports = {
   postNewUser,
+  getAllUsers,
 };

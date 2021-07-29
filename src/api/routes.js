@@ -8,6 +8,9 @@ const userRouter = express.Router();
 // 1 - Sua aplicação deve ter o endpoint POST /user
 userRouter.post('/', middlewares.validateUser, userController.postNewUser);
 
+// 3 - Sua aplicação deve ter o endpoint GET /user
+userRouter.get('/', middlewares.validateToken, userController.getAllUsers);
+
 // Rotas de /login
 const loginRouter = express.Router();
 // 2 - Sua aplicação deve ter o endpoint POST /login
