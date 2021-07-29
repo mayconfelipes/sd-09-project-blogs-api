@@ -15,9 +15,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      number: {
+      createdAt: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATE,
+        field: 'published'
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        field: 'updated',
       },
       userId: {
         type: Sequelize.INTEGER,
