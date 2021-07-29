@@ -27,7 +27,15 @@ const login = async ({ email, password }) => {
   return createToken(userWithoutPassword);
 };
 
+const getAllUsers = async () => {
+ const users = await User.findAll();
+ const arrayOfUsers = users
+  .map(({ id, displayName, email, image }) => ({ id, displayName, email, image }));
+ return arrayOfUsers;
+};
+
 module.exports = {
   createUser,
   login,
+  getAllUsers,
 };

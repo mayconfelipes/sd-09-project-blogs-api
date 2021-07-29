@@ -1,5 +1,6 @@
 const rescue = require('express-rescue');
 const validations = require('../middlewares/validations');
+const validateToken = require('../middlewares/validateToken');
 const usersService = require('../services/usersService');
 
 const httpStatus = require('../middlewares/httpStatus');
@@ -29,7 +30,15 @@ const login = [
   }),
 ];
 
+const getAllUsers = [
+  validateToken,
+   async (_req, res) => {
+    const users = await usersService.getAllUsers();
+    return res.status(httpStatus.OK).json(users);
+  }];
+
 module.exports = {
   createUser,
   login,
+  getAllUsers,
 };
