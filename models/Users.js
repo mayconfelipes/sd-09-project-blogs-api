@@ -9,8 +9,12 @@ module.exports = (sequelize, DataTypes) => {
   {
     timestamps: false,
     tableName: 'Users',
-    underscored: true,
   });
+
+  Users.associate = (models) => {
+    Users.belongsTo(models.Blogposts,
+      { foreignKey: 'id', as: 'blogposts' });
+  };
 
   return Users;
 };
