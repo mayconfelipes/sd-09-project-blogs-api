@@ -1,9 +1,11 @@
-const { validateUser, userLogin, getUsers } = require('../services/user');
+const e = require('express');
+const { validateUser, userLogin, getUsers, getUserById } = require('../services/user');
 
 const CODE_201 = 201;
 const CODE_200 = 200;
 const CODE_401 = 401;
 const CODE_400 = 400;
+const CODE_404 = 404;
 const CODE_409 = 409;
 
 const createUser = async (req, res) => {
@@ -40,8 +42,22 @@ const findUsers = async (req, res) => {
   }
 };
 
+const findUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await getUserById(id);
+    return res.status(CODE_200).json(user);
+  } catch (err) {
+    if (err.message === 'User does not exist') {
+      return res.status(CODE_404).json({ message: err.message });
+    }
+    return res.status(CODE_401).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createUser,
   newLogin,
   findUsers,
+  findUser,
 };

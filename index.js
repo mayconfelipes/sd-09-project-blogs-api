@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 app.post('/user', userController.createUser);
 app.post('/login', userController.newLogin);
 app.get('/user', jwtValidation, userController.findUsers);
+app.get('/user/:id', jwtValidation, userController.findUser);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
