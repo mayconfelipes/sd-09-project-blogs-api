@@ -1,13 +1,9 @@
 const { User } = require('../models');
-const { JwtGenerator, CustomError } = require('../middlewares');
+const { JwtGenerator, CustomError, RequestValidator } = require('../middlewares');
 const UserSchema = require('../schemas/userSchema');
 
-const requestValid = (data) => {
-  const { error } = UserSchema.validate(data);
-  if (error) throw new CustomError(error.details[0].message, 400);
-};
 const addUser = async (userInfo) => {
-  requestValid(userInfo);
+  RequestValidator(UserSchema, userInfo);
   try {
     const newUser = await User.create(userInfo);
     const { password, ...userInfoToken } = newUser;
@@ -18,6 +14,16 @@ const addUser = async (userInfo) => {
   }
 };
 
+const getAllUsers = async () => {
+  try {
+    const allUsers = await User.findAll();
+    return allUsers;
+  } catch (err) {
+    throw new CustomError('Internal error server', 500);
+  }
+};
+
 module.exports = {
   addUser,
+  getAllUsers,
 };
