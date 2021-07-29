@@ -1,26 +1,9 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const { validateLogin } = require('../middlewares/validations');
+const loginController = require('../controllers/loginController');
 
-const app = express();
+const routerLogin = express.Router();
 
-const secret = 'secretToken';
+routerLogin.post('/', validateLogin, loginController.login);
 
-const jwtConfig = {
-  expiresIn: '1h',
-  algorithm: 'HS256',
-};
-
-// app.post('/', validateLogin, async (req, res, next) => {
-//   const { email, password } = req.body;
-
-//   const login = await loginService.login(email, password);
-
-//   if (login.code) return next(login);
-
-//   const token = jwt.sign(login, secret, jwtConfig);
-
-//   return res.status(200).json({ token });
-// });
-
-module.exports = app;
+module.exports = routerLogin;
