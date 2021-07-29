@@ -2,6 +2,8 @@ require('dotenv/config');
 
 const jwt = require('jsonwebtoken');
 
+const secret = 'ahnumdigo';
+
 const validateJWT = async (req, res, next) => {
   const { authorization: token } = req.headers;
   if (!token) {
@@ -9,7 +11,7 @@ const validateJWT = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SCECRET);
+    const decoded = jwt.verify(token, secret);
     req.user = decoded.data;
     next();
   } catch (error) {

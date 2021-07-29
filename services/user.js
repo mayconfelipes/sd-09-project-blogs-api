@@ -1,7 +1,8 @@
+require('dotenv/config');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-const secret = process.env.JWT_SECRET;
+const secret = 'ahnumdigo';
 const jwtConfig = {
   expiresIn: '7d',
   algorithm: 'HS256',
@@ -70,7 +71,13 @@ const userLogin = async (email, password) => {
   return token;
 };
 
+const getUsers = async () => {
+  const getAll = await User.findAll();
+  return getAll;
+};
+
 module.exports = {
   validateUser,
   userLogin,
+  getUsers,
  };

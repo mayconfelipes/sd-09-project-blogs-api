@@ -1,9 +1,10 @@
-const { validateUser, userLogin } = require('../services/user');
+const { validateUser, userLogin, getUsers } = require('../services/user');
 
 const CODE_201 = 201;
 const CODE_200 = 200;
-const CODE_409 = 409;
+const CODE_401 = 401;
 const CODE_400 = 400;
+const CODE_409 = 409;
 
 const createUser = async (req, res) => {
   try {
@@ -30,7 +31,17 @@ const newLogin = async (req, res) => {
   }
 };
 
+const findUsers = async (req, res) => {
+  try {
+    const users = await getUsers();
+    return res.status(CODE_200).json(users);
+  } catch (err) {
+    return res.status(CODE_401).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createUser,
   newLogin,
+  findUsers,
 };
