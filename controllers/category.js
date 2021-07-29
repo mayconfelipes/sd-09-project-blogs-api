@@ -16,6 +16,7 @@ categoryRouter.get('/:id', service.auth, async (req, res) => {
   }
 });
 
+// REQ06-Busca Categorias
 categoryRouter.get('/', service.auth, async (req, res) => {
   try {
     const result = await Category.findAll();
@@ -25,6 +26,7 @@ categoryRouter.get('/', service.auth, async (req, res) => {
   }
 });
 
+// REQ05-Cria Categoria
 categoryRouter.post('/', service.auth, service.categoryCheck, async (req, res) => {
   try {
     // const { emailFind } = req.user;

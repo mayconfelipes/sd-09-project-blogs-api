@@ -7,6 +7,7 @@ const service = require('../services');
 
 const { status, message } = service;
 
+// REQ04- Busca usuários pelo ID
 userRouter.get('/:id', service.auth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -18,6 +19,7 @@ userRouter.get('/:id', service.auth, async (req, res) => {
   }
 });
 
+// REQ03- Busca usuários
 userRouter.get('/', service.auth, async (req, res) => {
   try {
     const result = await User.findAll();
@@ -27,7 +29,7 @@ userRouter.get('/', service.auth, async (req, res) => {
   }
 });
 
-// criar usuário
+// REQ01-criar usuário
 userRouter.post('/', service.userCheck, service.emailCheck, service.userCreate,
   service.createToken, async (req, res) => {
     // const { userCreated } = req;
