@@ -8,7 +8,7 @@ const authToken = async (req, _res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return next({ code: 401, message: 'missing auth token' });
+    return next({ code: 401, message: 'Token not found' });
   }
 
   try {
@@ -26,7 +26,7 @@ const authToken = async (req, _res, next) => {
 
     next();
   } catch (err) {
-    return next({ code: 401, message: err.message });
+    return next({ code: 401, message: 'Expired or invalid token' });
   }
 };
 
