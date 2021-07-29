@@ -22,6 +22,11 @@ module.exports = {
         type: Sequelize.STRING,
         field: 'password',
       },
+      image: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        field: 'image',
+      },
     });
   },
 
