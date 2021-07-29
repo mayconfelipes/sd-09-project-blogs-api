@@ -6,7 +6,7 @@ const createToken = (data) => {
     expiresIn: '10h',
     algorithm: 'HS256',
   };
-  const token = jwt.sign(data, process.env.JWT_SECRET, jwtConfig);
+  const token = jwt.sign({ data }, process.env.JWT_SECRET, jwtConfig);
 
   return token;
 };

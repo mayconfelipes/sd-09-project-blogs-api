@@ -1,40 +1,23 @@
 const express = require('express');
 const userController = require('../controllers/userControllers');
+const loginController = require('../controllers/loginControllers');
+
 const middlewares = require('../middlewares');
 // Rotas de /user
 const userRouter = express.Router();
-userRouter.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Estamos no GET userRouter',
-  });
-});
-
 // 1 - Sua aplicação deve ter o endpoint POST /user
 userRouter.post('/', middlewares.validateUser, userController.postNewUser);
 
 // Rotas de /login
 const loginRouter = express.Router();
-loginRouter.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Estamos no GET loginRouter',
-  });
-});
+// 2 - Sua aplicação deve ter o endpoint POST /login
+loginRouter.post('/', middlewares.validateLogin, loginController.loginUser);
 
 // Rotas de /categories
 const categoriesRouter = express.Router();
-categoriesRouter.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Estamos no GET categoriesRouter',
-  });
-});
 
 // Rotas de /post
 const postRouter = express.Router();
-postRouter.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Estamos no GET postRouter',
-  });
-});
 
 module.exports = {
   userRouter,
