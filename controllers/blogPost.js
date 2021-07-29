@@ -4,7 +4,8 @@ const blogPostRouter = Router();
 
 const service = require('../services');
 const { status, message } = require('../services/statusMessages');
-const { BlogPost, Category, User, PostsCategories } = require('../models');
+const { BlogPost, Category, User } = require('../models');
+// PostsCategories
 
 // REQ09-Busca postagens pelo ID
 blogPostRouter.get('/:id', service.auth,
