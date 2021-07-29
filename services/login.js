@@ -10,7 +10,7 @@ const loginCheck = async (req, res, next) => {
     return res.status(status.BAD_REQUEST).json(message.passwordEmpty);
   }
   if (!password) { 
-    res.status(status.BAD_REQUEST).json(message.passwordRequired);
+    return res.status(status.BAD_REQUEST).json(message.passwordRequired);
   }
   if (!email) {
     return res.status(status.BAD_REQUEST).json(message.emailRequired);
@@ -20,19 +20,25 @@ const loginCheck = async (req, res, next) => {
 };
 
 const loginFindCheck = async (req, res, next) => {
-  const { email, password } = req.body;
+  try {
+    const { email } = req.body;
 
-const emailFind = await User.findOne({ where: { email } });
-if (!emailFind) {
-  return res.status(status.BAD_REQUEST).json(message.fieldsInvalid);
-}
-// console.log(emailFind);
-const passwordCheck = (password === emailFind.password);
-if (!passwordCheck) {
-  return res.status(status.UNAUTHORIEZED).json(message.serverError);
-}
-req.user = emailFind;
-return next();
+    const emailFind = await User.findOne({ where: { email } });
+    if (!emailFind) {
+      return res.status(status.BAD_REQUEST).json(message.fieldsInvalid);
+    }
+    // console.log(emailFind);
+    // const passwordCheck = (password === emailFind.password);
+    // if (!passwordCheck) {
+    //   return res.status(status.UNAUTHORIEZED).json(message.serverError);
+    // }
+    
+    req.user = emailFind;
+    return next();
+  } catch (error) {
+    console.log('ERROOOOOO SERVICE loginFindCheck!!!!!');
+    console.log(error);
+  }
 };
 
 module.exports = { loginCheck, loginFindCheck };

@@ -12,10 +12,12 @@ userRouter.get('/:id', service.auth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await User.findByPk(id);
-    if (!result) res.status(status.NOT_FOUND).json(message.userNotExist);
-    res.status(status.OK).json(result);
+    if (!result) { 
+      return res.status(status.NOT_FOUND).json(message.userNotExist); 
+    }
+    return res.status(status.OK).json(result);
   } catch (error) {
-      res.status(status.SERVER_ERROR).json(message.SERVER_ERROR);
+      return res.status(status.SERVER_ERROR).json(message.SERVER_ERROR);
   }
 });
 
@@ -23,9 +25,9 @@ userRouter.get('/:id', service.auth, async (req, res) => {
 userRouter.get('/', service.auth, async (req, res) => {
   try {
     const result = await User.findAll();
-    res.status(status.OK).json(result);
+    return res.status(status.OK).json(result);
   } catch (error) {
-      res.status(status.SERVER_ERROR).json(message.serverError);
+      return res.status(status.SERVER_ERROR).json(message.serverError);
   }
 });
 
@@ -36,9 +38,9 @@ userRouter.post('/', service.userCheck, service.emailCheck, service.userCreate,
     // console.log(userCreated.email);
     const { token } = req;
     try {
-      res.status(status.CREATED).json({ token });
+      return res.status(status.CREATED).json({ token });
     } catch (error) {
-        res.status(status.SERVER_ERROR).json(message.serverError);
+        return res.status(status.SERVER_ERROR).json(message.serverError);
     }
   });
 

@@ -31,11 +31,11 @@ const { BlogPost, Category, User } = require('../models');
 //         ],
 //       });
 //       if (result === null) {
-//         res.status(status.NOT_FOUND).json(message.postIdNotExist);
+//         return res.status(status.NOT_FOUND).json(message.postIdNotExist);
 //       }
 //       return res.status(status.OK).json(result);
 //     } catch (error) {
-//         res.status(status.SERVER_ERROR).json(message.serverError);
+//         return res.status(status.SERVER_ERROR).json(message.serverError);
 //     }
 // });
 
@@ -50,7 +50,7 @@ blogPostRouter.get('/', service.auth, async (req, res) => {
     });
     return res.status(status.OK).json(result);
   } catch (error) {
-      res.status(status.SERVER_ERROR).json(message.serverError);
+      return res.status(status.SERVER_ERROR).json(message.serverError);
   }
 });
 
@@ -69,9 +69,9 @@ blogPostRouter.get('/', service.auth, async (req, res) => {
 //         await PostsCategories.create({ categoryId: elId, postId: addPost.id });
 //       });
 
-//       res.status(status.CREATED).json(addPost);
+//       return return res.status(status.CREATED).json(addPost);
 //     } catch (error) {
-//         res.status(status.SERVER_ERROR).json(message.serverError);
+//         return return res.status(status.SERVER_ERROR).json(message.serverError);
 //     }
 // });
 
