@@ -1,4 +1,3 @@
-const e = require('express');
 const { validateUser, userLogin, getUsers, getUserById } = require('../services/user');
 
 const CODE_201 = 201;
