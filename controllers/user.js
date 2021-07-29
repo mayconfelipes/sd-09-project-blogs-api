@@ -15,12 +15,29 @@ const createUser = [
 
     const token = await UserService.createUser({ displayName, email, password, image });
 
-    if (token.error) return next(token.error);
+    return token.error
+      ? next(token.error)
+      : res.status(201).json({ token });
+  }),
+];
 
-    return res.status(201).json({ token });
+const userLogin = [
+  validate(Joi.object({
+    email: Joi.string().empty().required(),
+    password: Joi.string().empty().required(),
+  })),
+  rescue(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    const token = await UserService.userLogin({ email, password });
+
+    return token.error
+      ? next(token.error)
+      : res.status(200).json({ token });
   }),
 ];
 
 module.exports = {
   createUser,
+  userLogin,
 };
