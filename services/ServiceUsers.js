@@ -3,6 +3,7 @@ const { createToken } = require('../middlewares');
 const invalidData = require('../utils/invalidData');
 
 const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 const CONFLICT = 409;
 
 const create = async ({ displayName, email, password, image }) => {
@@ -26,8 +27,8 @@ const login = async ({ email, password }) => {
     throw invalidData('Invalid fields', BAD_REQUEST);
   }
 
-  const { password: passBD, ...userWithoutPassword } = findUserByEmail;
-
+  const { password: passBD, ...userWithoutPassword } = findUserByEmail.dataValues;
+  
   const token = await createToken(userWithoutPassword);
 
   return { token };
@@ -39,8 +40,17 @@ const getAll = async () => {
   return getAllUsers;
 };
 
+const getUserById = async (id) => {
+  const user = await RepositoryUsers.getUserById(id);
+
+  if (!user) throw invalidData('User does not exist', NOT_FOUND);
+
+  return user;
+};
+
 module.exports = {
   create,
   login,
   getAll,
+  getUserById,
 };

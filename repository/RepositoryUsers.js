@@ -3,7 +3,7 @@ const { User } = require('../models');
 const create = async ({ displayName, email, password, image }) => {
   const newUser = await User.create({ displayName, email, password, image });
 
-  return newUser;
+  return newUser.dataValues;
 };
 
 const getByEmail = async ({ email }) => {
@@ -17,8 +17,15 @@ const getAll = async () => {
   return getAllUsers;
 };
 
+const getUserById = async (id) => {
+  const user = await User.findByPk(id);
+
+  return user;
+};
+
 module.exports = {
   create,
   getByEmail,
   getAll,
+  getUserById,
 };
