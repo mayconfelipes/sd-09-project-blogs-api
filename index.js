@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 // const { Users, BlogPosts, Categories, PostsCategories } = require('./models');
 const UsersController = require('./controllers/UsersController');
+const BlogPostsController = require('./controllers/BlogPostsController');
 
 const app = express();
 // const config = require('./config/config');
@@ -20,16 +21,20 @@ app.get('/', (request, response) => {
 
 app.get('/users', UsersController.getAll);
 
-app.get('/post', async (_req, res) => {
-  try {
-    const posts = await BlogPosts.findAll();
-    return res.status(200).json(posts);
-  } catch (e) {
-    console.log(e.message);
-    res.status(500).json({ message: 'Ocorreu um erro' });
-  }
-});
+// app.get('/post', async (_req, res) => {
+//   try {
+//     const posts = await BlogPosts.findAll();
+//     return res.status(200).json(posts);
+//   } catch (e) {
+//     console.log(e.message);
+//     res.status(500).json({ message: 'Ocorreu um erro' });
+//   }
+// });
 // app.post('/user', createUser);
+app.get('/post', BlogPostsController.getAll);
+
+
+
 
 // npx sequelize-cli db:seed:all
 // npx sequelize-cli db:drop 
