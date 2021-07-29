@@ -20,9 +20,11 @@ module.exports = {
         },
       },
     });
+
+    return postsCategories;
   },
 
-  down: async (queryInterface, Sequelize) => {
-
+  down: async (queryInterface, _Sequelize) => {
+    queryInterface.dropTable("PostsCategories");
   }
 };
