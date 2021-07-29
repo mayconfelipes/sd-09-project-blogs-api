@@ -1,7 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
-const { Users, BlogPosts, Categories, PostsCategories } = require('./models');
+// const { Users, BlogPosts, Categories, PostsCategories } = require('./models');
+const UsersController = require('./controllers/UsersController');
 
 const app = express();
 // const config = require('./config/config');
@@ -17,15 +18,7 @@ app.get('/', (request, response) => {
   response.send('Pai tá ON!!!');
 });
 
-app.get('/users', async (_req, res) => {
-  try {
-    const users = await Users.findAll();
-    return res.status(200).json(users);
-  } catch (e) {
-    console.log(e.message);
-    res.status(500).json({ message: 'Ocorreu um erro' });
-  }
-});
+app.get('/users', UsersController.getAll);
 
 app.get('/post', async (_req, res) => {
   try {
