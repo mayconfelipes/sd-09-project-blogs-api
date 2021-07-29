@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const User = require('./controllers/Users');
 const Login = require('./controllers/Login');
 
-const JwtValidator = require('./middlewares');
+/* const JwtValidator = require('./middlewares'); */
 
 const app = express();
 app.use(bodyParser.json());
