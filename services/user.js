@@ -19,7 +19,6 @@ const isUserValid = (displayName, email) => {
   if (!email) return '"email" is required';
 
   if (!emailRegex.test(email)) return '"email" must be a valid email';
-
 };
 
 const isPassValid = (password) => {
