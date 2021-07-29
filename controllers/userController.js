@@ -2,12 +2,12 @@ const express = require('express');
 const Joi = require('joi');
 
 const rescue = require('express-rescue');
-const { createUser } = require('../services/userService');
+const { createUser, login } = require('../services/userService');
 const validate = require('../middlewares/validate');
 
 const router = express.Router();
 
-router.post('/', [
+router.post('/user', [
   validate(Joi.object({
     displayName: Joi.string().min(8).not().empty(),
     email: Joi.string()
@@ -28,6 +28,25 @@ router.post('/', [
     }
 
     return res.status(201).json(user);
+  }),
+]);
+
+router.post('/login', [
+  validate(Joi.object({
+    email: Joi.string().not().empty().required(),
+    password: Joi.string().not().empty().required(),
+  })),
+  rescue(async (req, res, next) => {
+    const token = await login(req.body);
+
+    if (token.error) {
+      token.error.status = 400;
+      return next(token.error);
+    }
+
+    console.log('entrei');
+
+    return res.status(200).json(token);
   }),
 ]);
 

@@ -7,7 +7,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/user', userController);
+app.use('/', userController);
 
 app.use(errors);
 
