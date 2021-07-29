@@ -2,6 +2,7 @@ const Joi = require('joi');
 const rescue = require('express-rescue');
 const validate = require('../middlewares/validate');
 const UserService = require('../services/user');
+const validateJWT = require('../middlewares/validateJWS');
 
 const createUser = [
   validate(Joi.object({
@@ -37,7 +38,17 @@ const userLogin = [
   }),
 ];
 
+const getAllUsers = [
+  validateJWT,
+  rescue(async (_req, res) => {
+    const users = await UserService.getAllUsers();
+
+    return res.status(200).json(users);
+  }),
+];
+
 module.exports = {
   createUser,
   userLogin,
+  getAllUsers,
 };

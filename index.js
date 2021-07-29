@@ -16,6 +16,8 @@ app.post('/user', UserController.createUser);
 
 app.post('/login', UserController.userLogin);
 
+app.get('/user', UserController.getAllUsers);
+
 app.use(ErrorMiddleware);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

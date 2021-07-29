@@ -39,7 +39,10 @@ const userLogin = async ({ email, password }) => {
   return token;
 };
 
+const getAllUsers = () => User.findAll({ attributes: { exclude: ['password'] } });
+
 module.exports = {
   createUser,
   userLogin,
+  getAllUsers,
 };
