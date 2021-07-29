@@ -2,6 +2,7 @@ const RepositoryUsers = require('../repository/RepositoryUsers');
 const { createToken } = require('../middlewares');
 const invalidData = require('../utils/invalidData');
 
+const BAD_REQUEST = 400;
 const CONFLICT = 409;
 
 const create = async ({ displayName, email, password, image }) => {
@@ -18,6 +19,21 @@ const create = async ({ displayName, email, password, image }) => {
   return token;
 };
 
+const login = async ({ email, password }) => {
+  const findUserByEmail = await RepositoryUsers.getByEmail({ email });
+
+  if (!findUserByEmail || findUserByEmail.password !== password) {
+    throw invalidData('Invalid fields', BAD_REQUEST);
+  }
+
+  const { password: passBD, ...userWithoutPassword } = findUserByEmail;
+
+  const token = await createToken(userWithoutPassword);
+
+  return { token };
+};
+
 module.exports = {
   create,
+  login,
 };
