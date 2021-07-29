@@ -4,40 +4,39 @@ const blogPostRouter = Router();
 
 const service = require('../services');
 const { status, message } = require('../services/statusMessages');
-const { BlogPost, Category, User } = require('../models');
-// PostsCategories, 
+const { BlogPost, Category, User, PostsCategories } = require('../models');
 
 // REQ09-Busca postagens pelo ID
-// blogPostRouter.get('/:id', service.auth,
-//   async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//       // teste 1
-//       // const result = await BlogPost.findByPk(id);
+blogPostRouter.get('/:id', service.auth,
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      // teste 1
+      // const result = await BlogPost.findByPk(id);
 
-//       // teste 2
-//       // const result = await BlogPost.findByPk(id, {
-//       //   include: { model: User, as: 'user' } });
+      // teste 2
+      // const result = await BlogPost.findByPk(id, {
+      //   include: { model: User, as: 'user' } });
 
-//       // teste 3
-//       // const result = await BlogPost.findByPk(id, {
-//       //   include: { model: Category, as: 'categories' } });
+      // teste 3
+      // const result = await BlogPost.findByPk(id, {
+      //   include: { model: Category, as: 'categories' } });
       
-//       // teste 4
-//       const result = await BlogPost.findByPk(id, {
-//         include: [
-//           { model: User, as: 'user' },
-//           { model: Category, as: 'categories' },
-//         ],
-//       });
-//       if (result === null) {
-//         return res.status(status.NOT_FOUND).json(message.postIdNotExist);
-//       }
-//       return res.status(status.OK).json(result);
-//     } catch (error) {
-//         return res.status(status.SERVER_ERROR).json(message.serverError);
-//     }
-// });
+      // teste 4
+      const result = await BlogPost.findByPk(id, {
+        include: [
+          { model: User, as: 'user' },
+          { model: Category, as: 'categories' },
+        ],
+      });
+      if (result === null) {
+        return res.status(status.NOT_FOUND).json(message.postIdNotExist);
+      }
+      return res.status(status.OK).json(result);
+    } catch (error) {
+        return res.status(status.SERVER_ERROR).json(message.serverError);
+    }
+});
 
 // REQ08-Busca postagens
 blogPostRouter.get('/', service.auth, async (req, res) => {
@@ -69,9 +68,9 @@ blogPostRouter.get('/', service.auth, async (req, res) => {
 //         await PostsCategories.create({ categoryId: elId, postId: addPost.id });
 //       });
 
-//       return return res.status(status.CREATED).json(addPost);
+//       return res.status(status.CREATED).json(addPost);
 //     } catch (error) {
-//         return return res.status(status.SERVER_ERROR).json(message.serverError);
+//         return res.status(status.SERVER_ERROR).json(message.serverError);
 //     }
 // });
 
