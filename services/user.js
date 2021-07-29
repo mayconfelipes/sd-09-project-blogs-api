@@ -11,27 +11,37 @@ const minNameLength = 8;
 const minPassLength = 6;
 const emailRegex = /\S+@\S+\.\S+/;
 
-const isUserValid = (displayName, email) => {
+const isUserValid = (displayName) => {
   if (displayName && displayName.length < minNameLength) {
     return '"displayName" length must be at least 8 characters long';
   }
+};
 
-  if (!email) return '"email" is required';
+const isEmailValid = (email) => {
+  if (email === undefined) return '"email" is required';
+
+  if (email !== undefined && email.length === 0) return '"email" is not allowed to be empty';
 
   if (!emailRegex.test(email)) return '"email" must be a valid email';
 };
 
 const isPassValid = (password) => {
-  if (!password) return '"password" is required';
+  if (password === undefined) return '"password" is required';
+
+  if (password !== undefined && password.length === 0) {
+    return '"password" is not allowed to be empty';
+  }
 
   if (password.length < minPassLength) return '"password" length must be 6 characters long';
 };
 
 const validateUser = async (displayName, email, password, image) => {
-  const invalidUser = isUserValid(displayName, email);
+  const invalidUser = isUserValid(displayName);
+  const invalidEmail = isEmailValid(email);
   const invalidPass = isPassValid(password);
 
   if (invalidUser) throw new Error(invalidUser);
+  if (invalidEmail) throw new Error(invalidEmail);
   if (invalidPass) throw new Error(invalidPass);
 
   const findOne = await User.findOne({ where: { email } });
@@ -44,6 +54,23 @@ const validateUser = async (displayName, email, password, image) => {
   return token;
 };
 
+const userLogin = async (email, password) => {
+  const isUserEmailValid = isEmailValid(email);
+  const isUserPassValid = isPassValid(password);
+
+  if (isUserEmailValid) throw new Error(isUserEmailValid);
+  if (isUserPassValid) throw new Error(isUserPassValid);
+
+  const validLogin = await User.findOne({ where: { email } });
+
+  if (!validLogin) throw new Error('Invalid fields');
+
+  const token = jwt.sign({ email, password }, secret, jwtConfig);
+
+  return token;
+};
+
 module.exports = {
   validateUser,
+  userLogin,
  };
