@@ -8,7 +8,7 @@ const postNewUser = async (userData) => {
   if (!result) throw (generateError('conflict', 'User already registered'));
 
   const { password, ...tokenData } = userData;
-  
+
   const token = createToken(tokenData);
 
   return { token };
@@ -20,7 +20,16 @@ const getAllUsers = async () => {
   return result;
 };
 
+const getUserById = async (id) => {
+  const result = await userModels.getUserById(id);
+
+  if (!result) throw generateError('notFound', 'User does not exist');
+
+  return result;
+};
+
 module.exports = {
   postNewUser,
   getAllUsers,
+  getUserById,
 };

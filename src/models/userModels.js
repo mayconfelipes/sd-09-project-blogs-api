@@ -22,7 +22,14 @@ const getAllUsers = async () => {
   return allUsers;
 };
 
+const getUserById = async (id) => {
+  const myUser = User.findOne({ where: { id } });
+
+  return myUser;
+};
+
 module.exports = {
   postNewUser,
   getAllUsers,
+  getUserById,
 };

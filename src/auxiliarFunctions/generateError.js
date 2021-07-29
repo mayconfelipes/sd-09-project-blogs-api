@@ -1,6 +1,7 @@
 const statusCodes = {
-  badRequest: 400,
+  notFound: 404,
   conflict: 409,
+  badRequest: 400,
   unauthorized: 401,
 };
 
