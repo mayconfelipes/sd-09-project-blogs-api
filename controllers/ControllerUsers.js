@@ -40,9 +40,9 @@ const getAll = async (_req, res, next) => {
 const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const getAllUsers = await ServiceUsers.getUserById(id);
+    const user = await ServiceUsers.getUserById(id);
 
-    return res.status(SUCCESS).json(getAllUsers);
+    return res.status(SUCCESS).json(user);
   } catch (error) {
     return next(error);
   }
