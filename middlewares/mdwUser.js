@@ -11,6 +11,17 @@ const getAllUsers = async (_req, res, next) => {
   }  
 };
 
+const getOneUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await userService.findOneUser(id);
+    if (data.message) throw data;
+    return res.status(status.OK).json(data);
+  } catch (error) {
+    return next(error);
+  }  
+};
+
 const userObjectValidator = async (req, _res, next) => {
   try {
     const { displayName, email, password } = req.body;
@@ -35,6 +46,7 @@ const postUser = async (req, res, next) => {
 
 module.exports = {
   getAllUsers,
+  getOneUser,
   userObjectValidator,
   postUser,
 };

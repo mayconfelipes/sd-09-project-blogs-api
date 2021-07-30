@@ -17,6 +17,14 @@ async function findUsers() {
   return users;
 }
 
+async function findOneUser(id) {
+  const user = await Users.findOne(
+    { attributes: ['id', 'displayName', 'email', 'image'], where: { id } },
+  );
+  if (!user) return objectError('notFound', 'User does not exist');
+  return user;
+}
+
 function verifyDisplayName(name) {
   const errorMsg1 = '"displayName" length must be at least 8 characters long';
   if (name.length < 8) return objectError('badRequest', errorMsg1);
@@ -108,6 +116,7 @@ function tokenValidator(token) {
 
 module.exports = {
   findUsers,
+  findOneUser,
   userObjectValidator,
   postUser,
   loginObjectValidator,
