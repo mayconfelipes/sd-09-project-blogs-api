@@ -33,20 +33,20 @@ const createUser = async (displayName, email, password, image = null) => {
 };
 
 const passwordFilter = (arr) =>
-  arr.reduce((acc, curr) => {
-    const { password, ...noPassword } = curr;
+  arr
+    .map(({ dataValues }) => dataValues)
+    .reduce((acc, curr) => {
+      const { password, ...noPassword } = curr;
 
-    return [...acc, noPassword];
-  }, []);
+      return [...acc, noPassword];
+    }, []);
 
 const getAllUsers = async () => {
   try {
     const allUsers = await Users.findAll();
 
-    const formatUsers = allUsers.map(({ dataValues }) => dataValues);
+    const noPasswordUser = passwordFilter(allUsers);
 
-    const noPasswordUser = passwordFilter(formatUsers);
-    
     return noPasswordUser;
   } catch (err) {
     return { erro: true, message: err.message };
