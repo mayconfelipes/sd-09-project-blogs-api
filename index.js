@@ -25,5 +25,6 @@ app.get('/user', JwtValidator, rescue(User.getAllUsers));
 app.post('/login', rescue(Login));
 
 app.post('/categories', JwtValidator, rescue(Category.addCategory));
+app.get('/categories', JwtValidator, rescue(Category.getAllCategories));
 
 app.use((err, _req, res, _next) => res.status(err.code).json({ message: err.message }));
