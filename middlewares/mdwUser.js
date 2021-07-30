@@ -1,18 +1,39 @@
-const { Users } = require('../models');
-// const userService = require('../services/userService');
-// const status = require('../services/statusCode');
+const userService = require('../services/userService');
 
 const getAllUsers = async (_req, res, next) => {
   try {
-    // { include: { model: Users, as: 'blogposts' } }
-    const listOfUsers = await Users.findAll();
-    if (!listOfUsers) return res.status(404).send({ message: 'No users found' });
-    return res.status(200).send(listOfUsers);
+    const data = await userService.findUsers();
+    if (data.message) throw data;
+    return res.status(200).json(data);
   } catch (error) {
     return next(error);
   }  
 };
 
+const userObjectValidator = async (req, _res, next) => {
+  try {
+    const { displayName, email, password } = req.body;
+    const data = userService.userObjectValidator(displayName, email, password);
+    if (data.message) throw data;
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const postUser = async (req, res, next) => {
+  try {
+    const { displayName, email, password, image } = req.body;
+    const data = await userService.postUser(displayName, email, password, image);
+    if (data.message) throw data;
+    return res.status(201).json(data);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllUsers,
+  userObjectValidator,
+  postUser,
 };
