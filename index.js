@@ -28,7 +28,7 @@ app.get('/categories', auth, CategoriesController.getAll);
 app.post('/categories', auth, CategoriesController.addCategorie);
 
 app.get('/post', auth, BlogPostsController.getAll);
-app.post('/post',  BlogPostsController.addPost);
+app.post('/post', auth, BlogPostsController.addPost);
 
 // npx sequelize-cli db:seed:all
 // npx sequelize-cli db:drop 

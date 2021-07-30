@@ -4,8 +4,7 @@ const validation = (body) => {
   const bodyValidation = Joi.object().keys({
     title: Joi.string().required(),
     content: Joi.string().required(),
-    categoryIds: Joi.array().items(Joi.number()).required(),
-
+    categoryIds: Joi.array().items(Joi.number().valid(1, 2)).required(),
   });
   const { error } = Joi.validate(body, bodyValidation);
   if (error === null) {

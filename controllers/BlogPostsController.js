@@ -15,6 +15,9 @@ const addPost = async (req, res) => {
     if (post.message === undefined) {
         return res.status(201).json(post);
     }
+    if (post.message === '"0" must be one of [1, 2]') {
+        return res.status(400).json({ message: '"categoryIds" not found' });
+    }
     return res.status(400).json(post);
 };
 

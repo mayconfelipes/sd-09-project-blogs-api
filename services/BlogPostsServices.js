@@ -7,9 +7,14 @@ const getAll = async () => {
 };
 
 const addPost = async (body) => {
-    const validate = validationBlogPosts(body);
+    const date = new Date();
+    const validate = await validationBlogPosts(body);
     if (validate.error === undefined) {
-        const categorie = await BlogPosts.create(body);
+        const obj = body;
+        obj.userId = 1;
+        obj.published = JSON.stringify(date);
+        obj.updated = JSON.stringify(date);
+        const categorie = await BlogPosts.create(obj);
         return categorie;
     }
     return { message: validate.error };

@@ -45,7 +45,7 @@ const login = async (body) => {
 
     if (validate.error === undefined && emailExist !== null) {
         return body;
-    } if (emailExist === null && validate.error === undefined) {
+    } if (validate.error === undefined && emailExist === null) {
         return { message: 'Invalid fields' };
     }
     return { message: validate.error };
