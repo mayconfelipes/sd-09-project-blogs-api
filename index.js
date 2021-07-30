@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/user', routes.RoutesUsers);
 app.use('/login', routes.RouteLogin);
 app.use('/categories', routes.RoutesCategories);
+app.use('/post', routes.RoutesPosts);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
