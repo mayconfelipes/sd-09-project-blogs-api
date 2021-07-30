@@ -1,5 +1,6 @@
 const { Users } = require('../models');
 const validationUser = require('../middlewares/validationUser');
+const validationLogin = require('../middlewares/validationLogin');
 
 const getAll = async () => {
     const users = await Users.findAll();
@@ -27,4 +28,18 @@ const addUser = async (body) => {
     return { message: validate.error };
 };
 
-module.exports = { getAll, findByEmail, addUser };
+const login = async (body) => {
+    const validate = await validationLogin(body);
+    const emailExist = await findByEmail(body.email);
+    console.log(validate.error);
+    console.log(emailExist);
+
+    if (validate.error === undefined && emailExist !== null) {
+        return body;
+    } if (emailExist === null && validate.error === undefined) {
+        return { message: 'Invalid fields' };
+    }
+    return { message: validate.error };
+};
+
+module.exports = { getAll, findByEmail, addUser, login };

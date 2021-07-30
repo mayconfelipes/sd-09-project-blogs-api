@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
 app.get('/user', auth, UsersController.getAll);
 
 app.post('/user', UsersController.addUser);
+app.post('/login', UsersController.login);
 
 // app.get('/post', async (_req, res) => {
 //   try {
