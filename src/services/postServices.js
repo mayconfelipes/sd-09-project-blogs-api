@@ -9,7 +9,6 @@ const checkPostCategories = async (categoryArray) => Promise
   .all(categoryArray.map((id) => categoryModels.getCategoryById(id)));
 
   const createPostsCategory = async (postId, categoryIds) => {
-    console.log('entrei');
     await Promise.all(categoryIds.map((category) => postsCategoryModels
       .createPostsCategory({ postId, categoryId: category })));
   };

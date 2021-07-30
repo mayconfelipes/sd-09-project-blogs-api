@@ -8,7 +8,6 @@ const postNewPost = async (req, res, next) => {
 
     res.status(201).json(result);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
