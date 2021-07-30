@@ -22,6 +22,8 @@ app.get('/user/:id', UserController.getUserById);
 
 app.post('/categories', CategoryController.createCategory);
 
+app.get('/categories', CategoryController.getAllCategories);
+
 app.use(ErrorMiddleware);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

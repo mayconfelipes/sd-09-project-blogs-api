@@ -18,6 +18,16 @@ const createCategory = [
   }),
 ];
 
+const getAllCategories = [
+  validateJWT,
+  rescue(async (_req, res) => {
+    const categories = await CategoryService.getAllCategories();
+
+    return res.status(200).json(categories);
+  }),
+];
+
 module.exports = {
   createCategory,
+  getAllCategories,
 };
