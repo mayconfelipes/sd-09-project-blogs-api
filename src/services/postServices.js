@@ -39,8 +39,25 @@ const getPostByPostId = async (id) => {
   return result;
 };
 
+const updatePost = async ({ userId, id, title, content }) => {
+  const myPost = await postModels.getPostByPostId(id);
+
+  if (!myPost) throw generateError('notFound', 'Post not found');
+
+  if (myPost.dataValues.userId !== userId) {
+    throw generateError('unauthorized', 'Unauthorized user');
+  }
+
+  const result = await postModels.updatePost({ id, title, content });
+
+  if (result[0] === 1) return postModels.getPostByPostId(id);
+
+  return generateError('noContent', 'No update needed');
+};
+
 module.exports = {
   postNewPost,
   getAllPosts,
   getPostByPostId,
+  updatePost,
 };
