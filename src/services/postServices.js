@@ -31,7 +31,16 @@ const getAllPosts = async () => {
   return result;
 };
 
+const getPostByPostId = async (id) => {
+  const result = await postModels.getPostByPostId(id);
+
+  if (!result) throw generateError('notFound', 'Post does not exist');
+
+  return result;
+};
+
 module.exports = {
   postNewPost,
   getAllPosts,
+  getPostByPostId,
 };

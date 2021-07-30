@@ -39,6 +39,9 @@ postRouter.post('/', middlewares.validateToken,
 // 8 - Sua aplicação deve ter o endpoint GET /post
 postRouter.get('/', middlewares.validateToken, postController.getAllPosts);
 
+// 9 - Sua aplicação deve ter o endpoint GET post/:id
+postRouter.get('/:id', middlewares.validateToken, postController.getPostByPostId);
+
 module.exports = {
   userRouter,
   loginRouter,

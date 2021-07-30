@@ -2,7 +2,7 @@ const { BlogPost, User, Category } = require('../sequelize/models');
 
 const postNewPost = async ({ userId, title, content }) => {
   const result = await BlogPost.create({ userId, title, content });
-  
+
   return result;
 };
 
@@ -17,7 +17,19 @@ const getAllPosts = async () => {
   return result;
 };
 
+const getPostByPostId = async (id) => {
+  const result = await BlogPost.findOne({ where: { id },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return result;
+};
+
 module.exports = {
   postNewPost,
   getAllPosts,
+  getPostByPostId,
 };
