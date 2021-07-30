@@ -22,6 +22,9 @@ const createNewUser = async (userInfo) => {
   return token;
 };
 
+const logUser = async (userInfo) => JWTgen(userInfo);
+
 module.exports = {
   createNewUser,
+  logUser,
 };

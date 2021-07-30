@@ -1,4 +1,5 @@
 const JOI = require('joi');
+const jwt = require('jsonwebtoken');
 const { Users } = require('../../models');
 const response = require('./responseCodes');
 
@@ -30,7 +31,38 @@ const userIsNew = async (req, res, next) => {
   return next();
 };
 
+const userExists = async (req, res, next) => {
+  const { email } = req.body;
+  const userIsRegistered = await Users.findOne({ where: { email } });
+  if (!userIsRegistered) return next(genError(response.BAD_REQUEST, 'Invalid fields'));
+  return next();
+};
+
+const authUser = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const user = await Users.findOne({ where: { email, password } });
+
+  if (!user) return res.status(response.BAD_REQUEST).json({ message: 'Campos inválidos' });
+
+  return next();
+};
+
+const loginInfo = (req, _res, next) => {
+  const { email, password } = req.body;
+  const loginIsValid = USER_SCHEMA.validate({ email, password });
+
+  if (loginIsValid.error) {
+    return next(genError(response.BAD_REQUEST, loginIsValid.error.details[0].message));
+  }
+
+  return next();
+};
+
 module.exports = {
   userDetails,
   userIsNew,
+  userExists,
+  loginInfo,
+  authUser,
 };
