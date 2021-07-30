@@ -16,6 +16,15 @@ const findByEmail = async (email) => {
     } return null;
 };
 
+const getbyId = async (id) => {
+    if (id) {
+        const user = await Users.findOne({
+            where: { id },
+        });
+        return user;
+    } return null;
+};
+
 const addUser = async (body) => {
     const validate = await validationUser(body);
     const emailExist = await findByEmail(body.email);
@@ -42,4 +51,4 @@ const login = async (body) => {
     return { message: validate.error };
 };
 
-module.exports = { getAll, findByEmail, addUser, login };
+module.exports = { getAll, findByEmail, getbyId, addUser, login };

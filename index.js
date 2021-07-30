@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/user', auth, UsersController.getAll);
+app.get('/user/:id', auth, UsersController.getbyId);
 
 app.post('/user', UsersController.addUser);
 app.post('/login', UsersController.login);

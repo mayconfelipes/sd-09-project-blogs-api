@@ -28,7 +28,6 @@ const addUser = async (req, res) => {
 
 const login = async (req, res) => {
     const user = await userServices.login(req.body);
-    console.log(user)
     if (user.message === undefined && user.message !== 'Invalid fields') {
         const token = jwt.sign({ user }, JWT_SECRET, {
             expiresIn: '1h', algorithm: 'HS256',
@@ -38,4 +37,13 @@ const login = async (req, res) => {
     return res.status(400).json(user);
 };
 
-module.exports = { getAll, addUser, login };
+const getbyId = async (req, res) => {
+    const { id } = req.params;
+    const user = await userServices.getbyId(id);
+    if (user) {
+        return res.status(200).json(user);
+    }
+    res.status(404).json({ message: 'User does not exist' });
+};
+
+module.exports = { getAll, addUser, getbyId, login };
