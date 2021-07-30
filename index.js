@@ -20,6 +20,9 @@ app.post('/login', login);
 // Requisito 03
 app.get('/user', authorization, user.getAll);
 
+// Requisito 04
+app.get('/user/:id', authorization, user.getById);
+
 app.use(middlewares.error);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!')); 
