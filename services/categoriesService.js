@@ -10,6 +10,16 @@ const create = async (name, authorization) => {
   return result;
 };
 
+const findAll = async (authorization) => {
+  isValidToken(authorization);
+  const category = await Categories.findAll(
+    { attributes: { exclude: ['createdAt', 'updatedAt'] } },
+  );
+  const result = category;
+  return result;
+};
+
 module.exports = {
   create,
+  findAll,
 };

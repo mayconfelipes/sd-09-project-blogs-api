@@ -11,5 +11,6 @@ routes.get('/user/:id', users.findById);
 routes.post('/login', logins.login);
 
 routes.post('/categories', categories.create);
+routes.get('/categories', categories.findAll);
 
 module.exports = routes;

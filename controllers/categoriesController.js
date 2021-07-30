@@ -14,6 +14,18 @@ const create = async (req, res, next) => {
   }
 };
 
+const findAll = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const result = await categories.findAll(authorization);
+    return res.status(200).json(result);
+  } catch (error) {
+      if (error.type === UNAUTHORIZED) error.status = 401;
+    next(error);
+  }
+};
+
 module.exports = {
   create,
+  findAll,
 };
