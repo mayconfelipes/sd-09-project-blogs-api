@@ -2,22 +2,31 @@ const rescue = require('express-rescue');
 const validateToken = require('../middlewares/validateToken');
 const validations = require('../middlewares/validations');
 
-const postService = require('../services/postService');
+const blogPostService = require('../services/blogPostService');
 
 const httpStatus = require('../middlewares/httpStatus');
 
-const createPost = [
+const createBlogPost = [
   validations.postsValidate,
   validations.isCategoryIdEmpty,
   validateToken,
   rescue(async (req, res) => {
     const { title, content } = req.body;
     const { id: userId } = req.user.dataValues;
-    const post = await postService.createPost(title, content, userId);
+    const post = await blogPostService.createBlogPost(title, content, userId);
     return res.status(httpStatus.CREATED).json(post);
   }),
 ];
 
+const getAllBlogPosts = [
+  validateToken,
+  rescue(async (_req, res) => {
+    const allBlogPosts = await blogPostService.getAllBlogPosts();
+    return res.status(httpStatus.OK).json(allBlogPosts);
+  }),
+];
+
 module.exports = {
-  createPost,
+  createBlogPost,
+  getAllBlogPosts,
 };
