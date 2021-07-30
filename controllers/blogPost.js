@@ -44,8 +44,29 @@ const getPostById = [
   }),
 ];
 
+const editPost = [
+  validateJWT,
+  validate(Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+    categoryIds: Joi.array(),
+  })),
+  rescue(async (req, res, next) => {
+    const { id } = req.params;
+    const { title, content, categoryIds } = req.body;
+    const { email } = req;
+
+    const editedPost = await BlogPostService.editPost({ title, content, categoryIds }, email, id);
+
+    return editedPost.error
+      ? next(editedPost.error)
+      : res.status(200).json(editedPost);
+  }),
+];
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  editPost,
 };

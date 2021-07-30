@@ -30,6 +30,8 @@ app.get('/post', BlogPostController.getAllPosts);
 
 app.get('/post/:id', BlogPostController.getPostById);
 
+app.put('/post/:id', BlogPostController.editPost);
+
 app.use(ErrorMiddleware);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

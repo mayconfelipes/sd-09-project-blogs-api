@@ -2,6 +2,7 @@ const STATUS_CODE = {
   conflict: 409,
   badRequest: 400,
   notFound: 404,
+  unauthorized: 401,
 };
 
 module.exports = (err, _req, res, _next) => {
