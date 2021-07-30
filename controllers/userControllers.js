@@ -7,7 +7,9 @@ require('dotenv').config();
 const secret = process.env.JWT_SECRET;
 
 const listAllUsers = rescue(async (req, res, _next) => {
-  const users = await User.findAll();
+  const users = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
 
   return res.status(200).json(users);
 });

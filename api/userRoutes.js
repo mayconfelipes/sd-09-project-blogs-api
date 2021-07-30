@@ -5,8 +5,9 @@ const route = express.Router();
 route.use(bodyParser.json());
 
 const controllers = require('../controllers');
+const { authJwt } = require('../middlewares');
 
-route.get('/', controllers.listAllUsers); // list users
+route.get('/', authJwt, controllers.listAllUsers); // list users
 route.get('/:id', controllers.findUserById); // find user by id
 route.post('/', controllers.createUser);
 // route.post('/', ); // create user
