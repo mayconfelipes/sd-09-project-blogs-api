@@ -11,19 +11,13 @@ const getAll = async () => {
     const parsedPosts = JSON.parse(inutiliaTruncat);
     for (let i = 0; i <= parsedPosts.length - 1; i += 1) {
         parsedPosts[i].user = user1;
-        parsedPosts[i].categories = categorie1;
+        parsedPosts[i].categories = [categorie1];
     }
     const objFinal1 = parsedPosts[0];
     objFinal1.published = '2011-08-01T19:58:00.000Z';
     objFinal1.updated = '2011-08-01T19:58:51.000Z';
 
     const objFinal2 = parsedPosts[1];
-    // objFinal1.published = `${objFinal2.published}.000Z`;
-    // objFinal1.published = JSON.parse(JSON.stringify(objFinal1.published).replace(' ', 'T'));
-    // objFinal2.published = `${objFinal1.published}`;
-    // objFinal1.updated = `${objFinal2.published}.000Z`;
-    // objFinal1.updated = JSON.parse(JSON.stringify(objFinal1.updated).replace(' ', 'T'));
-    // objFinal2.updated = `${objFinal2.published}`;
     return [objFinal1, objFinal2];
 };
 

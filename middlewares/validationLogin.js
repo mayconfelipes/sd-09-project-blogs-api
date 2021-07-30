@@ -5,6 +5,7 @@ const validation = (body) => {
     email: Joi.string().email({ minDomainAtoms: 2 }).required(),
     password: Joi.string().alphanum().length(6).required(),
   });
+  
   const { error } = Joi.validate(body, bodyValidation);
   if (error === null) {
     return body;
