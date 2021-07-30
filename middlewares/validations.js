@@ -29,9 +29,21 @@ const validateLogin = (req, _res, next) => {
   next();
 };
 
-const validateCategories = (req, res, next) => {
+const validateCategories = (req, _res, next) => {
   const { error } = Joi.object({
     name: Joi.string().required(),
+  }).validate(req.body);
+
+  if (error) return next(error);
+
+  next();
+};
+
+const validatePost = (req, _res, next) => {
+  const { error } = Joi.object({
+    title: Joi.string().required(),
+    categoryIds: Joi.array().min(1).required(),
+    content: Joi.string().required(),
   }).validate(req.body);
 
   if (error) return next(error);
@@ -43,4 +55,5 @@ module.exports = {
   validateLogin,
   validateCreateUser,
   validateCategories,
+  validatePost,
 };

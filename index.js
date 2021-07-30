@@ -12,6 +12,8 @@ app.use('/login', routes.Login);
 
 app.use('/categories', routes.Categories);
 
+app.use('/post', routes.Post);
+
 app.use(erroMiddleware);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
