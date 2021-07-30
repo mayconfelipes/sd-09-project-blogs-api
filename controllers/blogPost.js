@@ -31,7 +31,21 @@ const getAllPosts = [
   }),
 ];
 
+const getPostById = [
+  validateJWT,
+  rescue(async (req, res, next) => {
+    const { id } = req.params;
+
+    const post = await BlogPostService.getPostById(id);
+
+    return post.error
+      ? next(post.error)
+      : res.status(200).json(post);
+  }),
+];
+
 module.exports = {
   createPost,
   getAllPosts,
+  getPostById,
 };

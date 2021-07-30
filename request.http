@@ -1,5 +1,5 @@
 @url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYnJldHRAZW1haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYifSwiaWF0IjoxNjI3Njc3NzU4LCJleHAiOjE2Mjc2ODEzNTh9.tKyT81S1eUJsmcl_trtMPVJXh1VYz-Dz6MuFfAEaLKs
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYnJldHRAZW1haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYifSwiaWF0IjoxNjI3NjgwMDg1LCJleHAiOjE2Mjc2ODM2ODV9.Xxco_EPogAy3zdwlq3lo-Pcx_uyIsIdPAKJQK4R1P8M
 @id = 3
 
 ### POST NEW USER
@@ -47,4 +47,8 @@ Content-Type: application/json
 
 ### GET ALL BLOG POSTS
 GET {{url}}/post
+Authorization: {{token}}
+
+### GET BLOG POST BY ID
+GET {{url}}/post/5
 Authorization: {{token}}
