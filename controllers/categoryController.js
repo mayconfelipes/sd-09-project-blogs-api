@@ -16,6 +16,15 @@ const createCategory = [
   }),
 ];
 
+const getAllCategories = [
+  validateToken,
+  rescue(async (_req, res) => {
+    const categories = await categoryService.getAllCategories();
+    return res.status(httpStatus.OK).json(categories);
+  }),
+];
+
 module.exports = {
   createCategory,
+  getAllCategories,
 };
