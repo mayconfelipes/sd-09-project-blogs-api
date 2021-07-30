@@ -8,5 +8,6 @@ router.use(bodyParser.json());
 const categorieController = require('../controllers/Categories');
 
 router.post('/', categorieController.createCategorie);
+router.get('/', categorieController.getAllCategories);
 
 module.exports = router;

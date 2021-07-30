@@ -20,6 +20,16 @@ const createCategorie = [
   }),
 ];
 
+const getAllCategories = [
+  validateJWT(userService.getAllUsers),
+  rescue(async (req, res, _next) => {
+    const results = await categorieService.getCategories();
+
+    res.status(200).json(results);
+  }),
+];
+
 module.exports = {
   createCategorie,
+  getAllCategories,
 };
