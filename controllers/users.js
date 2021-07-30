@@ -1,7 +1,15 @@
 const Joi = require('joi');
 const rescue = require('express-rescue');
+const jwt = require('jsonwebtoken');
 const validate = require('../middlewares/validate');
 const userServices = require('../services/users');
+
+const secret = process.env.JWT_SECRET;
+
+const jwtConfig = {
+  expiresIn: '1h',
+  algorithm: 'HS256',
+};
 
 const UserSchema = Joi.object({
   displayName: Joi.string().min(8),
@@ -20,7 +28,9 @@ const create = [
 
     if (createdUser.error) return next(createdUser.error);
 
-    return res.status(201).json(createdUser);
+    const token = jwt.sign(createdUser.dataValues, secret, jwtConfig);
+
+    return res.status(201).json({ token });
   }),
 ];
 

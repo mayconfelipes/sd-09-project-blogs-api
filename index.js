@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const middlewares = require('./middlewares');
 const user = require('./controllers/users');
+const { login } = require('./controllers/login');
 
 const app = express();
 
@@ -11,6 +12,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Requisito 01
 app.post('/user', user.create);
+
+// Requisito 02
+app.post('/login', login);
 
 app.use(middlewares.error);
 
