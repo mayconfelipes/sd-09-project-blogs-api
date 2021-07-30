@@ -11,4 +11,6 @@ UsersRouter.get('/', authToken, User.getAll);
 
 UsersRouter.get('/:id', authToken, User.getUser);
 
+UsersRouter.delete('/me', authToken, User.deleteUser);
+
 module.exports = UsersRouter;
