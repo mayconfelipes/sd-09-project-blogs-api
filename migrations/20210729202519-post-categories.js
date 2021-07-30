@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: "Categories",
-          foreignKey: "id"
+          key: "id"
         },
       },
     });
