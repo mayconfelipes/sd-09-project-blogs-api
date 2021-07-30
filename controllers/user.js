@@ -47,8 +47,22 @@ const getAllUsers = [
   }),
 ];
 
+const getUserById = [
+  validateJWT,
+  rescue(async (req, res, next) => {
+    const { id } = req.params;
+
+    const user = await UserService.getUserById(id);
+
+    return user.error
+      ? next(user.error)
+      : res.status(200).json(user);
+  }),
+];
+
 module.exports = {
   createUser,
   userLogin,
   getAllUsers,
+  getUserById,
 };

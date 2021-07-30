@@ -18,6 +18,8 @@ app.post('/login', UserController.userLogin);
 
 app.get('/user', UserController.getAllUsers);
 
+app.get('/user/:id', UserController.getUserById);
+
 app.use(ErrorMiddleware);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
