@@ -1,6 +1,6 @@
 @url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImRpc3BsYXlOYW1lIjoiQnJldHQgV2lsdHNoaXJlIiwiZW1haWwiOiJicmV0dEBlbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImltYWdlIjoiaHR0cDovLzQuYnAuYmxvZ3Nwb3QuY29tL19ZQTUwYWRRLTd2US9TMWdmUl82dWZwSS9BQUFBQUFBQUFBay8xRXJKR2dSV1pEZy9TNDUvYnJldHQucG5nIn0sImlhdCI6MTYyNzY2MzE2MSwiZXhwIjoxNjI3NjY2NzYxfQ.LpRQp47DJS_etWuNpfIf9WNttMp6A1tTt0X5B9cFJmU
-@id = 1
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYnJldHRAZW1haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYifSwiaWF0IjoxNjI3Njc0MTMxLCJleHAiOjE2Mjc2Nzc3MzF9.1wlUYLaobHuk47TOMn4yJFpM-pI1pCysX0HQMk42Ptw
+@id = 3
 
 ### POST NEW USER
 POST {{url}}/user
@@ -29,3 +29,18 @@ Authorization: {{token}}
 ### GET BY ID
 GET {{url}}/user/{{id}}
 Authorization: {{token}}
+
+### GET CATEGORIES
+GET {{url}}/categories
+Authorization: {{token}}
+
+### POST A NEW BLOG POST
+POST {{url}}/post
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "title": "Latest updates",
+  "content": "Very newsi news",
+  "categoryIds": [1]
+}

@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { UserController, CategoryController } = require('./controllers');
+const { UserController, CategoryController, BlogPostController } = require('./controllers');
 const ErrorMiddleware = require('./middlewares/error');
 
 const app = express();
@@ -23,6 +23,8 @@ app.get('/user/:id', UserController.getUserById);
 app.post('/categories', CategoryController.createCategory);
 
 app.get('/categories', CategoryController.getAllCategories);
+
+app.post('/post', BlogPostController.createPost);
 
 app.use(ErrorMiddleware);
 
