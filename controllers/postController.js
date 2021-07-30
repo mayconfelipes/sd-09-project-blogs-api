@@ -36,5 +36,5 @@ const getPostByIdController = async (req, res, next) => {
 module.exports = {
   registerPostController,
   getAllPostsController,
-  getPostByIdController
+  getPostByIdController,
 };
