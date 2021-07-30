@@ -26,6 +26,34 @@ async function postObjectValidator(title, content, categoryIds) {
   return {};
 }
 
+function postPutObjectValidator(title, content, categoryIds) {
+  if (!title) return objectError('badRequest', '"title" is required');
+  if (!content) return objectError('badRequest', '"content" is required');
+  if (categoryIds) return objectError('badRequest', 'Categories cannot be edited');
+  return {};
+}
+
+async function postPutUserValidator(id, userLogedId) {
+  const post = await BlogPosts.findOne({ where: { id } });
+  if (!post) return objectError('notFound', 'Post does not exist');
+  if (post.dataValues.userId !== userLogedId) {
+    return objectError('unauthorized', 'Unauthorized user');
+  }
+  return {}; 
+}
+
+async function postPutUpdate(id, title, content) {
+  await BlogPosts.update({ title, content }, { where: { id } });
+  const post = await BlogPosts.findOne(
+    { attributes: ['title', 'content', 'userId'],
+    where: { id },
+    include: [
+      { model: Categories, as: 'categories' },
+    ] },
+    );
+  return post; 
+}
+
 async function postObject(title, content, arrayOfIdCategories, userId) {
   // post the object BlogPosts
   const blogPostsCreated = await BlogPosts.create({ title, content, userId });
@@ -68,6 +96,9 @@ async function getBlogPostById(id) {
 
 module.exports = {
   postObjectValidator,
+  postPutObjectValidator,
+  postPutUserValidator,
+  postPutUpdate,
   postObject,
   getAllBlogPosts,
   getBlogPostById,

@@ -7,5 +7,6 @@ const postRouter = express.Router();
 postRouter.get('/', mdwLogin.tokenValidator, mdwPost.getAllBlogPosts);
 postRouter.get('/:id', mdwLogin.tokenValidator, mdwPost.getBlogPostById);
 postRouter.post('/', mdwLogin.tokenValidator, mdwPost.postObjectValidator);
+postRouter.put('/:id', mdwLogin.tokenValidator, mdwPost.postPutObjectValidator);
 
 module.exports = postRouter;

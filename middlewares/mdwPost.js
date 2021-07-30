@@ -35,8 +35,25 @@ const getBlogPostById = async (req, res, next) => {
   }
 };
 
+const postPutObjectValidator = async (req, res, next) => {
+  try {
+    const userLogedId = req.body.userLoged.id;
+    const { id } = req.params;
+    const { title, content, categoryIds } = req.body;
+    const dataObjectBody = postService.postPutObjectValidator(title, content, categoryIds);
+    if (dataObjectBody.message) throw dataObjectBody;
+    const dataValidUser = await postService.postPutUserValidator(id, userLogedId);
+    if (dataValidUser.message) throw dataValidUser;
+    const dataUpdated = await postService.postPutUpdate(id, title, content);
+    res.status(status.OK).json(dataUpdated);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   postObjectValidator,
   getAllBlogPosts,
   getBlogPostById,
+  postPutObjectValidator,
 };
