@@ -24,5 +24,4 @@ const PostCategory = (sequelize, _DataTypes) => {
 module.exports = PostCategory;
 
 // Dúvidas:
-// npm start quando roda da undefined no model
 // como referenciar o userId na tabela BlogPosts?
