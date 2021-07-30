@@ -80,10 +80,30 @@ async function loginExistsValidator(email) {
   return userExists;
 }
 
-function loginTokenGenerator(id, displayName, email, image) {
+function tokenGenerator(id, displayName, email, image) {
   const userObject = { id, displayName, email, image };
   const token = jwt.sign(userObject, secret, jwtConfig);
   return { token };
+}
+
+function tokenDecoder(token) {
+  try {
+    const tokenDecoded = jwt.verify(token, secret);
+    return tokenDecoded;
+  } catch (error) {
+    return objectError('unauthorized', 'Expired or invalid token');
+  }
+}
+
+function tokenValidator(token) {
+  try {
+    if (!token) throw objectError('unauthorized', 'Token not found');
+    const decoded = tokenDecoder(token);
+    if (decoded.message) throw decoded;
+    return decoded;
+  } catch (error) {
+    return error;
+  }
 }
 
 module.exports = {
@@ -92,5 +112,6 @@ module.exports = {
   postUser,
   loginObjectValidator,
   loginExistsValidator,
-  loginTokenGenerator,
+  tokenGenerator,
+  tokenValidator,
 };

@@ -24,11 +24,22 @@ const loginExistsValidator = async (req, _res, next) => {
   }
 };
 
-const loginTokenGenerator = async (req, res, next) => {
+const tokenGenerator = async (req, res, next) => {
   try {
     const { id, displayName, email, image } = req.body;
-    const data = userService.loginTokenGenerator(id, displayName, email, image);
+    const data = userService.tokenGenerator(id, displayName, email, image);
     return res.status(status.OK).json(data);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const tokenValidator = async (req, _res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const data = userService.tokenValidator(authorization);
+    if (data.message) throw data;
+    return next();
   } catch (error) {
     return next(error);
   }
@@ -37,5 +48,6 @@ const loginTokenGenerator = async (req, res, next) => {
 module.exports = {
   loginObjectValidator,
   loginExistsValidator,
-  loginTokenGenerator,
+  tokenGenerator,
+  tokenValidator,
 };

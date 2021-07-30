@@ -6,6 +6,6 @@ const loginRouter = express.Router();
 loginRouter.post('/',
   mdwLogin.loginObjectValidator,
   mdwLogin.loginExistsValidator,
-  mdwLogin.loginTokenGenerator);
+  mdwLogin.tokenGenerator);
 
 module.exports = loginRouter;
