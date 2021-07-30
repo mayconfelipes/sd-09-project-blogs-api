@@ -6,7 +6,7 @@ const errorHandling = require('./src/middlewares/errorHandling');
 const app = express();
 app.use(bodyParser.json());
 
-app.use('/users', routerUsers);
+app.use('/user', routerUsers);
 app.use(errorHandling);
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
