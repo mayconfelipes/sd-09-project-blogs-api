@@ -25,13 +25,15 @@ module.exports = {
           key: "id"
         },
       },
-      published: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        field: 'published',
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        field: 'updated',
       },
     });
 

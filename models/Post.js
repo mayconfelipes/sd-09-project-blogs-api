@@ -6,12 +6,9 @@ const Post = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     published: DataTypes.DATE,
     updated: DataTypes.DATE,
-  },
-  {
-    timestamps: false,
-    tableName: 'BlogPosts',
-    underscored: true,
   });
+
+  // post.associate = (models) => {};
 
   return post;
 };

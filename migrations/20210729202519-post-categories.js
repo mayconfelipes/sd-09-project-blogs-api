@@ -8,8 +8,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: "BlogPosts",
-          foreignKey: "id"
+          key: "id"
         },
+        primaryKey: true,
+        onDelete: 'CASCADE',
       },
       categoryId: {
         allowNull: false,
@@ -18,6 +20,8 @@ module.exports = {
           model: "Categories",
           key: "id"
         },
+        primaryKey: true,
+        onDelete: 'CASCADE',
       },
     });
 

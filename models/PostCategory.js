@@ -4,17 +4,17 @@ const PostCategory = (sequelize, _DataTypes) => {
   { timestamps: false });
 
   postCategory.associate = (models) => {
-    models.Post.belongsToMany(models.Post, {
+    models.BlogPost.belongsToMany(models.Category, {
       as: 'posts',
-      through: PostCategory,
-      foreignKey: 'post_id',
-      otherKey: 'category_id',
+      through: postCategory,
+      foreignKey: 'postId',
+      otherKey: 'categoryId',
     });
-    models.Category.belongsToMany(models.Category, {
+    models.Category.belongsToMany(models.BlogPost, {
       as: 'categories',
-      through: PostCategory,
-      foreignKey: 'category_id',
-      otherKey: 'post_id',
+      through: postCategory,
+      foreignKey: 'categoryId',
+      otherKey: 'postId',
     });
   };
 
@@ -22,3 +22,7 @@ const PostCategory = (sequelize, _DataTypes) => {
 };
 
 module.exports = PostCategory;
+
+// Dúvidas:
+// npm start quando roda da undefined no model
+// como referenciar o userId na tabela BlogPosts?
