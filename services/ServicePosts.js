@@ -44,9 +44,24 @@ const updatePost = async ({ title, content }, id, userId) => {
   return upatedPost;
 };
 
+const deletePost = async (id, userId) => {
+  const post = await RepositoryPosts.getPostById(id);
+
+  if (!post) throw invalidData('Post does not exist', NOT_FOUND);
+
+  const verifyUserId = await RepositoryPosts.getPostById(id);
+
+  if (verifyUserId.userId !== userId) {
+    throw invalidData('Unauthorized user', UNAUTHORIZED);
+  }
+
+  await RepositoryPosts.deletePost(id);
+};
+
 module.exports = {
   create,
   getAll,
   getPostById,
   updatePost,
+  deletePost,
 };

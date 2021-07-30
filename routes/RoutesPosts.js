@@ -9,5 +9,6 @@ router.post('/', Middlewares.validJWT, Middlewares.validPost, ControllerPosts.cr
 router.get('/', Middlewares.validJWT, ControllerPosts.getAll);
 router.get('/:id', Middlewares.validJWT, ControllerPosts.getPostById);
 router.put('/:id', Middlewares.validUpdatePost, Middlewares.validJWT, ControllerPosts.updatePost);
+router.delete('/:id', Middlewares.validJWT, ControllerPosts.deletePost);
 
 module.exports = router;

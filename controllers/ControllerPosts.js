@@ -2,6 +2,7 @@ const ServicePosts = require('../services/ServicePosts');
 
 const SUCCESS = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 
 const create = async (req, res, next) => {
   try {
@@ -52,9 +53,23 @@ const updatePost = async (req, res, next) => {
   }
 };
 
+const deletePost = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { id: userId } = req.user;
+
+    await ServicePosts.deletePost(id, userId);
+
+    return res.status(NO_CONTENT).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getPostById,
   updatePost,
+  deletePost,
 };
