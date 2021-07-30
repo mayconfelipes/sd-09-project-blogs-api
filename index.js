@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const error = require('./middelwares/error');
 require('dotenv').config();
 
-const user = require('./controllers/routes/user');
+const route = require('./controllers/routes');
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,5 +17,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/user', user);
+app.use('/user', route.user);
+app.use('/login', route.login);
 app.use(error);

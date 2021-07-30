@@ -1,4 +1,5 @@
 module.exports = (err, req, res, _next) => {
+    console.log('Erro aqui >>>', err);
     if (err.isJoi) {
         return res.status(400).json({ message: err.details[0].message });
     }
@@ -10,8 +11,6 @@ module.exports = (err, req, res, _next) => {
     if (err.errors[0]) {
         return res.status(409).json({ message: 'User already registered' });
     }
-
-    console.log('Erro aqui >>>', err);
 
     return res.status(500).json({
         message: `Internal server error: ${err.mesasge}`,
