@@ -1,5 +1,5 @@
 @url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYnJldHRAZW1haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYifSwiaWF0IjoxNjI3Njc0MTMxLCJleHAiOjE2Mjc2Nzc3MzF9.1wlUYLaobHuk47TOMn4yJFpM-pI1pCysX0HQMk42Ptw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiYnJldHRAZW1haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0NTYifSwiaWF0IjoxNjI3Njc3NzU4LCJleHAiOjE2Mjc2ODEzNTh9.tKyT81S1eUJsmcl_trtMPVJXh1VYz-Dz6MuFfAEaLKs
 @id = 3
 
 ### POST NEW USER
@@ -44,3 +44,7 @@ Content-Type: application/json
   "content": "Very newsi news",
   "categoryIds": [1]
 }
+
+### GET ALL BLOG POSTS
+GET {{url}}/post
+Authorization: {{token}}

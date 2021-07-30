@@ -26,6 +26,8 @@ app.get('/categories', CategoryController.getAllCategories);
 
 app.post('/post', BlogPostController.createPost);
 
+app.get('/post', BlogPostController.getAllPosts);
+
 app.use(ErrorMiddleware);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

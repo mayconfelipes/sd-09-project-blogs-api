@@ -22,6 +22,16 @@ const createPost = [
   }),
 ];
 
+const getAllPosts = [
+  validateJWT,
+  rescue(async (req, res) => {
+    const posts = await BlogPostService.getAllPosts();
+
+    return res.status(200).json(posts);
+  }),
+];
+
 module.exports = {
   createPost,
+  getAllPosts,
 };
