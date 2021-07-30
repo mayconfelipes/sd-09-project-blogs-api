@@ -7,6 +7,11 @@ const userSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const loginSchema = Joi.object({
+  email: Joi.string().required(),
+  password: Joi.string().required(),
+});
+
 const validateError = (status, message) => ({ status, message });
 
 const create = async ({ displayName, email, password, image }) => {
@@ -18,6 +23,20 @@ const create = async ({ displayName, email, password, image }) => {
   return idObject;
 };
 
+const login = async ({ email, password }) => {
+  const { error } = loginSchema.validate({ email, password });
+  if (error) throw validateError(401, error.details[0].message);
+  const userByEmail = await User.findOne({ where: { email } });
+  if (!userByEmail) throw validateError(400, 'Invalid fields');
+  // const passwordValid = password === userByEmail[0].password;
+  // if (!passwordValid) throw validateError(401, 'Incorrect username or password');
+  const { id } = userByEmail.dataValues;
+  return {
+    id,
+  };
+};
+
 module.exports = {
   create,
+  login,
 };
