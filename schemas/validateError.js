@@ -11,6 +11,15 @@ const UserSchema = Joi.object({
   image: Joi.string(),
 });
 
+const LoginSchema = Joi.object({
+  password: Joi.string().min(6).required().options({
+    language: {
+      string: { min: 'length must be 6 characters long' },
+    },
+  }),
+  email: Joi.string().email().required(),
+});
+
 const joiError = (status, error) => ({
   isJoi: true,
   status,
@@ -24,6 +33,7 @@ const validateError = (statusCode, message) => ({
 
 module.exports = {
   UserSchema,
+  LoginSchema,
   joiError,
   validateError,
 };
