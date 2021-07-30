@@ -21,20 +21,11 @@ app.get('/', (req, res) => {
 
 app.get('/user', auth, UsersController.getAll);
 app.get('/user/:id', auth, UsersController.getbyId);
-
 app.post('/user', UsersController.addUser);
 app.post('/login', UsersController.login);
 
-// app.get('/post', async (_req, res) => {
-//   try {
-//     const posts = await BlogPosts.findAll();
-//     return res.status(200).json(posts);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Ocorreu um erro' });
-//   }
-// });
-// app.post('/user', createUser);
+app.post('/categories', auth, CategoriesController.addCategorie);
+
 app.get('/post', auth, BlogPostsController.getAll);
 app.get('/categories', auth, CategoriesController.getAll);
 
