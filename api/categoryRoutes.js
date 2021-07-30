@@ -7,6 +7,7 @@ route.use(bodyParser.json());
 const controllers = require('../controllers');
 const { authJwt } = require('../middlewares');
 
+route.get('/', authJwt, controllers.listAllCategories);
 route.post('/', authJwt, controllers.createCategory);
 // route.post('/', ); // create user
 // route.put('/', );// edit user

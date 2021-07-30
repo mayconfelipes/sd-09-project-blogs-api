@@ -6,6 +6,7 @@ const {
 } = require('./userControllers');
 const {
   createCategory,
+  listAllCategories,
 } = require('./categoryController');
 
 module.exports = {
@@ -14,4 +15,5 @@ module.exports = {
   listAllUsers,
   findUserById,
   createCategory,
+  listAllCategories,
 };
