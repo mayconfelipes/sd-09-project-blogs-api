@@ -30,8 +30,21 @@ const getUserById = async (req, res, next) => {
   }
 };
 
+const deleteMe = async (req, res, next) => {
+  try {
+    const { userId } = req;
+
+    await userServices.deleteMe(userId);
+
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   postNewUser,
   getAllUsers,
   getUserById,
+  deleteMe,
 };

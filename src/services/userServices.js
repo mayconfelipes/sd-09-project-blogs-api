@@ -28,8 +28,19 @@ const getUserById = async (id) => {
   return result;
 };
 
+const deleteMe = async (userId) => {
+  const user = await getUserById(userId);
+
+  if (!user) return generateError('notFound', 'User not found');
+
+  const result = await userModels.deleteMe(userId);
+
+  return result;
+};
+
 module.exports = {
   postNewUser,
   getAllUsers,
   getUserById,
+  deleteMe,
 };

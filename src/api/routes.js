@@ -16,6 +16,9 @@ userRouter.get('/', middlewares.validateToken, userController.getAllUsers);
 // 4 - Sua aplicação deve ter o endpoint GET /user/:id
 userRouter.get('/:id', middlewares.validateToken, userController.getUserById);
 
+// 12 - Sua aplicação deve ter o endpoint DELETE /user/me
+userRouter.delete('/me', middlewares.validateToken, userController.deleteMe);
+
 // Rotas de /login
 const loginRouter = express.Router();
 // 2 - Sua aplicação deve ter o endpoint POST /login
