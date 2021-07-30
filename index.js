@@ -4,22 +4,24 @@ const bodyParser = require('body-parser');
 // const { Users, BlogPosts, Categories, PostsCategories } = require('./models');
 const UsersController = require('./controllers/UsersController');
 const BlogPostsController = require('./controllers/BlogPostsController');
+const CategoriesController = require('./controllers/CategoriesController');
+const auth = require('./middlewares/auth');
 
+dotenv.config();
 const app = express();
 // const config = require('./config/config');
 
-dotenv.config();
-console.log(process.env.MYSQL_USER);
 app.use(bodyParser.json());
 
 app.listen(3000, () => console.log('O Pai Tá ON!!!'));
 
-// não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (request, response) => {
-  response.send('Pai tá ON!!!');
+app.get('/', (req, res) => {
+  res.send('Pai tá ON!!!');
 });
 
-app.get('/users', UsersController.getAll);
+app.get('/user', auth, UsersController.getAll);
+
+app.post('/user', UsersController.addUser);
 
 // app.get('/post', async (_req, res) => {
 //   try {
@@ -31,10 +33,8 @@ app.get('/users', UsersController.getAll);
 //   }
 // });
 // app.post('/user', createUser);
-app.get('/post', BlogPostsController.getAll);
-
-
-
+app.get('/post', auth, BlogPostsController.getAll);
+app.get('/categories', auth, CategoriesController.getAll);
 
 // npx sequelize-cli db:seed:all
 // npx sequelize-cli db:drop 
