@@ -23,4 +23,13 @@ app
     C.GenerateToken,
     C.InsertUser,
   ])
+  .get(C.ValidateToken);
+
+  app
+  .route('/login')
+  .post([
+    C.ValidateLogin,
+    C.GenerateToken,
+    C.LoginSuccessFul,
+  ])
   .get(() => {});

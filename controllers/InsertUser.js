@@ -5,7 +5,7 @@ const InsertUser = async (req, res) => {
 
   await User.create({ ...body });
 
-  res.status(201).json({ message: token });
+  res.status(201).json({ token });
 };
 
 module.exports = InsertUser;
