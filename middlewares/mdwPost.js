@@ -14,6 +14,29 @@ const postObjectValidator = async (req, res, next) => {
   }
 };
 
+const getAllBlogPosts = async (req, res, next) => {
+  try {
+    const data = await postService.getAllBlogPosts();
+    if (data.message) throw data;
+    return res.status(status.OK).json(data);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getBlogPostById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await postService.getBlogPostById(id);
+    if (data.message) throw data;
+    return res.status(status.OK).json(data);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   postObjectValidator,
+  getAllBlogPosts,
+  getBlogPostById,
 };
