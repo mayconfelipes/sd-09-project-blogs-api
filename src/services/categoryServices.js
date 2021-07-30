@@ -9,6 +9,13 @@ const postCategory = async (name) => {
   return result;
 };
 
+const getAllCategories = async () => {
+  const result = await categoryModels.getAllCategories();
+
+  return result;
+};
+
 module.exports = {
   postCategory,
+  getAllCategories,
 };

@@ -26,6 +26,9 @@ const categoriesRouter = express.Router();
 categoriesRouter.post('/', middlewares.validateToken,
   middlewares.validateCategory, categoryController.postCategory);
 
+// 6 - Sua aplicação deve ter o endpoint GET /categories
+categoriesRouter.get('/', middlewares.validateToken, categoryController.getAllCategories);
+
 // Rotas de /post
 const postRouter = express.Router();
 
