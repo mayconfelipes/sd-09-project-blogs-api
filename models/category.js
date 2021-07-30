@@ -3,5 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
   }, { timestamps: false });
 
+  Category.associate = (models) => {
+    Category.belongsTo(models.Post, { as: 'post', foreignKey: 'id' });
+  };
+
   return Category;
 };
