@@ -14,12 +14,14 @@ const listAllUsers = rescue(async (req, res, _next) => {
   return res.status(200).json(users);
 });
 
-const findUserById = rescue(async (req, res, _next) => {
+const findUserById = rescue(async (req, res, next) => {
   const { id } = req.params;
 
-  const user = await User.findAll({
+  const [user] = await User.findAll({
     where: { id },
+    attributes: { exclude: ['password'] },
   });
+  if (!user) return next({ statusCode: 404, message: 'User does not exist' });
 
   res.status(200).json(user);
 });

@@ -8,7 +8,7 @@ const controllers = require('../controllers');
 const { authJwt } = require('../middlewares');
 
 route.get('/', authJwt, controllers.listAllUsers); // list users
-route.get('/:id', controllers.findUserById); // find user by id
+route.get('/:id', authJwt, controllers.findUserById); // find user by id
 route.post('/', controllers.createUser);
 // route.post('/', ); // create user
 // route.put('/', );// edit user
