@@ -1,6 +1,8 @@
 const rescue = require('express-rescue');
 const Joi = require('joi');
 const validate = require('../middelwares/validate');
+
+const { createToken } = require('../utils/createToken');
 const { createUserService } = require('../services/createUser');
 
 const userSchema = Joi.object({
@@ -14,8 +16,10 @@ const createUser = [
     validate(userSchema),
     rescue(async (req, res) => {
       const { displayName, email, password, image } = req.body;
-      const token = await createUserService(displayName, email, password, image);
-      res.status(201).json({ token });
+      await createUserService(displayName, email, password, image);
+      const token = createToken({ displayName, email, password, image });
+      
+      return res.status(201).json({ token });
 })];
 
 module.exports = {
