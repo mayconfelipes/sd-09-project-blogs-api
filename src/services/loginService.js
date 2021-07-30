@@ -1,12 +1,10 @@
 require('dotenv').config();
-
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
 const { JWT_SECRET } = process.env;
 const invalidFieldMessage = { message: 'Invalid fields' };
-
 const validateLoginInfo = (data) =>
   Joi.object({
     email: Joi.string().email().required().messages({
@@ -18,29 +16,26 @@ const validateLoginInfo = (data) =>
       'any.required': '"password" is required',
     }),
   }).validate(data);
-
 const validateUserEmail = async (data) => {
   const { email } = data;
   const userEmail = await User.findOne({ where: { email } });
-  if (userEmail) return true;
+  if (!userEmail) return false;
+  return userEmail;
 };
 
 const loginUser = async (data) => {
   const { error } = validateLoginInfo(data);
-
   if (error) {
     const loginInfoResponse = { message: error.details[0].message };
     throw loginInfoResponse;
   }
-
+  
   const loginValid = await validateUserEmail(data);
   if (!loginValid) throw invalidFieldMessage;
-
   const { email, password } = loginValid;
   const token = jwt.sign({ email, password }, JWT_SECRET);
   return { token };
 };
-
 module.exports = {
   loginUser,
 };

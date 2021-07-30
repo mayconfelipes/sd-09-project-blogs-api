@@ -1,9 +1,11 @@
 const { Router } = require('express');
-const { createUser } = require('../controllers/usersController');
+const { createUser, getAllUsers } = require('../controllers/usersController');
+const tokenMiddleware = require('../middlewares/tokenMiddleware');
 
 const UserRoute = Router();
 
 UserRoute.route('/user')
-  .post(createUser);
+  .post(createUser)
+  .get(tokenMiddleware, getAllUsers);
 
 module.exports = UserRoute;
