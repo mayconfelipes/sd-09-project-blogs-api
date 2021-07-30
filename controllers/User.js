@@ -37,6 +37,30 @@ const createUser = [
   }),
 ];
 
+const login = [
+  validate(
+    Joi.object({
+      email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+      password: Joi.string().length(6).required(),
+    }),
+  ),
+  rescue(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    const user = await userService.login(email, password);
+
+    if (user.error) return next(user);
+
+    const { password: pass, ...otherInfo } = user.dataValues;
+
+    const token = jwt.sign({ data: otherInfo }, secret, jwtConfig);
+
+    res.status(200).json({ token });
+  }),
+];
+
 module.exports = {
   createUser,
+  login,
 };

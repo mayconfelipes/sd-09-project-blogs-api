@@ -1,6 +1,7 @@
 const statusByCode = {
   userAlreadyRegistered: 409,
   missingAuth: 401,
+  invalidFields: 400,
 };
 
 module.exports = (err, req, res, _next) => {

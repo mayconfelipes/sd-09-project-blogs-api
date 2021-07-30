@@ -12,6 +12,18 @@ const createUser = async (displayName, email, password, image) => {
   return User.create({ displayName, email, password, image });
 };
 
+const login = async (email, password) => {
+  const Allresults = await User.findAll();
+  const result = Allresults.find((user) => user.email === email && user.password === password);
+
+  if (!result) {
+    return { error: { message: 'Invalid fields', code: 'invalidFields' } };
+  }
+
+  return result;
+}; 
+
 module.exports = {
   createUser,
+  login,
 };

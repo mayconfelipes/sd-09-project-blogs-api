@@ -3,12 +3,14 @@ const express = require('express');
 const app = express();
 
 const userRouter = require('./routes/Users');
+const loginRouter = require('./routes/Login');
 
 const errorMiddleware = require('./middlewares/error');
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
 app.use('/user', userRouter);
+app.use('/login', loginRouter);
 
 app.use(errorMiddleware);
 
