@@ -13,7 +13,7 @@ module.exports = {
 
       ], { timestamps: false });
   },
-
+// go
   down: async (queryInterface, _Sequelize) => {
     await queryInterface.bulkDelete('PostsCategories', null, {});
   },
