@@ -29,7 +29,15 @@ const login = async (req, res) => {
     .json({ token });
 };
 
+const getAll = async (_req, res) => {
+  const response = await userServices.getAll();
+  return res
+    .status(200)
+    .json(response);
+};
+
 module.exports = {
   create,
   login,
+  getAll,
 };

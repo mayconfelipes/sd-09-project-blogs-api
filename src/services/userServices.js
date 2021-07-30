@@ -36,7 +36,14 @@ const login = async ({ email, password }) => {
   };
 };
 
+const getAll = async () => {
+  const users = await User.findAll();
+  console.log(users, 'users');
+  return users;
+};
+
 module.exports = {
   create,
   login,
+  getAll,
 };
