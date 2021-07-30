@@ -12,6 +12,17 @@ const categoryObjectValidator = async (req, res, next) => {
   }
 };
 
+const categoryFindAll = async (_req, res, next) => {
+  try {
+    const data = await categorieService.categoryFindAll();
+    if (data.message) throw data;
+    return res.status(status.OK).json(data);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   categoryObjectValidator,
+  categoryFindAll,
 };

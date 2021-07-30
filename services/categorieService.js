@@ -14,6 +14,12 @@ async function categorieObjectValidator(name) {
   return categorieCreated;
 }
 
+async function categoryFindAll() {
+  const allCategories = await Categories.findAll();
+  return allCategories;
+}
+
 module.exports = {
   categorieObjectValidator,
+  categoryFindAll,
 };
