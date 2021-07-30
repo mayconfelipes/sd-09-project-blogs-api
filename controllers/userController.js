@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
+require('dotenv').config();
 
 const secret = process.env.JWT_SECRET;
 
 const jwtConfig = {
-  expiresIn: '1h',
+  expiresIn: '8h',
   algorithm: 'HS256',
 };
 
