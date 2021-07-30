@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const User = require('./controllers/Users');
 const Login = require('./controllers/Login');
 
-/* const JwtValidator = require('./middlewares'); */
+const { JwtValidator } = require('./middlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,8 +17,9 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+app.get('/user/:id', JwtValidator, rescue(User.getUserById));
 app.post('/user', rescue(User.addUser));
-/* app.get('/user', JwtValidator, rescue(User.getAllUsers)); */
+app.get('/user', JwtValidator, rescue(User.getAllUsers));
 
 app.post('/login', rescue(Login));
 

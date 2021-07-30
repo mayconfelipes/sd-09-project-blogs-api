@@ -1,5 +1,5 @@
 const JwtGenerator = require('./JwtGenerator');
-const JwtValidator = require('./JwtValidator');
+const { JwtValidator } = require('./JwtValidator');
 const CustomError = require('./CustomError');
 const RequestValidator = require('./RequestValidator');
 

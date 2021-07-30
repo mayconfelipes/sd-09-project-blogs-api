@@ -16,14 +16,28 @@ const addUser = async (userInfo) => {
 
 const getAllUsers = async () => {
   try {
-    const allUsers = await User.findAll();
+    const allUsers = await User.findAll({
+      attributes: { exclude: ['password'] },
+    });
     return allUsers;
   } catch (err) {
     throw new CustomError('Internal error server', 500);
   }
 };
 
+const getUserById = async (id) => {
+  let userById;
+  try {
+    userById = await User.findByPk(id);
+  } catch (err) {
+    throw new CustomError('Internal error server', 500);
+  }
+  if (!userById) throw new CustomError('User does not exist', 404);
+  return userById;
+};
+
 module.exports = {
   addUser,
   getAllUsers,
+  getUserById,
 };
