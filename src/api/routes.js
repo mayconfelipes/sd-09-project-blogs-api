@@ -42,6 +42,9 @@ postRouter.post('/', middlewares.validateToken,
 // 8 - Sua aplicação deve ter o endpoint GET /post
 postRouter.get('/', middlewares.validateToken, postController.getAllPosts);
 
+// 13 - Sua aplicação deve ter o endpoint GET post/search?q=:searchTerm
+postRouter.get('/search', middlewares.validateToken, postController.searchPost);
+
 // 9 - Sua aplicação deve ter o endpoint GET post/:id
 postRouter.get('/:id', middlewares.validateToken, postController.getPostByPostId);
 

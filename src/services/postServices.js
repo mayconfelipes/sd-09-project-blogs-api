@@ -70,10 +70,17 @@ const deletePost = async ({ userId, id }) => {
   return result;
 };
 
+const searchPost = async (term) => {
+  const result = postModels.searchPost(term);
+
+  return result;
+};
+
 module.exports = {
   postNewPost,
   getAllPosts,
   getPostByPostId,
   updatePost,
   deletePost,
+  searchPost,
 };
