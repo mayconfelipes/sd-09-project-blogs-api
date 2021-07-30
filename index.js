@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { userController } = require('./controllers');
+const { userController, categoryController } = require('./controllers');
 const errors = require('./middlewares/errors');
 
 const app = express();
@@ -8,6 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/', userController);
+app.use('/', categoryController);
 
 app.use(errors);
 
