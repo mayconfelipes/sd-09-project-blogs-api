@@ -8,14 +8,12 @@ const ValidateLogin = async (req, res, next) => {
   const validate = await validateLoginFormat(body);
   if (validate !== true) return res.status(400).json({ message: validate });
 
-  // const all = await User.findAll();
-  // console.log(all);
-
   try {
-    await User.findOne({ where: { email, password } });
+    const find = await User.findOne({ where: { email, password } });
+    if (!find) return res.status(400).json({ message: 'Invalid fields' });
     next();
   } catch (err) {
-    return res.status(400).json({ message: 'Invalid fields' });
+    next(err);
   }
 };
 

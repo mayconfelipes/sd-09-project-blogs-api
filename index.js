@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const C = require('./controllers');
-// const All = require('./controllers/All');
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,14 +15,13 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app
-  .route('/user')
-  .post([
+app.post('/user', [
     C.ValidateNewUser,
     C.GenerateToken,
     C.InsertUser,
-  ])
-  .get([
+  ]);
+
+app.get('/user', [
     C.ValidateToken,
     C.GetAllUsers,
   ]);
@@ -33,11 +31,18 @@ app.get('/user/:id', [
   C.GetUserById,
 ]);
 
-  app
-  .route('/login')
-  .post([
+app.post('/login', [
     C.ValidateLogin,
     C.GenerateToken,
     C.LoginSuccessFul,
-  ])
-  .get(() => {});
+  ]);
+
+app.post('/categories', [
+  C.ValidateToken,
+  C.InsertCategory,
+]);
+
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  return res.status(500).send('Algo deu errado');
+});

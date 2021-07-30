@@ -19,6 +19,7 @@
     "dev": "nodemon index.js",
     "drop": "npx sequelize-cli db:drop $",
     "seed": "npx sequelize-cli db:seed:all $",
+    "vrau": "npx sequelize-cli db:drop $ && npx sequelize-cli db:create && npx sequelize-cli db:migrate $ && npx sequelize-cli db:seed:all $",
     "test": "jest --runInBand",
     "test-coverage": "jest --runInBand --coverage",
     "debug": "nodemon index.js",

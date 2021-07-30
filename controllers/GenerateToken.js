@@ -7,15 +7,9 @@ const jwtConfig = {
 };
 
 const GenerateToken = (req, res, next) => {
-  const { email, name, password } = req.body;
-  const user = { email };
+  const { email, password } = req.body;
+  const user = { email, password };
 
-  if (!name) {
-    user.password = password;
-  } else {
-    user.name = name;
-  }
-  
   const token = jwt.sign(
     { data: user },
     process.env.JWT_SECRET,
