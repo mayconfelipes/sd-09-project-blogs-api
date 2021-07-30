@@ -13,7 +13,7 @@ module.exports = async (req, _res, next) => {
       where: { email: data.email },
       attributes: { exclude: ['password'] },
     });
-  
+
     req.user = user.dataValues;
     next();
   } catch (error) {

@@ -20,6 +20,10 @@ const LoginSchema = Joi.object({
   email: Joi.string().email().required(),
 });
 
+const CategorySchema = Joi.object({
+  name: Joi.string().required(),
+});
+
 const joiError = (status, error) => ({
   isJoi: true,
   status,
@@ -34,6 +38,7 @@ const validateError = (statusCode, message) => ({
 module.exports = {
   UserSchema,
   LoginSchema,
+  CategorySchema,
   joiError,
   validateError,
 };

@@ -1,13 +1,17 @@
+const { login } = require('./loginController');
 const {
   createUser,
   listAllUsers,
   findUserById,
 } = require('./userControllers');
-const { login } = require('./loginController');
+const {
+  createCategory,
+} = require('./categoryController');
 
 module.exports = {
+  login,
   createUser,
   listAllUsers,
   findUserById,
-  login,
+  createCategory,
 };
