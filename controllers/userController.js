@@ -2,8 +2,9 @@ const express = require('express');
 const Joi = require('joi');
 
 const rescue = require('express-rescue');
-const { createUser, login } = require('../services/userService');
+const userService = require('../services/userService');
 const validate = require('../middlewares/validate');
+const validateJWT = require('../api/auth/validateJWT');
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.post('/user', [
       .required(),
   })),
   rescue(async (req, res, next) => {
-    const user = await createUser(req.body);
+    const user = await userService.createUser(req.body);
 
     if (user.error) {
       user.error.status = 409;
@@ -37,16 +38,22 @@ router.post('/login', [
     password: Joi.string().not().empty().required(),
   })),
   rescue(async (req, res, next) => {
-    const token = await login(req.body);
+    const token = await userService.login(req.body);
 
     if (token.error) {
       token.error.status = 400;
       return next(token.error);
     }
 
-    console.log('entrei');
-
     return res.status(200).json(token);
+  }),
+]);
+
+router.get('/user', [
+  validateJWT,
+  rescue(async (_req, res, _next) => {
+    const users = await userService.getAll();
+    return res.status(200).json(users);
   }),
 ]);
 

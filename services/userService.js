@@ -18,11 +18,7 @@ const createUser = async ({ displayName, password, email, image }) => {
 };
 
 const login = async ({ email, password }) => {
-  console.log(email, password);
-
   const user = await User.findOne({ where: { email, password } });
-
-  console.log(user, email);
 
   const errorMessage = {
     error: {
@@ -44,7 +40,10 @@ const login = async ({ email, password }) => {
   return { token };
 };
 
+const getAll = async () => User.findAll();
+
 module.exports = {
   login,
+  getAll,
   createUser,
 };
