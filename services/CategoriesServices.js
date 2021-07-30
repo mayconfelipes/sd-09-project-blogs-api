@@ -1,5 +1,5 @@
 const { Categories } = require('../models');
-const validationCategory = require('../middlewares/validationCategorie');
+const validationCategorie = require('../middlewares/validationCategorie');
 
 const getAll = async () => {
     const categories = await Categories.findAll();
@@ -7,7 +7,7 @@ const getAll = async () => {
 };
 
 const addCategorie = async (body) => {
-    const validate = validationCategory(body);
+    const validate = validationCategorie(body);
     if (validate.error === undefined) {
         const categorie = await Categories.create(body);
         return categorie;

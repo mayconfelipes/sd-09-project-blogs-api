@@ -24,10 +24,11 @@ app.get('/user/:id', auth, UsersController.getbyId);
 app.post('/user', UsersController.addUser);
 app.post('/login', UsersController.login);
 
+app.get('/categories', auth, CategoriesController.getAll);
 app.post('/categories', auth, CategoriesController.addCategorie);
 
 app.get('/post', auth, BlogPostsController.getAll);
-app.get('/categories', auth, CategoriesController.getAll);
+app.post('/post',  BlogPostsController.addPost);
 
 // npx sequelize-cli db:seed:all
 // npx sequelize-cli db:drop 

@@ -10,4 +10,12 @@ const getAll = async (_req, res) => {
     }
 };
 
-module.exports = { getAll };
+const addPost = async (req, res) => {
+    const post = await BlogPostsServices.addPost(req.body);
+    if (post.message === undefined) {
+        return res.status(201).json(post);
+    }
+    return res.status(400).json(post);
+};
+
+module.exports = { getAll, addPost };
