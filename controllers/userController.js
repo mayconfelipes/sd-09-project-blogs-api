@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
 
-const secret = process.env.SECRET;
+const secret = process.env.JWT_SECRET;
 
 const jwtConfig = {
   expiresIn: '1h',
