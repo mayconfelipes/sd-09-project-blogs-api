@@ -1,9 +1,11 @@
 const express = require('express');
 const rescue = require('express-rescue');
-const userController = require('../controllers/userController');
+const categoriesController = require('../controllers/categoriesController');
+const validateJWT = require('../middlewares/validateJWT');
 
 const router = express.Router();
 
-router.post('/', rescue(userController.login));
+router.post('/', validateJWT, rescue(categoriesController.create));
+router.get('/', validateJWT, rescue(categoriesController.getAll));
 
 module.exports = router; 
