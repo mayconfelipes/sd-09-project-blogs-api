@@ -36,6 +36,9 @@ const postRouter = express.Router();
 postRouter.post('/', middlewares.validateToken,
   middlewares.validatePost, postController.postNewPost);
 
+// 8 - Sua aplicação deve ter o endpoint GET /post
+postRouter.get('/', middlewares.validateToken, postController.getAllPosts);
+
 module.exports = {
   userRouter,
   loginRouter,

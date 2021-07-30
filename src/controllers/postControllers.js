@@ -8,10 +8,23 @@ const postNewPost = async (req, res, next) => {
 
     res.status(201).json(result);
   } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const getAllPosts = async (req, res, next) => {
+  try {
+    const result = await postServices.getAllPosts();
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
     next(error);
   }
 };
 
 module.exports = {
   postNewPost,
+  getAllPosts,
 };

@@ -17,7 +17,7 @@ const postNewUser = async (userData) => {
 };
 
 const getAllUsers = async () => {
-  const allUsers = User.findAll();
+  const allUsers = await User.findAll();
 
   return allUsers;
 };
