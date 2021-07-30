@@ -1,6 +1,7 @@
 const { User } = require('../models');
-const { generateToken, isValidToken } = require('./utils/tokenValidate');
+const { NOT_FOUND } = require('../utils/httpStatus');
 const { isValidFields } = require('./utils/usersValidate');
+const { generateToken, isValidToken } = require('./utils/tokenValidate');
 
 const create = async (user) => {
   await isValidFields(user);
@@ -18,7 +19,22 @@ const findAll = async (authorization) => {
   return result;
 };
 
+const findById = async (authorization, id) => {
+  isValidToken(authorization);
+  const result = await User.findByPk(
+    id,
+    { attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
+  );
+
+  if (!result) {
+    const error = { type: NOT_FOUND, message: 'User does not exist' };
+    throw error;
+  }
+  return result;
+};
+
 module.exports = {
   create,
   findAll,
+  findById,
 };

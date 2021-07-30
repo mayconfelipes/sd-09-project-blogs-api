@@ -1,5 +1,5 @@
 const users = require('../services/usersService');
-const { BAD_REQUEST, CONFLICT, UNAUTHORIZED } = require('../utils/httpStatus');
+const { BAD_REQUEST, CONFLICT, UNAUTHORIZED, NOT_FOUND } = require('../utils/httpStatus');
 
 const create = async (req, res, next) => {
   try {
@@ -24,7 +24,21 @@ const findAll = async (req, res, next) => {
   }
 };
 
+const findById = async (req, res, next) => {
+  const { authorization } = req.headers;
+  const { id } = req.params;
+  try {
+    const result = await users.findById(authorization, id);
+    return res.status(200).json(result);
+  } catch (error) {
+      if (error.type === NOT_FOUND) error.status = 404;
+      if (error.type === UNAUTHORIZED) error.status = 401;
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   findAll,
+  findById,
 };
