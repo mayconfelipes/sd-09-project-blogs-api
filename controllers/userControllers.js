@@ -26,16 +26,16 @@ const findUserById = rescue(async (req, res, _next) => {
 const createUser = rescue(async (req, res, _next) => {
   const newUser = await services.createUser(req.body);
   console.log(newUser);
-  // const { displayName, email } = newUser;
+  const { displayName, email } = newUser;
 
-  // const jwtConfig = {
-  //   expiresIn: '1d',
-  //   algorithm: 'HS256',
-  // };
+  const jwtConfig = {
+    expiresIn: '1d',
+    algorithm: 'HS256',
+  };
 
-  // const token = jwt.sign({ displayName, email }, secret, jwtConfig);
+  const token = jwt.sign({ displayName, email }, secret, jwtConfig);
 
-  res.status(201).json(newUser);
+  res.status(201).json(token);
 });
 
 module.exports = {
