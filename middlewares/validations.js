@@ -68,6 +68,7 @@ const emptyInputs = (req, res, next) => {
 const emailAlreadyExists = rescue(async (req, res, next) => {
   const { email } = req.body;
     const existEmail = await User.findOne({ where: { email } });
+    
     if (existEmail) {
       return res.status(httpStatus.CONFLICT).json({
         message: 'User already registered',
@@ -85,7 +86,6 @@ const userNotRegistered = rescue(async (req, res, next) => {
         message: 'Invalid fields',
       });
   }
-
   return next();
 });
 

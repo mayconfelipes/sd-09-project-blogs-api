@@ -35,10 +35,23 @@ const getAllUsers = [
    async (_req, res) => {
     const users = await usersService.getAllUsers();
     return res.status(httpStatus.OK).json(users);
-  }];
+ }];
+
+ const getUserById = [
+  validateToken,
+   rescue(async (req, res) => {
+     const { id } = req.params;
+     const user = await usersService.getUserById(id);
+     if (!user) {
+       return res.status(httpStatus.MOT_FOUND).json({ message: 'User does not exist' });
+     }
+     return res.status(httpStatus.OK).json(user);
+   }),
+ ];
 
 module.exports = {
   createUser,
   login,
   getAllUsers,
+  getUserById,
 };

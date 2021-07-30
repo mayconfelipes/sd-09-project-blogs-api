@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
 
 const SECRET = process.env.JWT_SECRET;
 
@@ -12,14 +11,12 @@ const validateToken = async (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, SECRET);
-    const user = await User.findOne({ where: { email: payload.email } });
-    const { password, ...userWithoutPassword } = user;
 
-    req.user = userWithoutPassword;
+    req.user = payload;
 
     return next();
   } catch (err) {
-    return res.status(401).json({ message: 'Expired or invalid token' });
+      return res.status(401).json({ message: 'Expired or invalid token' });
   }
 };
 
