@@ -42,7 +42,6 @@ const deletePost = async (id) => {
 };
 
 const searchPost = async (term) => {
-  console.log(term);
   const result = await BlogPost.findAll({
     where: {
       [Op.or]: [
