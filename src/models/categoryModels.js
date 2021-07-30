@@ -1,4 +1,4 @@
-const { Category } = require('../../models');
+const { Category } = require('../sequelize/models');
 
 const getCategoryByName = async (name) => {
   const myCategory = await Category.findOne({ where: { name } });
