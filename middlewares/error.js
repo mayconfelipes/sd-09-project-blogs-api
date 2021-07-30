@@ -3,6 +3,7 @@ const statusByCode = {
   missingAuth: 401,
   invalidFields: 400,
   expiredToken: 401,
+  userDoesntExist: 404,
 };
 
 module.exports = (err, req, res, _next) => {

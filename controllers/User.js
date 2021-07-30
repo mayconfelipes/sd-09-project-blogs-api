@@ -70,8 +70,22 @@ const getAllUsers = [
   },
 ];
 
+const getUserById = [
+  validateJWT(userService.getAllUsers),
+  rescue(async (req, res, next) => {
+    const { id } = req.params;
+
+    const user = await userService.getUserById(id);
+
+    if (user.error) return next(user);
+
+    res.status(200).json(user);
+  }),
+];
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
+  getUserById,
 };

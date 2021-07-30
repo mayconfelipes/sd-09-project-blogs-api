@@ -36,8 +36,20 @@ const getAllUsers = async () => {
   return newResult;
 };
 
+const getUserById = async (id) => {
+  const user = await User.findByPk(id);
+
+  if (!user) {
+    return { error: { message: 'User does not exist', code: 'userDoesntExist' } };
+  }
+
+  const { password, ...otherInfo } = user.dataValues;
+  return otherInfo;
+};
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
+  getUserById,
 };
