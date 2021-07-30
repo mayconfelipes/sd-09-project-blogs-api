@@ -13,7 +13,7 @@ const create = async (req, res, next) => {
 
     return res.status(CREATED).json(newCategory);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -49,7 +49,7 @@ const updatePost = async (req, res, next) => {
 
     return res.status(SUCCESS).json(upatedPost);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -62,7 +62,19 @@ const deletePost = async (req, res, next) => {
 
     return res.status(NO_CONTENT).end();
   } catch (error) {
-    next(error);
+    return next(error);
+  }
+};
+
+const getPostsWithSearchTerm = async (req, res, next) => {
+  try {
+    const searchTerm = req.query.q;
+
+    const posts = await ServicePosts.getPostsWithSearchTerm(searchTerm);
+
+    return res.status(SUCCESS).json(posts);
+  } catch (error) {
+    return next(error);
   }
 };
 
@@ -72,4 +84,5 @@ module.exports = {
   getPostById,
   updatePost,
   deletePost,
+  getPostsWithSearchTerm,
 };

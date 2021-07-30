@@ -58,10 +58,23 @@ const deletePost = async (id, userId) => {
   await RepositoryPosts.deletePost(id);
 };
 
+const getPostsWithSearchTerm = async (searchTerm) => {
+  if (!searchTerm) {
+    const getAllBlogPost = await RepositoryPosts.getAll();
+
+    return getAllBlogPost;
+  }
+
+  const posts = await RepositoryPosts.getPostsWithSearchTerm(searchTerm);
+
+  return posts;
+};
+
 module.exports = {
   create,
   getAll,
   getPostById,
   updatePost,
   deletePost,
+  getPostsWithSearchTerm,
 };
