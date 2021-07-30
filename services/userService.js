@@ -1,5 +1,10 @@
+require('dotenv/config');
+const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 const status = require('./statusCode');
+
+const secret = process.env.JWT_SECRET;
+const jwtConfig = { expiresIn: '2h', algorithm: 'HS256' };
 
 function objectError(code, message) {
   return { status: status[code], message };
@@ -58,8 +63,34 @@ async function postUser(displayName, email, password, image) {
   return userCreated;
 }
 
+function loginObjectValidator(email, password) {
+  const emailVerifiedError = verifyEmail(email);
+  const passwordVerifiedError = verifyPassword(password);
+  if (emailVerifiedError) return emailVerifiedError;
+  if (passwordVerifiedError) return passwordVerifiedError;
+  return {};
+}
+
+async function loginExistsValidator(email) {
+  const errorMsg1 = 'Invalid fields';
+  const userExists = await Users.findOne(
+    { attributes: ['id', 'displayName', 'email', 'image'], where: { email } },
+  );
+  if (!userExists) return objectError('badRequest', errorMsg1);
+  return userExists;
+}
+
+function loginTokenGenerator(id, displayName, email, image) {
+  const userObject = { id, displayName, email, image };
+  const token = jwt.sign(userObject, secret, jwtConfig);
+  return { token };
+}
+
 module.exports = {
   findUsers,
   userObjectValidator,
   postUser,
+  loginObjectValidator,
+  loginExistsValidator,
+  loginTokenGenerator,
 };
