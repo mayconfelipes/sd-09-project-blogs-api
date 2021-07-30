@@ -6,6 +6,13 @@ const create = async ({ name }) => {
   return newCategory.dataValues;
 };
 
+const getAll = async () => {
+  const getAllCategories = await Category.findAll();
+
+  return getAllCategories;
+};
+
 module.exports = {
   create,
+  getAll,
 };
