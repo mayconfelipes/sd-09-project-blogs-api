@@ -16,6 +16,13 @@ const create = async ({ title, content, categoryIds }, userId) => {
   return newBlogPost;
 };
 
+const getAll = async () => {
+  const getAllBlogPost = await RepositoryPosts.getAll();
+
+  return getAllBlogPost;
+};
+
 module.exports = {
   create,
+  getAll,
 };

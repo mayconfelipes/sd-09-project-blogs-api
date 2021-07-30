@@ -1,5 +1,6 @@
 const ServicePosts = require('../services/ServicePosts');
 
+const SUCCESS = 200;
 const CREATED = 201;
 
 const create = async (req, res, next) => {
@@ -15,6 +16,17 @@ const create = async (req, res, next) => {
   }
 };
 
+const getAll = async (_req, res, next) => {
+  try {
+    const getAllBlogPost = await ServicePosts.getAll();
+
+    return res.status(SUCCESS).json(getAllBlogPost);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   create,
+  getAll,
 };
