@@ -3,10 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
-      userId: { type: DataTypes.INTEGER, foreignKey: true }
+      userId: { type: DataTypes.INTEGER, foreignKey: true },
     },
-    { createdAt: 'published', updatedAt: 'updated', timestamps: true },
-  );
+    { createdAt: 'published', updatedAt: 'updated', timestamps: true });
 
   BlogPost.associate = (models) => {
     BlogPost.belongsTo(models.Users, {
