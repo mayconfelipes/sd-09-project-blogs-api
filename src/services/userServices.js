@@ -25,7 +25,7 @@ const create = async ({ displayName, email, password, image }) => {
 
 const login = async ({ email, password }) => {
   const { error } = loginSchema.validate({ email, password });
-  if (error) throw validateError(401, error.details[0].message);
+  if (error) throw validateError(400, error.details[0].message);
   const userByEmail = await User.findOne({ where: { email } });
   if (!userByEmail) throw validateError(400, 'Invalid fields');
   // const passwordValid = password === userByEmail[0].password;
