@@ -15,4 +15,12 @@ const addCategorie = async (body) => {
     return { message: validate.error };
 };
 
-module.exports = { getAll, addCategorie };
+const getbyIdCat = async (id) => {
+    if (id) {
+        const categorie = await Categories.findOne({
+            where: { id },
+        });
+        return categorie;
+    } return null;
+};
+module.exports = { getAll, addCategorie, getbyIdCat };

@@ -18,4 +18,13 @@ const addCategorie = async (req, res) => {
     return res.status(400).json(categorie);
 };
 
-module.exports = { getAll, addCategorie };
+const getByIdCat = async (req, res) => {
+    const { id } = req.params;
+    const categorie = await CategoriesServices.getbyIdCat(id);
+    if (categorie) {
+        return res.status(200).json(categorie);
+    }
+    res.status(404).json({ message: 'Categorie does not exist' });
+};
+
+module.exports = { getAll, addCategorie, getByIdCat };
