@@ -39,6 +39,7 @@ const tokenValidator = async (req, _res, next) => {
     const { authorization } = req.headers;
     const data = userService.tokenValidator(authorization);
     if (data.message) throw data;
+    req.body.userLoged = data;
     return next();
   } catch (error) {
     return next(error);
