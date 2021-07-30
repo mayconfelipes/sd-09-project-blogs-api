@@ -1,13 +1,13 @@
 const { User } = require('../../models');
 
-const findUserByEmail = async (email) => {
+const getUserByEmail = async (email) => {
   const myUser = await User.findOne({ where: { email } });
 
   return myUser;
 };
 
 const postNewUser = async (userData) => {
-  const foundUser = await findUserByEmail(userData.email);
+  const foundUser = await getUserByEmail(userData.email);
 
   if (foundUser) return;
 
