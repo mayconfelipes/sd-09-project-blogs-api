@@ -29,6 +29,7 @@ app.get('/categories/:id', auth, CategoriesController.getByIdCat);
 app.post('/categories', auth, CategoriesController.addCategorie);
 
 app.get('/post', auth, BlogPostsController.getAll);
+app.get('/post/:id', auth, BlogPostsController.getPostById);
 app.post('/post', auth, BlogPostsController.addPost);
 
 // npx sequelize-cli db:seed:all

@@ -27,7 +27,6 @@ const getbyId = async (id) => {
 
 const addUser = async (body) => {
     const validate = await validationUser(body);
-    console.log(validate);
     const emailExist = await findByEmail(body.email);
     if (validate.error === undefined && !emailExist === true) {
         const user = await Users.create(body);

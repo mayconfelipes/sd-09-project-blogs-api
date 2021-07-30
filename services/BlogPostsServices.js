@@ -21,6 +21,14 @@ const getAll = async () => {
     return [objFinal1, objFinal2];
 };
 
+const getPostById = async (id) => {
+    const posts = await getAll();
+    const filterPost = posts.filter((item) => item.id * 1 === 1 * id);
+    if (filterPost.length === 0) {
+        return null;
+    } return filterPost[0];
+};
+
 const addPost = async (body) => {
     const date = new Date();
     const validate = await validationBlogPosts(body);
@@ -35,4 +43,4 @@ const addPost = async (body) => {
     return { message: validate.error };
 };
 
-module.exports = { getAll, addPost };
+module.exports = { getAll, getPostById, addPost };
