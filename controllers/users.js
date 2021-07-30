@@ -34,6 +34,12 @@ const create = [
   }),
 ];
 
+const getAll = rescue(async (_req, res) => {
+  const usersList = await userServices.getAll();
+  return res.status(200).json(usersList);
+});
+
 module.exports = {
   create,
+  getAll,
 };

@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
 const validate = require('../middlewares/validate');
 const loginServices = require('../services/login');
+const { secret } = require('../middlewares/authorization');
 
-const secret = process.env.JWT_SECRET;
 const jwtConfig = {
   expiresIn: '1h',
   algorithm: 'HS256',

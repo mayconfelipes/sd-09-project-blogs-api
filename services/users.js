@@ -13,6 +13,12 @@ const create = async (userInfo) => {
   return User.create(userInfo);
 };
 
+const getAll = async () => {
+  const usersList = await User.findAll();
+  return usersList;
+};
+
 module.exports = {
   create,
+  getAll,
 };

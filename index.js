@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const middlewares = require('./middlewares');
 const user = require('./controllers/users');
 const { login } = require('./controllers/login');
+const { authorization } = require('./middlewares/authorization');
 
 const app = express();
 
@@ -15,6 +16,9 @@ app.post('/user', user.create);
 
 // Requisito 02
 app.post('/login', login);
+
+// Requisito 03
+app.get('/user', authorization, user.getAll);
 
 app.use(middlewares.error);
 
