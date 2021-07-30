@@ -1,0 +1,1 @@
+module.exports = ({ userId, postUserId }) => userId === postUserId;

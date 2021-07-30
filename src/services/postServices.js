@@ -3,6 +3,7 @@ const categoryModels = require('../models/categoryModels');
 const postsCategoryModels = require('../models/postsCategoryModels');
 
 const generateError = require('../auxiliarFunctions/generateError');
+const checkOwner = require('../auxiliarFunctions/checkOwner');
 
 const checkPostCategories = async (categoryArray) => Promise
   .all(categoryArray.map((id) => categoryModels.getCategoryById(id)));
@@ -42,9 +43,9 @@ const getPostByPostId = async (id) => {
 const updatePost = async ({ userId, id, title, content }) => {
   const myPost = await postModels.getPostByPostId(id);
 
-  if (!myPost) throw generateError('notFound', 'Post not found');
+  if (!myPost) throw generateError('notFound', 'Post does not exist');
 
-  if (myPost.dataValues.userId !== userId) {
+  if (!checkOwner({ userId, postUserId: myPost.dataValues.userId })) {
     throw generateError('unauthorized', 'Unauthorized user');
   }
 
@@ -55,9 +56,24 @@ const updatePost = async ({ userId, id, title, content }) => {
   return generateError('noContent', 'No update needed');
 };
 
+const deletePost = async ({ userId, id }) => {
+  const myPost = await postModels.getPostByPostId(id);
+
+  if (!myPost) throw generateError('notFound', 'Post does not exist');
+
+  if (!checkOwner({ userId, postUserId: myPost.dataValues.userId })) {
+    throw generateError('unauthorized', 'Unauthorized user');
+  }
+
+  const result = await postModels.deletePost(id);
+
+  return result;
+};
+
 module.exports = {
   postNewPost,
   getAllPosts,
   getPostByPostId,
   updatePost,
+  deletePost,
 };

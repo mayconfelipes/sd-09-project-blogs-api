@@ -46,6 +46,9 @@ postRouter.get('/:id', middlewares.validateToken, postController.getPostByPostId
 postRouter.put('/:id', middlewares.validateToken,
 middlewares.validateUpdatePost, postController.updatePost);
 
+// 11 - Sua aplicação deve ter o endpoint DELETE post/:id
+postRouter.delete('/:id', middlewares.validateToken, postController.deletePost);
+
 module.exports = {
   userRouter,
   loginRouter,

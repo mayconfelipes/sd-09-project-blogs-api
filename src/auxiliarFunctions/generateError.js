@@ -9,3 +9,5 @@ const statusCodes = {
 const generateError = (statusCode, message) => ({ code: statusCodes[statusCode], message });
 
 module.exports = generateError;
+
+// Testando um gerador de erro proposto por Layo Kaminski
