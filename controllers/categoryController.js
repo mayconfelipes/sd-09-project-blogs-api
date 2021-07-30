@@ -5,6 +5,7 @@ const categoryService = require('../services/categoryService');
 const httpStatus = require('../middlewares/httpStatus');
 
 const createCategory = [
+  
   validateToken,
   rescue(async (req, res) => {
     const { name } = req.body;
