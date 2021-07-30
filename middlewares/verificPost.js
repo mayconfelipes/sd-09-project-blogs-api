@@ -12,11 +12,11 @@ const isValidUser = async (req, res, next) => {
       message: 'Unauthorized user',
     });
   }
-  
+
   next();
 };
 
-const notExistPost = async (req, res, next) => {
+const existPost = async (req, res, next) => {
   const { id } = req.params;
 
   const post = await BlogPosts.findOne({ where: { id } });
@@ -33,5 +33,5 @@ const notExistPost = async (req, res, next) => {
 
 module.exports = {
   isValidUser,
-  notExistPost,
+  existPost,
 };

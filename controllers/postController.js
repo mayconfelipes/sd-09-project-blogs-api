@@ -21,10 +21,13 @@ const getById = async (req, res, next) => {
   return res.status(200).json();
 };
 
-const editPost = async (req, res, next) => {
+const editPost = async (req, res, _next) => {
   const { id } = req.params;
+  const { title, content } = req.body;
 
-  return res.status(200).json();
+  const newPost = await postService.editPost(id, title, content);
+
+  return res.status(200).json(newPost);
 };
 
 const deletePost = async (req, res, _next) => {
