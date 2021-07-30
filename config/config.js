@@ -8,7 +8,7 @@ module.exports = {
     host: process.env.HOSTNAME,
     dialect: 'mysql',
   },
-  test: {
+  /* test: {
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: 'blogs_api',
@@ -21,5 +21,5 @@ module.exports = {
     database: 'blogs_api',
     host: process.env.HOSTNAME,
     dialect: 'mysql',
-  },
+  }, */
 };
