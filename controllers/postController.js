@@ -15,10 +15,12 @@ const getAllPost = async (_req, res, _next) => {
   return res.status(200).json(getAll);
 };
 
-const getById = async (req, res, next) => {
+const getById = async (req, res, _next) => {
   const { id } = req.params;
 
-  return res.status(200).json();
+  const getPost = await postService.getById(id);
+
+  return res.status(200).json(getPost);
 };
 
 const editPost = async (req, res, _next) => {

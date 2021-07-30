@@ -11,7 +11,7 @@ postRouter.post('/', validatePost, verificCategorie, authToken, postController.c
 
 postRouter.get('/', authToken, postController.getAllPost);
 
-postRouter.get('/:id', authToken, postController.getById);
+postRouter.get('/:id', authToken, existPost, postController.getById);
 
 postRouter.put('/:id', authToken, validatePostPut, existPost, isValidUser, postController.editPost);
 
