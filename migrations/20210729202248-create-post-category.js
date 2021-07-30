@@ -13,7 +13,7 @@ module.exports = {
       categoryId: {
         type: Sequelize.INTEGER
       },
-    });
+    }, { timestamps: false });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('PostsCategories');
