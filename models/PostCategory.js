@@ -22,6 +22,3 @@ const PostCategory = (sequelize, _DataTypes) => {
 };
 
 module.exports = PostCategory;
-
-// Dúvidas:
-// como referenciar o userId na tabela BlogPosts?
