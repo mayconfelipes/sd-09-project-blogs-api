@@ -10,7 +10,7 @@ const registerCategoryController = async (req, res, next) => {
     return next(result.error);
   }
   const { response } = result;
-  return res.status(200).json(response);
+  return res.status(201).json(response);
 };
 
 const getAllCategoriesController = async (_req, res, next) => {

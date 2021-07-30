@@ -12,7 +12,7 @@ const verifyUserCredentials = (credentials) => (
 );
 
 const removePassword = (user) => {
-  const { password, ...payload } = user;
+  const { password, ...payload } = user.toJSON();
   return payload;
 };
 

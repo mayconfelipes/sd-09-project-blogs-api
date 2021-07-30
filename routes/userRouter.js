@@ -2,17 +2,18 @@ const express = require('express');
 
 const userRouter = express.Router();
 
-const verifyEmailMiddleware = require('../middlewares/verifyEmailMiddleware');
+const verifyUserInfos = require('../middlewares/verifyUserInfos');
 const validateJWT = require('../middlewares/validateJWT');
 
 const {
   registerUserController,
   getAllUsersController,
   getUserByIdController,
+  deleteSelfUserController,
 } = require('../controllers/userController');
 
 userRouter.post('/', [
-  verifyEmailMiddleware,
+  verifyUserInfos,
   registerUserController,
 ]);
 userRouter.get('/', [
@@ -23,6 +24,10 @@ userRouter.get('/', [
 userRouter.get('/:id', [
   validateJWT,
   getUserByIdController,
+]);
+userRouter.delete('/me', [
+  validateJWT,
+  deleteSelfUserController,
 ]);
 
 module.exports = userRouter;

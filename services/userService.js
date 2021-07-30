@@ -1,26 +1,24 @@
 require('dotenv').config();
-const joi = require('joi');
+// const joi = require('joi');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-// const emailRegex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
 const secret = process.env.JWT_SECRET;
 
-const verifyUserInfos = (infos) => (
-  joi.object({
-    displayName: joi.string().min(8).required(),
-    email: joi.string().email().required(),
-    // email: joi.string().pattern(emailRegex).required(),
-    password: joi.string().length(6).required(),
-    image: joi.string().required(),
-  }).validate(infos)
-);
+// const verifyUserInfos = (infos) => (
+//   joi.object({
+//     displayName: joi.string().min(8).required(),
+//     email: joi.string().email().required(),
+//     password: joi.string().length(6).required(),
+//     image: joi.string().required(),
+//   }).validate(infos)
+// );
 
 const registerUserService = async (userInfos) => {
-  const { error } = verifyUserInfos(userInfos);
-  if (error) {
-    return { error };
-  }
+  // const { error } = verifyUserInfos(userInfos);
+  // if (error) {
+  //   return { error };
+  // }
   // const { dataValues } = await User.create(userInfos);
   // const { password, ...payload } = dataValues;
   const registeredUser = await User.create(userInfos);
@@ -62,8 +60,18 @@ const getUserByIdService = async (id) => {
   }
 };
 
+const deleteSelfUserService = async (id) => {
+  try {
+    await User.destroy({ where: { id } });
+  } catch (e) {
+    console.error(e.message);
+    return null;
+  }
+};
+
 module.exports = {
   registerUserService,
   getAllUsersService,
   getUserByIdService,
+  deleteSelfUserService,
 };

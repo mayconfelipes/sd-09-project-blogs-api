@@ -4,7 +4,6 @@ const {
 
 const loginController = async (req, res, next) => {
   const { body: { email, password } } = req;
-  console.log(email, password);
   const result = await loginService({ email, password });
   if (!result.token) {
     return next(result);
