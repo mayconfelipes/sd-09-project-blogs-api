@@ -48,9 +48,14 @@ const getUserById = async (id) => {
   return user;
 };
 
+const deleteMe = async (id) => {
+  await RepositoryUsers.deleteMe(id);
+};
+
 module.exports = {
   create,
   login,
   getAll,
   getUserById,
+  deleteMe,
 };
