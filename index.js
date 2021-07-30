@@ -23,7 +23,15 @@ app
     C.GenerateToken,
     C.InsertUser,
   ])
-  .get(C.ValidateToken);
+  .get([
+    C.ValidateToken,
+    C.GetAllUsers,
+  ]);
+
+app.get('/user/:id', [
+  C.ValidateToken,
+  C.GetUserById,
+]);
 
   app
   .route('/login')

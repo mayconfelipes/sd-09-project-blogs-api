@@ -10,12 +10,13 @@ const ValidateLogin = async (req, res, next) => {
 
   // const all = await User.findAll();
   // console.log(all);
-  const search = await User.findOne({ where: { email, password } });
-  if (search === null) {
+
+  try {
+    await User.findOne({ where: { email, password } });
+    next();
+  } catch (err) {
     return res.status(400).json({ message: 'Invalid fields' });
   }
-  
-  next();
 };
 
 module.exports = ValidateLogin;

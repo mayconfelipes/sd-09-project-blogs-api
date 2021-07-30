@@ -9,17 +9,10 @@ const ValidateToken = async (req, res, next) => {
     const { email, password } = jwt.verify(token, process.env.JWT_SECRET);
     
     await User.findOne({ email, password });
-    const all = await User.findAll({
-      attributes: {
-        exclude: ['password', 'createdAt', 'updatedAt'],
-      },
-    });
-    return res.status(200).json(all);
+    next();
   } catch (err) {
     return res.status(401).json({ message: 'Expired or invalid token' });
   }
-  // const user = await User.findOne({ });
-  // next();
 };
 
 module.exports = ValidateToken;

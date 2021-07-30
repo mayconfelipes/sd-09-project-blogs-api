@@ -4,6 +4,8 @@ const InsertUser = require('./InsertUser');
 const ValidateLogin = require('./ValidateLogin');
 const LoginSuccessFul = require('./LoginSuccessFul');
 const ValidateToken = require('./ValidateToken');
+const GetAllUsers = require('./GetAllUsers');
+const GetUserById = require('./GetUserById');
 
 module.exports = {
   ValidateNewUser,
@@ -12,4 +14,6 @@ module.exports = {
   ValidateLogin,
   LoginSuccessFul,
   ValidateToken,
+  GetAllUsers,
+  GetUserById,
 };
