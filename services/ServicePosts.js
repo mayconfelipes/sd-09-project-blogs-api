@@ -3,6 +3,7 @@ const RepositoryCategories = require('../repository/RepositoryCategories');
 const invalidData = require('../utils/invalidData');
 
 const BAD_REQUEST = 400;
+const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
 
 const create = async ({ title, content, categoryIds }, userId) => {
@@ -31,8 +32,21 @@ const getPostById = async (id) => {
   return post;
 };
 
+const updatePost = async ({ title, content }, id, userId) => {
+  const verifyUserId = await RepositoryPosts.getPostById(id);
+
+  if (verifyUserId.userId !== userId) {
+    throw invalidData('Unauthorized user', UNAUTHORIZED);
+  }
+
+  const upatedPost = await RepositoryPosts.updatePost({ title, content }, id);
+
+  return upatedPost;
+};
+
 module.exports = {
   create,
   getAll,
   getPostById,
+  updatePost,
 };
