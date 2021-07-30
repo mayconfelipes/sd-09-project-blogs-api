@@ -2,8 +2,9 @@ const Joi = require('joi');
 require('dotenv').config();
 const rescue = require('express-rescue');
 const jwt = require('jsonwebtoken');
-const validate = require('../middlewares/validate');
+const validateJoi = require('../middlewares/validate');
 const userService = require('../services/User');
+const validateJWT = require('../middlewares/auth/validateJWT');
 
 const secret = process.env.JWT_SECRET;
 
@@ -13,7 +14,7 @@ const jwtConfig = {
 };
 
 const createUser = [
-  validate(
+  validateJoi(
     Joi.object({
       displayName: Joi.string().min(8).required(),
       email: Joi.string()
@@ -38,7 +39,7 @@ const createUser = [
 ];
 
 const login = [
-  validate(
+  validateJoi(
     Joi.object({
       email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
@@ -60,7 +61,17 @@ const login = [
   }),
 ];
 
+const getAllUsers = [
+  validateJWT(userService.getAllUsers),
+  async (req, res, _next) => {
+    const results = await userService.getAllUsers();
+  
+    res.status(200).json(results);
+  },
+];
+
 module.exports = {
   createUser,
   login,
+  getAllUsers,
 };

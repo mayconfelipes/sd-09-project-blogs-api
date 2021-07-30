@@ -4,12 +4,25 @@ const jwt = require('jsonwebtoken');
 
 const secret = process.env.JWT_SECRET;
 
-module.exports = async (req, res, next) => {
-  const token = req.readers.authorization;
+module.exports = (callback) => async (req, res, next) => {
+  const token = req.headers.authorization;
 
-  if (token) return next({ authError: { message: 'missing auth token', code: 'missingAuth' } });
+  if (!token) return next({ error: { message: 'Token not found', code: 'missingAuth' } });
 
-  const decoded = jwt.verify(token, secret);
+  try {
+    const decoded = jwt.verify(token, secret);
 
-  console.log(decoded);
+    const AllUsers = await callback();
+
+    const userJWT = AllUsers.find((user) => user.email === decoded.data.email);
+
+    if (!userJWT) {
+      return next({ error: { message: 'Expired or invalid token', code: 'expiredToken' } });
+    }
+
+    req.user = decoded.data;
+    next();
+  } catch (err) {
+    return next({ error: { message: 'Expired or invalid token', code: 'expiredToken' } });
+  }
 };

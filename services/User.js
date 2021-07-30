@@ -16,14 +16,28 @@ const login = async (email, password) => {
   const Allresults = await User.findAll();
   const result = Allresults.find((user) => user.email === email && user.password === password);
 
+  console.log(result);
+
   if (!result) {
     return { error: { message: 'Invalid fields', code: 'invalidFields' } };
   }
 
   return result;
-}; 
+};
+
+const getAllUsers = async () => {
+  const Allresults = await User.findAll();
+
+  const newResult = Allresults.map((result) => {
+    const { password, ...otherInfo } = result.dataValues;
+    return otherInfo;
+  });
+
+  return newResult;
+};
 
 module.exports = {
   createUser,
   login,
+  getAllUsers,
 };
