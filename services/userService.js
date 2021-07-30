@@ -53,7 +53,22 @@ const getAllUsers = async () => {
   }
 };
 
+const getUserById = async (id) => {
+  const user = await Users.findByPk(id);
+
+  const noPasswordUser = user && passwordFilter([user])[0];
+
+  return (
+    noPasswordUser || {
+      error: true,
+      message: 'User does not exist',
+      statusCode: 404,
+    }
+  );
+};
+
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
 };
