@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('../controllers/userControllers');
 const loginController = require('../controllers/loginControllers');
 const categoryController = require('../controllers/categoryControllers');
+const postController = require('../controllers/postControllers');
 
 const middlewares = require('../middlewares');
 // Rotas de /user
@@ -31,6 +32,9 @@ categoriesRouter.get('/', middlewares.validateToken, categoryController.getAllCa
 
 // Rotas de /post
 const postRouter = express.Router();
+// 7 - Sua aplicação deve ter o endpoint POST /post
+postRouter.post('/', middlewares.validateToken,
+  middlewares.validatePost, postController.postNewPost);
 
 module.exports = {
   userRouter,

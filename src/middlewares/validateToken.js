@@ -8,7 +8,8 @@ const validateToken = (req, res, next) => {
 
   const check = checkToken(token);
   if (!check.data) return next(generateError('unauthorized', 'Expired or invalid token'));
-  
+
+  req.userId = check.data.id;
   next();
 };
 

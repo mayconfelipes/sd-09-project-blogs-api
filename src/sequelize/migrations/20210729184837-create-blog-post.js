@@ -28,12 +28,14 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         field: 'published',
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         field: 'updated',
       },
     });
@@ -42,3 +44,6 @@ module.exports = {
     await queryInterface.dropTable('BlogPosts');
   }
 };
+
+// Arrumando os default values 
+// https://stackoverflow.com/questions/29652538/sequelize-js-timestamp-not-datetime
