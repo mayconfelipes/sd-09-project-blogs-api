@@ -5,7 +5,6 @@ const getAll = async (_req, res) => {
         const posts = await BlogPostsServices.getAll();
         return res.status(200).json(posts);
     } catch (e) {
-        console.log(e.message);
         res.status(500).json({ message: 'Ocorreu um erro' });
     }
 };
@@ -30,4 +29,19 @@ const addPost = async (req, res) => {
     return res.status(400).json(post);
 };
 
-module.exports = { getAll, addPost, getPostById };
+const updatePost = async (req, res) => {
+    const { id } = req.params;
+    const { body } = req;
+    const token = req.headers.authorization;
+    const post = await BlogPostsServices.updatePost(id, body, token);
+    if (post.error === undefined) {
+        return res.status(200).json(post);
+    } if (post.error === '"categoryIds" is not allowed') {
+        return res.status(400).json({ message: 'Categories cannot be edited' });
+    } if (post.error === 'Unauthorized user') {
+        return res.status(401).json({ message: post.error });
+    }
+    return res.status(400).json({ message: post.error });
+};
+
+module.exports = { getAll, addPost, updatePost, getPostById };

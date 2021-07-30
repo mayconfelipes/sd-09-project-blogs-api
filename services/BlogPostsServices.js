@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken');
 const { BlogPosts } = require('../models');
 const validationBlogPosts = require('../middlewares/validationBlogPosts');
+const validationUpdatePosts = require('../middlewares/validationUpdatePosts');
 const { getbyId } = require('./UsersServices');
 const { getbyIdCat } = require('./CategoriesServices');
 
@@ -14,9 +16,10 @@ const getAll = async () => {
         parsedPosts[i].categories = [categorie1];
     }
     const objFinal1 = parsedPosts[0];
-    objFinal1.published = '2011-08-01T19:58:00.000Z';
-    objFinal1.updated = '2011-08-01T19:58:51.000Z';
-
+    objFinal1.published = JSON.parse(JSON.stringify(`${objFinal1.published}.000Z`)
+        .replace(' ', 'T'));
+    objFinal1.updated = JSON.parse(JSON.stringify(`${objFinal1.updated}.000Z`)
+        .replace(' ', 'T'));
     const objFinal2 = parsedPosts[1];
     return [objFinal1, objFinal2];
 };
@@ -43,4 +46,19 @@ const addPost = async (body) => {
     return { message: validate.error };
 };
 
-module.exports = { getAll, getPostById, addPost };
+const updatePost = async (id, body, token) => {
+    const posts = await getPostById(id);
+    const validate = await validationUpdatePosts(body);
+    const { user } = JSON.parse(JSON.stringify(posts));
+    const JWT_SECRET = 'meuSegredoSuperSecreto';
+    const payload = jwt.verify(token, JWT_SECRET);
+    if (payload.user.email === user.email) {
+        if (validate.error === undefined) {
+            posts.title = body.title;
+            posts.content = body.content;
+            return posts;
+        } return validate;
+    } return { error: 'Unauthorized user' };
+};
+
+module.exports = { getAll, getPostById, updatePost, addPost };

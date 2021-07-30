@@ -40,9 +40,6 @@ const addUser = async (body) => {
 const login = async (body) => {
     const validate = await validationLogin(body);
     const emailExist = await findByEmail(body.email);
-    console.log(validate.error);
-    console.log(emailExist);
-
     if (validate.error === undefined && emailExist !== null) {
         return body;
     } if (validate.error === undefined && emailExist === null) {
