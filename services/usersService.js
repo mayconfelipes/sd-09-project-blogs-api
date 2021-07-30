@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { generateToken } = require('./utils/tokenValidate');
+const { generateToken, isValidToken } = require('./utils/tokenValidate');
 const { isValidFields } = require('./utils/usersValidate');
 
 const create = async (user) => {
@@ -10,6 +10,15 @@ const create = async (user) => {
   return result;
 };
 
+const findAll = async (authorization) => {
+  isValidToken(authorization);
+  const result = await User.findAll(
+    { attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
+  );
+  return result;
+};
+
 module.exports = {
   create,
+  findAll,
 };
