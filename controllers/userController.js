@@ -2,7 +2,7 @@ const {
   registerUserService,
   getAllUsersService,
   getUserByIdService,
-  deleteSelfUserService
+  deleteSelfUserService,
 } = require('../services/userService');
 
 const registerUserController = async (req, res, next) => {
