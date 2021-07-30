@@ -42,8 +42,24 @@ const login = async ({ email, password }) => {
 
 const getAll = async () => User.findAll();
 
+const getById = async (id) => {
+  const user = await User.findByPk(id, { attributes: { exclude: ['password'] } });
+
+  const errorMessage = {
+    error: {
+      code: 'userNotFound',
+      message: 'User does not exist',
+    },
+  };
+
+  if (!user) return errorMessage;
+
+  return user;
+};
+
 module.exports = {
   login,
   getAll,
+  getById,
   createUser,
 };

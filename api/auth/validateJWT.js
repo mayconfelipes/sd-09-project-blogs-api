@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
 
     const user = await User.findByPk(decoded.id);
 
-    if (!user) return next({ status: 401, message: 'User not found' });
+    if (!user) return next({ status: 404, message: 'User does not exist' });
 
     req.userId = decoded.id;
     return next();

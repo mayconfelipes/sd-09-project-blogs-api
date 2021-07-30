@@ -57,4 +57,18 @@ router.get('/user', [
   }),
 ]);
 
+router.get('/user/:id', [
+  validateJWT,
+  rescue(async (req, res, next) => {
+    const user = await userService.getById(req.params.id);
+
+    if (user.error) {
+      user.error.status = 404;
+      return next(user.error);
+    }
+
+    return res.status(200).json(user);
+  }),
+]);
+
 module.exports = router;
