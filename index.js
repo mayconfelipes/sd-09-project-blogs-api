@@ -28,6 +28,9 @@ app.get('/user/:id', authorization, user.getById);
 // Requisito 05
 app.post('/categories', authorization, category.create);
 
+// Requisito 06
+app.get('/categories', authorization, category.getAll);
+
 app.use(middlewares.error);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!')); 
