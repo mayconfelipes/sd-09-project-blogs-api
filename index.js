@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userController = require('./controllers/users');
 const { sendErrorMessage } = require('./middwares/errors');
+const { validateToken } = require('./middwares/validateToken');
 
 const app = express();
 
@@ -18,6 +19,6 @@ app.post('/user', userController.create);
 
 app.post('/login', userController.login);
 
-app.get('/user', userController.findAll);
+app.get('/user', validateToken, userController.findAll);
 
 app.use(sendErrorMessage);

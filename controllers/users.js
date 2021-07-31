@@ -24,7 +24,7 @@ const login = async (req, res, next) => {
   }
 };
 
-const findAll = async (req, res, next) => {
+const findAll = async (_req, res, next) => {
   try {
     const allUsers = await userServices.findAll();
 
