@@ -12,10 +12,12 @@ const {
 
 const router = express.Router();
 
-router.post('/user', validateUser, createToken, emailExists, users.create);
-router.post('/login', validateLogin, createToken, emailExists, users.login);
 router.get('/user', validateToken, users.getUsers);
 router.get('/user/:id', validateToken, users.getById);
-router.post('/categories', validateToken, validateName, categories.create);
+router.post('/user', validateUser, createToken, emailExists, users.create);
+router.post('/login', validateLogin, createToken, emailExists, users.login);
+
+router.post('/categories', validateToken, validateName, categories.createCategory);
+router.get('/categories', validateToken, categories.getCategories);
 
 module.exports = router;
