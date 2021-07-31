@@ -2,8 +2,9 @@ const express = require('express');
 const Joi = require('joi');
 const rescue = require('express-rescue');
 const validateJWT = require('../api/auth/validateJWT');
-const validate = require('../middlewares/validate');
 const postService = require('../services/postService');
+const validate = require('../middlewares/validate');
+const validateUpdate = require('../middlewares/validateUpdate');
 
 const router = express.Router();
 
@@ -45,6 +46,26 @@ router.get('/post/:id', [
     }
 
     return res.status(200).json(post);
+  }),
+]);
+
+router.put('/post/:id', [
+  validateJWT,
+  validateUpdate,
+  validate(Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+  })),
+  rescue(async (req, res, next) => {
+    const { id } = req.params;
+    const postUpdated = await postService.updatePost(id, req.body, req.userId);
+
+    if (postUpdated.error) {
+      postUpdated.error.status = 401;
+      return next(postUpdated.error);
+    }
+
+    return res.status(200).json(postUpdated);
   }),
 ]);
 
