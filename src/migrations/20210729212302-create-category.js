@@ -5,11 +5,11 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGRER,
+        type: Sequelize.INTEGER,
       },
       name: {
         allowNull: false,
-        type: Sequelize.INTEGRER,
+        type: Sequelize.INTEGER,
       },
 
     });

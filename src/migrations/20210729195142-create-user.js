@@ -5,21 +5,14 @@ module.exports = {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGRER,
+      type: Sequelize.INTEGER,
     },
     displayName: { allowNull: false, type: Sequelize.STRING },
-    email: { allowNull: false, type: Sequelize.STRING, unique: 'unique_tag' },
+    email: { allowNull: false, type: Sequelize.STRING, unique: true },
     password: { allowNull: false, type: Sequelize.STRING },
     image: { type: Sequelize.STRING },
   },
-  { // https://stackoverflow.com/questions/42195348/
-    uniqueKeys: {
-      unique_tag: {
-        customIndex: true,
-        fields: ['email'],
-      },
-    },
-  });
+  );
 },
 down: async (queryInterface, _Sequelize) => {
   await queryInterface.dropTable('Users');

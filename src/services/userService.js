@@ -7,18 +7,9 @@ const { JWT_SECRET } = process.env;
 const emailExistsMessage = { code: 409, message: 'User already registered' };
 const validateUserInfo = (data) =>
   Joi.object({
-    displayName: Joi.string().min(8).required().messages({
-      'string.min': '"displayName" length must be at least 8 characters long',
-      'any.required': '"displayName" is required',
-    }),
-    email: Joi.string().email().required().messages({
-      'string.email': '"email" must be a valid email',
-      'any.required': '"email" is required',
-    }),
-    password: Joi.string().min(6).required().messages({
-      'string.min': '"password" length must be 6 characters long',
-      'any.required': '"password" is required',
-    }),
+    displayName: Joi.string().min(8).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().length(6).required(),
     image: Joi.string(),
   }).validate(data);
 const validateUserEmail = async (data) => {
