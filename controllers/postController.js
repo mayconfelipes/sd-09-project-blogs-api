@@ -26,4 +26,12 @@ router.post('/post', [
   }),
 ]);
 
+router.get('/post', [
+  validateJWT,
+  rescue(async (req, res, _next) => {
+    const post = await postService.getAll();
+    return res.status(200).json(post);
+  }),
+]);
+
 module.exports = router;

@@ -14,6 +14,7 @@ const createUser = async ({ displayName, password, email, image }) => {
   if (userAlreadyExists) return errorMessage;
 
   const newUser = await User.create({ displayName, email, password, image });
+  delete newUser.dataValues.password;
   return newUser;
 };
 

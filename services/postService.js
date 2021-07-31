@@ -1,4 +1,4 @@
-const { Post, Category } = require('../models');
+const { Post, Category, User, PostCategory } = require('../models');
 
 const createPost = async (userId, { title, categoryIds, content }) => {
   const categories = categoryIds.map(async (id) => Category.findByPk(id));
@@ -13,12 +13,31 @@ const createPost = async (userId, { title, categoryIds, content }) => {
 
   if (resultPromiseCategories.includes(null)) return errorMessage;
 
-  // console.log(userId);
-
   const post = await Post.create({ userId, title, content });
+
+  delete post.dataValues.published;
+  delete post.dataValues.updated;
+
+  const postId = post.dataValues.id;
+
+  categoryIds.forEach(async (categoryId) => {
+    await PostCategory.create({ categoryId, postId });
+  });
+
   return post;
 };
 
+const getAll = async () => {
+  const posts = await Post
+    .findAll({
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ] });
+  return posts;
+};
+
 module.exports = {
+  getAll,
   createPost,
 };
