@@ -1,0 +1,3 @@
+export MYSQL_USER=edison
+export MYSQL_PASSWORD=Trybe12@
+export HOSTNAME=localhost
