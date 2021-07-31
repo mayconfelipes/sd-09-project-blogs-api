@@ -1,11 +1,13 @@
 const error = require('./error');
 const createToken = require('./createToken');
 const validateUser = require('./validateUser');
-const emailAlreadyExists = require('./emailAlreadyExists');
+const emailExists = require('./emailExists');
+const validateLogin = require('./validateLogin');
 
 module.exports = {
   error,
   createToken,
   validateUser,
-  emailAlreadyExists,
+  emailExists,
+  validateLogin,
 };
