@@ -19,6 +19,8 @@ app.post('/user', userController.create);
 
 app.post('/login', userController.login);
 
-app.get('/user', validateToken, userController.findAll);
+app.get('/user', validateToken, userController.getAll);
+
+app.get('/user/:id', validateToken, userController.getById);
 
 app.use(sendErrorMessage);

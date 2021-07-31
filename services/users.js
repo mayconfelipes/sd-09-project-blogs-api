@@ -6,12 +6,14 @@ const {
   USER_REGISTERED,
   USER_NOT_CREATED,
   PASSWORD_SHORT,
-  INVALID_FIELDS } = require('../middwares/errorMessages');
+  INVALID_FIELDS, 
+  USER_NOT_EXIST } = require('../middwares/errorMessages');
 
 const {
   BAD_REQUEST_STATUS,
   CONFLICT_STATUS, 
-  INTERNAL_ERROR_STATUS } = require('../middwares/httpStatus');
+  INTERNAL_ERROR_STATUS, 
+  NOT_FOUND_STATUS } = require('../middwares/httpStatus');
 
 const jwtConfig = {
   expiresIn: '30d',
@@ -66,7 +68,7 @@ const generateToken = (id, displayName, email) => {
   return ({ token });
 };
 
-const findAll = async () => User.findAll();
+const getAll = async () => User.findAll();
 
 const findByEmail = async (email) => User.findOne({ where: { email } });
 
@@ -101,7 +103,7 @@ const login = async (user) => {
   validateLogin(user);
 
   const searchUser = await findByEmail(email);
-console.log(searchUser);
+
   if (!searchUser) {
     throw messageError(BAD_REQUEST_STATUS, INVALID_FIELDS);
   }
@@ -109,8 +111,19 @@ console.log(searchUser);
   return generateToken(searchUser.id, searchUser.displayName, email);
 };
 
+const getById = async (id) => {
+  const user = await User.findByPk(id);
+
+  if (!user) {
+    throw messageError(NOT_FOUND_STATUS, USER_NOT_EXIST);
+  }
+
+  return user;
+};
+
 module.exports = {
   create,
-  findAll,
+  getAll,
+  getById,
   login,
 };

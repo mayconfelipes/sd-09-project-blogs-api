@@ -24,9 +24,9 @@ const login = async (req, res, next) => {
   }
 };
 
-const findAll = async (_req, res, next) => {
+const getAll = async (_req, res, next) => {
   try {
-    const allUsers = await userServices.findAll();
+    const allUsers = await userServices.getAll();
 
     return res.status(OK_STATUS).json(allUsers);
   } catch (err) {
@@ -34,8 +34,20 @@ const findAll = async (_req, res, next) => {
   }
 };
 
+const getById = async (req, res, next) => {
+  try {
+
+    const user = await userServices.getById(req.params.id);
+
+    return res.status(OK_STATUS).json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   create,
-  findAll,
+  getAll,
+  getById,
   login,
 };
