@@ -9,6 +9,7 @@ route.use(bodyParser.json());
 
 route.post('/', authJwt, controllers.createPost);
 route.get('/', authJwt, controllers.listAllPosts);
+route.get('/search?', authJwt, controllers.searchTerm);
 route.get('/:id', authJwt, controllers.findPostById);
 route.put('/:id', authJwt, controllers.updatePostById);
 route.delete('/:id', authJwt, controllers.deletePostById);

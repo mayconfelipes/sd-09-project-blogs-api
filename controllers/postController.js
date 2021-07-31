@@ -1,4 +1,5 @@
 const rescue = require('express-rescue');
+const { Op } = require('sequelize');
 const { BlogPost, User, Category } = require('../models');
 const services = require('../services');
 
@@ -54,10 +55,27 @@ const deletePostById = rescue(async (req, res) => {
   res.status(204).json(deleted);
 });
 
+const searchTerm = rescue(async (req, res) => {
+  const search = req.query.q;
+
+  const post = await BlogPost.findAll({
+    where: { 
+      [Op.or]: [{ title: { [Op.substring]: search } }, { content: { [Op.substring]: search } }]
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Category, as: 'categories', attributes: ['id', 'name'] },
+    ],
+  });
+
+  return res.status(200).json(post);
+});
+
 module.exports = {
   createPost,
   listAllPosts,
   findPostById,
   updatePostById,
   deletePostById,
+  searchTerm,
 };
