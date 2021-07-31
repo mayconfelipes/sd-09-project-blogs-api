@@ -20,6 +20,8 @@ app.get('/user', UserController.getAllUsers);
 
 app.get('/user/:id', UserController.getUserById);
 
+app.delete('/user/me', UserController.deleteUser);
+
 app.post('/categories', CategoryController.createCategory);
 
 app.get('/categories', CategoryController.getAllCategories);

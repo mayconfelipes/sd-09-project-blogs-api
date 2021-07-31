@@ -60,9 +60,21 @@ const getUserById = [
   }),
 ];
 
+const deleteUser = [
+  validateJWT,
+  rescue(async (req, res) => {
+    const { email } = req;
+
+    await UserService.deleteUser(email);
+
+    return res.status(204).end();
+  }),
+];
+
 module.exports = {
   createUser,
   userLogin,
   getAllUsers,
   getUserById,
+  deleteUser,
 };
