@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { UserSchema, joiError, validateError } = require('../schemas/validateError');
+const { joiError, validateError, UserSchema } = require('../schemas');
 
 const createUser = async (body) => {
   const { displayName, email, password, image } = body;

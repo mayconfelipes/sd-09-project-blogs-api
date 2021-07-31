@@ -8,12 +8,22 @@ const {
   createCategory,
   listAllCategories,
 } = require('./categoryController');
+const {
+  createPost,
+  listAllPosts,
+  findPostById,
+  updatePostById,
+} = require('./postController');
 
 module.exports = {
   login,
   createUser,
-  listAllUsers,
-  findUserById,
+  createPost,
   createCategory,
+  listAllUsers,
+  listAllPosts,
   listAllCategories,
+  findUserById,
+  findPostById,
+  updatePostById,
 };

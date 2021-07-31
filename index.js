@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { userRoutes, categoryRoutes } = require('./api');
+const { userRoutes, categoryRoutes, postRoutes } = require('./api');
 
 const { errorMiddleware } = require('./middlewares');
 const controllers = require('./controllers');
@@ -17,6 +17,7 @@ app.get('/', (request, response) => {
 
 app.post('/login', controllers.login);
 app.use('/user', userRoutes);
+app.use('/post', postRoutes);
 app.use('/categories', categoryRoutes);
 
 app.use(errorMiddleware);
