@@ -15,13 +15,15 @@ module.exports = {
         type: Sequelize.STRING,
       },
 
-      published: {
+      createdAt: {
         allowNull: false,
+        field: 'published',
         type: Sequelize.DATE,
       },
 
-      updated: {
+      updatedAt: {
         allowNull: false,
+        field: 'updated',
         type: Sequelize.DATE,
       },
 
@@ -31,7 +33,7 @@ module.exports = {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER,
         references: {
-          model: 'User',
+          model: 'Users',
           key: 'id'
         }
       },
