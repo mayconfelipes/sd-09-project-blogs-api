@@ -9,4 +9,6 @@ const validatePostCategorie = require('../middlewares/validatePostCategorie');
 
 router.post('/', tokenValidation, validatePost, validatePostCategorie, postController.createPost);
 
+router.get('/', tokenValidation, postController.getAllPosts);
+
 module.exports = router;
