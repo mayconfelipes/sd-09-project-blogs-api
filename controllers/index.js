@@ -3,6 +3,7 @@ const {
   createUser,
   listAllUsers,
   findUserById,
+  deleteUser,
 } = require('./userControllers');
 const {
   createCategory,
@@ -13,6 +14,7 @@ const {
   listAllPosts,
   findPostById,
   updatePostById,
+  deletePostById,
 } = require('./postController');
 
 module.exports = {
@@ -26,4 +28,6 @@ module.exports = {
   findUserById,
   findPostById,
   updatePostById,
+  deleteUser,
+  deletePostById,
 };

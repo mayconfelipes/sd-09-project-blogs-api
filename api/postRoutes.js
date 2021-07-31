@@ -11,5 +11,6 @@ route.post('/', authJwt, controllers.createPost);
 route.get('/', authJwt, controllers.listAllPosts);
 route.get('/:id', authJwt, controllers.findPostById);
 route.put('/:id', authJwt, controllers.updatePostById);
+route.delete('/:id', authJwt, controllers.deletePostById);
 
 module.exports = route;

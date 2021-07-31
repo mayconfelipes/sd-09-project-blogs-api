@@ -50,7 +50,21 @@ const updatePostById = async (body, id, userId) => {
   return post;
 };
 
+const deletePostById = async (id, userId) => {
+  const [post] = await BlogPost.findAll({ where: { id }, 
+    include: [{ model: User, as: 'user', attributes: { exclude: 'password' } },
+    { model: Category, as: 'categories', attributes: ['id', 'name'] }] });
+  if (!post) throw validateError(404, 'Post does not exist');
+  if (post.userId !== userId) throw validateError(401, 'Unauthorized user');
+
+  BlogPost.destroy({
+    where: { id },
+  });
+  return {};
+};
+
 module.exports = {
   createPost,
   updatePostById,
+  deletePostById,
 };

@@ -40,8 +40,16 @@ const createUser = rescue(async (req, res, _next) => {
   res.status(201).json(token);
 });
 
+const deleteUser = rescue(async (req, res) => {
+  const { id } = req.user;
+  const destroy = await services.deleteUser(id);
+
+  return res.status(204).json(destroy);
+});
+
 module.exports = {
   listAllUsers,
   findUserById,
   createUser,
+  deleteUser,
 };

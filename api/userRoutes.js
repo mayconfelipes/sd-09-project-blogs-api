@@ -10,6 +10,7 @@ const { authJwt } = require('../middlewares');
 route.get('/', authJwt, controllers.listAllUsers); // list users
 route.get('/:id', authJwt, controllers.findUserById); // find user by id
 route.post('/', controllers.createUser);
+route.delete('/me', authJwt, controllers.deleteUser);
 // route.post('/', ); // create user
 // route.put('/', );// edit user
 // route.delete('/'); // delete user
