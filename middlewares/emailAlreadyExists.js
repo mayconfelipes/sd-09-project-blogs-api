@@ -2,9 +2,10 @@ const rescue = require('express-rescue');
 
 const { User } = require('../models');
 
-const { code: CONFLICT } = require('../utils');
+const { code: { CONFLICT } } = require('../utils');
 
 const emailAlreadyExists = rescue(async (req, res, next) => {
+  console.log('conflict ==========', CONFLICT)
   const { email } = req.body;
   const existEmail = await User.findOne({ where: { email } });
   if (existEmail) {
