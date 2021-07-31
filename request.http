@@ -1,5 +1,5 @@
 @url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoibGV3aXNoYW1pbHRvbkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiJ9LCJpYXQiOjE2Mjc2ODIwMjksImV4cCI6MTYyNzY4NTYyOX0.XfjMzdsI7RPMogNH7aqu6EDWT6cY3tvkYjLrDhBDKDo
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoibGV3aXNoYW1pbHRvbkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiJ9LCJpYXQiOjE2Mjc3NjExMDIsImV4cCI6MTYyNzc2NDcwMn0.Ro9IEdh9nbd7RCcKnk8yXN4MEFAGaoRumweuq1jU2eM
 @id = 3
 
 ### POST NEW USER
@@ -62,3 +62,7 @@ Content-Type: application/json
   "title": "new title",
   "content": "new content"
 }
+
+###
+GET {{url}}/post/search?q=
+Authorization: {{token}}

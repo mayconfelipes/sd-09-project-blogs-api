@@ -78,10 +78,22 @@ const deletePost = [
   }),
 ];
 
+const findByQuery = [
+  validateJWT,
+  rescue(async (req, res) => {
+    const { q } = req.query;
+
+    const posts = await BlogPostService.findByQuery(q);
+
+    return res.status(200).json(posts);
+  }),
+];
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   editPost,
   deletePost,
+  findByQuery,
 };

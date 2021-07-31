@@ -30,6 +30,8 @@ app.post('/post', BlogPostController.createPost);
 
 app.get('/post', BlogPostController.getAllPosts);
 
+app.get('/post/search', BlogPostController.findByQuery);
+
 app.get('/post/:id', BlogPostController.getPostById);
 
 app.put('/post/:id', BlogPostController.editPost);
