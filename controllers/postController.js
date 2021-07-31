@@ -60,7 +60,7 @@ const searchTerm = rescue(async (req, res) => {
 
   const post = await BlogPost.findAll({
     where: { 
-      [Op.or]: [{ title: { [Op.substring]: search } }, { content: { [Op.substring]: search } }]
+      [Op.or]: [{ title: { [Op.substring]: search } }, { content: { [Op.substring]: search } }],
     },
     include: [
       { model: User, as: 'user', attributes: { exclude: 'password' } },
