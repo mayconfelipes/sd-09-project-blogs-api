@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(router);
-app.use(error)
+app.use(error);
 
 app.listen(PORT || 3000, () => console.log(`ouvindo porta ${PORT || 3000}!`));
 

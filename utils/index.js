@@ -18,5 +18,8 @@ module.exports = {
     RECIPE_NOT_FOUND: 'recipe not found',
     MISSING_AUTH_TOKEN: 'missing auth token',
     ONLY_ADMIN: 'Only admins can register new admins',
+    DISPLAY_NAME_LENGTH: '"displayName" length must be at least 8 characters long',
+    PASS_LENGTH: '"password" length must be 6 characters long',
+    INVALID_EMAIL: '"email" must be a valid email',
   },
 };

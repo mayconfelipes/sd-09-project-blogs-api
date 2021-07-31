@@ -7,9 +7,8 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-const createToken = (req, res, next) => {
-  const { user } = req;
-
+const createToken = (req, _res, next) => {
+  const { password, ...user } = req.body;
   const token = jwt.sign(user, SECRET, jwtConfig);
 
   req.token = token;
