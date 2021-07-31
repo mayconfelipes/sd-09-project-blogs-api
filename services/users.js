@@ -2,7 +2,11 @@ const joi = require('joi');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const { messageError } = require('../middwares/errors');
-const { USER_REGISTERED, USER_NOT_CREATED, PASSWORD_SHORT } = require('../middwares/errorMessages');
+const {
+  USER_REGISTERED,
+  USER_NOT_CREATED,
+  PASSWORD_SHORT,
+  INVALID_FIELDS } = require('../middwares/errorMessages');
 
 const {
   BAD_REQUEST_STATUS,
@@ -10,7 +14,7 @@ const {
   INTERNAL_ERROR_STATUS } = require('../middwares/httpStatus');
 
 const jwtConfig = {
-  expiresIn: '30m',
+  expiresIn: '30d',
   algorithm: 'HS256',
 };
 
@@ -22,6 +26,11 @@ const userSchema = joi.object({
   displayName: joi.string().min(8).required(),
   email: joi.string().email().required(),
   password: joi.string().min(6).required(),
+});
+
+const loginSchema = joi.object({
+  email: joi.string().required(),
+  password: joi.string().required(),
 });
 
 const validateUser = (user) => {
@@ -37,6 +46,14 @@ const validateUser = (user) => {
   }
 };
 
+const validateLogin = (user) => {
+  const result = loginSchema.validate(user);
+
+  if (result.error) {
+    throw messageError(BAD_REQUEST_STATUS, result.error.message);
+  }
+};
+
 const generateToken = (id, displayName, email) => {
   const jwtUser = {
     id,
@@ -49,6 +66,10 @@ const generateToken = (id, displayName, email) => {
   return ({ token });
 };
 
+const findAll = async () => User.findAll();
+
+const findByEmail = async (email) => User.findOne({ where: { email } });
+
 const create = async (user) => {
   const { displayName, email, password, image } = user;
   const validateFields = {
@@ -59,7 +80,7 @@ const create = async (user) => {
 
   validateUser(validateFields);
 
-  const userExists = await User.findOne({ where: { email } });
+  const userExists = await findByEmail(email);
 
   if (userExists) {
     throw messageError(CONFLICT_STATUS, USER_REGISTERED);
@@ -74,6 +95,22 @@ const create = async (user) => {
   return generateToken(newUser.id, displayName, email);
 };
 
+const login = async (user) => {
+  const { email } = user;
+
+  validateLogin(user);
+
+  const searchUser = await findByEmail(email);
+console.log(searchUser);
+  if (!searchUser) {
+    throw messageError(BAD_REQUEST_STATUS, INVALID_FIELDS);
+  }
+
+  return generateToken(searchUser.id, searchUser.displayName, email);
+};
+
 module.exports = {
   create,
+  findAll,
+  login,
 };

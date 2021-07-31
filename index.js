@@ -16,4 +16,8 @@ app.get('/', (request, response) => {
 
 app.post('/user', userController.create);
 
+app.post('/login', userController.login);
+
+app.get('/user', userController.findAll);
+
 app.use(sendErrorMessage);
