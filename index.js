@@ -42,6 +42,11 @@ app.post('/categories', [
   C.InsertCategory,
 ]);
 
+app.get('/categories', [
+  C.ValidateToken,
+  C.GetAllCategories,
+]);
+
 app.use((err, _req, res, _next) => {
   console.error(err);
   return res.status(500).send('Algo deu errado');
