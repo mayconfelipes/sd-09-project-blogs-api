@@ -7,6 +7,7 @@ const { authorization } = require('./middlewares/authorization');
 const user = require('./controllers/users');
 const { login } = require('./controllers/login');
 const category = require('./controllers/categories');
+const blogPost = require('./controllers/blogPosts');
 
 const app = express();
 
@@ -30,6 +31,9 @@ app.post('/categories', authorization, category.create);
 
 // Requisito 06
 app.get('/categories', authorization, category.getAll);
+
+// Requisito 07
+app.post('/post', authorization, blogPost.create);
 
 app.use(middlewares.error);
 

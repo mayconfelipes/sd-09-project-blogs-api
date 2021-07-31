@@ -20,7 +20,6 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const foundUser = await User.findOne({ where: { id } });
-  console.log(foundUser);
 
   if (!foundUser) {
     return {
