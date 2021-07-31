@@ -36,7 +36,6 @@ const getAll = async (_req, res, next) => {
 
 const getById = async (req, res, next) => {
   try {
-
     const user = await userServices.getById(req.params.id);
 
     return res.status(OK_STATUS).json(user);

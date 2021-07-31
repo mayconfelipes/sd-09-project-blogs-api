@@ -1,6 +1,6 @@
 const categoryServices = require('../services/categories');
 
-const { CREATED_STATUS } = require('../middwares/httpStatus');
+const { CREATED_STATUS, OK_STATUS } = require('../middwares/httpStatus');
 
 const create = async (req, res, next) => {
   try {
@@ -13,6 +13,16 @@ const create = async (req, res, next) => {
   }
 };
 
+const getAll = async (_req, res, next) => {
+  try {
+    const allCategories = await categoryServices.getAll();
+
+    return res.status(OK_STATUS).json(allCategories);
+  } catch (err) {
+    next(err);
+  }
+};
 module.exports = {
   create,
+  getAll,
 };

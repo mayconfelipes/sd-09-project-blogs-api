@@ -33,6 +33,9 @@ const create = async (name) => {
   return newCategory;
 };
 
+const getAll = async () => Category.findAll();
+
 module.exports = {
   create,
+  getAll,
 };
