@@ -14,7 +14,6 @@ module.exports = {
     INVALID_ENTRYES: 'Invalid entries. Try again.',
     INCORRECT_USER_PASSWORD: 'Incorrect username or password',
     ALL_FIELDS_MUST_BY: 'All fields must be filled',
-    RECIPE_NOT_FOUND: 'recipe not found',
     ONLY_ADMIN: 'Only admins can register new admins',
     DISPLAY_NAME_LENGTH: '"displayName" length must be at least 8 characters long',
     PASS_LENGTH: '"password" length must be 6 characters long',
@@ -23,5 +22,6 @@ module.exports = {
     BAD_REQUEST_MESSAGE: 'Invalid fields',
     MISSING_AUTH_TOKEN: 'Token not found',
     JWT_ERROR: 'Expired or invalid token',
+    USER_NOT_FOUND: 'User does not exist',
   },
 };
