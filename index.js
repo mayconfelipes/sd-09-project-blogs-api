@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const userController = require('./controllers/users');
+const userControllers = require('./controllers/users');
+const categoryControllers = require('./controllers/categories');
 const { sendErrorMessage } = require('./middwares/errors');
 const { validateToken } = require('./middwares/validateToken');
 
@@ -15,12 +16,14 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.post('/user', userController.create);
+app.post('/user', userControllers.create);
 
-app.post('/login', userController.login);
+app.post('/login', userControllers.login);
 
-app.get('/user', validateToken, userController.getAll);
+app.get('/user', validateToken, userControllers.getAll);
 
-app.get('/user/:id', validateToken, userController.getById);
+app.get('/user/:id', validateToken, userControllers.getById);
+
+app.post('/categories', validateToken, categoryControllers.create);
 
 app.use(sendErrorMessage);
