@@ -34,4 +34,18 @@ router.get('/post', [
   }),
 ]);
 
+router.get('/post/:id', [
+  validateJWT,
+  rescue(async (req, res, next) => {
+    const post = await postService.getById(req.params.id);
+
+    if (post.error) {
+      post.error.status = 404;
+      return next(post.error);
+    }
+
+    return res.status(200).json(post);
+  }),
+]);
+
 module.exports = router;
