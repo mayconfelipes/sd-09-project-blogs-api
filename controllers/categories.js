@@ -6,7 +6,7 @@ const createCategorie = async (req, res, _next) => {
   res.status(201).json(newCategorie);
 };
 
-const getAllCategories = async (req, res, next) => {
+const getAllCategories = async (req, res, _next) => {
   const categories = await categorieService.getAll();
   res.status(200).json(categories);
 };
