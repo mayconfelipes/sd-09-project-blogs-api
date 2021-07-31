@@ -10,7 +10,13 @@ const login = async (userPayload) => {
   await User.findOne({ email, password });
 };
 
+const getUsers = async () => {
+  const users = await User.findAll({ attributes: { exclude: ['password'] } });
+  return users;
+};
+
 module.exports = {
   createUser,
   login,
+  getUsers,
 };
