@@ -10,6 +10,7 @@ const create = async (req, res) => {
     algorithm: 'HS256',
   };
   const { id } = await userServices.create({ displayName, email, password, image });
+  console.log('id controller', id);
   const token = jwt.sign({ data: { id, email } }, secret, jwtConfig);
   return res
     .status(201)

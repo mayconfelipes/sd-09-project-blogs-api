@@ -4,7 +4,7 @@ const Categorie = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
     tableName: 'Categories',
-    underscore: true,
+    // underscore: true,
   });
 
   return CurrCategory;

@@ -20,6 +20,7 @@ const create = async ({ displayName, email, password, image }) => {
   const userByEmail = await User.findOne({ where: { email } });
   if (userByEmail) throw validateError(409, 'User already registered');
   const idObject = await User.create({ displayName, email, password, image });
+  // console.log(idObject.dataValues.id);
   return idObject;
 };
 
