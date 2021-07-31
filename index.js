@@ -2,9 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const middlewares = require('./middlewares');
+const { authorization } = require('./middlewares/authorization');
+
 const user = require('./controllers/users');
 const { login } = require('./controllers/login');
-const { authorization } = require('./middlewares/authorization');
+const category = require('./controllers/categories');
 
 const app = express();
 
@@ -22,6 +24,9 @@ app.get('/user', authorization, user.getAll);
 
 // Requisito 04
 app.get('/user/:id', authorization, user.getById);
+
+// Requisito 05
+app.post('/categories', authorization, category.create);
 
 app.use(middlewares.error);
 

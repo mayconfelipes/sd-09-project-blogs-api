@@ -8,8 +8,8 @@
       "server": "localhost",
       "port": 3306,
       "driver": "MySQL",
-      "name": "blogs_api",
       "database": "blogs_api",
+      "name": "blogs_api",
       "username": "user",
       "password": "153426asd!B"
     }
