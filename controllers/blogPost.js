@@ -64,9 +64,24 @@ const editPost = [
   }),
 ];
 
+const deletePost = [
+  validateJWT,
+  rescue(async (req, res, next) => {
+    const { id } = req.params;
+    const { email } = req;
+
+    const response = await BlogPostService.deletePost(email, id);
+
+    return response.error
+      ? next(response.error)
+      : res.status(204).end();
+  }),
+];
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   editPost,
+  deletePost,
 };

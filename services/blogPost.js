@@ -1,18 +1,13 @@
 const { BlogPost, Category, User } = require('../models');
 
+const errorMessage = (code, message) => ({ error: { code, message } });
+
 const createPost = async ({ title, content, categoryIds }) => {
   const categoryExistsResponse = categoryIds.map((id) => Category.findByPk(id));
 
   const categoryExists = await Promise.all(categoryExistsResponse);
 
-  if (categoryExists.includes(null)) {
-    return {
-      error: {
-        code: 'badRequest',
-        message: '"categoryIds" not found',
-      },
-    };
-  }
+  if (categoryExists.includes(null)) return errorMessage('badRequest', '"categoryIds" not found');
 
   await BlogPost.create({ title, content });
 
@@ -44,13 +39,7 @@ const getPostById = async (id) => {
       },
   );
 
-  if (!post) {
-    return { error: {
-        code: 'notFound',
-        message: 'Post does not exist',
-      },
-    };
-  }
+  if (!post) return errorMessage('notFound', 'Post does not exist');
 
   return post;
 };
@@ -61,18 +50,24 @@ const getUserId = async (email) => {
   return user.id;
 };
 
-const errorMessage = (code, message) => ({ error: { code, message } });
-
-const editPost = async ({ title, content, categoryIds }, email, id) => {
-  if (categoryIds) return errorMessage('badRequest', 'Categories cannot be edited');
-
+const checkPostAuthor = async (id, email) => {
   const userId = await getUserId(email);
 
   const post = await BlogPost.findOne({ where: { id } });
 
-  if (userId !== post.userId) return errorMessage('unauthorized', 'Unauthorized user');
+  if (userId !== post.userId) return false;
 
-  await BlogPost.update({ title, content }, { where: { id: post.id } });
+  return true;
+};
+
+const editPost = async ({ title, content, categoryIds }, email, id) => {
+  if (categoryIds) return errorMessage('badRequest', 'Categories cannot be edited');
+
+  const correctAuthor = await checkPostAuthor(id, email);
+
+  if (!correctAuthor) return errorMessage('unauthorized', 'Unauthorized user');
+
+  await BlogPost.update({ title, content }, { where: { id } });
 
   const newPost = await BlogPost.findOne(
     {
@@ -84,9 +79,24 @@ const editPost = async ({ title, content, categoryIds }, email, id) => {
   return newPost;
 };
 
+const deletePost = async (email, id) => {
+  const post = await BlogPost.findOne({ where: { id } });
+
+  if (!post) return errorMessage('notFound', 'Post does not exist');
+
+  const correctAuthor = await checkPostAuthor(id, email);
+
+  if (!correctAuthor) return errorMessage('unauthorized', 'Unauthorized user');
+
+  await BlogPost.destroy({ where: { id } });
+
+  return {};
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   editPost,
+  deletePost,
 };
