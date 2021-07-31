@@ -29,7 +29,6 @@ const validateUser = (user) => {
   let errorMessage = PASSWORD_SHORT;
 
   if (result.error) {
-    
     if (result.error.message !== '"password" length must be at least 6 characters long') {
       errorMessage = result.error.message;
     }
