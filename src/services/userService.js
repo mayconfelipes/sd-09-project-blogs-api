@@ -5,6 +5,9 @@ const { User } = require('../models');
 
 const { JWT_SECRET } = process.env;
 const emailExistsMessage = { code: 409, message: 'User already registered' };
+
+const noUserMessage = { code: 404, message: 'User does not exist' };
+
 const validateUserInfo = (data) =>
   Joi.object({
     displayName: Joi.string().min(8).required(),
@@ -37,7 +40,16 @@ const getAllUsers = async () => {
   return usersList;
 };
 
+const getUserById = async (id) => {
+  const userValid = await User.findOne({ where: { id } });
+  if (!userValid) throw noUserMessage;
+
+  const userById = await User.findByPk(id);
+  return userById;
+};
+
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
 }; 
