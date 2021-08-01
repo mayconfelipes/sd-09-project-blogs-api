@@ -3,7 +3,11 @@ const Joi = require('joi');
 const validate = require('../middelwares/validate');
 
 const { createToken } = require('../utils/createToken');
-const { createUserService } = require('../services/createUser');
+const { validateToken } = require('../utils/validateToken');
+const {
+    createUserService,
+    findAllUsers,
+} = require('../services/userService');
 
 const userSchema = Joi.object({
     displayName: Joi.string().min(8),
@@ -22,6 +26,22 @@ const createUser = [
       return res.status(201).json({ token });
 })];
 
+const findAllUser = rescue(async (req, res, next) => {
+    const token = req.headers.authorization;
+    const userInfos = validateToken(token);
+
+    if (userInfos.error) {
+        return next({
+            statusCode: 401,
+            message: userInfos.error,
+        }); 
+    }
+
+    const allUsers = await findAllUsers();
+    return res.send(allUsers);
+});
+
 module.exports = {
     createUser,
+    findAllUser,
 };
