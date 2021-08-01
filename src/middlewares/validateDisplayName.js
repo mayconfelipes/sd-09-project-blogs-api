@@ -5,7 +5,7 @@ module.exports = (req, _res, next) => {
     return next({
       error: {
         statusCode: 400,
-        message: '"displayName" length must be at least 8 cheracters long',
+        message: '"displayName" length must be at least 8 characters long',
       },
     });
   }

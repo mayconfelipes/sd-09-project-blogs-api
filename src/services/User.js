@@ -11,7 +11,7 @@ const create = async (displayName, email, password, image) => {
 
   if (user) {
     return {
-      error: {
+      err: {
         message: 'User already registered',
       },
     };

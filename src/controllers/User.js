@@ -6,12 +6,16 @@ const create = rescue(async (req, res, next) => {
 
   const response = await User.create(displayName, email, password, image);
 
-  if (response.error) {
+  if (response.err) {
     return next({
-      message: response.error.message,
-      code: 409,
+      error: {
+        message: response.err.message,
+        statusCode: 409,
+      },
     });
   }
+
+  return res.status(201).json(response);
 });
 
 module.exports = {

@@ -1,9 +1,9 @@
-module.exports = (req, res, next) => {
+module.exports = (req, _res, next) => {
   if (!req.body.password) {
     return next({
       error: {
         statusCode: 400,
-        message: '"password is required"',
+        message: '"password" is required',
       },
     });
   }
@@ -12,8 +12,10 @@ module.exports = (req, res, next) => {
     return next({
       error: {
         statusCode: 400,
-        message: '"password" length must be 6 cheracters long',
+        message: '"password" length must be 6 characters long',
       },
     });
   }
+
+  next();
 };
