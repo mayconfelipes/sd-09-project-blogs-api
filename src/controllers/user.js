@@ -16,10 +16,19 @@ const getUsers = [
   validate.authToken,
   rescue(async (req, res) => {
     const users = await Users.findAll({ attributes: { exclude: ['password'] } });
-  return res.status(response.STATUS_OK).json(users);
+    return res.status(response.STATUS_OK).json(users);
+})];
+
+const getUserById = [
+  validate.authToken,
+  validate.userId,
+  rescue(async (req, res) => {
+    const user = await Users.findByPk(req.params.id);
+    return res.status(response.STATUS_OK).json(user);
 })];
 
 module.exports = {
   createNewUser,
   getUsers,
+  getUserById,
 };

@@ -67,8 +67,7 @@ const authToken = async (req, res, next) => {
   try {
     const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
     const user = await Users.findOne({ where: { email: decodedToken.email } });
-    req.user = user;
-    
+        
     if (!user || !decodedToken) {
       return next(genError(response.UNAUTHORIZED, 'Expired or invalid token'));
     }
@@ -79,6 +78,14 @@ const authToken = async (req, res, next) => {
   }
 };
 
+const userId = async (req, res, next) => {
+  const { id } = req.params;
+  const user = await Users.findByPk(id);
+
+  if (!user) return next(genError(response.NOT_FOUND, 'User does not exist'));
+  return next();
+};
+
 module.exports = {
   userDetails,
   userIsNew,
@@ -86,4 +93,5 @@ module.exports = {
   loginInfo,
   authUser,
   authToken,
+  userId,
 };
