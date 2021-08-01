@@ -26,6 +26,11 @@ const schemaUserCreate = Joi.object({
   }),
 });
 
+const schemaUserLogin = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(1).required(),
+});
+
 const validateUserData = (code, message) => ({ code, message });
 
 const create = async (email, displayName, password, image) => {
@@ -47,6 +52,27 @@ const create = async (email, displayName, password, image) => {
   return token;
 };
 
+const login = async (email, password) => {
+  const { error } = schemaUserLogin.validate({ email, password });
+
+  if (error) {
+    const { message } = error.details[0];
+    throw validateUserData(400, message);
+  }
+
+  const emailRegistered = await Users.findOne({ where: { email, password } });
+  
+  if (!emailRegistered) {
+    throw validateUserData(400, 'Invalid fields');
+  }
+
+  const token = jwt.sign(
+    { data: [email, password] }, secret, jwtConfig,
+  );
+  return token;
+};
+
 module.exports = {
   create,
+  login,
 };
