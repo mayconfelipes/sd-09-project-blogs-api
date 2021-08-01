@@ -1,3 +1,4 @@
+require('dotenv').config();
 const JOI = require('joi');
 const jwt = require('jsonwebtoken');
 const { Users } = require('../../models');
@@ -59,10 +60,30 @@ const loginInfo = (req, _res, next) => {
   return next();
 };
 
+const authToken = async (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) return next(genError(response.UNAUTHORIZED, 'Token not found'));
+  try {
+    const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
+    const user = await Users.findOne({ where: { email: decodedToken.email } });
+    req.user = user;
+    
+    if (!user || !decodedToken) {
+      return next(genError(response.UNAUTHORIZED, 'Expired or invalid token'));
+    }
+
+    return next();
+  } catch (error) {
+    return next(genError(response.UNAUTHORIZED, 'Expired or invalid token'));
+  }
+};
+
 module.exports = {
   userDetails,
   userIsNew,
   userExists,
   loginInfo,
   authUser,
+  authToken,
 };

@@ -15,4 +15,4 @@ const logUser = [
 
 module.exports = {
   logUser,
-}
+};
