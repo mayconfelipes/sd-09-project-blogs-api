@@ -62,12 +62,13 @@ const createUserReplyError = (answer) => {
   //  default: break;
   // }
 
-const createUserReplyOk = () => {
-
+const createUserReplyOk = (newUser) => {
+  const user = newUser.dataValues;
+  delete user.password;
+  return { code: stateCreated, user };
 };
-
-
 
 module.exports = {
   createUserReplyError,
+  createUserReplyOk,
 };
