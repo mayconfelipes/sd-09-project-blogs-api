@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('./controllers/UsersController');
 const errorMiddleware = require('./middlewares/error');
+const { userValidate } = require('./middlewares/tokenValidation');
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.get('/', (request, response) => {
 
 app.post('/user', User.create);
 app.post('/login', User.login);
+app.get('/user', userValidate, User.getAll);
 
 app.use(errorMiddleware);
