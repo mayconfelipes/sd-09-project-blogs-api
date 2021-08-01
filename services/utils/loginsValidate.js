@@ -17,7 +17,7 @@ const isValidEmail = async (email) => {
     const error = { type: BAD_REQUEST, message: 'Invalid fields' };
     throw error;
   }
-  return true;
+  return emailExists.dataValues;
 };
 
 const isValidPassword = (password) => {
@@ -35,8 +35,9 @@ const isValidPassword = (password) => {
 };
 
 const isValidLogin = async (user) => {
-  await isValidEmail(user.email);
+  const userData = await isValidEmail(user.email);
   isValidPassword(user.password);
+  return userData;
 };
 
 module.exports = {

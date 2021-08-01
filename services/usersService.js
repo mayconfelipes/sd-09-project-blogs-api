@@ -5,8 +5,8 @@ const { generateToken, isValidToken } = require('./utils/tokenValidate');
 
 const create = async (user) => {
   await isValidFields(user);
-  const token = generateToken(user);
-  await User.create(user);
+  const userData = await User.create(user);
+  const token = generateToken(userData.dataValues);
   const result = { token };
   return result;
 };

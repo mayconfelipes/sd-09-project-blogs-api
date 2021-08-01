@@ -1,7 +1,7 @@
 const { User } = require('../../models');
 const { BAD_REQUEST, CONFLICT } = require('../../utils/httpStatus');
 
-const isValidEmailDisplayName = (displayName) => {
+const isValidDisplayName = (displayName) => {
   if (displayName.length < 8) {
     const error = { 
       type: BAD_REQUEST,
@@ -46,7 +46,7 @@ const isValidPassword = (password) => {
 };
 
 const isValidFields = async (fields) => {
-  isValidEmailDisplayName(fields.displayName);
+  isValidDisplayName(fields.displayName);
   await isValidEmail(fields.email);
   isValidPassword(fields.password);
 };

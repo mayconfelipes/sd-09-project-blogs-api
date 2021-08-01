@@ -3,12 +3,13 @@ const jwt = require('jsonwebtoken');
 
 const { UNAUTHORIZED } = require('../../utils/httpStatus');
 
-const SECRET = process.env.JWT_SECRET;
+const SECRET = process.env.JWT_SECRET || 'segredo';
 
-const generateToken = (user) => {
-  const jwtConfig = { expiresIn: 86400, algorithm: 'HS256' };
+const generateToken = (userData) => {
+  const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
 
-  const { password, image, ...payload } = user;
+  const { email, id } = userData;
+  const payload = { email, id };
   const token = jwt.sign(payload, SECRET, jwtConfig);
   return token;
 };
@@ -20,7 +21,8 @@ const isValidToken = (authorization) => {
   }
 
   try {
-    jwt.verify(authorization, SECRET);
+    const { id: userId } = jwt.verify(authorization, SECRET);
+    return userId;
   } catch (error) {
     const err = { type: UNAUTHORIZED, message: 'Expired or invalid token' };
     throw err;

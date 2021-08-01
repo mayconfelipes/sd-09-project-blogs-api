@@ -14,9 +14,6 @@ module.exports = {
       content: {
         type: Sequelize.STRING
       },
-      userId: {
-        type: Sequelize.INTEGER
-      },
       published: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -24,7 +21,14 @@ module.exports = {
       updated: {
         allowNull: false,
         type: Sequelize.DATE,
-      }
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: { model: 'Users', key: 'id' },
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
