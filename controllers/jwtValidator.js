@@ -4,7 +4,6 @@ const validateToken = (req, _res, next) => {
   const { authorization } = req.headers;
   try {
     if (!authorization) {
-      console.log('entrou jwtvalidator l5');
     const missing = { status: 401, message: 'Token not found' };
     next(missing);
   }

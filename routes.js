@@ -2,7 +2,7 @@ const routes = require('express').Router();
 const userController = require('./controllers/userController');
 const loginController = require('./controllers/loginController');
 const categoriesController = require('./controllers/categoriesController');
-const jwtValidator = require('./services/jwtValidator');
+const jwtValidator = require('./controllers/jwtValidator');
 
 routes.post('/user', userController.create);
 routes.get('/user', jwtValidator, userController.getAll);
