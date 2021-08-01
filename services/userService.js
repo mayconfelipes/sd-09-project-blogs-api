@@ -47,6 +47,14 @@ const create = async (body) => {
   return { token };
 };
 
+const getAll = async () => {
+  const usersInfo = await User.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
+  return usersInfo;
+};
+
 module.exports = {
   create,
+  getAll,
 };
