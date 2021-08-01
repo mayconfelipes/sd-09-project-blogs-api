@@ -19,7 +19,18 @@ const getAll = async (req, res, next) => {
   }
 };
 
+const getId = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userInfo = await userService.getId(id);
+    return res.status(200).json(userInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   getAll,
+  getId,
 };
