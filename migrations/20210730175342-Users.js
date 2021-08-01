@@ -12,6 +12,7 @@ module.exports = {
       displayName: {
         allowNull: false,
         type: Sequelize.STRING,
+      },
       email: {
         allowNull: false,
         type: Sequelize.STRING,
@@ -23,7 +24,7 @@ module.exports = {
       image: {
         type: Sequelize.STRING,
       },
-    }})
+    })
 
     return UsersTable;
   },
