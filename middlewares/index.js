@@ -5,6 +5,8 @@ const emailExists = require('./emailExists');
 const validateLogin = require('./validateLogin');
 const validateToken = require('./validateToken');
 const validateName = require('./validateName');
+const validatePost = require('./validadePost');
+const validateCategory = require('./validateCategory');
 
 module.exports = {
   error,
@@ -14,4 +16,6 @@ module.exports = {
   validateLogin,
   validateToken,
   validateName,
+  validatePost,
+  validateCategory,
 };
