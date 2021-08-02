@@ -58,9 +58,20 @@ const update = [
   }),
 ];
 
+const remove = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const tokenUserId = req.user.dataValues.id;
+  const removedBlogPost = await blogPostServices.remove(id, tokenUserId) || {};
+
+  if (removedBlogPost.error) return next(removedBlogPost.error);
+
+  return res.status(204).end();
+});
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };
