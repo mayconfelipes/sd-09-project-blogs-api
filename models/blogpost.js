@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-    published: { type: DataTypes.DATE, defaultValue: Date.now() },
-    updated: { type: DataTypes.DATE, defaultValue: Date.now() },
+    createdAt: { type: DataTypes.DATE, field: 'published', name: 'published' },
+    updatedAt: { type: DataTypes.DATE, field: 'updated', name: 'updated' },
     userId: { type: DataTypes.INTEGER, allowNull: false, foreignKey: true },
-  }, { timestamps: false, tableName: 'BlogPosts' });
+  }, { tableName: 'BlogPosts', createdAt: 'published', updatedAt: 'updated' });
 
   BlogPost.associate = (models) => {
     BlogPost.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
