@@ -16,5 +16,6 @@ app.get('/', (request, response) => {
 app.use(bodyParser);
 
 app.post('/user', UserController.createUser);
+app.post('/login', UserController.userLogin);
 
 app.use(errorMiddleware);

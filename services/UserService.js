@@ -16,6 +16,11 @@ const schemaUser = Joi.object({
   password: Joi.string().length(6).required(),
 });
 
+const schemaUserLogin = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().length(6).required(),
+});
+
 const createUser = async (displayName, email, password, image) => {
    const { error } = schemaUser.validate({ displayName, email, password });
 
@@ -38,6 +43,27 @@ const createUser = async (displayName, email, password, image) => {
   return token;
 };
 
+const userLogin = async (email, password) => {
+  const { error } = schemaUserLogin.validate({ email, password });
+
+  if (error) {
+    throw errorHandling(400, error.details[0].message);
+  }
+
+  const login = await User.findOne({ where: { email, password } });
+
+  if (!login) {
+    throw errorHandling(400, 'Invalid fields');
+  }
+
+  const { password: _, ...userWithoutPassword } = login.dataValues;
+
+  const token = jwt.sign(userWithoutPassword, secret, jwtConfig);
+
+  return token;
+};
+
 module.exports = {
   createUser,
+  userLogin,
 };
