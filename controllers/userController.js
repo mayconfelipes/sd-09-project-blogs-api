@@ -3,7 +3,6 @@ const Joi = require('joi');
 const validate = require('../middelwares/validate');
 
 const { createToken } = require('../utils/createToken');
-const { validateToken } = require('../utils/validateToken');
 const {
     createUserService,
     findAllUsers,
@@ -27,32 +26,13 @@ const createUser = [
       return res.status(201).json({ token });
 })];
 
-const findAllUser = rescue(async (req, res, next) => {
-    const token = req.headers.authorization;
-    const userInfos = validateToken(token);
-
-    if (userInfos.error) {
-        return next({
-            statusCode: 401,
-            message: userInfos.error,
-        }); 
-    }
-
+const findAllUser = rescue(async (req, res) => {
     const allUsers = await findAllUsers();
-    return res.send(allUsers);
+    return res.status(200).json(allUsers);
 });
 
 const findUserById = rescue(async (req, res, next) => {
-    const token = req.headers.authorization;
-    const { id } = req.params; 
-    const userInfos = validateToken(token);
-    
-    if (userInfos.error) {
-        return next({
-            statusCode: 401,
-            message: userInfos.error,
-        }); 
-    }
+    const { id } = req.params;
 
     const userFinded = await findById(id);
     if (userFinded.error) return next({ statusCode: 404, message: userFinded.error });

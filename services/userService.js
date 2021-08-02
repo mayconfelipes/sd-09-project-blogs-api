@@ -7,15 +7,18 @@ const createUserService = async (displayName, email, password, image) => {
 
 const findAllUsers = async () => {
     const allUsers = await User.findAll();
+    const userWithoutPassword = allUsers
+      .map(({ dataValues: { password, ...withoutPassword } }) => withoutPassword);
     
-    return allUsers;
+    return userWithoutPassword;
 };
 
 const findById = async (id) => {
     const user = await User.findByPk(id);
     if (!user) return { error: 'User does not exist' };
-
-    return user;
+    
+    const { password, ...withoutPassword } = user.dataValues;
+    return withoutPassword;
 };
 
 module.exports = {

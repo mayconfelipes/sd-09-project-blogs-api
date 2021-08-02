@@ -8,8 +8,10 @@ const {
     findUserById,
 } = require('../userController');
 
+const { validateToken } = require('../../utils/validateToken');
+
 router.post('/', createUser);
-router.get('/', findAllUser);
-router.get('/:id', findUserById);
+router.get('/', validateToken, findAllUser);
+router.get('/:id', validateToken, findUserById);
 
 module.exports = router;
