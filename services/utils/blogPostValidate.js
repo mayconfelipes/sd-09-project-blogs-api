@@ -31,6 +31,14 @@ const isValidcategoryIds = async (categoryIds) => {
   return true;
 };
 
+const isExistPost = (result) => {
+  if (!result) {
+    const error = { type: 'Not Found', message: 'Post does not exist' };
+    throw error;
+  }
+  return true;
+};
+
 const isValidfields = async (blogPost) => {
   isValidTitle(blogPost.title);
   isValidContent(blogPost.content);
@@ -39,4 +47,5 @@ const isValidfields = async (blogPost) => {
 
 module.exports = {
   isValidfields,
+  isExistPost,
 };

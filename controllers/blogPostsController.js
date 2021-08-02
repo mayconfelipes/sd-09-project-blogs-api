@@ -1,5 +1,5 @@
 const blogPosts = require('../services/blogPostsService');
-const { BAD_REQUEST, UNAUTHORIZED } = require('../utils/httpStatus');
+const { BAD_REQUEST, UNAUTHORIZED, NOT_FOUND } = require('../utils/httpStatus');
 
 const create = async (req, res, next) => {
   try {
@@ -25,7 +25,21 @@ const findAll = async (req, res, next) => {
   }
 };
 
+const findById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    const result = await blogPosts.findById(id, authorization);
+    return res.status(200).json(result);
+  } catch (error) {
+      if (error.type === UNAUTHORIZED) error.status = 401;
+      if (error.type === NOT_FOUND) error.status = 404;
+      next(error);
+  }
+};
+
 module.exports = {
   create,
   findAll,
+  findById,
 };
