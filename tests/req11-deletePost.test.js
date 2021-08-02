@@ -70,7 +70,7 @@ describe('11 - Sua aplicação deve ter o endpoint DELETE `post/:id`', () => {
       });
   });
 
-  it('Será validado que não é possível deletar um blogpost inexistente', async () => {
+  it.only('Será validado que não é possível deletar um blogpost inexistente', async () => {
     let token;
     await frisby
       .post(`${url}/login`,

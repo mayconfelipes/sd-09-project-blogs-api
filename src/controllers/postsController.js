@@ -35,9 +35,18 @@ const updateById = async (req, res) => {
     .json(response);
 };
 
+const deleteById = async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req;
+  await postsServices.deleteById({ id, userId });
+  return res
+    .status(204).json('');
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
+  deleteById,
 };

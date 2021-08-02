@@ -19,10 +19,7 @@ const create = async ({ title, categoryIds, content, userId }) => {
   if (error) throw validateError(400, error.details[0].message);
   const categoryIdValid = await Promise.all(categoryIds.map((id) => Categorie.findByPk(id)));
   if (categoryIdValid.includes(null)) throw validateError(400, '"categoryIds" not found');
-  // const allPosts = await BlogPost.findAll();
-  // console.log(allPosts);
   const createdObject = await BlogPost.create({ title, content, userId });
-  // console.log(createdObject, 'createdObject');
   const { id } = createdObject.dataValues;
   return id;
 };
@@ -52,7 +49,6 @@ const getById = async (id) => {
       { model: Categorie, as: 'categories', through: { attributes: [] } },
     ],
   });
-
   if (!post) throw validateError(404, 'Post does not exist');
   return post;
 };
@@ -70,8 +66,15 @@ const updateById = async ({ id, userId, title, content, categoryIds }) => {
       { model: Categorie, as: 'categories', through: { attributes: [] } },
     ],
   });
-  console.log(post, 'post post post');
   return post;
+};
+
+const deleteById = async ({ id, userId }) => {
+  const post = await BlogPost.findByPk(id);
+  if (!post) throw validateError(404, 'Post does not exist');
+  if (post.dataValues.id !== userId) throw validateError(401, 'Unauthorized user');
+  await BlogPost.destroy({ where: { id } });
+  return true;
 };
 
 module.exports = {
@@ -79,4 +82,5 @@ module.exports = {
   getAll,
   getById,
   updateById,
+  deleteById,
 };
