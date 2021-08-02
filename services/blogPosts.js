@@ -47,16 +47,29 @@ const getById = async (id) => {
   });
 
   if (!foundBlogPost) {
-    return {
-      error: { statusCode: 404, message: 'Post does not exist' },
-    };
+    return { error: { statusCode: 404, message: 'Post does not exist' } };
   }
 
   return foundBlogPost;
+};
+
+const update = async (title, content, id, userId) => {
+  if (Number(id) !== userId) {
+    return { error: { statusCode: 401, message: 'Unauthorized user' } };
+  }
+
+  await BlogPost.update({ title, content }, { where: { id } });
+  const updatedBlogPost = await BlogPost.findOne({
+    where: { id },
+    include: { model: Category, as: 'categories', through: { attributes: [] } },
+  });
+
+  return updatedBlogPost;
 };
 
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

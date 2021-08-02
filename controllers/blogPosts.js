@@ -9,6 +9,14 @@ const blogPostSchema = Joi.object({
   categoryIds: Joi.array().not().empty().required(),
 });
 
+const blogPostUpdateSchema = Joi.object({
+  title: Joi.string().not().empty().required(),
+  content: Joi.string().not().empty().required(),
+  categoryIds: Joi.array().forbidden().messages({
+    'any.unknown': 'Categories cannot be edited',
+  }),
+});
+
 const create = [
   validate(blogPostSchema),
   rescue(async (req, res, next) => {
@@ -36,8 +44,23 @@ const getById = rescue(async (req, res, next) => {
   return res.status(200).json(foundBlogPost);
 });
 
+const update = [
+  validate(blogPostUpdateSchema),
+  rescue(async (req, res, next) => {
+    const { id } = req.params;
+    const { title, content } = req.body;
+    const tokenUserId = req.user.dataValues.id;
+    const updatedBlogPost = await blogPostServices.update(title, content, id, tokenUserId);
+
+    if (updatedBlogPost.error) return next(updatedBlogPost.error);
+
+    return res.status(200).json(updatedBlogPost);
+  }),
+];
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
