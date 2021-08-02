@@ -17,5 +17,6 @@ routes.get('/categories', categories.findAll);
 routes.post('/post', blogPosts.create);
 routes.get('/post', blogPosts.findAll);
 routes.get('/post/:id', blogPosts.findById);
+routes.put('/post/:id', blogPosts.update);
 
 module.exports = routes;

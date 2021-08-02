@@ -1,6 +1,7 @@
 const { BlogPost, Category, User } = require('../models');
-const { isValidfields, isExistPost } = require('./utils/blogPostValidate');
 const { isValidToken } = require('./utils/tokenValidate');
+const { isValidfields, isExistPost,
+  isvalidfieldsForUpdate, isValidUser } = require('./utils/blogPostValidate');
 
 const create = async (blogPost, authorization) => {
   await isValidfields(blogPost);
@@ -36,8 +37,24 @@ const findById = async (id, authorization) => {
   return result;
 };
 
+const update = async (id, postData, authorization) => {
+  isvalidfieldsForUpdate(postData);
+  const userIdLogged = isValidToken(authorization);
+
+  const blogPost = await BlogPost.findByPk(id);
+  isValidUser(userIdLogged, blogPost);
+
+  await BlogPost.update(postData, { where: { id } });
+
+  const res = await BlogPost.findByPk(id, { attributes: { exclude: ['id', 'published', 'updated'] },
+    include: { model: Category, as: 'categories', through: { attributes: [] } } });
+  
+  return res;
+};
+
 module.exports = {
   create,
   findAll,
   findById,
+  update,
 };

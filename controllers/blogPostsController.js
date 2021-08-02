@@ -38,8 +38,23 @@ const findById = async (req, res, next) => {
   }
 };
 
+const update = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const postData = req.body;
+    const { authorization } = req.headers;
+    const result = await blogPosts.update(id, postData, authorization);
+    return res.status(200).json(result);
+  } catch (error) {
+      if (error.type === BAD_REQUEST) error.status = 400;
+      if (error.type === UNAUTHORIZED) error.status = 401;
+      next(error);
+  }
+};
+
 module.exports = {
   create,
   findAll,
   findById,
+  update,
 };

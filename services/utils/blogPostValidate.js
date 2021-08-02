@@ -1,5 +1,5 @@
 const { Category } = require('../../models');
-const { BAD_REQUEST } = require('../../utils/httpStatus');
+const { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED } = require('../../utils/httpStatus');
 
 const isValidTitle = (title) => {
   if (!title) {
@@ -33,10 +33,26 @@ const isValidcategoryIds = async (categoryIds) => {
 
 const isExistPost = (result) => {
   if (!result) {
-    const error = { type: 'Not Found', message: 'Post does not exist' };
+    const error = { type: NOT_FOUND, message: 'Post does not exist' };
     throw error;
   }
   return true;
+};
+
+const isExistcategoryIds = (categoryIds) => {
+  if (categoryIds) {
+    const error = { type: BAD_REQUEST, message: 'Categories cannot be edited' };
+    throw error;
+  }
+  return true;
+};
+
+const isValidUser = (userIdLogged, blogPost) => {
+  const { dataValues: { userId } } = blogPost;
+  if (userIdLogged !== userId) {
+    const error = { type: UNAUTHORIZED, message: 'Unauthorized user' };
+    throw error;
+  }
 };
 
 const isValidfields = async (blogPost) => {
@@ -45,7 +61,15 @@ const isValidfields = async (blogPost) => {
   await isValidcategoryIds(blogPost.categoryIds);
 };
 
+const isvalidfieldsForUpdate = (postData) => {
+  isExistcategoryIds(postData.categoryIds);
+  isValidTitle(postData.title);
+  isValidContent(postData.content);
+};
+
 module.exports = {
   isValidfields,
   isExistPost,
+  isvalidfieldsForUpdate,
+  isValidUser,
 };
