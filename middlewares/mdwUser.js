@@ -44,9 +44,21 @@ const postUser = async (req, res, next) => {
   }
 };
 
+const deleteMe = async (req, res, next) => {
+  try {
+    const userLogedId = req.body.userLoged.id;
+    const data = await userService.deleteMe(userLogedId);
+    if (data.message) throw data;
+    return res.status(status.noContent).json();
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllUsers,
   getOneUser,
   userObjectValidator,
   postUser,
+  deleteMe,
 };

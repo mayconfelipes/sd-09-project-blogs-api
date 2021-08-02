@@ -114,6 +114,11 @@ function tokenValidator(token) {
   }
 }
 
+async function deleteMe(id) {
+  await Users.destroy({ where: { id } });
+  return {};
+}
+
 module.exports = {
   findUsers,
   findOneUser,
@@ -123,4 +128,5 @@ module.exports = {
   loginExistsValidator,
   tokenGenerator,
   tokenValidator,
+  deleteMe,
 };
