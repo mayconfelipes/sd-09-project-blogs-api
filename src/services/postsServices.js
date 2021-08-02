@@ -30,14 +30,30 @@ const getAll = async () => {
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Categorie, as: 'categories', through: { attributes: [] } },
-      // { model: Categorie, as: 'categories' },
     ],
   });
   // console.log(posts, 'POSTS');
   return posts;
 };
 
+const getById = async (id) => {
+  const post = await BlogPost.findOne({
+    where: { id },
+    attributes: {
+      include: ['published', 'updated'],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!post) throw validateError(404, 'Post does not exist');
+  return post;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };
