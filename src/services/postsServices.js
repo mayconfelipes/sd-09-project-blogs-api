@@ -30,7 +30,7 @@ const getAll = async () => {
     },
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
-      // { model: Categorie, as: 'Categories', through: {attributes: []} },
+      // { model: Categorie, as: 'Categories', through: { attributes: [] } },
     ],
   });
   console.log(posts, 'POSTS');

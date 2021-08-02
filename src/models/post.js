@@ -1,11 +1,11 @@
-const Post = (sequelize, DataTypes) => {
-  const CurrPost = sequelize.define('Post', {
+const BlogPost = (sequelize, DataTypes) => {
+  const CurrPost = sequelize.define('BlogPost', {
     title: DataTypes.STRING,
     userId: { type: DataTypes.INTEGER, foreignKey: true },
     content: DataTypes.STRING,
   }, {
     timestamps: false,
-    tableName: 'Posts',
+    tableName: 'BlogPosts',
     // underscore: true,
   });
 
@@ -19,4 +19,4 @@ const Post = (sequelize, DataTypes) => {
   return CurrPost;
 };
 
-module.exports = Post;
+module.exports = BlogPost;
