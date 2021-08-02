@@ -23,8 +23,8 @@ const login = async (req, res) => {
     expiresIn: '7d',
     algorithm: 'HS256',
   };
-  const { _id } = await userServices.login({ email, password });
-  const token = jwt.sign({ data: { id: _id, email } }, secret, jwtConfig);
+  const { id } = await userServices.login({ email, password });
+  const token = jwt.sign({ data: { id, email } }, secret, jwtConfig);
   return res
     .status(200)
     .json({ token });
