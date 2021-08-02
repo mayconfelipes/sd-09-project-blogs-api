@@ -3,13 +3,13 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  createCategorie,
+  createCategory,
   findCategories,
 } = require('../categoriesController');
 
 const { validateToken } = require('../../utils/validateToken');
 
-router.post('/', validateToken, createCategorie);
+router.post('/', validateToken, createCategory);
 router.get('/', validateToken, findCategories);
 
 module.exports = router;

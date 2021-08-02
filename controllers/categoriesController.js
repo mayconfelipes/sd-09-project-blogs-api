@@ -4,13 +4,13 @@ const validate = require('../middelwares/validate');
 const {
     insertCategorie,
     findAllCategories,
-} = require('../services/categorieService');
+} = require('../services/categoryService');
 
 const categorieSchema = Joi.object({
     name: Joi.string().required(),
 });
 
-const createCategorie = [
+const createCategory = [
     validate(categorieSchema),
     rescue(async (req, res) => {
         const { name } = req.body;
@@ -25,6 +25,6 @@ const findCategories = rescue(async (req, res) => {
 });
 
 module.exports = {
-    createCategorie,
+    createCategory,
     findCategories,
 };
