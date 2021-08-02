@@ -2,12 +2,7 @@ const jwt = require('jsonwebtoken');
 const Joi = require('@hapi/joi');
 const { Users } = require('../models');
 
-const secret = process.env.JWT_SECRET;
-
-const jwtConfig = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
+const secret = process.env.JWT_SECRET || 'tokensecreto';
 
 const schemaUserCreate = Joi.object({
   email: Joi.string().email().required()
@@ -47,7 +42,7 @@ const create = async (email, displayName, password, image) => {
   await Users.create({ displayName, email, password, image });
 
   const token = jwt.sign(
-    { data: [displayName, email, password, image] }, secret, jwtConfig,
+    { displayName, email, image }, secret,
   );
   return token;
 };
@@ -67,7 +62,7 @@ const login = async (email, password) => {
   }
 
   const token = jwt.sign(
-    { data: [email, password] }, secret, jwtConfig,
+    { emailRegistered }, secret,
   );
   return token;
 };
@@ -77,8 +72,21 @@ const getAll = async () => {
   return users;
 };
 
+const getOne = async (id) => {
+  try {
+    const user = await Users.findByPk(id);
+
+    if (!user) throw Error;
+
+    return user;
+  } catch (_err) {
+    throw validateUserData(404, 'User does not exist');
+  }
+};
+
 module.exports = {
   create,
   login,
   getAll,
+  getOne,
 };
