@@ -19,4 +19,5 @@ app.get('/', (request, response) => {
 
 app.use('/user', route.user);
 app.use('/login', route.login);
+app.use('/categories', route.categories);
 app.use(error);

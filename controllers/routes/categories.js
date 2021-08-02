@@ -1,11 +1,13 @@
-// const express = require('express');
+const express = require('express');
 
-// const router = express.Router();
+const router = express.Router();
 
-// const {
-//   ,
-// } = require('../');
+const {
+  createCategorie,
+} = require('../categoriesController');
 
-// router.post('/', );
+const { validateToken } = require('../../utils/validateToken');
 
-// module.exports = router;
+router.post('/', validateToken, createCategorie);
+
+module.exports = router;
