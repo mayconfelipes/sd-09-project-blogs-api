@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { Users } = require('../models');
 
 const invalidDisplayName = {
    err: {
@@ -21,6 +21,20 @@ const requiredEmail = {
   },
 };
 
+const emptyEmail = {
+  err: {
+    status: 400,
+    message: '"email" is not allowed to be empty',
+  },
+};
+
+const emptyPassword = {
+  err: {
+    status: 400,
+    message: '"password" is not allowed to be empty',
+  },
+};
+
 const invalidPassword = {
   err: {
     status: 400,
@@ -39,6 +53,13 @@ const uniqueUser = {
   err: {
     status: 409,
     message: 'User already registered',
+  },
+};
+
+const invalidFields = {
+  err: {
+    status: 400,
+    message: 'Invalid fields',
   },
 };
 
@@ -69,12 +90,16 @@ const createUser = async (displayName, email, password, image) => {
   if (userName) return userName.err;
   if (userEmail) return userEmail.err;
   if (userPassword) return userPassword.err;
-  if (await User.findOne({ where: { email } })) return uniqueUser.err;
+  if (await Users.findOne({ where: { email } })) return uniqueUser.err;
 
-  const registerUser = await User.create({ displayName, email, password, image });
+  const registerUser = await Users.create({ displayName, email, password, image });
 
   return registerUser;
 };
+
+// const userLogin = async (email, password) => {
+
+// }
 
 module.exports = {
   createUser,
