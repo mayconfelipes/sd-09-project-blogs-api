@@ -69,10 +69,22 @@ const deletePost = async (req, res, next) => {
   }
 };
 
+const searchPostByQuery = async (req, res, next) => {
+  try {
+    const { q } = req.query;
+    const dataPosts = await postService.searchPostByQuery(q);
+    if (dataPosts.message) throw dataPosts;
+    return res.status(status.OK).json(dataPosts);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   postObjectValidator,
   getAllBlogPosts,
   getBlogPostById,
   postPutObjectValidator,
   deletePost,
+  searchPostByQuery,
 };

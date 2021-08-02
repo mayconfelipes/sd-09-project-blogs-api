@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const status = require('./statusCode');
 const { Users, BlogPosts, Categories, PostsCategories } = require('../models');
 
@@ -98,6 +99,26 @@ async function deletePost(id) {
   return postDeleted;
 }
 
+async function searchPostByQuery(query) {
+  const post = await BlogPosts.findAll({
+    // Operator or for sequelize, found in "https://sequelize.org/master/manual/model-querying-basics.html" search keywords: "Sequelize Operators"
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${query}%` } },
+        { content: { [Op.like]: `%${query}%` } }],
+    },    
+    include: [
+      // This time i used the 'exclude' to remove the 'password' atribute, rather than pass all other attributes.
+      // { attributes: { exclude: ['password'] }, model: Users, as: 'user' },
+      // { model: Categories, as: 'categories' },
+      { attributes: ['id', 'displayName', 'email', 'image'], model: Users, as: 'user' },
+      { model: Categories, as: 'categories' },
+    ],
+  });
+  if (!post) return objectError('notFound', 'Post does not exist');
+  return post;
+}
+
 module.exports = {
   postObjectValidator,
   postPutObjectValidator,
@@ -107,4 +128,5 @@ module.exports = {
   getAllBlogPosts,
   getBlogPostById,
   deletePost,
+  searchPostByQuery,
 };

@@ -4,6 +4,7 @@ const mdwLogin = require('../middlewares/mdwLogin');
 
 const postRouter = express.Router();
 
+postRouter.get('/search', mdwLogin.tokenValidator, mdwPost.searchPostByQuery);
 postRouter.get('/', mdwLogin.tokenValidator, mdwPost.getAllBlogPosts);
 postRouter.get('/:id', mdwLogin.tokenValidator, mdwPost.getBlogPostById);
 postRouter.post('/', mdwLogin.tokenValidator, mdwPost.postObjectValidator);
