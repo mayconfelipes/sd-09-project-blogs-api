@@ -63,7 +63,14 @@ const userLogin = async (email, password) => {
   return token;
 };
 
+const getAllUser = async () => {
+  const users = await User.findAll();
+
+  return users;
+};
+
 module.exports = {
   createUser,
   userLogin,
+  getAllUser,
 };

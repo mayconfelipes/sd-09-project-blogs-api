@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser').json();
 const errorMiddleware = require('./middlewares/error');
 const UserController = require('./controllers/UserController');
+const { tokenValidation } = require('./middlewares/tokenValidation');
 
 const app = express();
 
@@ -17,5 +18,6 @@ app.use(bodyParser);
 
 app.post('/user', UserController.createUser);
 app.post('/login', UserController.userLogin);
+app.get('/user', tokenValidation, UserController.getAllUser);
 
 app.use(errorMiddleware);

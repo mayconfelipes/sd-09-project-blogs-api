@@ -7,7 +7,7 @@ const tokenValidation = (req, _res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    throw errorHandling(401, 'missing auth token');
+    throw errorHandling(401, 'Token not found');
   }
 
   try {
@@ -17,7 +17,7 @@ const tokenValidation = (req, _res, next) => {
 
     req.userId = id;
   } catch (_error) {
-    throw errorHandling(401, 'jwt malformed');
+    throw errorHandling(401, 'Expired or invalid token');
   }
 
   next();
