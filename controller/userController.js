@@ -1,5 +1,6 @@
 const stateOk = 200;
 const stateCreated = 201;
+const stateNotFound = 404;
 const stateConflict = 409;
 const stateBadRequest = 400;
 
@@ -47,6 +48,10 @@ const createUserReplyError = (answer) => {
   if (passwordError) return passwordError;
 };
 
+const findUserError = (selectUser) => {
+  console.error(selectUser);
+  return { code: stateNotFound, phrase: 'User does not exist' };
+};
 // switch (selectResponse) {
   //  case 'Validation len on displayName failed':
   //    return { code: stateBadRequest, phrase: 'displayName length must be at least 8 characters long'};
@@ -75,8 +80,16 @@ const createUserReplyOk = (newUser) => {
   return { code: stateCreated, user };
 };
 
+const findUserOk = (selectUser) => {
+  const user = selectUser.dataValues;
+  delete user.password;
+  return { code: stateOk, user };
+};
+
 module.exports = {
   createUserReplyError,
   createUserReplyOk,
   showAllOk,
+  findUserOk,
+  findUserError,
 };

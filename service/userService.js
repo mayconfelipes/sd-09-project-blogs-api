@@ -22,7 +22,21 @@ const showAllUsers = (req, res, _next) => {
     });
 };
 
+const findId = (req, res, _next) => {
+  const { id } = req.params;
+  User.findOne({ where: { id } })
+    .then((selectUser) => {
+      if (!selectUser) {
+        const reply = userController.findUserError(selectUser);
+        return res.status(reply.code).send({ message: reply.phrase});
+      }      
+      const reply = userController.findUserOk(selectUser);
+      res.status(reply.code).send(reply.user);
+    });
+};
+
 module.exports = {
   createUser,
   showAllUsers,
+  findId,
 };

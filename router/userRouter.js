@@ -8,4 +8,7 @@ userRouter.post('/', userService.createUser);
 
 userRouter.get('/', tokenService, userService.showAllUsers);
 
+// busca usuario pela id
+userRouter.get('/:id', tokenService, userService.findId);
+
 module.exports = userRouter;
