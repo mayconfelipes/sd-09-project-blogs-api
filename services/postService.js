@@ -33,7 +33,7 @@ function postPutObjectValidator(title, content, categoryIds) {
   return {};
 }
 
-async function postPutUserValidator(id, userLogedId) {
+async function userValidator(id, userLogedId) {
   const post = await BlogPosts.findOne({ where: { id } });
   if (!post) return objectError('notFound', 'Post does not exist');
   if (post.dataValues.userId !== userLogedId) {
@@ -90,16 +90,21 @@ async function getBlogPostById(id) {
     ],
   });
   if (!post) return objectError('notFound', 'Post does not exist');
-
   return post;
+}
+
+async function deletePost(id) {
+  const postDeleted = await BlogPosts.destroy({ where: { id } });
+  return postDeleted;
 }
 
 module.exports = {
   postObjectValidator,
   postPutObjectValidator,
-  postPutUserValidator,
+  userValidator,
   postPutUpdate,
   postObject,
   getAllBlogPosts,
   getBlogPostById,
+  deletePost,
 };

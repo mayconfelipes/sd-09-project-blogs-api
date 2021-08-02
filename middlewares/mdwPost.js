@@ -42,10 +42,28 @@ const postPutObjectValidator = async (req, res, next) => {
     const { title, content, categoryIds } = req.body;
     const dataObjectBody = postService.postPutObjectValidator(title, content, categoryIds);
     if (dataObjectBody.message) throw dataObjectBody;
-    const dataValidUser = await postService.postPutUserValidator(id, userLogedId);
+    const dataValidUser = await postService.userValidator(id, userLogedId);
     if (dataValidUser.message) throw dataValidUser;
     const dataUpdated = await postService.postPutUpdate(id, title, content);
     res.status(status.OK).json(dataUpdated);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deletePost = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userLogedId = req.body.userLoged.id;
+    // verifica se existe um post
+    const postExists = await postService.getBlogPostById(id);
+    if (postExists.message) throw postExists;
+    // verifica se o usuário é o dono do post
+    const dataValidUser = await postService.userValidator(id, userLogedId);
+    if (dataValidUser.message) throw dataValidUser;
+    // deleta o post
+    await postService.deletePost(id);
+    res.status(status.noContent).json();
   } catch (error) {
     return next(error);
   }
@@ -56,4 +74,5 @@ module.exports = {
   getAllBlogPosts,
   getBlogPostById,
   postPutObjectValidator,
+  deletePost,
 };

@@ -8,5 +8,6 @@ postRouter.get('/', mdwLogin.tokenValidator, mdwPost.getAllBlogPosts);
 postRouter.get('/:id', mdwLogin.tokenValidator, mdwPost.getBlogPostById);
 postRouter.post('/', mdwLogin.tokenValidator, mdwPost.postObjectValidator);
 postRouter.put('/:id', mdwLogin.tokenValidator, mdwPost.postPutObjectValidator);
+postRouter.delete('/:id', mdwLogin.tokenValidator, mdwPost.deletePost);
 
 module.exports = postRouter;
