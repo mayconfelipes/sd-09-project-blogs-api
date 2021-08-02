@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { User } = require('../models');
-const { InvalidArgumentError } = require('../errors');
+const { InvalidArgumentError, NotFoundError } = require('../errors');
 const tokens = require('../tokens');
 
 const UserSchema = Joi.object({
@@ -26,5 +26,15 @@ module.exports = {
   },
   async getAll() {
     return User.findAll();
+  },
+  async getById(id) {
+    const user = await User.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundError('User');
+    }
+
+    const { password, ...userData } = user.dataValues;
+    return userData;
   },
 };

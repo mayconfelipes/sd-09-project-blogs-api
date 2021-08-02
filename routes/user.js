@@ -8,4 +8,7 @@ router.post('/', usersController.create);
 // Get all users
 router.get('/', middlewares.authentication, usersController.getAll);
 
+// Get user by ID
+router.get('/:id', middlewares.authentication, usersController.getById);
+
 module.exports = router;
