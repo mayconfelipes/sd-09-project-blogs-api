@@ -74,7 +74,6 @@ const deleteById = async ({ id, userId }) => {
   if (!post) throw validateError(404, 'Post does not exist');
   if (post.dataValues.id !== userId) throw validateError(401, 'Unauthorized user');
   await BlogPost.destroy({ where: { id } });
-  return true;
 };
 
 module.exports = {

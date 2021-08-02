@@ -50,9 +50,16 @@ const getById = async (id) => {
   return user;
 };
 
+const deleteMe = async (userId) => {
+  await User.destroy({ where: { id: userId } });
+  const user = await User.findByPk(userId);
+  return user;
+};
+
 module.exports = {
   create,
   login,
   getAll,
   getById,
+  deleteMe,
 };

@@ -40,7 +40,7 @@ const deleteById = async (req, res) => {
   const { userId } = req;
   await postsServices.deleteById({ id, userId });
   return res
-    .status(204).json('');
+    .status(204).end();
 };
 
 module.exports = {
