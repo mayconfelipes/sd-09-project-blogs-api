@@ -1,10 +1,19 @@
+require('dotenv/config');
 const express = require('express');
+const users = require('./routes/user');
+const categories = require('./routes/category');
+const blogPost = require('./routes/blogPost');
 
 const app = express();
+app.use(express.json());
+app.use('/', users);
+app.use('/', categories);
+app.use('/', blogPost);
 
-app.listen(3000, () => console.log('ouvindo porta 3000!'));
+const PORT = process.env.PORT || 3000;
 
-//AAAA
+app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
