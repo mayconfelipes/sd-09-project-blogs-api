@@ -20,7 +20,9 @@ const login = [
       const loginUser = await loginService(email, password);
       if (loginUser.error) return next({ statusCode: 400, message: loginUser.error });
 
-      const token = createToken({ email, password });
+      const { displayName, image, id } = loginUser;
+      const token = createToken({ displayName, email, image, id });
+
       return res.status(200).json({ token });
 })];
 

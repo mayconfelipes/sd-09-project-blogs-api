@@ -2,7 +2,7 @@ const rescue = require('express-rescue');
 const Joi = require('joi');
 const validate = require('../middelwares/validate');
 const {
-    insertCategorie,
+    insertCategory,
     findAllCategories,
 } = require('../services/categoryService');
 
@@ -14,7 +14,7 @@ const createCategory = [
     validate(categorieSchema),
     rescue(async (req, res) => {
         const { name } = req.body;
-        const categoriInserted = await insertCategorie(name);
+        const categoriInserted = await insertCategory(name);
         res.status(201).json(categoriInserted);
     }),
 ];

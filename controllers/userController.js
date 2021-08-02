@@ -20,8 +20,10 @@ const createUser = [
     validate(userSchema),
     rescue(async (req, res) => {
       const { displayName, email, password, image } = req.body;
-      await createUserService(displayName, email, password, image);
-      const token = createToken({ displayName, email, password, image });
+      const newUser = await createUserService(displayName, email, password, image);
+      
+      const { id } = newUser;
+      const token = createToken({ displayName, email, image, id });
       
       return res.status(201).json({ token });
 })];

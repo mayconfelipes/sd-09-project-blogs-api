@@ -5,7 +5,7 @@ const loginService = async (userMail, userPassword) => {
     
     if (!user || user.password !== userPassword) return ({ error: 'Invalid fields' });
     
-    return true;
+    return user;
 };
 
 module.exports = { loginService };

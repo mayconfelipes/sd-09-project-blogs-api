@@ -10,8 +10,9 @@ const validateToken = (req, _res, next) => {
 
     try {
         const user = jwt.verify(token, JWT_SECRET);
-        const { password, ...userwithoutPasswor } = user;
-        req.user = userwithoutPasswor;
+        // const { password, ...userwithoutPasswor } = user;
+        // console.log(user, '<<<');
+        req.user = user;
         return next();
     } catch (error) {
         const INVALID_TOKEN = { statusCode: 401, message: 'Expired or invalid token' };
