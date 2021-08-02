@@ -1,5 +1,9 @@
 const express = require('express');
-const { UserController, LoginController } = require('./controllers');
+const {
+  UserController,
+  LoginController,
+  CategoryController,
+} = require('./controllers');
 const { SchemaLogin } = require('./schemas');
 
 const app = express();
@@ -13,5 +17,6 @@ app.get('/', (request, response) => {
 
 app.use('/user', UserController);
 app.use('/login', SchemaLogin, LoginController);
+app.use('/categories', CategoryController);
 
 app.listen(PORT, () => console.log('ouvindo porta 3000!'));
