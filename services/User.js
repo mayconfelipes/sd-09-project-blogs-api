@@ -21,19 +21,19 @@ const requiredEmail = {
   },
 };
 
-const emptyEmail = {
-  err: {
-    status: 400,
-    message: '"email" is not allowed to be empty',
-  },
-};
+// const emptyEmail = {
+//   err: {
+//     status: 400,
+//     message: '"email" is not allowed to be empty',
+//   },
+// };
 
-const emptyPassword = {
-  err: {
-    status: 400,
-    message: '"password" is not allowed to be empty',
-  },
-};
+// const emptyPassword = {
+//   err: {
+//     status: 400,
+//     message: '"password" is not allowed to be empty',
+//   },
+// };
 
 const invalidPassword = {
   err: {
@@ -56,12 +56,12 @@ const uniqueUser = {
   },
 };
 
-const invalidFields = {
-  err: {
-    status: 400,
-    message: 'Invalid fields',
-  },
-};
+// const invalidFields = {
+//   err: {
+//     status: 400,
+//     message: 'Invalid fields',
+//   },
+// };
 
 // regex referência: https://ui.dev/validate-email-address-javascript/
 const validFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
