@@ -15,5 +15,6 @@ routes.post('/categories', categories.create);
 routes.get('/categories', categories.findAll);
 
 routes.post('/post', blogPosts.create);
+routes.get('/post', blogPosts.findAll);
 
 module.exports = routes;
