@@ -11,6 +11,9 @@ const postCategory = async (name) => {
   return newCategory;
 };
 
+const getAllCategories = async () => Categories.findAll();
+
 module.exports = {
   postCategory,
+  getAllCategories,
 };

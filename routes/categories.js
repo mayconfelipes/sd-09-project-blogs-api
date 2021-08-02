@@ -12,4 +12,10 @@ route.post(
   rescue(categoryController.createCategory),
 );
 
+route.get(
+  '/',
+  middlewares.tokenValidation,
+  rescue(categoryController.getAllCategories),
+);
+
 module.exports = route;
