@@ -8,6 +8,7 @@ const httpStatusCode200 = 200;
 const httpStatusCode201 = 201;
 const httphttpStatusCode500 = 500;
 const httpStatusCode401 = 401;
+const httpStatusCode404 = 404;
 const httpStatusCode409 = 409;
 
 router.get('/', async (req, res) => {
@@ -20,6 +21,21 @@ router.get('/', async (req, res) => {
     if (err) return res.status(httpStatusCode401).json({ message: 'Expired or invalid token' });
     const users = await User.findAll();
     return res.status(httpStatusCode200).json(users);
+  });
+});
+
+router.get('/:id', async (req, res) => {
+  const JwtSecret = 'secret';
+  const token = req.headers.authorization;
+  const { id } = req.params;
+
+  if (!token) return res.status(httpStatusCode401).json({ message: 'Token not found' });
+
+  jwt.verify(token, JwtSecret, async (err) => {
+    if (err) return res.status(httpStatusCode401).json({ message: 'Expired or invalid token' });
+    const user = await User.findByPk(id);
+    if (!user) return res.status(httpStatusCode404).json({ message: 'User does not exist' });
+    return res.status(httpStatusCode200).json(user);
   });
 });
 
