@@ -14,13 +14,17 @@ module.exports = {
       content: {
         type: Sequelize.STRING
       },
-      published: {
+      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'published',
       },
-      updated: {
+      updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'updated',
       },
       userId: {
         type: Sequelize.INTEGER,
