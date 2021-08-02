@@ -48,8 +48,15 @@ const getById = rescue(async (req, res, next) => {
   return res.status(200).json(foundUser);
 });
 
+const remove = rescue(async (req, res) => {
+  const { id } = req.user.dataValues;
+  await userServices.remove(id);
+  return res.status(204).end();
+});
+
 module.exports = {
   create,
   getAll,
   getById,
+  remove,
 };

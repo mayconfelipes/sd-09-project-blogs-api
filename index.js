@@ -47,6 +47,9 @@ app.put('/post/:id', authorization, blogPost.update);
 // Requisito 11
 app.delete('/post/:id', authorization, blogPost.remove);
 
+// Requisito 12
+app.delete('/user/me', authorization, user.remove);
+
 app.use(middlewares.error);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!')); 

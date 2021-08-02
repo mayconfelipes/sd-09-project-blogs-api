@@ -30,8 +30,11 @@ const getById = async (id) => {
   return foundUser.dataValues;
 };
 
+const remove = async (id) => User.destroy({ where: { id } });
+
 module.exports = {
   create,
   getAll,
   getById,
+  remove,
 };
