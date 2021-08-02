@@ -19,5 +19,6 @@ app.post('/login', User.login);
 app.get('/user', userValidate, User.getAll);
 app.get('/user/:id', userValidate, User.getOne);
 app.post('/categories', userValidate, Categorie.create);
+app.get('/categories', userValidate, Categorie.getAll);
 
 app.use(errorMiddleware);
