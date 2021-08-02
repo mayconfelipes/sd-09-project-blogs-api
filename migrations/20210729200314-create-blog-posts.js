@@ -20,18 +20,17 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         field: 'published',
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        field: 'published',
+        defaultValue: new Date(),
+      },
       updatedAt: {
         allowNull: false,
-        type: 'TIMESTAMP',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        type: Sequelize.DATE,
         field: 'updated',
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        references: { model: 'Users', key: 'id' },
+        defaultValue: new Date(),
       },
     });
   },
