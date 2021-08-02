@@ -17,4 +17,5 @@ app.get('/', (request, response) => {
 app.use('/user', userRoute);
 app.use('/login', loginRoute);
 app.use('/categories', categoriesRoute);
+
 app.use((err, req, res, _next) => res.status(err.errorCode).json({ message: err.message }));

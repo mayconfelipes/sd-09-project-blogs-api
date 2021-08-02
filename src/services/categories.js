@@ -6,6 +6,11 @@ const createNew = async (cat) => {
   return Categories.findOne({ where: { name } });
 };
 
+const getAll = async () => {
+  return Categories.findAll();
+};
+
 module.exports = {
   createNew,
+  getAll,
 };

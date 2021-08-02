@@ -14,6 +14,15 @@ const createNew = [
   }),
 ];
 
+const getAll = [
+  validate.authToken,
+  rescue(async (req, res) => {
+    const categories = await catServices.getAll();
+    return res.status(response.STATUS_OK).json(categories);
+  }),
+];
+
 module.exports = {
   createNew,
+  getAll,
 };
