@@ -6,6 +6,10 @@ module.exports = {
           id: 1,
           name: 'Inovação',
         },
+        {
+          id: 2,
+          name: 'Escola',
+        },
       ], { timestamps: false });
   },
 
