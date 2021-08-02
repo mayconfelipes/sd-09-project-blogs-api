@@ -19,5 +19,6 @@ app.use(bodyParser);
 app.post('/user', UserController.createUser);
 app.post('/login', UserController.userLogin);
 app.get('/user', tokenValidation, UserController.getAllUser);
+app.get('/user/:id', tokenValidation, UserController.getById);
 
 app.use(errorMiddleware);
