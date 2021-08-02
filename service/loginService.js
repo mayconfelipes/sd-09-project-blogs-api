@@ -8,14 +8,12 @@ const createToken = (logon) => {
   const loged = logon.dataValues;
   delete loged.password;
 
-  const SECRET = process.env.JWT_SECRET;
-
   const jwtConfig = {
     expiresIn: '7d',
     algorithm: 'HS256',
   };
 
-  const token = jwt.sign(loged, SECRET, jwtConfig);
+  const token = jwt.sign(loged, process.env.JWT_SECRET, jwtConfig);
 
   return token;  
 };

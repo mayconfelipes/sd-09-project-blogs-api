@@ -1,6 +1,7 @@
+const stateOk = 200;
 const stateCreated = 201;
-const stateBadRequest = 400;
 const stateConflict = 409;
+const stateBadRequest = 400;
 
 const replyName = (answer) => {
   if (answer === 'Validation len on displayName failed') {
@@ -61,6 +62,11 @@ const createUserReplyError = (answer) => {
   //    return { code: stateConflict, phrase: 'User Already registered' };
   //  default: break;
   // }
+  
+const showAllOk = (usersList) => {
+  const list = JSON.stringify(usersList, null, 2);
+  return { code: stateOk, list };
+};
 
 const createUserReplyOk = (newUser) => {
   const user = newUser.dataValues;
@@ -71,4 +77,5 @@ const createUserReplyOk = (newUser) => {
 module.exports = {
   createUserReplyError,
   createUserReplyOk,
+  showAllOk,
 };
