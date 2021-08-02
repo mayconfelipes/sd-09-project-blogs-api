@@ -10,12 +10,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/user', controllers.createUser);
+app.post('/user', controllers.users.create);
 app.post('/login', middlewares.userLogin);
-app.get('/user', middlewares.jwtValidate, controllers.findAll);
-app.get('/user/:id', middlewares.jwtValidate, controllers.findById);
+app.get('/user', middlewares.jwtValidate, controllers.users.findAll);
+app.get('/user/:id', middlewares.jwtValidate, controllers.users.findById);
 
-app.post('/categories', middlewares.jwtValidate, controllers.createCategory);
+app.post('/categories', middlewares.jwtValidate, controllers.categories.create);
+app.get('/categories', middlewares.jwtValidate, controllers.categories.findAll);
 
 app.use(middlewares.error);
 

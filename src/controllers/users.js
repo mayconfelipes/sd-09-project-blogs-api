@@ -10,7 +10,7 @@ const UserService = require('../services/users');
 const { JWT_SECRET } = process.env;
 const jwtConfig = { expiresIn: '3h', algorithm: 'HS256' };
 
-const createUser = [
+const create = [
   validate(Joi.object({
     displayName: Joi.string().min(8).required(),
     email: Joi.string().email().required(),
@@ -45,7 +45,7 @@ const findById = rescue(async (req, res) => {
 });
 
 module.exports = {
-  createUser,
+  create,
   findAll,
   findById,
 };

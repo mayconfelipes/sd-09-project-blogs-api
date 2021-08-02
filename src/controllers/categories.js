@@ -3,16 +3,22 @@ const rescue = require('express-rescue');
 const { Category } = require('../models');
 const validate = require('../middlewares/validate');
 
-const createCategory = [
+const create = [
   validate(Joi.object({ name: Joi.string().required() })),
   rescue(async (req, res) => {
     const { name } = req.body;
     const newCategory = await Category.create({ name });
-    console.log(newCategory);
+    
     return res.status(201).json(newCategory);
   }),
 ];
 
+const findAll = rescue(async (req, res) => {
+  const categories = await Category.findAll();
+  return res.status(200).json(categories);
+});
+
 module.exports = {
-  createCategory,
+  create,
+  findAll,
 };
