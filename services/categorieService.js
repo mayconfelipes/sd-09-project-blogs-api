@@ -1,9 +1,9 @@
 const { Categorie } = require('../models');
 
 const insertCategorie = async (categoriName) => {
-    const { dataValues: { name } } = await Categorie.create({ name: categoriName });
+    const { dataValues } = await Categorie.create({ name: categoriName });
     
-    return name;
+    return dataValues;
 };
 
 module.exports = { insertCategorie };
