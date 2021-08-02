@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const errorMiddleware = require('./middleware/error');
 const User = require('./controllers/User');
+const Login = require('./controllers/Login');
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.get('/', (request, response) => {
 });
 
 app.post('/User', User.registerUser);
+
+app.post('/login', Login.userLogin);
 
 // app.get('/User', (req, res) => {
 //     User.findAll().then((data) => {

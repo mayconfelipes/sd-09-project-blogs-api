@@ -21,20 +21,6 @@ const requiredEmail = {
   },
 };
 
-// const emptyEmail = {
-//   err: {
-//     status: 400,
-//     message: '"email" is not allowed to be empty',
-//   },
-// };
-
-// const emptyPassword = {
-//   err: {
-//     status: 400,
-//     message: '"password" is not allowed to be empty',
-//   },
-// };
-
 const invalidPassword = {
   err: {
     status: 400,
@@ -55,13 +41,6 @@ const uniqueUser = {
     message: 'User already registered',
   },
 };
-
-// const invalidFields = {
-//   err: {
-//     status: 400,
-//     message: 'Invalid fields',
-//   },
-// };
 
 // regex referência: https://ui.dev/validate-email-address-javascript/
 const validFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -96,10 +75,6 @@ const createUser = async (displayName, email, password, image) => {
 
   return registerUser;
 };
-
-// const userLogin = async (email, password) => {
-
-// }
 
 module.exports = {
   createUser,
