@@ -39,7 +39,7 @@ const login = async ({ email, password }) => {
 
 const getAll = async () => {
   const users = await User.findAll();
-  console.log(users, 'users');
+  // console.log(users, 'users');
   return users;
 };
 

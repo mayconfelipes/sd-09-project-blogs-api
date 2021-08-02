@@ -19,7 +19,6 @@ const create = async ({ title, categoryIds, content, userId }) => {
   const createdObject = await BlogPost.create({ title, content, userId });
   // console.log(createdObject, 'createdObject');
   const { id } = createdObject.dataValues;
-  console.log(id, 'ID ID ID POST');
   return id;
 };
 
@@ -30,10 +29,11 @@ const getAll = async () => {
     },
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
-      // { model: Categorie, as: 'Categories', through: { attributes: [] } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+      // { model: Categorie, as: 'categories' },
     ],
   });
-  console.log(posts, 'POSTS');
+  // console.log(posts, 'POSTS');
   return posts;
 };
 
