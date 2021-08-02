@@ -86,6 +86,12 @@ const userId = async (req, res, next) => {
   return next();
 };
 
+const categoryCreation = (req, _res, next) => {
+  const { name } = req.body;
+  if (!name) return next(genError(response.BAD_REQUEST, '"name" is required'));
+  return next();
+};
+
 module.exports = {
   userDetails,
   userIsNew,
@@ -94,4 +100,5 @@ module.exports = {
   authUser,
   authToken,
   userId,
+  categoryCreation,
 };
