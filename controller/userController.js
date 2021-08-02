@@ -49,7 +49,7 @@ const createUserReplyError = (answer) => {
 };
 
 const findUserError = (selectUser) => {
-  console.error(selectUser);
+  console.error(selectUser); 
   return { code: stateNotFound, phrase: 'User does not exist' };
 };
 // switch (selectResponse) {

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParse = require('body-parser');
 const userRouter = require('./router/userRouter');
 const loginRouter = require('./router/loginRouter');
+const categoriesRouter = require('./router/categorieRouter');
 
 const app = express();
 const PORT = 3000; // trocar para 3000
@@ -20,3 +21,6 @@ app.use('/user', userRouter);
 
 // rota inicial login
 app.use('/login', loginRouter);
+
+// rota inicial categorias
+app.use('/categories', categoriesRouter);
