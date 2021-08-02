@@ -20,7 +20,16 @@ const getAll = async (_req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
   const response = await postsServices.getById(id);
-  console.log(response);
+  return res
+    .status(200)
+    .json(response);
+};
+
+const updateById = async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req;
+  const { title, content, categoryIds } = req.body;
+  const response = await postsServices.updateById({ id, userId, title, content, categoryIds });
   return res
     .status(200)
     .json(response);
@@ -30,4 +39,5 @@ module.exports = {
   create,
   getAll,
   getById,
+  updateById,
 };

@@ -49,7 +49,7 @@ describe('10 - Sua aplicação deve ter o endpoint PUT `/post/:id`', () => {
       });
   });
 
-  it('Será validado que é não é possível editar as categorias de um blogpost', async () => {
+  it.only('Será validado que é não é possível editar as categorias de um blogpost', async () => {
     let token;
     await frisby
       .post(`${url}/login`,

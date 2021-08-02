@@ -7,6 +7,11 @@ const postSchema = Joi.object({
   content: Joi.string().required(),
 });
 
+const updateSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+});
+
 const validateError = (status, message) => ({ status, message });
 
 const create = async ({ title, categoryIds, content, userId }) => {
@@ -52,8 +57,26 @@ const getById = async (id) => {
   return post;
 };
 
+const updateById = async ({ id, userId, title, content, categoryIds }) => {
+  if (categoryIds) throw validateError(400, 'Categories cannot be edited');
+  const { error } = updateSchema.validate({ title, content });
+  if (error) throw validateError(400, error.details[0].message);
+  const { dataValues } = await BlogPost.findByPk(id);
+  if (dataValues.id !== userId) throw validateError(401, 'Unauthorized user');
+  await BlogPost.update({ title, content }, { where: { id } });
+  const post = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  console.log(post, 'post post post');
+  return post;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  updateById,
 };
