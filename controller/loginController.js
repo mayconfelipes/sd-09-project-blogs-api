@@ -1,22 +1,49 @@
 const stateok = 200;
 const stateBadRequest = 400;
+const validator = require('validator');
 
-const loginUserReplyError = (answer) => {
-  // const nameError = replyName(answer);
-  // if (nameError) return nameError;
-
-  // const emailError = replyEmail(answer);
-  // if (emailError) return emailError;
-
-  // const passwordError = replyPassword(answer);
-  // if (passwordError) return passwordError;
+const replyEmail = (email) => {
+  console.log(email)
+  if (email === undefined) {
+    return { code: stateBadRequest, phrase: '"email" is required' };
+  }
+  
+  const emptyEmail = validator.default.isEmpty(email);
+  if (emptyEmail) {
+    return { code: stateBadRequest, phrase: '"email" is not allowed to be empty' };
+  }
 };
 
-const loginUserReplyOk = (newUser) => {
-  // const user = newUser.dataValues;
-  // delete user.password;
-  // return { code: stateCreated, user };
+const replyPassword = (password) => {
+  if (password === undefined) {
+    return { code: stateBadRequest, phrase: '"password" is required' };
+  }
+
+  const emptyPassword = validator.default.isEmpty(password);
+  if (emptyPassword) {
+    return { code: stateBadRequest, phrase: '"password" is not allowed to be empty' };
+  }
 };
+const replySelectUser = (selectUser) => {
+  console.log(selectUser)
+  if (selectUser === null) {
+    return { code: stateBadRequest, phrase: 'invalid fields' };
+  }
+};
+
+const loginUserReplyError = ({ email, password, selectUser }) => {
+  const emailError = replyEmail(email);
+  if (emailError) return emailError;
+
+  const passwordError = replyPassword(password);
+  if (passwordError) return passwordError;
+
+  const selectUserError = replySelectUser(selectUser);
+  if (selectUserError) return selectUserError;
+};
+
+const loginUserReplyOk = () =>  
+   ({ code: stateok });
 
 module.exports = {
   loginUserReplyError,

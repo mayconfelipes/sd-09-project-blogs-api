@@ -4,11 +4,11 @@ const userRouter = require('./router/userRouter');
 const loginRouter = require('./router/loginRouter');
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001; // trocar para 3000
 
 app.use(bodyParse.json());
 
-app.listen(3000, () => console.log(`ouvindo porta ${PORT}!`));
+app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
