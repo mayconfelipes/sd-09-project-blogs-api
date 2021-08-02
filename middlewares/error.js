@@ -4,6 +4,7 @@ const statusByCode = {
   invalidFields: 400,
   expiredToken: 401,
   userDoesntExist: 404,
+  categoryNotFound: 400,
 };
 
 module.exports = (err, req, res, _next) => {
