@@ -23,5 +23,6 @@ router.post('/categories', validateToken, validateName, categories.createCategor
 router.get('/categories', validateToken, categories.getCategories);
 
 router.post('/post', validateToken, validatePost, validateCategory, blogPosts.createPost);
+router.get('/post', validateToken, blogPosts.getAllPosts);
 
 module.exports = router;
