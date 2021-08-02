@@ -14,12 +14,12 @@ const createUser = (req, res, _next) => {
     });
 };
 
-const showAllUsers = async (req, res, _next) => {
-  const usersList = await User.findAll({
-    attributes: ['id', 'displayName', 'email', 'image'],
-  });
-  const reply = userController.showAllOk(usersList)
-  res.status(reply.code).send(reply.list);
+const showAllUsers = (req, res, _next) => {
+  User.findAll({ attributes: ['id', 'displayName', 'email', 'image'] })
+    .then((listUser) => {
+      const reply = userController.showAllOk(listUser);
+      res.status(reply.code).send(reply.newVraw);
+    });
 };
 
 module.exports = {

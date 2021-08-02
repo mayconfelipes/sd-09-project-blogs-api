@@ -65,7 +65,8 @@ const createUserReplyError = (answer) => {
   
 const showAllOk = (usersList) => {
   const list = JSON.stringify(usersList, null, 2);
-  return { code: stateOk, list };
+  const newVraw = JSON.parse(list);
+  return { code: stateOk, newVraw };
 };
 
 const createUserReplyOk = (newUser) => {
