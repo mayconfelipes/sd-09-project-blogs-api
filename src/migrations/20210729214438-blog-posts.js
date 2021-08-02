@@ -7,16 +7,16 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       title: {
-        allowNull: false,
+        //allowNull: false,
         type: Sequelize.STRING,
       },
       content: {
-        allowNull: false,
+        //allowNull: false,
         type: Sequelize.TEXT,
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        //allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
@@ -25,11 +25,11 @@ module.exports = {
         },
       },
       published: {
-        allowNull: false,
+        //allowNull: false,
         type: Sequelize.DATE,
       },
       updated: {
-        allowNull: false,
+        //allowNull: false,
         type: Sequelize.DATE,
       },
     }),

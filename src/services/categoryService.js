@@ -13,8 +13,8 @@ const createCategory = async (data) => {
   const { error } = validateCategoyInfo(data);
 
   if (error) {
-    const userInfoResponse = { code: 400, message: error.details[0].message };
-    throw userInfoResponse;
+    const categoryInfoResponse = { code: 400, message: error.details[0].message };
+    throw categoryInfoResponse;
   }
 
   const newCategory = await Category.create(data);
