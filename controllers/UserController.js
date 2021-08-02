@@ -23,9 +23,9 @@ router.get('/', validateToken, async (_req, res, _next) => {
 router.get('/:id', validateToken, async (req, res, _next) => {
   const user = await userService.getById(req.params.id);
 
-  if (!user) return res.status(404).json({ message: 'user does not exist' });
+  if (!user) return res.status(404).json({ message: 'User does not exist' });
 
   return res.status(ok).json(user);
 });
 
-module.exports = router;
+module.exports = router; 
