@@ -3,6 +3,7 @@ const validateUser = require('./validateUser');
 const createToken = require('./createToken');
 const checkEmailExists = require('./checkEmailExists');
 const validateLogin = require('./validateLogin');
+const validateToken = require('./validateToken');
 
 module.exports = {
     error,
@@ -10,4 +11,5 @@ module.exports = {
     createToken,
     checkEmailExists,
     validateLogin,
+    validateToken,
 };
