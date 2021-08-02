@@ -18,7 +18,7 @@ const findAll = async (authorization) => {
   isValidToken(authorization);
   const result = await BlogPost.findAll({
     include: [
-      { model: User, as: 'user', attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
   });
@@ -29,7 +29,7 @@ const findById = async (id, authorization) => {
   isValidToken(authorization);
   const result = await BlogPost.findByPk(id, {
     include: [
-      { model: User, as: 'user', attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
   });

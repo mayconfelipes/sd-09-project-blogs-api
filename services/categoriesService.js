@@ -12,9 +12,7 @@ const create = async (name, authorization) => {
 
 const findAll = async (authorization) => {
   isValidToken(authorization);
-  const category = await Category.findAll(
-    { attributes: { exclude: ['createdAt', 'updatedAt'] } },
-  );
+  const category = await Category.findAll();
   const result = category;
   return result;
 };

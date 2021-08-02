@@ -14,7 +14,7 @@ const create = async (user) => {
 const findAll = async (authorization) => {
   isValidToken(authorization);
   const result = await User.findAll(
-    { attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
+    { attributes: { exclude: ['password'] } },
   );
   return result;
 };
@@ -23,7 +23,7 @@ const findById = async (authorization, id) => {
   isValidToken(authorization);
   const result = await User.findByPk(
     id,
-    { attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
+    { attributes: { exclude: ['password'] } },
   );
 
   if (!result) {
