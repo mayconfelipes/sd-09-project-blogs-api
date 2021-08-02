@@ -4,7 +4,7 @@ const { User } = require('../models');
 const userSchema = Joi.object({
   displayName: Joi.string().min(8).required(),
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+  password: Joi.string().length(6).required(),
 });
 
 const loginSchema = Joi.object({
@@ -46,8 +46,7 @@ const getAll = async () => {
 const getById = async (id) => {
   // const user = await User.findOne({ where: { id } });
   const user = await User.findByPk(id);
-  if (!user) throw validateError(401, 'User does not exist');
-  console.log(user);
+  if (!user) throw validateError(404, 'User does not exist');
   return user;
 };
 
