@@ -5,4 +5,4 @@ const errorHandling = (status, message) => ({
 
 module.exports = {
   errorHandling,
-}
+};

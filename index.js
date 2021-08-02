@@ -1,8 +1,8 @@
 require('dotenv/config');
 const express = require('express');
+const bodyParser = require('body-parser').json();
 const errorMiddleware = require('./middlewares/error');
 const UserController = require('./controllers/UserController');
-const bodyParser = require('body-parser').json();
 
 const app = express();
 
