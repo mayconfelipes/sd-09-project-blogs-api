@@ -3,7 +3,6 @@ const stateBadRequest = 400;
 const validator = require('validator');
 
 const replyEmail = (email) => {
-  console.log(email)
   if (email === undefined) {
     return { code: stateBadRequest, phrase: '"email" is required' };
   }
@@ -25,9 +24,8 @@ const replyPassword = (password) => {
   }
 };
 const replySelectUser = (selectUser) => {
-  console.log(selectUser)
   if (selectUser === null) {
-    return { code: stateBadRequest, phrase: 'invalid fields' };
+    return { code: stateBadRequest, phrase: 'Invalid fields' };
   }
 };
 

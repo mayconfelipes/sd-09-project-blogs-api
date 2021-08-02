@@ -4,8 +4,7 @@ const loginController = require('../controller/loginController');
 
 require('dotenv').config();
 
-const createToken = (logon) => {
-  
+const createToken = (logon) => {  
   const loged = logon.dataValues;
   delete loged.password;
 
@@ -43,7 +42,6 @@ const loginUser = async (req, res, _next) => {
     password,
     selectUser: {},
   };
-  console.log('--------', toTest)
     
   const replyError = loginController.loginUserReplyError(toTest);
   if (replyError) return res.status(replyError.code).send({ message: replyError.phrase });
@@ -57,7 +55,6 @@ const loginUser = async (req, res, _next) => {
   const reply = loginController.loginUserReplyOk();
   const token = createToken(toTest.selectUser);
   return res.status(reply.code).json({ token });
-
 };
 
 module.exports = {
