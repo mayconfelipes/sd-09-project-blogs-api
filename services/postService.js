@@ -37,6 +37,16 @@ const create = async (post, userInfo) => {
   return postSchema;
 };
 
+const getAll = async () => {
+  console.log('get all service');
+  const getPost = await BlogPost.findAll(
+    { include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } }] },
+  );
+  return getPost;
+};
+
 module.exports = {
   create,
+  getAll,
 };

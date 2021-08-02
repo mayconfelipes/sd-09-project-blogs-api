@@ -15,5 +15,6 @@ routes.post('/categories', jwtValidator, categoriesController.create);
 routes.get('/categories', jwtValidator, categoriesController.getAll);
 
 routes.post('/post', jwtValidator, postController.create);
+routes.get('/post', jwtValidator, postController.getAll);
 
 module.exports = routes;
