@@ -37,7 +37,7 @@ module.exports = {
       },
     });
 
-    return blogPosts;
+    // return blogPosts;
   },
 
   down: async (queryInterface, _Sequelize) => {

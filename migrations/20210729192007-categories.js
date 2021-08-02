@@ -15,7 +15,7 @@ module.exports = {
       },
    });
 
-   return categories;
+  //  return categories;
   },
 
   down: async (queryInterface, _sequelize) => {

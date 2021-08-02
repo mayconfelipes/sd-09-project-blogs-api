@@ -25,7 +25,7 @@ module.exports = {
       },
     });
 
-    return postsCategories;
+    // return postsCategories;
   },
 
   down: async (queryInterface, _Sequelize) => {
