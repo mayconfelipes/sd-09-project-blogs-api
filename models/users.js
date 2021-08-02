@@ -1,5 +1,3 @@
-'use stricts';
-
 const User = (sequelize, DataTypes) => {
   const UserModel = sequelize.define('User', {
     displayName: DataTypes.STRING,
@@ -9,6 +7,13 @@ const User = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
   });
+
+  User.associate = (models) => {
+    User.belongsTo(models.BlogPosts, {
+      foreignKey: 'userId',
+      as: 'blogposts',
+    });
+  };
 
   return UserModel;
 };
