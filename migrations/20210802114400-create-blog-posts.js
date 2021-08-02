@@ -27,12 +27,12 @@ module.exports = {
       },
       published: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
         field: 'published',
       },
       updated: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
         field: 'updated',
       },
     });
