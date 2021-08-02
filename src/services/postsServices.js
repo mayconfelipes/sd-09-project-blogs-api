@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { Post, Categorie, User } = require('../models');
+const { BlogPost, Categorie, User } = require('../models');
 
 const postSchema = Joi.object({
   title: Joi.string().required(),
@@ -14,9 +14,9 @@ const create = async ({ title, categoryIds, content, userId }) => {
   if (error) throw validateError(400, error.details[0].message);
   const categoryIdValid = await Promise.all(categoryIds.map((id) => Categorie.findByPk(id)));
   if (categoryIdValid.includes(null)) throw validateError(400, '"categoryIds" not found');
-  const allPosts = await Post.findAll();
-  console.log(allPosts);
-  const createdObject = await Post.create({ title, content, userId });
+  // const allPosts = await BlogPost.findAll();
+  // console.log(allPosts);
+  const createdObject = await BlogPost.create({ title, content, userId });
   // console.log(createdObject, 'createdObject');
   const { id } = createdObject.dataValues;
   console.log(id, 'ID ID ID POST');
@@ -24,7 +24,7 @@ const create = async ({ title, categoryIds, content, userId }) => {
 };
 
 const getAll = async () => {
-  const posts = await Post.findAll({
+  const posts = await BlogPost.findAll({
     attributes: {
       include: ['published', 'updated'],
     },
