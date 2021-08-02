@@ -27,7 +27,17 @@ const getAll = rescue(async (_req, res) => {
   return res.status(200).json(blogPostsList);
 });
 
+const getById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const foundBlogPost = await blogPostServices.getById(id);
+
+  if (foundBlogPost.error) return next(foundBlogPost.error);
+
+  return res.status(200).json(foundBlogPost);
+});
+
 module.exports = {
   create,
   getAll,
+  getById,
 };

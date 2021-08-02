@@ -38,6 +38,9 @@ app.post('/post', authorization, blogPost.create);
 // Requisito 08
 app.get('/post', authorization, blogPost.getAll);
 
+// Requisito 09
+app.get('/post/:id', authorization, blogPost.getById);
+
 app.use(middlewares.error);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!')); 
