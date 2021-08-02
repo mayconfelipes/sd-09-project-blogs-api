@@ -7,7 +7,8 @@ const validateToken = (req, _res, next) => {
     const missing = { status: 401, message: 'Token not found' };
     next(missing);
   }
-  jwt.verify(authorization, process.env.JWT_SECRET);
+  const decoded = jwt.verify(authorization, process.env.JWT_SECRET);
+  req.user = decoded.userInfo;
   return next();
   } catch (err) {
     const error = { status: 401, message: 'Expired or invalid token' };
