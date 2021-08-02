@@ -24,4 +24,7 @@ module.exports = {
     const token = tokens.access.create({ email });
     return { token };
   },
+  async getAll() {
+    return User.findAll();
+  },
 };
