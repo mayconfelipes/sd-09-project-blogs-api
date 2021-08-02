@@ -16,6 +16,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/login', Login);
+app.get('/post/search', validateJWT, BlogPost.readBySearchTerm);
 app.get('/post/:id', validateJWT, BlogPost.readById);
 app.delete('/user/me', validateJWT, BlogPost.removeSelf);
 app.put('/post/:id', validateJWT, BlogPost.update);

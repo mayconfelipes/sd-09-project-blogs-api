@@ -1,6 +1,6 @@
 const rescue = require('express-rescue');
 const joi = require('joi');
-
+const { Op } = require('sequelize');
 const { sequelize } = require('../models');
 const { BlogPost, User, Category } = require('../models');
 
@@ -69,6 +69,29 @@ const readById = rescue(async (req, res) => {
     res.status(200).json(blogPost);
 });
 
+const readBySearchTerm = rescue(async (req, res) => {
+  const { q: searchTerm } = req.query;
+
+  let blogPosts = null;
+  
+  if (searchTerm) {
+    blogPosts = await BlogPost.findAll({ where: { [Op.or]: [
+        { title: { [Op.like]: `%${searchTerm}%` } },
+        { content: { [Op.like]: `%${searchTerm}%` } }] },
+        include: [
+          { model: User, as: 'user', attributes: { exclude: ['password'] } },
+          { model: Category, as: 'categories', through: { attributes: [] } },
+          ] });
+  } else {
+    blogPosts = await BlogPost.findAll({ include: [
+              { model: User, as: 'user', attributes: { exclude: ['password'] } },
+              { model: Category, as: 'categories', through: { attributes: [] } },
+          ] });
+  }
+
+  res.status(200).json(blogPosts);
+});
+
 const update = rescue(async (req, res, next) => {
     const { categoryIds } = req.body;
 
@@ -130,4 +153,5 @@ module.exports = {
     update,
     remove,
     removeSelf,
+    readBySearchTerm,
 };
