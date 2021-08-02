@@ -17,12 +17,8 @@ const createUser = async (userData) => {
   if (password.length < 6) return error.shortPassword;
   const isEmailValid = await emailValidator(email);
   if (!isEmailValid) {
-  //   console.log(isEmailValid);
-  //   console.log(error.emailAlreadyRegistered);
-  //   return error.emailAlreadyRegistered;
-  const newUser = await User.create(userData);
-  console.log(newUser);
-  return newUser;
+    const newUser = await User.create(userData);
+    return newUser;
   } return isEmailValid;
 };
 
