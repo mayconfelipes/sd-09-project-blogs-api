@@ -11,6 +11,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/user', controllers.createUser);
+app.post('/login', middlewares.userLogin);
+app.get('/user', middlewares.jwtValidate, controllers.findAll);
+app.get('/user/:id', middlewares.jwtValidate, controllers.findById);
+
+app.post('/categories', middlewares.jwtValidate, controllers.createCategory);
 
 app.use(middlewares.error);
 
