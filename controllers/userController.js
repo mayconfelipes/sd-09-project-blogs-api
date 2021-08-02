@@ -7,6 +7,7 @@ const { validateToken } = require('../utils/validateToken');
 const {
     createUserService,
     findAllUsers,
+    findById,
 } = require('../services/userService');
 
 const userSchema = Joi.object({
@@ -41,7 +42,26 @@ const findAllUser = rescue(async (req, res, next) => {
     return res.send(allUsers);
 });
 
+const findUserById = rescue(async (req, res, next) => {
+    const token = req.headers.authorization;
+    const { id } = req.params; 
+    const userInfos = validateToken(token);
+    
+    if (userInfos.error) {
+        return next({
+            statusCode: 401,
+            message: userInfos.error,
+        }); 
+    }
+
+    const userFinded = await findById(id);
+    if (userFinded.error) return next({ statusCode: 404, message: userFinded.error });
+
+    return res.status(200).json(userFinded);
+});
+
 module.exports = {
     createUser,
     findAllUser,
+    findUserById,
 };

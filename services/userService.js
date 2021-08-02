@@ -11,7 +11,15 @@ const findAllUsers = async () => {
     return allUsers;
 };
 
+const findById = async (id) => {
+    const user = await User.findByPk(id);
+    if (!user) return { error: 'User does not exist' };
+
+    return user;
+};
+
 module.exports = {
     createUserService,
     findAllUsers,
+    findById,
 };
