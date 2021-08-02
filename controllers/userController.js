@@ -15,12 +15,12 @@ module.exports = {
     image: Joi.string(),
   })),
 
-  addUser: async (req, res) => {
+  addUser: async (req, res, next) => {
     try {
       const { displayName, email, password, image } = req.body;
 
       const userExists = await User.findOne({ where: { email } });
-      if (userExists) return res.status(409).json({ message: 'User already registered' });
+      if (userExists) return next({ statusCode: 409, message: 'User already registered' });
 
       const newUser = await User.create({ displayName, email, password, image });
 
