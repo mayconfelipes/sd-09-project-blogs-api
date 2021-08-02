@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const rescue = require('express-rescue');
 const userController = require('./controllers/UserController');
 const { error } = require('./middlewares');
 
@@ -9,7 +10,7 @@ app.use(bodyParser.json());
 
 app.use(express.json());
 
-app.use('/user', userController);
+app.use('/user', rescue(userController));
 app.use(error);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

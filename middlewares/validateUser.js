@@ -2,7 +2,6 @@ const Joi = require('joi');
 
 const minCharacterName = 8;
 const minCharacterPassword = 6;
-const badRequest = 400;
 
 const schema = Joi.object({
   displayName: Joi.string().min(minCharacterName).required(),
@@ -13,7 +12,7 @@ const schema = Joi.object({
 
 const validateUser = (req, res, next) => {
   const { error } = schema.validate(req.body);
-  if (error) return res.status(badRequest).json({ message: error.message });
+  if (error) return next(error);
 
   next();
 };
