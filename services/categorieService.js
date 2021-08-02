@@ -6,4 +6,13 @@ const insertCategorie = async (categoriName) => {
     return dataValues;
 };
 
-module.exports = { insertCategorie };
+const findAllCategories = async () => {
+    const allCategories = await Categorie.findAll();
+    
+    return allCategories; 
+};
+
+module.exports = {
+    insertCategorie,
+    findAllCategories,
+};
