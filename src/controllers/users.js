@@ -36,9 +36,8 @@ const findAll = rescue(async (_req, res) => {
 
 const findById = rescue(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+
   const user = await User.findOne({ where: { id } });
-  console.log(user);
 
   if (!user) return res.status(404).json({ message: 'User does not exist' });
   return res.status(200).json(user);

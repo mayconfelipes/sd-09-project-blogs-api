@@ -18,9 +18,11 @@ app.get('/user/:id', middlewares.jwtValidate, controllers.users.findById);
 app.post('/categories', middlewares.jwtValidate, controllers.categories.create);
 app.get('/categories', middlewares.jwtValidate, controllers.categories.findAll);
 
+app.post('/post');
+
 app.use(middlewares.error);
 
-const { PORT } = process.env;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Ouvindo porta ${PORT}!`));
 
 // não remova esse endpoint, e para o avaliador funcionar
