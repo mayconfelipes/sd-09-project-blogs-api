@@ -38,7 +38,8 @@ const getPostById = async (req, res) => {
 const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
-    const { body, user } = req;
+    const { body } = req;
+    const { user } = req;
     const updatedPost = await postService.updatePost(body, id, user);
 
     return res.status(200).json(updatedPost);

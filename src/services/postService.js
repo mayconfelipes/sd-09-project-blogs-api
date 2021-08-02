@@ -1,8 +1,6 @@
 const Joi = require('joi');
 const { BlogPost, Category } = require('../models');
 
-const noPostMessage = { code: 404, message: 'Post does not exist' };
-
 const validatePostInfo = (data) =>
   Joi.object({
     title: Joi.string().required(),
@@ -49,10 +47,17 @@ const getAllPosts = async (user) => {
 };
 
 const getPostById = async (id) => {
-  const userById = await BlogPost.findByPk(id);
-  if (!userById) throw noPostMessage;
+  const postById = await BlogPost.findByPk(id);
 
-  return userById;
+  if (!postById) {
+    const noPostMessage = { code: 404, message: 'Post does not exist' };
+    throw noPostMessage;
+  }
+
+  const user = await postById.getUsers();
+  const categories = await postById.getCategories();
+
+  return { ...postById.dataValues, user, categories: [categories] };
 };
 
 const updatePost = async (body, id, user) => {
