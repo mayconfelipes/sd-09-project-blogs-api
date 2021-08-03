@@ -9,4 +9,8 @@ userRoutes.post('/',
   middValidate.validateToken,
   categoryControllers.addCategory);
 
+userRoutes.get('/',
+  middValidate.validateToken,
+  categoryControllers.listAllCategories);
+
 module.exports = userRoutes;

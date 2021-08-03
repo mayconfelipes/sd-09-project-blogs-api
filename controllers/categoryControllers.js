@@ -20,4 +20,14 @@ module.exports = {
       res.status(500).json({ message: err });
     }
   },
+
+  listAllCategories: async (_req, res, _next) => {
+    try {
+      const listCategories = await Category.findAll();
+
+      res.status(200).json(listCategories);
+    } catch (err) {
+      res.status(500).json({ message: err });
+    }
+  },
 };
