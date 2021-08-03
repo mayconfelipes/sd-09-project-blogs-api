@@ -3,6 +3,7 @@ const {
   UserController,
   LoginController,
   CategoryController,
+  BlogPostController,
 } = require('./controllers');
 const { SchemaLogin } = require('./schemas');
 
@@ -18,5 +19,6 @@ app.get('/', (request, response) => {
 app.use('/user', UserController);
 app.use('/login', SchemaLogin, LoginController);
 app.use('/categories', CategoryController);
+app.use('/post', BlogPostController);
 
 app.listen(PORT, () => console.log('ouvindo porta 3000!'));
