@@ -2,7 +2,7 @@
 
 // const postServices = require();s
 
-const createPost = async (req, res) => 'reste';
+const createPost = async (_req, _res) => 'reste';
 // const bodyReq = req.body;
 // const result = await postServices.createPost(bodyReq);
 // return res.status(status.CREATE).json(result);
