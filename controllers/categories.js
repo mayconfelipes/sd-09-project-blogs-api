@@ -8,6 +8,14 @@ const create = async (req, res) => {
   res.status(status).json(category);
 };
 
+const getAll = async (req, res) => {
+  const { status, categories, message } = await services.categories.getAll();
+
+  if (status !== 200) res.status(status).json({ message });
+  res.status(status).json(categories);
+};
+
 module.exports = {
   create,
+  getAll,
 };
