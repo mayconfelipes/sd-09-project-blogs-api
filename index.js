@@ -19,6 +19,7 @@ app.post('/categories', middlewares.jwtValidate, controllers.categories.create);
 app.get('/categories', middlewares.jwtValidate, controllers.categories.findAll);
 
 app.post('/post', middlewares.jwtValidate, controllers.blogPosts.create);
+app.get('/post', middlewares.jwtValidate, controllers.blogPosts.findAll);
 
 app.use(middlewares.error);
 

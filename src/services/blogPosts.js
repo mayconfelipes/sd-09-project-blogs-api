@@ -1,4 +1,4 @@
-const { BlogPosts, Categories } = require('../models');
+const { BlogPosts, Categories, PostCategories } = require('../models');
 
 const create = async (title, content, userId, categoryIds) => {
   const categories = await Promise.all(categoryIds.map(async (categoryId) => 
@@ -9,7 +9,11 @@ const create = async (title, content, userId, categoryIds) => {
   }
 
   const { dataValues } = await BlogPosts.create({ title, content, userId });
-  
+
+  const postCat = await Promise.all(categories.map(({ dataValues: { id } }) => 
+    PostCategories.create({ postId: dataValues.id, categoryId: id })));
+  console.log(postCat);
+
   return {
     id: dataValues.id,
     userId: dataValues.userId,
