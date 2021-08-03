@@ -31,18 +31,21 @@ const login = async ({ email, password }) => {
   return getToken(validEmail.dataValues);
 };
 
-const getAll = async ({ email }) => {
-  const userEmail = await getByEmail(email);
-  if (!userEmail) {
-    throw new CustomError('invalidToken', 'Expired or invalid token');
+const getAll = async () => User.findAll({
+  attributes: ['id', 'displayName', 'email', 'image'],
+});
+
+const getById = async (id) => {
+  const resp = await User.findByPk(id);
+  if (!resp) {
+    throw new CustomError('notFound', 'User does not exist');
   }
-  return User.findAll({
-    attributes: ['id', 'displayName', 'email', 'image'],
-  });
+  return resp;
 };
 
 module.exports = {
   create,
   login,
   getAll,
+  getById,
 };

@@ -19,10 +19,20 @@ UserRouter.post('/', UserSchema, async (req, res, next) => {
   }
 });
 
-UserRouter.get('/', Auth, async (req, res, next) => {
+UserRouter.get('/', Auth, async (_req, res, next) => {
   try {
-    const users = await User.getAll(req.userData);
+    const users = await User.getAll();
     res.status(HTTP_OK).json(users);
+  } catch (err) {
+    next(err);
+  }
+});
+
+UserRouter.get('/:id', Auth, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.getById(id);
+    res.status(HTTP_OK).json(user);
   } catch (err) {
     next(err);
   }

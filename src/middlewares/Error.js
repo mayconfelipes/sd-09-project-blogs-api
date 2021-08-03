@@ -3,6 +3,7 @@ const HTTP_INTERNAL_ERROR = 500;
 const errors = {
   invalidData: ({ message }) => ({ status: 400, message }),
   invalidToken: ({ message }) => ({ status: 401, message }),
+  notFound: ({ message }) => ({ status: 404, message }),
   invalidEmail: ({ message }) => ({ status: 409, message }),
 };
 
