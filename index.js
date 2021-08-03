@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const router = require('./routes/router');
 const middleware = require('./middlewares');
 
-const { PORT } = process.env;
+const { PORT } = process.env || 3000;
 
 const app = express();
 
