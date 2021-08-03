@@ -27,7 +27,7 @@ const findId = (req, res, _next) => {
   User.findOne({ where: { id } })
     .then((selectUser) => {
       if (!selectUser) {
-        const reply = userController.findUserError(selectUser);
+        const reply = userController.findUserError();
         return res.status(reply.code).send({ message: reply.phrase });
       }      
       const reply = userController.findUserOk(selectUser);

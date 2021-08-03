@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParse = require('body-parser');
 const userRouter = require('./router/userRouter');
 const loginRouter = require('./router/loginRouter');
-const categoriesRouter = require('./router/categorieRouter');
+const blogpostRouter = require('./router/blogpostRouter');
+const categorieRouter = require('./router/categorieRouter');
 
 const app = express();
 const PORT = 3000; // trocar para 3000
@@ -23,4 +24,7 @@ app.use('/user', userRouter);
 app.use('/login', loginRouter);
 
 // rota inicial categorias
-app.use('/categories', categoriesRouter);
+app.use('/categories', categorieRouter);
+
+// rota inicial blogpost
+app.use('/post', blogpostRouter);

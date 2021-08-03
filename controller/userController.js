@@ -48,10 +48,8 @@ const createUserReplyError = (answer) => {
   if (passwordError) return passwordError;
 };
 
-const findUserError = (selectUser) => {
-  console.error(selectUser); 
-  return { code: stateNotFound, phrase: 'User does not exist' };
-};
+const findUserError = () => ({ code: stateNotFound, phrase: 'User does not exist' });
+
 // switch (selectResponse) {
   //  case 'Validation len on displayName failed':
   //    return { code: stateBadRequest, phrase: 'displayName length must be at least 8 characters long'};
