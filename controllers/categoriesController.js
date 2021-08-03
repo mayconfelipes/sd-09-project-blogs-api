@@ -2,12 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 const categoriesService = require('../services/categoriesService');
-const { validateCategorie, validateToken } = require('../middlewares');
+const { validateCategorieName, validateToken } = require('../middlewares');
 
 const statusSucessCreate = 201;
 const ok = 200;
 
-router.post('/', validateCategorie, validateToken, async (req, res, _next) => {
+router.post('/', validateCategorieName, validateToken, async (req, res, _next) => {
   const newCategorie = await categoriesService.create(req.body.name);
 
   res.status(statusSucessCreate).json(newCategorie);

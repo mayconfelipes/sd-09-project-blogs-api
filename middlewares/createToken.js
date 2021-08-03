@@ -8,12 +8,9 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-module.exports = (req, _res, next) => {
-  const { password, ...user } = req.body;
-  console.log(password);
-  const token = jwt.sign(user, SECRET, jwtConfig);
+module.exports = (user) => {
+  const { password, ...userWhitoutPassword } = user;
+  const token = jwt.sign(userWhitoutPassword, SECRET, jwtConfig);
 
-  req.token = token;
-
-  next();
+  return token;
 };

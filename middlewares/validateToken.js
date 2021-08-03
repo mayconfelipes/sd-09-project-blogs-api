@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
 
     try {
         const payload = jwt.verify(token, secret);
-        req.id = payload.id;
+        req.id = payload.dataValues.id;
         next();
     } catch (err) {
         return res.status(401).json({ message: 'Expired or invalid token' });

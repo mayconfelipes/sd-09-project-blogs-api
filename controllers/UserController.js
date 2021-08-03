@@ -2,15 +2,14 @@ const express = require('express');
 
 const router = express.Router();
 const userService = require('../services/UserService');
-const { validateUser, createToken, checkEmailExists, validateToken } = require('../middlewares');
+const { validateUser, checkEmailExists, validateToken } = require('../middlewares');
 
 const statusSucessCreate = 201;
 const ok = 200;
 
-router.post('/', validateUser, checkEmailExists, createToken, async (req, res, _next) => {
-  await userService.create(req.body);
+router.post('/', validateUser, checkEmailExists, async (req, res, _next) => {
+  const token = await userService.create(req.body);
 
-  const { token } = req;
   res.status(statusSucessCreate).json({ token });
 });
 

@@ -1,15 +1,16 @@
 const { User } = require('../models');
+const { createToken } = require('../middlewares');
 
 const create = async ({ displayName, email, password, image }) => {
   const user = await User.create({ displayName, email, password, image });
-
-  return user;
+  const token = createToken(user);
+  return token;
 };
 
 const login = async ({ email }) => {
   const user = await User.findOne({ where: { email } });
-  
-  return user;
+  const token = createToken(user);
+  return token;
 };
 
 const getAll = async () => {
