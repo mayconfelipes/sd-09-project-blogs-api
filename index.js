@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser').json();
 const controllers = require('./controllers');
-const validateJWT = require('./auth/validateJWT');
+// const validateJWT = require('./auth/validateJWT');
 
 const app = express();
 

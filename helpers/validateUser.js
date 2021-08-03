@@ -1,6 +1,6 @@
 const response = require('./response');
 
-const validateName = (name) => typeof name !== 'string' || name.length < 8;
+const validateName = (name) => typeof name === 'string' && name.length >= 8;
 
 const validatePassword = (password) => {
   if (!password) return '"password" is required';
@@ -17,7 +17,7 @@ const validateEmail = (email) => {
 
 const validateUser = (displayName, password, email) => {
   if (!validateName(displayName)) {
-    return response(400, '"displayName" lenght must be at least 8 characters long');
+    return response(400, '"displayName" length must be at least 8 characters long');
   }
   const passwordValidation = validatePassword(password);
   if (passwordValidation !== 'validated') {
