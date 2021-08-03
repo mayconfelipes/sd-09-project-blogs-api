@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const Auth = require('../middlewares/Auth');
 const UserSchema = require('../middlewares/UserSchema');
 const User = require('../services/User');
 
@@ -13,6 +14,15 @@ UserRouter.post('/', UserSchema, async (req, res, next) => {
     const userData = req.body;
     const token = await User.create(userData);
     res.status(HTTP_CREATED).json({ token });
+  } catch (err) {
+    next(err);
+  }
+});
+
+UserRouter.get('/', Auth, async (req, res, next) => {
+  try {
+    const users = await User.getAll(req.userData);
+    res.status(HTTP_OK).json(users);
   } catch (err) {
     next(err);
   }
