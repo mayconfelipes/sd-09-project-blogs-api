@@ -25,7 +25,15 @@ const login = async (req, res) => {
   res.status(status).json({ token });
 };
 
+const getAll = async (req, res) => {
+  const { status, users, message } = await services.users.getAll();
+
+  if (status !== 200) return res.status(status).json({ message });
+  res.status(status).json(users);
+};
+
 module.exports = {
   signIn,
   login,
+  getAll,
 };

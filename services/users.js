@@ -44,7 +44,20 @@ const login = async (userEmail, userPassword) => {
   }
 };
 
+const getAll = async () => {
+  try {
+    const users = await User.findAll();
+    return {
+      status: 200,
+      users,
+    };
+  } catch (error) {
+    return response(500, error.message);
+  }
+};
+
 module.exports = {
   signIn,
   login,
+  getAll,
 };
