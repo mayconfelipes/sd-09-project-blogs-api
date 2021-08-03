@@ -33,8 +33,20 @@ const getAll = async () => {
   return result;
 };
 
+const getById = async (id) => {
+  if (id) {
+    const user = await Users.findOne({
+      where: {
+        id,
+      },
+    });
+    return user;
+  }
+};
+
 module.exports = {
   createUser,
   validateEmail,
   getAll,
+  getById,
 };

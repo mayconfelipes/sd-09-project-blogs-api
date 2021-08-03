@@ -6,7 +6,7 @@ const route = express.Router();
 
 route.post('/user', userController.createUser);
 route.get('/user',
-validateJWT,
-userController.getAll);
-
+validateJWT, userController.getAll);
+route.get('/user/:id', 
+validateJWT, userController.getById);
 module.exports = route;
