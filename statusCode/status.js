@@ -2,6 +2,7 @@ const OK = 200;
 const CREATE = 201;
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
+const USER_EXIST = 409;
 const INTERNAL_SERVER_ERROR = 500;
 
 module.exports = {
@@ -9,5 +10,6 @@ module.exports = {
   CREATE,
   BAD_REQUEST,
   UNAUTHORIZED,
+  USER_EXIST,
   INTERNAL_SERVER_ERROR,
 };
