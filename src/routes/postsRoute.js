@@ -3,8 +3,8 @@ const {
   createPost,
   getAllPosts,
   getPostById,
-  // updatePost,
-  // deletePost,
+  updatePost,
+  deletePost,
 } = require('../controllers/postsController');
 const tokenMiddleware = require('../middlewares/tokenMiddleware');
 
@@ -14,8 +14,8 @@ PostRoute.route('/post')
   .get(tokenMiddleware, getAllPosts);
 
 PostRoute.route('/post/:id')
-  .get(tokenMiddleware, getPostById);
-  // .put(tokenMiddleware, updatePost);
-  // .delete(tokenMiddleware, deletePost);
+  .get(tokenMiddleware, getPostById)
+  .put(tokenMiddleware, updatePost)
+  .delete(tokenMiddleware, deletePost);
 
 module.exports = PostRoute;
