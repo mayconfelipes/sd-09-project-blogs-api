@@ -1,6 +1,6 @@
 // const { create } = require('frisby');
 const rescue = require('express-rescue');
-const { createUser } = require('../services/userService');
+const { createUser, logIn } = require('../services/userService');
 
 const generateUser = rescue(async (req, res, next) => {
   const result = await createUser(req.body);
@@ -8,13 +8,13 @@ const generateUser = rescue(async (req, res, next) => {
   return res.status(201).json(result);
 });
 
-// const generateLogin = rescue(async (req, res, next) => {
-//   const result = await logIn(req.body);
-//   if (result.status) return next(result);
-//   res.status(200).json(result);
-// });
+const generateLogin = rescue(async (req, res, next) => {
+  const result = await logIn(req.body);
+  if (result.status) return next(result);
+  res.status(200).json(result);
+});
 
 module.exports = {
   generateUser,
-  // generateLogin,
+  generateLogin,
 };

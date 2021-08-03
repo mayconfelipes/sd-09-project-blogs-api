@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/user', userController.generateUser);
-// app.post('/login', userController.generateLogin);
+app.post('/login', userController.generateLogin);
 
 // app.get('/users', async (req, res) => {
 //   try {
