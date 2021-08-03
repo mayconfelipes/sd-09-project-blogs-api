@@ -1,9 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
-  const Categories = sequelize.define('Category', {
+  const Categories = sequelize.define('Categories', {
     name: DataTypes.STRING,
   }, 
-  { timestamps: false },
-  { tableName: 'Categories' });
+  { timestamps: false });
   
   Categories.associate = (models) => {
     Categories.hasOne(models.PostCategories, { 

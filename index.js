@@ -18,7 +18,7 @@ app.get('/user/:id', middlewares.jwtValidate, controllers.users.findById);
 app.post('/categories', middlewares.jwtValidate, controllers.categories.create);
 app.get('/categories', middlewares.jwtValidate, controllers.categories.findAll);
 
-app.post('/post');
+app.post('/post', middlewares.jwtValidate, controllers.blogPosts.create);
 
 app.use(middlewares.error);
 
