@@ -10,6 +10,7 @@ app.use(bodyParser);
 module.exports = app;
 
 app.use('/user', Routes.userRoutes);
+app.use('/login', Routes.loginRoutes);
 
 app.use(handleError);
 

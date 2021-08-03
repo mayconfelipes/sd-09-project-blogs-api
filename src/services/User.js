@@ -22,4 +22,5 @@ const create = async (displayName, email, password, image) => {
 
 module.exports = {
   create,
+  getByEmail,
 };
