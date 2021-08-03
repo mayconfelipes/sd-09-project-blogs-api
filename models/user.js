@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       underscored: true,
       tableName: 'Users',
-    }
+    },
   );
 
   return User;
