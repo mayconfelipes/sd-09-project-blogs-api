@@ -1,7 +1,7 @@
 const { BlogPost } = require('../models');
-const { PostsCategory } = require('../models');
+const { PostsCategory, User, Category } = require('../models');
 const CustomError = require('../utils/CustomError');
-const Category = require('./Category');
+const CategoryService = require('./Category');
 
 const associateCategory = (categoryIds, postId) => {
   categoryIds.forEach((categoryId) => {
@@ -10,7 +10,7 @@ const associateCategory = (categoryIds, postId) => {
 };
 
 const checkCategories = async (categoryIds) => {
-  const categories = await Category.getAll();
+  const categories = await CategoryService.getAll();
   categoryIds.forEach((id) => {
     if (!(categories.some(({ dataValues }) => dataValues.id === id))) {
       throw new CustomError('invalidData', '"categoryIds" not found');
@@ -30,6 +30,13 @@ const create = async ({ title, content, categoryIds }, userId) => {
   };
 };
 
+const getAll = () => BlogPost.findAll({ 
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+  ] });
+
 module.exports = {
   create,
+  getAll,
 };
