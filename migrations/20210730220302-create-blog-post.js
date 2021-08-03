@@ -15,21 +15,23 @@ module.exports = {
         type: Sequelize.STRING
       },
       userId: {
-        type: Sequelize.INTEGER
-      },
-      published: {
-        type: Sequelize.DATE
-      },
-      updated: {
-        type: Sequelize.DATE
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       createdAt: {
+        field: 'published',
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date(),
       },
       updatedAt: {
+        field:'updated',
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        dafaultValue: new Date(),
       }
     });
   },
