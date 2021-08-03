@@ -11,6 +11,17 @@ const createUser = (req, _res, next) => {
   next();
 };
 
+const login = (req, _res, next) => {
+  const { email, password } = req.body;
+
+  const { error } = Schemas.login.validate({ email, password });
+
+  if (error) next(new Errors.JoiError(error.message));
+
+  next();
+};
+
 module.exports = {
   createUser,
+  login,
 };

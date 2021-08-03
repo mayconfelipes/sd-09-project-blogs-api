@@ -3,7 +3,6 @@ const Errors = require('../util/errors');
 
 const create = async (displayName, email, password, image) => {
   const userIsRegistered = await User.findOne({ where: { email } });
-  console.log('aqui');
 
   if (userIsRegistered) throw new Errors.EmailAlreadyExist();
 
