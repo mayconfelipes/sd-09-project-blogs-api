@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('./controllers/UsersController');
 const Categorie = require('./controllers/CategorieController');
+const Post = require('./controllers/PostController');
 const errorMiddleware = require('./middlewares/error');
 const { userValidate } = require('./middlewares/tokenValidation');
 
@@ -20,5 +21,6 @@ app.get('/user', userValidate, User.getAll);
 app.get('/user/:id', userValidate, User.getOne);
 app.post('/categories', userValidate, Categorie.create);
 app.get('/categories', userValidate, Categorie.getAll);
+app.post('/post', userValidate, Post.create);
 
 app.use(errorMiddleware);

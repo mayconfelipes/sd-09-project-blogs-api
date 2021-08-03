@@ -7,13 +7,12 @@ const validateUserData = (code, message) => ({ code, message });
 
 async function userValidate(req, _res, next) {
   const token = req.headers.authorization;
-  console.log(secret);
-  console.log(token);
   if (!token) {
     return next(validateUserData(401, 'Token not found'));
   }
   try {
-    jwt.verify(token, secret);
+    const payload = jwt.verify(token, secret);
+    req.userId = payload.emailRegistered.id;
   } catch (err) {
     next(validateUserData(401, 'Expired or invalid token'));
   }
