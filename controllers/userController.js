@@ -12,4 +12,8 @@ userRouter.post('/', rescue(async (req, res) => {
   return res.status(201).json({ token: newUser });
 }));
 
+// userRouter.get('/', rescue(async (req, res) => {
+//   const 
+// }));
+
 module.exports = userRouter;
