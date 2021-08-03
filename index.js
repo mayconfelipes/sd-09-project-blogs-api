@@ -33,4 +33,6 @@ app.post('/post', validateToken, postControllers.create);
 
 app.get('/post', validateToken, postControllers.getAll);
 
+app.get('/post/:id', validateToken, postControllers.getById);
+
 app.use(sendErrorMessage);

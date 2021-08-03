@@ -3,11 +3,16 @@ const { BlogPost, PostsCategory, User, Category } = require('../models');
 const categoryServices = require('./categories');
 const { messageError } = require('../middwares/errors');
 
-const { BAD_REQUEST_STATUS, INTERNAL_ERROR_STATUS } = require('../middwares/httpStatus');
+const { 
+  BAD_REQUEST_STATUS,
+  INTERNAL_ERROR_STATUS,
+  NOT_FOUND_STATUS } = require('../middwares/httpStatus');
 
-const { CATEGORY_NOT_FOUND,
+const { 
+  CATEGORY_NOT_FOUND,
   POST_NOT_CREATED,
-  POSTCAT_NOT_CREATED } = require('../middwares/errorMessages');
+  POSTCAT_NOT_CREATED, 
+  POST_NOT_EXIST } = require('../middwares/errorMessages');
 
 const postSchema = joi.object({
   title: joi.string().required(),
@@ -60,7 +65,20 @@ const getAll = async () => {
   return allPosts;
 };
 
+const getById = async (id) => {
+  const post = await BlogPost.findByPk(id,
+    { include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } }] });
+
+  if (!post) {
+    throw messageError(NOT_FOUND_STATUS, POST_NOT_EXIST);
+  }
+
+  return post;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };
