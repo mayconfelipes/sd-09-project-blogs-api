@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const errorMiddleware = require('./middleware/error');
 const User = require('./controllers/User');
 const Login = require('./controllers/Login');
+const validateJWT = require('./auth/validateJWT');
 
 const app = express();
 
@@ -21,13 +22,6 @@ app.post('/User', User.registerUser);
 
 app.post('/login', Login.userLogin);
 
-// app.get('/User', (req, res) => {
-//     User.findAll().then((data) => {
-//         res.status(200).json(data);
-//       }).catch((e) => {
-//           console.log(e.message);
-//           res.status(500).json({ message: 'Deu ruim' });
-//         });
-//       });
+app.get('/user', validateJWT, User.getAllUsers);
 
 app.use(errorMiddleware);

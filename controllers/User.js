@@ -23,6 +23,13 @@ const registerUser = rescue(async (req, res, next) => {
   return res.status(201).json({ token });
 });
 
+const getAllUsers = async (_req, res, _next) => {
+  const allUsers = await User.getAllUsers();
+
+  return res.status(200).json(allUsers);
+};
+
 module.exports = {
   registerUser,
+  getAllUsers,
 };
