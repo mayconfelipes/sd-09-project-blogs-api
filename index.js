@@ -3,6 +3,7 @@ const bodyParser = require('body-parser').json();
 const userRoute = require('./src/routes/user');
 const loginRoute = require('./src/routes/login');
 const categoriesRoute = require('./src/routes/categories');
+const postRoute = require('./src/routes/posts');
 
 const app = express();
 app.use(bodyParser);
@@ -17,5 +18,6 @@ app.get('/', (request, response) => {
 app.use('/user', userRoute);
 app.use('/login', loginRoute);
 app.use('/categories', categoriesRoute);
+app.use('/post', postRoute);
 
-app.use((err, req, res, _next) => res.status(err.errorCode).json({ message: err.message }));
+app.use((err, req, res, _next) => res.status(err.errorCode || 500).json({ message: err.message }));

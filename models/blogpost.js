@@ -3,7 +3,13 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     userId: DataTypes.INTEGER,
-  });
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+  }, { timestamps: false });
+  // tive que adicionar o campo de timestamps false pois
+  // havia entendido errado o que significava. Após buscar
+  // na internet entendi que era pra não precisar passar
+  // valores para os campos na criação de um novo post
 
   BlogPost.associate = (models) => {
     BlogPost.belongsTo(models.Users,

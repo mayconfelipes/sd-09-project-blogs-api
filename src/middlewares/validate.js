@@ -1,7 +1,7 @@
 require('dotenv').config();
 const JOI = require('joi');
 const jwt = require('jsonwebtoken');
-const { Users } = require('../../models');
+const { Users, Categories } = require('../../models');
 const response = require('./responseCodes');
 
 const genError = (errorCode, message) => ({
@@ -14,6 +14,12 @@ const USER_SCHEMA = JOI.object({
   email: JOI.string().email().required(),
   password: JOI.string().length(6).required(),
   image: JOI.string(),
+});
+
+const BLOG_POST_SCHEMA = JOI.object({
+  title: JOI.string().required(),
+  content: JOI.string().required(),
+  categoryIds: JOI.array().items(JOI.number()).required(),
 });
 
 const userDetails = (req, _res, next) => {
@@ -67,11 +73,12 @@ const authToken = async (req, res, next) => {
   try {
     const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
     const user = await Users.findOne({ where: { email: decodedToken.email } });
+    console.log(`O valor de user é: ${user}`);
         
     if (!user || !decodedToken) {
       return next(genError(response.UNAUTHORIZED, 'Expired or invalid token'));
     }
-
+    req.user = user;
     return next();
   } catch (error) {
     return next(genError(response.UNAUTHORIZED, 'Expired or invalid token'));
@@ -92,6 +99,22 @@ const categoryCreation = (req, _res, next) => {
   return next();
 };
 
+const newPostInfo = (req, _res, next) => {
+  const postInfoIsValid = BLOG_POST_SCHEMA.validate(req.body);
+  if (postInfoIsValid.error) {
+    return next(genError(response.BAD_REQUEST, postInfoIsValid.error.details[0].message));
+  }
+  return next();
+};
+
+const categoryExists = async (req, _res, next) => {
+  const { categoryIds } = req.body;
+  const validCategories = await Categories.findAll();
+  const postCatValid = categoryIds.every((cat) => validCategories.some((vcat) => vcat.id === cat));
+  if (!postCatValid) return next(genError(response.BAD_REQUEST, '"categoryIds" not found'));
+  return next();
+};
+
 module.exports = {
   userDetails,
   userIsNew,
@@ -101,4 +124,6 @@ module.exports = {
   authToken,
   userId,
   categoryCreation,
+  newPostInfo,
+  categoryExists,
 };
