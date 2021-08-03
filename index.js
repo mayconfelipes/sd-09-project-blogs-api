@@ -22,5 +22,6 @@ app.get('/user/:id', userValidate, User.getOne);
 app.post('/categories', userValidate, Categorie.create);
 app.get('/categories', userValidate, Categorie.getAll);
 app.post('/post', userValidate, Post.create);
+app.get('/post', userValidate, Post.getAll);
 
 app.use(errorMiddleware);

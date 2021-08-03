@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const { BlogPosts, Categories } = require('../models');
+const { BlogPosts, Categories, Users } = require('../models');
 
 const schemaPostCreate = Joi.object({
   title: Joi.string().required(),
@@ -23,9 +23,22 @@ const create = async ({ userId, title, content, categoryIds }) => {
   if (!validCategories) throw validatePostData(400, '"categoryIds" not found');
 
   const post = await BlogPosts.create({ userId, title, content });
+
   return post;
 };
 
+const getAll = async () => {
+  const posts = await BlogPosts.findAll(
+    { include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ] },
+  );
+
+  return posts;
+}
+
 module.exports = {
   create,
+  getAll,
 };
