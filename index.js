@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const errorMiddleware = require('./middleware/error');
 const User = require('./controllers/User');
 const Login = require('./controllers/Login');
+const Category = require('./controllers/Categories');
 const validateJWT = require('./auth/validateJWT');
 
 const app = express();
@@ -25,5 +26,7 @@ app.post('/login', Login.userLogin);
 app.get('/user', validateJWT, User.getAllUsers);
 
 app.get('/user/:id', validateJWT, User.getUserById);
+
+app.post('/categories', validateJWT, Category.createCategory);
 
 app.use(errorMiddleware);
