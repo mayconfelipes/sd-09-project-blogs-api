@@ -10,6 +10,8 @@ const statusCodes = {
   passwordRequired: 400,
   passwordIsEmpty: 400,
   userInvalid: 400,
+  jwtNotFound: 401,
+  jwtInvalid: 401,
 };
 
 module.exports = statusCodes;
