@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('PostCategories', {
+    await queryInterface.createTable('PostsCategories', {
       postId: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -10,7 +10,7 @@ module.exports = {
         field: 'postId',
         references: {
           model: 'BlogPosts',
-          key: 'id',
+          foreignKey: 'id',
         }
       },
       categoryId: {
@@ -21,12 +21,12 @@ module.exports = {
         field: 'categoryId',
         references: {
           model: 'Categories',
-          key: 'id',
+          foreignKey: 'id',
         }
       }
     });
   },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('PostCategories');
+  down: async (queryInterface, _Sequelize) => {
+    await queryInterface.dropTable('PostsCategories');
   }
 };
