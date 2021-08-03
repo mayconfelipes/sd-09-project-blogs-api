@@ -1,3 +1,14 @@
 export MYSQL_USER=edison
 export MYSQL_PASSWORD=Trybe12@
 export HOSTNAME=localhost
+
+    createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        field: 'published',
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        field: 'updated',
+      }
