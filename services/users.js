@@ -1,11 +1,10 @@
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const response = require('../helpers/response');
+const generateToken = require('../auth/generateToken');
 const validateUser = require('../helpers/validateUser');
+const validateLogin = require('../helpers/validateLogin');
 const userExists = require('../helpers/userExists');
-
-const SECRET = process.env.JWT_SECRET;
 
 const signIn = async (displayName, email, password, image) => {
   const userValidation = validateUser(displayName, password, email);
@@ -19,10 +18,8 @@ const signIn = async (displayName, email, password, image) => {
   try {
     const newUser = await User.create({ displayName, email, password, image });
     if (newUser) {
-      const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
-      const token = jwt.sign(
-        { displayName: newUser.displayName, email: newUser.email }, SECRET, jwtConfig,
-      );
+      const payload = { email: newUser.email };
+      const token = generateToken(payload);
       return { status: 201, token };
     }
   } catch (error) {
@@ -30,6 +27,24 @@ const signIn = async (displayName, email, password, image) => {
   }
 };
 
+const login = async (userEmail, userPassword) => {
+  const fieldsValidation = validateLogin(userEmail, userPassword);
+  if (fieldsValidation.status !== 200) {
+    return response(fieldsValidation.status, fieldsValidation.message);
+  }
+
+  try {
+    const user = await User.findOne({ where: { email: userEmail } });
+    if (!user || user.password !== userPassword) return response(400, 'Invalid fields');
+    const payload = { email: user.email };
+    const token = generateToken(payload);
+    return { status: 200, token };
+  } catch (error) {
+    return response(500, error.message);
+  }
+};
+
 module.exports = {
   signIn,
+  login,
 };

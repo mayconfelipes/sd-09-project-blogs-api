@@ -3,12 +3,12 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.createTable('BlogPosts', {
-      postId: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
-        field: 'post_id',
+        field: 'id',
       },
       title: {
         allowNull: false,
@@ -23,7 +23,7 @@ module.exports = {
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        field: 'user_id',
+        field: 'userId',
       },
       published: {
         allowNull: false,

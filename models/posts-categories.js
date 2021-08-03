@@ -6,14 +6,14 @@ module.exports = (sequelize, DataTypes) => {
   {
     timestamps: false,
     tableName: 'PostsCategories',
-    underscored: true,
+    underscored: false,
   });
 
   PostCategory.associate = (models) => {
     PostCategory.belongsTo(models.BlogPost, 
-      { foreignKey: 'post_id', as: 'posts' });
+      { foreignKey: 'postId', as: 'posts' });
     PostCategory.belongsTo(models.Category, 
-      { foreignKey: 'category_id', as: 'categories' });
+      { foreignKey: 'categoryId', as: 'categories' });
   };
 
   return PostCategory;
