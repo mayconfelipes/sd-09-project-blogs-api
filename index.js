@@ -12,6 +12,7 @@ app.post('/user', userController.generateUser);
 app.post('/login', userController.generateLogin);
 
 app.get('/user', userController.getAll);
+app.get('/user/:id', userController.getById);
 // async (req, res) => {
 //   try {
 //     const users = await User.findAll({});

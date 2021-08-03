@@ -53,6 +53,11 @@ const expiredOrInvalidToken = {
   status: 401,
 };
 
+const userNotFound = {
+  message: 'User does not exist',
+  status: 404,
+};
+
 module.exports = {
   invalidEmail,
   requiredEmail,
@@ -65,4 +70,5 @@ module.exports = {
   invalidFields,
   tokenNotFound,
   expiredOrInvalidToken,
+  userNotFound,
 };
