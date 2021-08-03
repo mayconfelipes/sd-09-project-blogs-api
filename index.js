@@ -31,4 +31,6 @@ app.get('/categories', validateToken, categoryControllers.getAll);
 
 app.post('/post', validateToken, postControllers.create);
 
+app.get('/post', validateToken, postControllers.getAll);
+
 app.use(sendErrorMessage);

@@ -1,5 +1,5 @@
 const joi = require('joi');
-const { BlogPost, PostsCategory } = require('../models');
+const { BlogPost, PostsCategory, User, Category } = require('../models');
 const categoryServices = require('./categories');
 const { messageError } = require('../middwares/errors');
 
@@ -51,6 +51,16 @@ const create = async (post, userId) => {
   return newPost;
 };
 
+const getAll = async () => {
+  const allPosts = await BlogPost.findAll(
+    { include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } }] },
+    );
+
+  return allPosts;
+};
+
 module.exports = {
   create,
+  getAll,
 };
