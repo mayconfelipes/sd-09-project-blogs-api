@@ -18,5 +18,6 @@ router.post('/', [
 ]);
 
 router.get('/', [validateToken, User.findAll]);
+router.get('/:id', [validateToken, User.findByPk]);
 
 module.exports = router;

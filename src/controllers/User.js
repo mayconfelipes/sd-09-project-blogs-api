@@ -9,8 +9,8 @@ const create = rescue(async (req, res, next) => {
   if (response.err) {
     return next({
       error: {
-        message: response.err.message,
         statusCode: 409,
+        message: response.err.message,
       },
     });
   }
@@ -24,7 +24,25 @@ const findAll = rescue(async (_req, res) => {
   return res.status(200).json(users);
 });
 
+const findByPk = rescue(async (req, res, next) => {
+  const { id } = req.params;
+
+  const response = await User.findByPk(id);
+
+  if (response.err) {
+    return next({
+      error: {
+        statusCode: 404,
+        message: 'User does not exist',
+      },
+    });
+  }
+
+  return res.status(200).json(response);
+});
+
 module.exports = {
   create,
   findAll,
+  findByPk,
 };

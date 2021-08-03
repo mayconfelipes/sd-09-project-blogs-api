@@ -26,8 +26,25 @@ const findAll = async () => {
   return users;
 };
 
+const findByPk = async (id) => {
+  const user = await User.findByPk(id);
+
+  if (!user) {
+    return {
+      err: {
+        message: 'User does not exist',
+      },
+    };
+  }
+
+  console.log(user);
+
+  return user;
+};
+
 module.exports = {
   create,
   getByEmail,
   findAll,
+  findByPk,
 };
