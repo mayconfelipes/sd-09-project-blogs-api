@@ -1,5 +1,5 @@
 const joi = require('joi');
-const { BlogPost, PostCategory } = require('../models');
+const { BlogPost, PostsCategory } = require('../models');
 const categoryServices = require('./categories');
 const { messageError } = require('../middwares/errors');
 
@@ -39,8 +39,10 @@ const create = async (post, userId) => {
   if (!newPost) {
     throw messageError(INTERNAL_ERROR_STATUS, POST_NOT_CREATED);
   }
-console.log(newPost.id,categoryIds[0])
-  const postCategory = await PostCategory.create(newPost.id, categoryIds[0]);
+
+  const postCategory = await PostsCategory.create({ 
+    postId: newPost.id,
+    categoryId: categoryIds[0] });
 
   if (!postCategory) {
     throw messageError(INTERNAL_ERROR_STATUS, POSTCAT_NOT_CREATED);

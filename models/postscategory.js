@@ -1,25 +1,21 @@
-// eslint-disable-next-line max-lines-per-function
 module.exports = (sequelize, DataTypes) => {
-  const PostCategory = sequelize.define('PostCategory', {
+  const PostsCategory = sequelize.define('PostsCategory', {
     postId: DataTypes.INTEGER,
     categoryId: DataTypes.INTEGER,
   }, { timestamps: false });
 
-  PostCategory.associate = (models) => {
+  PostsCategory.associate = (models) => {
     models.BlogPost.belongsToMany(models.Category, {
       as: 'blog',
-      through: PostCategory,
+      through: PostsCategory,
       foreignKey: 'postId',
-      otherKey: 'categoryId',
-    });
-  
+      otherKey: 'categoryId' });
+      
     models.Category.belongsToMany(models.BlogPost, {
       as: 'category',
-      through: PostCategory,
+      through: PostsCategory,
       foreignKey: 'categoryId',
-      otherKey: 'postId',
-    });
+      otherKey: 'postId' });
   };
-
-  return PostCategory;
+  return PostsCategory;
 };
