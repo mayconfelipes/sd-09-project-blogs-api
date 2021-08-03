@@ -5,7 +5,7 @@ const createCategories = async (req, res) => {
   const bodyReq = req.body;
   const result = await categoriServices.createCategories(bodyReq);
   if (result.message) {
-    res.status(status.BAD_REQUEST).json(result);
+    return res.status(status.BAD_REQUEST).json(result);
   }
   return res.status(status.CREATE).json(result);
 };
