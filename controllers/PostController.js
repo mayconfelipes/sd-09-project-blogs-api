@@ -13,7 +13,7 @@ const getAll = async (_req, res) => {
   const posts = await Post.getAll();
 
   return res.status(200).json(posts);
-}
+};
 
 module.exports = {
   create,

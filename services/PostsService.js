@@ -36,7 +36,7 @@ const getAll = async () => {
   );
 
   return posts;
-}
+};
 
 module.exports = {
   create,
