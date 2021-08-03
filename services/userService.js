@@ -30,4 +30,5 @@ const createUser = async (bodyReq) => {
 
 module.exports = {
   createUser,
+  validateEmail,
 };
