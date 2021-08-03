@@ -16,4 +16,7 @@ module.exports = {
     const category = await Category.create(payload);
     return category;
   },
+  async getAll() {
+    return Category.findAll();
+  },
 };
