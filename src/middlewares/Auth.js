@@ -8,7 +8,8 @@ module.exports = async (req, _res, next) => {
       throw new CustomError('invalidToken', 'Token not found');
     }
     try {
-      jwt.verify(token, process.env.JWT_SECRET);
+      const userData = jwt.verify(token, process.env.JWT_SECRET);
+      req.userData = userData;
       next();
     } catch (err) {
       throw new CustomError('invalidToken', 'Expired or invalid token');

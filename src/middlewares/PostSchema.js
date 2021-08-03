@@ -3,10 +3,12 @@ const CustomError = require('../utils/CustomError');
 
 module.exports = (req, _res, next) => {
   try {
-    const categoryData = req.body;
+    const postData = req.body;
     const { error } = Joi.object({
-      name: Joi.string().required().not().empty(),
-    }).validate(categoryData);
+      title: Joi.string().required().not().empty(),
+      content: Joi.string().required().not().empty(),
+      categoryIds: Joi.array().items(Joi.number().required()).required(),
+    }).validate(postData);
     if (error) {
       throw new CustomError('invalidData', error.details[0].message);
     }
