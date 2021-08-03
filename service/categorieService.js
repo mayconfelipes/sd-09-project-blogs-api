@@ -14,6 +14,15 @@ const createCategorie = (req, res, _next) => {
     });
 };
 
+const showAllCategories = (req, res, _next) => {
+  Categorie.findAll()
+    .then((listCategories) => {
+      const reply = categorieController.showAllOk(listCategories);
+      res.status(reply.code).send(reply.list);
+    });
+};
+
 module.exports = {
   createCategorie,
+  showAllCategories,
 };

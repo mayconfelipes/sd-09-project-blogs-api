@@ -1,3 +1,4 @@
+const stateOk = 200;
 const stateCreated = 201;
 const stateBadRequest = 400;
 
@@ -12,7 +13,10 @@ const createCategorieOk = (newCategorie) => {
   return { code: stateCreated, categorie };
 };
 
+const showAllOk = (list) => ({ code: stateOk, list });
+
 module.exports = {
   createCategorieOk,
   createCategorieError,
+  showAllOk,
 };
