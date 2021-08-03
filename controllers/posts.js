@@ -12,4 +12,13 @@ module.exports = {
       next(err);
     }
   },
+  async getAll(_req, res, next) {
+    try {
+      const response = await postsService.getAll();
+
+      res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
