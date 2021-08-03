@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/user', userController.createUser);
-
+app.post('/login', userController.login);
 app.use((err, _req, res, _next) => {
   if (!err.status) {  
     return res.status(500).json(err.message);

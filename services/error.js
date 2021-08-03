@@ -13,6 +13,21 @@ const emailAlreadyRegistered = {
   message: 'User already registered',
 };
 
+const emptyEmail = {
+  message: '"email" is not allowed to be empty',
+  status: 400,
+};
+
+const emptyPassword = {
+  message: '"password" is not allowed to be empty',
+  status: 400,
+};
+
+const invalidFields = {
+  message: 'Invalid fields',
+  status: 400,
+};
+
 const shortDisplayName = {
   message: '"displayName" length must be at least 8 characters long',
   status: 400,
@@ -35,4 +50,7 @@ module.exports = {
   shortDisplayName,
   shortPassword,
   requiredPassword,
+  emptyEmail,
+  emptyPassword,
+  invalidFields,
 }; 

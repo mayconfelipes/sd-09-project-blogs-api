@@ -1,5 +1,6 @@
 const { User } = require('../models');
 const error = require('./error');
+const auth = require('./auth');
 
 const emailValidator = async (email) => {
   if (!email) return error.requiredEmail;
@@ -21,6 +22,19 @@ const createUser = async (userData) => {
   } return isEmailValid;
 };
 
+const login = async ({ email, password }) => {
+   const checkData = await auth.isInvalidLogin(email, password);
+   if (checkData !== null) {
+     return checkData;
+   }
+   const validUser = await User.findOne({ where: { email, password } });
+   if (validUser) {
+     return auth.generateToken(email, password);
+   }
+   return error.invalidFields;
+};
+
 module.exports = {
   createUser,
+  login,
 }; 
