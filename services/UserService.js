@@ -9,7 +9,9 @@ const create = async ({ displayName, email, password, image }) => {
 
 const login = async ({ email }) => {
   const user = await User.findOne({ where: { email } });
-  const token = createToken(user);
+  let token = null;
+  if (!user) return token;
+  token = createToken(user);
   return token;
 };
 

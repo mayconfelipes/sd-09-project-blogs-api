@@ -8,7 +8,7 @@ const ok = 200;
 
 router.post('/', validateLogin, async (req, res, _next) => {
     const token = await userServices.login(req.body);
-    if (!token) return res.status(400).json({ message: 'Invalid fields' });
+    if (token === null) return res.status(400).json({ message: 'Invalid fields' });
 
     res.status(ok).json({ token });
 });
