@@ -28,7 +28,13 @@ const createUser = async (bodyReq) => {
   return validate;
 };
 
+const getAll = async () => {
+  const result = await Users.findAll();
+  return result;
+};
+
 module.exports = {
   createUser,
   validateEmail,
+  getAll,
 };
