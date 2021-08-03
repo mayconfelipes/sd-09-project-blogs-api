@@ -21,4 +21,14 @@ module.exports = {
       next(err);
     }
   },
+  async getById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const response = await postsService.getById(id);
+
+      res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

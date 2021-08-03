@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const { BlogPost, PostsCategory } = require('../models');
-const { InvalidArgumentError } = require('../errors');
+const { InvalidArgumentError, NotFoundError } = require('../errors');
 const categoriesService = require('./categoriesService');
 const usersService = require('./usersService');
 
@@ -18,6 +18,22 @@ const validateCategories = async (categories) => {
   const containsAll = categories.every((category) => catArray.includes(category));
 
   if (!containsAll) throw new InvalidArgumentError('"categoryIds" not found');
+};
+
+const mapPostCategories = async (id) => {
+  const categories = await categoriesService.getAll();
+  const postCategories = await PostsCategory.findAll({ where: { postId: id } })
+    .then((result) => result.map(({ categoryId }) => categoryId));
+  return categories.filter((category) => postCategories.includes(category.id));
+};
+
+const retrievePostSerializer = async (data) => {
+  const { userId, ...post } = data;
+
+  post.categories = await mapPostCategories(post.id);
+  post.user = await usersService.getById(userId);
+
+  return post;
 };
 
 module.exports = {
@@ -41,21 +57,16 @@ module.exports = {
     const posts = await BlogPost.findAll();
 
     const response = await Promise.all(
-      posts.map(async ({ dataValues }) => {
-        const { userId, ...post } = dataValues;
-
-        const categories = await categoriesService.getAll();
-        const postCategories = await PostsCategory.findAll({ where: { postId: post.id } })
-          .then((result) => result.map(({ categoryId }) => categoryId));
-        console.log(post.id);
-        post.categories = categories.filter(({ id }) => postCategories.includes(id));
-
-        post.user = await usersService.getById(userId);
-
-        return post;
-      }),
+      posts.map(({ dataValues }) => retrievePostSerializer(dataValues)),
     );
 
     return response;
+  },
+  async getById(id) {
+    const post = await BlogPost.findOne({ where: { id } });
+
+    if (!post) throw new NotFoundError('Post');
+
+    return retrievePostSerializer(post.dataValues);
   },
 };
