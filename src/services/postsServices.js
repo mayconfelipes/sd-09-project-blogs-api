@@ -53,6 +53,32 @@ const getById = async (id) => {
   return post;
 };
 
+const getPostByTerm = async (search, searchTerm) => {
+  const postByTerm = await BlogPost.findAll({
+    where: { [`${search}`]: searchTerm },
+    attributes: {
+      include: ['published', 'updated'],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  if (postByTerm.length === 0) return null;
+  return postByTerm;
+};
+
+const getBySearch = async (searchTerm) => {
+  if (!searchTerm) {
+    const everyPost = await getAll();
+    return everyPost;
+  }
+  const postByTitle = await getPostByTerm('title', searchTerm);
+  const postByContent = await getPostByTerm('content', searchTerm);
+  if (!postByTitle && !postByContent) return [];
+  return postByTitle || postByContent;
+};
+
 const updateById = async ({ id, userId, title, content, categoryIds }) => {
   if (categoryIds) throw validateError(400, 'Categories cannot be edited');
   const { error } = updateSchema.validate({ title, content });
@@ -80,6 +106,7 @@ module.exports = {
   create,
   getAll,
   getById,
+  getBySearch,
   updateById,
   deleteById,
 };

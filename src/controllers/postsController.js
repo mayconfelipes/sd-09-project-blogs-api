@@ -25,6 +25,14 @@ const getById = async (req, res) => {
     .json(response);
 };
 
+const getBySearch = async (req, res) => {
+  const searchTerm = req.query.q;
+  const response = await postsServices.getBySearch(searchTerm);
+  return res
+    .status(200)
+    .json(response);
+};
+
 const updateById = async (req, res) => {
   const { id } = req.params;
   const { userId } = req;
@@ -47,6 +55,7 @@ module.exports = {
   create,
   getAll,
   getById,
+  getBySearch,
   updateById,
   deleteById,
 };
