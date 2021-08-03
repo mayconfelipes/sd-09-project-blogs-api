@@ -32,8 +32,17 @@ const getAll = async (req, res) => {
   res.status(status).json(users);
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const { status, user, message } = await services.users.getById(id);
+
+  if (status !== 200) return res.status(status).json({ message });
+  res.status(status).json(user);
+};
+
 module.exports = {
   signIn,
   login,
   getAll,
+  getById,
 };
