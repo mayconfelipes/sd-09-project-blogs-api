@@ -25,17 +25,19 @@ const createUser = async (userData) => {
 
 const logIn = async ({ email, password }) => {
   const checkData = await auth.isInvalidLogin(email, password);
-  if (checkData !== null) {
-    return checkData;
-  }
+  if (checkData !== null) return checkData;
   const validUser = await User.findOne({ where: { email, password } });
-  if (validUser) {
-    return auth.generateToken(email, password);
-  }
+  if (validUser) return auth.generateToken(email, password);
   return error.invalidFields;
-  };
+};
+
+const getAllUsers = async () => {
+  const result = await User.findAll();
+  return result;
+};
 
 module.exports = {
   createUser,
   logIn,
+  getAllUsers,
 };

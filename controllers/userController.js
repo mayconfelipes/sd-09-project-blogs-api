@@ -1,6 +1,7 @@
 // const { create } = require('frisby');
 const rescue = require('express-rescue');
-const { createUser, logIn } = require('../services/userService');
+const { createUser, logIn, getAllUsers } = require('../services/userService');
+const { validateToken } = require('../services/auth');
 
 const generateUser = rescue(async (req, res, next) => {
   const result = await createUser(req.body);
@@ -14,7 +15,18 @@ const generateLogin = rescue(async (req, res, next) => {
   res.status(200).json(result);
 });
 
+const getAll = rescue(async (req, res, _next) => {
+  const { authorization } = req.headers;
+  const loggedIn = await validateToken(authorization);
+  if (loggedIn) {
+    const result = await getAllUsers();
+    // if (result.status) return next(result);
+    res.status(200).json(result);
+  }
+});
+
 module.exports = {
   generateUser,
   generateLogin,
+  getAll,
 };

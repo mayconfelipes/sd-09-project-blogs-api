@@ -11,7 +11,8 @@ app.use(bodyParser.json());
 app.post('/user', userController.generateUser);
 app.post('/login', userController.generateLogin);
 
-// app.get('/users', async (req, res) => {
+app.get('/user', userController.getAll);
+// async (req, res) => {
 //   try {
 //     const users = await User.findAll({});
 //     res.status(200).json(users);
@@ -21,11 +22,9 @@ app.post('/login', userController.generateLogin);
 // });
 
 app.use((err, _req, res, _next) => {
-  if (!err.status) {  
-    return res.status(500).json(err.message);
-  }
-  console.log(err);
-  res.status(err.status).json({ message: err.message });
+  if (err.status) return res.status(err.status).json({ message: err.message });
+  if (err.message) return res.status(401).json({ message: 'Expired or invalid token' });
+  if (!err.status) return res.status(500).json(err.message);
 });
 
 const PORT = process.env.PORT || 3000;
