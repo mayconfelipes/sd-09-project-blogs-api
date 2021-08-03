@@ -42,6 +42,13 @@ const uniqueUser = {
   },
 };
 
+const userDoesNotExist = {
+  err: {
+    status: 404,
+    message: 'User does not exist',
+  },
+};
+
 // regex referência: https://ui.dev/validate-email-address-javascript/
 const validFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -78,11 +85,20 @@ const createUser = async (displayName, email, password, image) => {
 
 const getAllUsers = async () => {
   const users = await Users.findAll({ attributes: { exclude: ['password'] } });
-  console.log(users);
+
   return users;
+};
+
+const getUserById = async (id) => {
+  const user = await Users.findOne({ where: { id }, attributes: { exclude: ['password'] } });
+
+  if (!user) return userDoesNotExist.err;
+
+  return user;
 };
 
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
 };

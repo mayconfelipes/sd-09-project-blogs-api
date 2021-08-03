@@ -24,4 +24,6 @@ app.post('/login', Login.userLogin);
 
 app.get('/user', validateJWT, User.getAllUsers);
 
+app.get('/user/:id', validateJWT, User.getUserById);
+
 app.use(errorMiddleware);
