@@ -11,9 +11,13 @@ const postCategory = async (name) => {
   return newCategory;
 };
 
+const getCategoryByPk = async (id) => Categories.findByPk(id);
+const getCategoriesByPk = async (id) => Categories.findAll({ where: { id } });
 const getAllCategories = async () => Categories.findAll();
 
 module.exports = {
   postCategory,
   getAllCategories,
+  getCategoryByPk,
+  getCategoriesByPk,
 };

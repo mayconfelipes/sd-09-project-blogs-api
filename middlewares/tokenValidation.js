@@ -14,7 +14,9 @@ module.exports = (req, _res, next) => {
   }
 
   try {
-    jwt.verify(token, JWT_SECRET);
+    const payload = jwt.verify(token, JWT_SECRET);
+
+    req.userEmail = payload.email;
 
     next();
   } catch (err) {
