@@ -5,7 +5,9 @@ const bodyParser = require('body-parser');
 require('dotenv/config');
 
 const CreateUserController = require('./controllers/CreateUserController');
-const CreateErrorsUser = require('./middlewares/CreateErrorsUser');
+const LoginController = require('./controllers/LoginController');
+const ErrorsUser = require('./middlewares/ErrorsUser');
+const ErrorsLogin = require('./middlewares/ErrosLogin');
 const ResponseErrors = require('./middlewares/ResponseErrors');
 
 const { PORT } = process.env || 3000;
@@ -19,7 +21,9 @@ app.get('/', (request, response) => {
 });
 
 app.post('/user', rescue(CreateUserController));
-app.use(CreateErrorsUser);
+app.use(ErrorsUser);
+app.post('/login', rescue(LoginController));
+app.use(ErrorsLogin);
 app.use(ResponseErrors);
 
 app.listen(PORT, () => console.log(`SERVER ONLINE IN ${PORT}!`));

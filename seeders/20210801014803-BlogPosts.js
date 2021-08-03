@@ -1,6 +1,7 @@
 module.exports = {
-  up: async (queryInterface, _Sequelize) => {
-    await queryInterface.bulkInsert('BlogPosts',
+  up: async (queryInterface, Sequelize) =>
+    await queryInterface.bulkInsert(
+      'BlogPosts',
       [
         {
           id: 1,
@@ -9,6 +10,8 @@ module.exports = {
           userId: 1,
           published: new Date('2011-08-01T19:58:00.000Z'),
           updated: new Date('2011-08-01T19:58:51.000Z'),
+          created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
+          updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
         {
           id: 2,
@@ -17,11 +20,13 @@ module.exports = {
           userId: 1,
           published: new Date('2011-08-01T19:58:00.000Z'),
           updated: new Date('2011-08-01T19:58:51.000Z'),
+          created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
+          updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
-      ]);
-  },
+      ],
+      {}
+    ),
 
-  down: async (queryInterface, _Sequelize) => {
-    await queryInterface.bulkDelete('BlogPosts', null, {});
-  },
+  down: async (queryInterface, _Sequelize) =>
+    await queryInterface.bulkDelete('BlogPosts', null, {}),
 };

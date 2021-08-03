@@ -15,7 +15,7 @@ const validateEmail = async (email) => {
 };
 
 const emailExixts = async (email) => {
-  const exists = User.findOne({ where: { email } });
+  const exists = await User.findOne({ where: { email } });
   return exists;
 };
 
