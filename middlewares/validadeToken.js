@@ -9,8 +9,9 @@ module.exports = async (req, res, next) => {
 
   try {
     const decoded = Auth.validateToken(reqToken);
-    const { password, ...user } = await User.findOne({ where: decoded.email });
-    req.user = user;
+    const user = await User.findOne({ where: { email: decoded.email } });
+    const { password, ...userWithoutPassword } = user.dataValues;
+    req.user = userWithoutPassword;
     next();
   } catch (err) {
     next(new Errors.InvalidToken());

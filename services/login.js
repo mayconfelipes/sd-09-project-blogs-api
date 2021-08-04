@@ -6,7 +6,7 @@ const login = async (email, password) => {
 
   if (!user) throw new Errors.InvalidCredentials();
 
-  const { _password, ...userWithoutPassword } = user;
+  const { password: removed, ...userWithoutPassword } = user.dataValues;
 
   return userWithoutPassword;
 };

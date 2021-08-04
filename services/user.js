@@ -6,8 +6,9 @@ const create = async (displayName, email, password, image) => {
 
   if (userIsRegistered) throw new Errors.EmailAlreadyExist();
 
-  const { _password, ...user } = await User.create({ displayName, email, password, image });
+  const { dataValues } = await User.create({ displayName, email, password, image });
 
+  const { password: removed, ...user } = dataValues;
   return user;
 };
 

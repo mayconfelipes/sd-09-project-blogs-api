@@ -31,8 +31,19 @@ const createCategory = (req, _res, next) => {
   next();
 };
 
+const createPost = (req, _res, next) => {
+  const { title, content, categoryIds } = req.body;
+
+  const { error } = Schemas.postPost.validate({ title, content, categoryIds });
+
+  if (error) next(new Errors.JoiError(error.message));
+
+  next();
+};
+
 module.exports = {
   createUser,
   login,
   createCategory,
+  createPost,
 };

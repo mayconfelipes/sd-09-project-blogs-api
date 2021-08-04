@@ -4,6 +4,7 @@ const InvalidCredentials = require('./InvalidCredentials');
 const MissingToken = require('./MissingToken');
 const InvalidToken = require('./InvalidToken');
 const ContentNotFound = require('./ContentNotFound');
+const CategoryIdNotFound = require('./CategoryIdNotFound');
 
 module.exports = {
   EmailAlreadyExist,
@@ -12,4 +13,5 @@ module.exports = {
   MissingToken,
   InvalidToken,
   ContentNotFound,
+  CategoryIdNotFound,
 };
