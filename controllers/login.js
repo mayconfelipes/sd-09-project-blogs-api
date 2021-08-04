@@ -1,7 +1,7 @@
 const express = require('express');
 const Service = require('../services/login');
 const StatusCode = require('../util/statusCode');
-const Auth = require('../middlewares/auth');
+const Auth = require('../util/auth');
 const validadeRequestBody = require('../middlewares/validateRequestBody');
 const ErrorHandler = require('../middlewares/errorHandler');
 
