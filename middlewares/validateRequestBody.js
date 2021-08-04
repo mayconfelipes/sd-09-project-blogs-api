@@ -21,7 +21,18 @@ const login = (req, _res, next) => {
   next();
 };
 
+const createCategory = (req, _res, next) => {
+  const { name } = req.body;
+  
+  const { error } = Schemas.postCategory.validate({ name });
+
+  if (error) next(new Errors.JoiError(error.message));
+
+  next();
+};
+
 module.exports = {
   createUser,
   login,
+  createCategory,
 };
