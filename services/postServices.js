@@ -32,6 +32,11 @@ const createPost = async (bodyReq, token) => {
   return validatePost;
 };
 
+const getAll = async () => {
+   const result = await BlogPosts.findAll();
+   return result;
+};
 module.exports = {
   createPost,
+  getAll,
 };

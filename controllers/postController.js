@@ -6,8 +6,8 @@ const createPost = async (req, res) => {
   const token = req.headers.authorization;
   const result = await postServices.createPost(bodyReq, token);
 
-// tive ajudar do aluno adrina na explicação
-// https://github.com/adrianoforcellini
+  // tive ajudar do aluno adrina na explicação
+  // https://github.com/adrianoforcellini
   if (!result.message) {
     const { id, userId, title, content } = result;
     const output = { id, userId, title, content };
@@ -19,6 +19,12 @@ const createPost = async (req, res) => {
   return res.status(status.BAD_REQUEST).json(result);
 };
 
+const getAll = async (req, res) => {
+const result = await postServices.getAll();
+return res.status(status.OK).json(result);
+};
+
 module.exports = {
   createPost,
+  getAll,
 };
