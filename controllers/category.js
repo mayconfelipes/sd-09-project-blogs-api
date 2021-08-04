@@ -17,6 +17,15 @@ router.post('/', validadeToken, validadeRequestBody.createCategory, async (req, 
   }
 });
 
+router.get('/', validadeToken, async (req, res, next) => {
+  try {
+    const categories = await Service.findAll();
+    res.status(StatusCode.ok).json(categories);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.use(ErrorHandler);
 
 module.exports = router;
