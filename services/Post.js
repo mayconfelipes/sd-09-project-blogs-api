@@ -20,13 +20,14 @@ const validateIfCategoriesExists = async (categoryIds) => {
 
 const createPost = async (userId, title, categoryIds, content) => {
   const validTitle = validateTitle(title);
-  const validContent = validateContent(content);
-  const existsCategory = await validateIfCategoriesExists(categoryIds);
-  const validCategory = validateCategory(categoryIds);
   if (validTitle) return validTitle.err;
+  const validContent = validateContent(content);
   if (validContent) return validContent.err;
-  if (existsCategory) return existsCategory.err;
+  const validCategory = validateCategory(categoryIds);
   if (validCategory) return validCategory.err;
+  const existsCategory = await validateIfCategoriesExists(categoryIds);
+  if (existsCategory) return existsCategory.err;
+
   const post = await BlogPost.create({ userId, title, categoryIds, content });
   return post;
 };
