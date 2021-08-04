@@ -1,6 +1,8 @@
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const error = require('./error');
 const auth = require('./auth');
+require('dotenv');
 
 const emailValidator = async (email) => {
   if (!email) return error.requiredEmail;
@@ -48,9 +50,22 @@ const getUserById = async (id) => {
 return result;
 };
 
+const deleteUser = async (authorization) => {
+  if (!authorization) {
+    return error.tokenNotFound;
+  } console.log(authorization);
+  const verifyToken = jwt.verify(authorization, process.env.JWT_SECRET);
+  
+  console.log(verifyToken.token);
+  const { email } = verifyToken;
+  const result = await User.destroy({ where: { email } });
+  return result;
+};
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
   getUserById,
+  deleteUser,
 }; 

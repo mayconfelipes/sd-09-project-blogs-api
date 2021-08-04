@@ -13,6 +13,7 @@ app.get('/user', userController.getAllUsers);
 app.get('/user/:id', userController.getUserById);
 app.post('/categories', categoryController.createCategory);
 app.get('/categories', categoryController.getAllCategories);
+app.delete('/user/me', userController.deleteUser);
 app.use((err, _req, res, _next) => {
   if (err.status) return res.status(err.status).json({ message: err.message });
   if (err.message) return res.status(401).json({ message: 'Expired or invalid token' });
