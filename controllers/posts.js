@@ -1,4 +1,5 @@
 const { postsService } = require('../services');
+const { InvalidArgumentError } = require('../errors');
 
 module.exports = {
   async create(req, res, next) {
@@ -25,6 +26,21 @@ module.exports = {
     try {
       const { id } = req.params;
       const response = await postsService.getById(id);
+
+      res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
+  async update(req, res, next) {
+    try {
+      const payload = req.body;
+
+      if (payload.categoryIds) throw new InvalidArgumentError('Categories cannot be edited');
+
+      const { id } = req.params;
+      const { id: userId } = req.user;
+      const response = await postsService.update({ ...payload, id, userId, categoryIds: [0] });
 
       res.status(200).json(response);
     } catch (err) {

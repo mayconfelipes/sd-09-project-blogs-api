@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const { BlogPost, PostsCategory } = require('../models');
-const { InvalidArgumentError, NotFoundError } = require('../errors');
+const { InvalidArgumentError, NotFoundError, AccessError } = require('../errors');
 const categoriesService = require('./categoriesService');
 const usersService = require('./usersService');
 
@@ -10,6 +10,7 @@ const BlogPostSchema = Joi.object({
   content: Joi.string().required(),
   categoryIds: Joi.array().items(Joi.number().required()).required(),
   userId: Joi.number().required(),
+  id: Joi.number(),
 });
 
 const validateCategories = async (categories) => {
@@ -68,5 +69,24 @@ module.exports = {
     if (!post) throw new NotFoundError('Post');
 
     return retrievePostSerializer(post.dataValues);
+  },
+  async update(payload) {
+    const { categoryIds: _, userId, id, ...data } = payload;
+    const prevPostData = await BlogPost.findOne({ where: { id } });
+
+    if (!prevPostData) throw new NotFoundError('Post');
+
+    const { userId: postUserId } = prevPostData.dataValues;
+
+    if (postUserId !== payload.userId) throw new AccessError('Unauthorized user');
+
+    const { error } = BlogPostSchema.validate(payload);
+
+    if (error) throw new InvalidArgumentError(error.message);
+
+    await BlogPost.update(data, { where: { id } });
+
+    const categories = await mapPostCategories(id);
+    return { ...data, id, userId, categories };
   },
 };
