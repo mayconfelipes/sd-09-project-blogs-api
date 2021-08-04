@@ -11,14 +11,22 @@ const getAll = async () => {
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
-      // { model: Categories, as: 'categoryId', through: { attributes: [] } },
   });
-  // console.log(allPosts);
-  // return BlogPosts.findAll();
   return allPosts;
+};
+
+const getOne = async (id) => {
+  const post = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return post;
 };
 
 module.exports = {
   createNew,
   getAll,
+  getOne,
 };

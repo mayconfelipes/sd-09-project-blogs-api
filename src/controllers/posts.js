@@ -22,7 +22,17 @@ const getAll = [
     return res.status(response.STATUS_OK).json(allPosts);
  })];
 
+const getOne = [
+  validate.authToken,
+  validate.postExists,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const post = await postsServices.getOne(id);
+    return res.status(response.STATUS_OK).json(post);
+  })];
+
 module.exports = {
   createNew,
   getAll,
-}
+  getOne,
+};

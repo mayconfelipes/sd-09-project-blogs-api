@@ -6,9 +6,7 @@ const createNew = async (cat) => {
   return Category.findOne({ where: { name } });
 };
 
-const getAll = async () => {
-  return Category.findAll();
-};
+const getAll = async () => Category.findAll();
 
 module.exports = {
   createNew,

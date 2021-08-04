@@ -1,7 +1,7 @@
 require('dotenv').config();
 const JOI = require('joi');
 const jwt = require('jsonwebtoken');
-const { User, Category } = require('../../models');
+const { User, Category, BlogPost } = require('../../models');
 const response = require('./responseCodes');
 
 const genError = (errorCode, message) => ({
@@ -114,6 +114,13 @@ const categoryExists = async (req, _res, next) => {
   return next();
 };
 
+const postExists = async (req, _res, next) => {
+  const { id } = req.params;
+  const validPost = await BlogPost.findByPk(id);
+  if (!validPost) return next(genError(response.NOT_FOUND, 'Post does not exist'));
+  return next();
+};
+
 module.exports = {
   userDetails,
   userIsNew,
@@ -125,4 +132,5 @@ module.exports = {
   categoryCreation,
   newPostInfo,
   categoryExists,
+  postExists,
 };
