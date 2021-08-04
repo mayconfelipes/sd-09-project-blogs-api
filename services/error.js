@@ -58,6 +58,11 @@ const userNotFound = {
   status: 404,
 };
 
+const requiredName = {
+  message: '"name" is required',
+  status: 400,
+};
+
 module.exports = {
   invalidEmail,
   requiredEmail,
@@ -71,4 +76,5 @@ module.exports = {
   tokenNotFound,
   expiredOrInvalidToken,
   userNotFound,
+  requiredName,
 };
