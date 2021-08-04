@@ -12,6 +12,7 @@ const newUserValidation = ({ displayName, email, password, image }) => {
     const message = '"displayName" length must be at least 8 characters long';
     return { error: { name: 'invalidField', message } };
   }
+  if (!email) return { error: { name: 'invalidField', message: '"email" is required' } };
   if (!isEmailValid(email)) {
     return { error: { name: 'invalidField', message: '"email" must be a valid email' } };
   }
