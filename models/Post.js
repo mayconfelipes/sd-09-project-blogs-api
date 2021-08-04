@@ -6,7 +6,7 @@ const Post = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     published: DataTypes.DATE,
     updated: DataTypes.DATE,
-  });
+  }, { timestamps: false });
 
   post.associate = (models) => {
     post.belongsTo(models.Users, {

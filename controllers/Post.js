@@ -1,0 +1,17 @@
+const rescue = require('express-rescue');
+const Post = require('../services/Post');
+
+const createPost = rescue(async (req, res, next) => {
+  const { title, categoryIds, content } = req.body;
+  const { id: userId } = req.user;
+
+  const post = await Post.createPost(userId, title, categoryIds, content);
+
+  if (post.message) return next(post);
+
+  return res.status(201).json(post);
+});
+
+module.exports = {
+  createPost,
+};

@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
 
     if (!user) return res.status(401).json({ message: 'Expired or invalid token' });
 
-    req.user = user;
+    req.user = user.dataValues;
     next();
   } catch (err) {
     const { err: { code } } = message;
