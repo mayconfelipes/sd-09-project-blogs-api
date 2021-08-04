@@ -28,7 +28,7 @@ const validateJWT = async (authorization) => {
   const verifyToken = jwt.verify(authorization, SECRET);
   const userEmail = await User.findOne({ where: { email: verifyToken.email } });
   if (userEmail) return true;
-  return true;
+  return false;
 };
 
 module.exports = {

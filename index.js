@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userController = require('./controllers/userController');
+const categoryController = require('./controllers/categoryController');
 require('dotenv');
 
 const app = express();
@@ -10,6 +11,7 @@ app.post('/user', userController.createUser);
 app.post('/login', userController.login);
 app.get('/user', userController.getAllUsers);
 app.get('/user/:id', userController.getUserById);
+app.post('/categories', categoryController.createCategory);
 app.use((err, _req, res, _next) => {
   if (err.status) return res.status(err.status).json({ message: err.message });
   if (err.message) return res.status(401).json({ message: 'Expired or invalid token' });
