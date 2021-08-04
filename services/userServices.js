@@ -2,33 +2,26 @@ const jwt = require('../auth/jwt');
 
 const { User } = require('../models');
 
-const invalidFieldError = (message) => ({ error: { name: 'invalidField', message } });
+const { displayNameValidation, passwordValidation, emailValidation } = require('./validations');
 
-const displayNameValidation = (displayName) => {
-  if (!displayName || displayName.length < 8) {
-    const message = '"displayName" length must be at least 8 characters long';
-    return { error: { name: 'invalidField', message } };
-  }
-};
-const passwordValidation = (password) => {
-  if (!password) return invalidFieldError('"password" is required');
-  if (password.length < 6) return invalidFieldError('"password" length must be 6 characters long');
-};
+const newUserValidation = async ({ displayName, email, password }) => {
+  const nameNotValid = await displayNameValidation(displayName);
+  const emailNotValid = await emailValidation(email);
+  console.log(emailNotValid);
+  const passwordNotValid = await passwordValidation(password);
 
-const emailValidation = (email) => {
-  if (!email) return invalidFieldError('"email" is required');
-  const reg = /\S+@\S+\.\S+/;
-  if (!reg.test(email)) return invalidFieldError('"email" must be a valid email');
-};
-
-const newUserValidation = ({ displayName, email, password }) => {
-  const nameNotValid = displayNameValidation(displayName);
-  const emailNotValid = emailValidation(email);
-  const passwordNotValid = passwordValidation(password);
-
-  if (nameNotValid) return nameNotValid;
-  if (emailNotValid) return emailNotValid;
-  if (passwordNotValid) return passwordNotValid;
+  if (nameNotValid.error) {
+    console.log('name não valido');
+    return nameNotValid;
+ }
+  if (emailNotValid.error) {
+    console.log('Email não valido');
+    return emailNotValid;
+ }
+  if (passwordNotValid.error) {
+    console.log('pass não valido');
+    return passwordNotValid;
+ }
   return { error: false };
 };
 
@@ -42,7 +35,8 @@ const isUserByEmailAlreadyExist = async (email) => {
 };
 
 const addUser = async (newUserData) => {
-  const newUserValidationResponse = newUserValidation(newUserData);
+  const newUserValidationResponse = await newUserValidation(newUserData);
+  console.log(newUserValidationResponse);
   if (newUserValidationResponse.error) return newUserValidationResponse;
 
   const { email } = newUserData;

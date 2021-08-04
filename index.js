@@ -3,12 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const errorHandling = require('./middleware/error');
 
-const { userRoute } = require('./routes');
+const { userRoute, loginRouter } = require('./routes');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use('/login', loginRouter);
 
 app.use('/user', userRoute);
 

@@ -4,6 +4,7 @@ const errorHandling = (error, _req, res, _next) => {
   const statusByErrorName = {
     invalidField: 400,
     userAlreadyExist: 409,
+    userNotFound: 400,
   };
 
   const status = statusByErrorName[error.name] || INTERNAL_SERVER_ERROR;
