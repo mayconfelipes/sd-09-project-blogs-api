@@ -28,6 +28,16 @@ router.get('/', validadeToken, async (req, res, next) => {
   }
 });
 
+router.get('/:id', validadeToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await Service.findById(id);
+    res.status(StatusCode.ok).json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.use(ErrorHandler);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const JoiError = require('./JoiError');
 const InvalidCredentials = require('./InvalidCredentials');
 const MissingToken = require('./MissingToken');
 const InvalidToken = require('./InvalidToken');
+const ContentNotFound = require('./ContentNotFound');
 
 module.exports = {
   EmailAlreadyExist,
@@ -10,4 +11,5 @@ module.exports = {
   InvalidCredentials,
   MissingToken,
   InvalidToken,
+  ContentNotFound,
 };

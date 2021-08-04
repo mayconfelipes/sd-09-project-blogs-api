@@ -12,11 +12,23 @@ const create = async (displayName, email, password, image) => {
 };
 
 const findAll = () => User.findAll().then((users) => users.map(({ dataValues }) => {
-  const { _password, ...user } = dataValues;
+  const { password, ...user } = dataValues;
   return user;
 }));
+
+const findById = async (id) => {
+  const user = await User.findByPk(id);
+
+  if (!user) throw new Errors.ContentNotFound('User');
+
+  const { dataValues } = user;
+  const { password, ...userWithoutPassword } = dataValues;
+
+  return userWithoutPassword;
+};
 
 module.exports = {
   create,
   findAll,
+  findById,
 };
