@@ -17,15 +17,12 @@ const createPost = async (bodyReq, token) => {
   const payload = verifytoken(token);
   const user = await getByEmail(payload.result.email);
   const normalizeUser = normalizeObj(user);
-  const date = new Date();
   const validatePost = validatePosts(bodyReq);
   if (!validatePost.message) {
     const newBody = bodyReq;
     // esta transformando obj
     newBody.userId = normalizeUser.id;
-    newBody.published = JSON.stringify(date);
-    newBody.updated = JSON.stringify(date);
-
+   
     const result = await BlogPosts.create(bodyReq);
     return result;
   }
