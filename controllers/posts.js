@@ -47,4 +47,16 @@ module.exports = {
       next(err);
     }
   },
+  async remove(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { id: userId } = req.user;
+
+      await postsService.remove({ id, userId });
+
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  },
 };

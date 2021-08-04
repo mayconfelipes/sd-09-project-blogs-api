@@ -15,4 +15,7 @@ router.get('/:id', middlewares.authentication, postsController.getById);
 // Edit post
 router.put('/:id', middlewares.authentication, postsController.update);
 
+// Delete post
+router.delete('/:id', middlewares.authentication, postsController.remove);
+
 module.exports = router;

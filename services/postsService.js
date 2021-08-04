@@ -89,4 +89,15 @@ module.exports = {
     const categories = await mapPostCategories(id);
     return { ...data, id, userId, categories };
   },
+  async remove({ id, userId }) {
+    const post = await BlogPost.findOne({ where: { id } });
+
+    if (!post) throw new NotFoundError('Post');
+
+    const { userId: postUserId } = post.dataValues;
+
+    if (userId !== postUserId) throw new AccessError('Unauthorized user');
+
+    await BlogPost.destroy({ where: { id } });
+  },
 };
