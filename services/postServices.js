@@ -32,16 +32,30 @@ const createPost = async (bodyReq, token) => {
 // consultei o repositorio do meu colega lucio
 // https://github.com/tryber/sd-09-project-blogs-api/pull/34/
 const getAll = async () => {
-  const posts = await BlogPosts.findAll({
+  const result = await BlogPosts.findAll({
     include: [
       { attributes: ['id', 'displayName', 'email', 'image'], model: Users, as: 'user' },
       { model: Categories, as: 'categories' },
     ],
   });
-  return posts;
+  return result;
+};
+
+// consultei o repositorio do meu colega lucio
+// https://github.com/tryber/sd-09-project-blogs-api/pull/34/
+const getById = async (id) => {
+  const result = await BlogPosts.findOne({
+    where: { id },
+    include: [
+        { attributes: ['id', 'displayName', 'email', 'image'], model: Users, as: 'user' },
+        { model: Categories, as: 'categories' },
+    ],
+});
+return result;
 };
 
 module.exports = {
   createPost,
   getAll,
+  getById,
 };
