@@ -8,7 +8,7 @@ const createUser = async (userData) => {
   const { error } = schema.validate({ displayName, email, password });
   if (error) throw validateError(badRequest, error.message);
 
-  const userEmail = await User.findOne({ email });
+  const userEmail = await User.findOne({ where: { email } });
 
   if (userEmail) throw validateError(conflict, 'User already registered');
 
