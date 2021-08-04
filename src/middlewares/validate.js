@@ -1,7 +1,7 @@
 require('dotenv').config();
 const JOI = require('joi');
 const jwt = require('jsonwebtoken');
-const { Users, Categories } = require('../../models');
+const { User, Category } = require('../../models');
 const response = require('./responseCodes');
 
 const genError = (errorCode, message) => ({
@@ -33,14 +33,14 @@ const userDetails = (req, _res, next) => {
 
 const userIsNew = async (req, res, next) => {
   const { email } = req.body;
-  const userExists = await Users.findOne({ where: { email } });
+  const userExists = await User.findOne({ where: { email } });
   if (userExists) return next(genError(response.CONFLICT, 'User already registered'));
   return next();
 };
 
 const userExists = async (req, res, next) => {
   const { email } = req.body;
-  const userIsRegistered = await Users.findOne({ where: { email } });
+  const userIsRegistered = await User.findOne({ where: { email } });
   if (!userIsRegistered) return next(genError(response.BAD_REQUEST, 'Invalid fields'));
   return next();
 };
@@ -48,7 +48,7 @@ const userExists = async (req, res, next) => {
 const authUser = async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await Users.findOne({ where: { email, password } });
+  const user = await User.findOne({ where: { email, password } });
 
   if (!user) return res.status(response.BAD_REQUEST).json({ message: 'Campos inválidos' });
 
@@ -72,8 +72,7 @@ const authToken = async (req, res, next) => {
   if (!token) return next(genError(response.UNAUTHORIZED, 'Token not found'));
   try {
     const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
-    const user = await Users.findOne({ where: { email: decodedToken.email } });
-    console.log(`O valor de user é: ${user}`);
+    const user = await User.findOne({ where: { email: decodedToken.email } });
         
     if (!user || !decodedToken) {
       return next(genError(response.UNAUTHORIZED, 'Expired or invalid token'));
@@ -87,7 +86,7 @@ const authToken = async (req, res, next) => {
 
 const userId = async (req, res, next) => {
   const { id } = req.params;
-  const user = await Users.findByPk(id);
+  const user = await User.findByPk(id);
 
   if (!user) return next(genError(response.NOT_FOUND, 'User does not exist'));
   return next();
@@ -109,7 +108,7 @@ const newPostInfo = (req, _res, next) => {
 
 const categoryExists = async (req, _res, next) => {
   const { categoryIds } = req.body;
-  const validCategories = await Categories.findAll();
+  const validCategories = await Category.findAll();
   const postCatValid = categoryIds.every((cat) => validCategories.some((vcat) => vcat.id === cat));
   if (!postCatValid) return next(genError(response.BAD_REQUEST, '"categoryIds" not found'));
   return next();

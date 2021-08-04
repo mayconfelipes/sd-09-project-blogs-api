@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { Users } = require('../../models');
+const { User } = require('../../models');
 
 const secret = process.env.JWT_SECRET;
 
@@ -18,7 +18,7 @@ const createNewUser = async (userInfo) => {
   // console.log(userInfo);
   const { displayName, email, password, image } = userInfo;
   const token = JWTgen(userInfo);
-  await Users.create({ displayName, email, password, image });
+  await User.create({ displayName, email, password, image });
   return token;
 };
 

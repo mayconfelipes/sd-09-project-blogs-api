@@ -1,10 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
-  const BlogPost = sequelize.define('BlogPosts', {
+  const BlogPost = sequelize.define('BlogPost', {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     userId: DataTypes.INTEGER,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
+    published: DataTypes.DATE,
+    updated: DataTypes.DATE,
   }, { timestamps: false });
   // tive que adicionar o campo de timestamps false pois
   // havia entendido errado o que significava. Após buscar
@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   // valores para os campos na criação de um novo post
 
   BlogPost.associate = (models) => {
-    BlogPost.belongsTo(models.Users,
+    BlogPost.belongsTo(models.User,
       { as: 'user', foreignKey: 'userId' });
     };
 
