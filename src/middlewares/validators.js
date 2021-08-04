@@ -16,4 +16,8 @@ const token = (req, _res, next) => validate.token(req.headers)
   .then((data) => { req.user = data; next(); })
   .catch(({ message }) => next({ status: 401, message }));
 
-module.exports = { user, userExists, login, token };
+const category = (req, _res, next) => validate.category(req.body)
+  .then(() => next())
+  .catch(({ message }) => next({ status: 400, message }));
+
+module.exports = { user, userExists, login, token, category };

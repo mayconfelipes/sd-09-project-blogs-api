@@ -49,4 +49,8 @@ const token = async ({ authorization }) => {
   }
 };
 
-module.exports = { user, userExists, login, token };
+const category = async ({ name }) => {
+  if (!name) throw err('"name" is required');
+};
+
+module.exports = { user, userExists, login, token, category };
