@@ -6,7 +6,7 @@ const { User } = require('../models');
 require('dotenv');
 
 const SECRET = process.env.JWT_SECRET;
-const isValidToken = rescue(async (req, res, next) => {
+const isValidToken = rescue(async (req, _res, next) => {
   const { authorization } = req.headers;
   if (!authorization) throw error.tokenNotFound;
   // jwt.verify(authorization, SECRET);

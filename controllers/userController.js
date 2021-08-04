@@ -16,7 +16,7 @@ const generateLogin = rescue(async (req, res, next) => {
 
 const getAll = rescue(async (req, res) => { 
     const result = await getAllUsers();
-    res.status(200).json(result);
+    if (result) return res.status(200).json(result);
 });
 
 const getById = rescue(async (req, res, next) => {

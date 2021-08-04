@@ -10,6 +10,9 @@ const createCategoryServ = async (categoryObj) => {
   return result;
 };
 
+const getAllCatServ = async () => Category.findAll();
+
 module.exports = {
   createCategoryServ,
+  getAllCatServ,
 };

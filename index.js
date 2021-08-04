@@ -17,11 +17,14 @@ app.post('/login', userController.generateLogin);
 app.get('/user', isValidToken, userController.getAll);
 app.get('/user/:id', isValidToken, userController.getById);
 app.post('/categories/', isValidToken, categoryController.createCategory);
+app.get('/categories', isValidToken, categoryController.getAllCategories);
 
 app.use((err, _req, res, _next) => {
   if (err.status) return res.status(err.status).json({ message: err.message });
   if (err.name === 'JsonWebTokenError') {
-    return res.status(401).json(error.expiredOrInvalidToken.message);
+    return res.status(401).json({
+      message: error.expiredOrInvalidToken.message,
+    });
   }
   if (!err.status) return res.status(500).json(err.message);
 });
