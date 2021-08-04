@@ -20,6 +20,7 @@ app.get('/categories', middlewares.jwtValidate, controllers.categories.findAll);
 
 app.post('/post', middlewares.jwtValidate, controllers.blogPosts.create);
 app.get('/post', middlewares.jwtValidate, controllers.blogPosts.findAll);
+app.get('/post/:id', middlewares.jwtValidate, controllers.blogPosts.findByPk);
 
 app.use(middlewares.error);
 

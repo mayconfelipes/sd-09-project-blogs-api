@@ -10,9 +10,8 @@ const create = async (title, content, userId, categoryIds) => {
 
   const { dataValues } = await BlogPosts.create({ title, content, userId });
 
-  const postCat = await Promise.all(categories.map(({ dataValues: { id } }) => 
+  await Promise.all(categories.map(({ dataValues: { id } }) => 
     PostCategories.create({ postId: dataValues.id, categoryId: id })));
-  console.log(postCat);
 
   return {
     id: dataValues.id,

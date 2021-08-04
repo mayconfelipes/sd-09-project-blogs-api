@@ -32,7 +32,20 @@ const findAll = rescue(async (_req, res) => {
   res.status(200).json(posts);
 });
 
+const findByPk = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const post = await BlogPosts.findByPk(id,
+    { include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Categories, as: 'categories', through: { attributes: [] } }] });
+
+  if (post === null) return res.status(404).json({ message: 'Post does not exist' });
+
+  return res.status(200).json(post);
+});
+
 module.exports = {
   create,
   findAll,
+  findByPk,
 };
