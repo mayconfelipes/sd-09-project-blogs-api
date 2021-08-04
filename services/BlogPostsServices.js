@@ -29,17 +29,30 @@ const getPostById = async (id) => {
 //  https://github.com/tryber/sd-09-project-blogs-api/pulls/34
 async function getAllBlogPosts() {
     const posts = await BlogPosts.findAll({
-      include: [
-        { attributes: ['id', 'displayName', 'email', 'image'], model: Users, as: 'user' },
-        { model: Categories, as: 'categories' },
-      ],
+        include: [
+            { attributes: ['id', 'displayName', 'email', 'image'], model: Users, as: 'user' },
+            { model: Categories, as: 'categories' },
+        ],
     });
     return posts;
-  }
+}
 
-const deletPost = async (id) => {
-    const post = await BlogPosts.destroy({ where: { id } });
-    return post;
+const deletPost = async (id, token) => {
+    const payload = verifyToken(token);
+    const findyUserLogged = await findByEmail(payload.user.email);
+    const normalizefindyUserLogged = normalizeObj(findyUserLogged);
+    const userLoggedId = normalizefindyUserLogged.id;
+
+    const findPost = await BlogPosts.findOne({ where: { id } });
+    if (findPost) {
+        const normalizefindPost = normalizeObj(findPost);
+        const { userId } = normalizefindPost;
+        if (userLoggedId === userId) {
+            const post = await BlogPosts.destroy({ where: { id } });
+            return post;
+        } return { message: 'Unauthorized user' };
+    }
+    return 'null';
 };
 
 const addPost = async (body, token) => {
@@ -61,8 +74,7 @@ const updatePost = async (id, body, token) => {
     const posts = await getPostById(id);
     const validate = await validationUpdatePosts(body);
     const { user } = JSON.parse(JSON.stringify(posts));
-    const JWT_SECRET = 'meuSegredoSuperSecreto';
-    const payload = jwt.verify(token, JWT_SECRET);
+    const payload = verifyToken(token);
     if (payload.user.email === user.email) {
         if (!validate.message) {
             posts.title = body.title;

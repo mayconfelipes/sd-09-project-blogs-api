@@ -7,11 +7,15 @@ const getAll = async (req, res) => {
 
 const deletPost = async (req, res) => {
     const { id } = req.params;
-    const post = await BlogPostsServices.deletPost(id);
+    const token = req.headers.authorization;
+    const post = await BlogPostsServices.deletPost(id, token);
+    if (post.message) {
+        return res.status(401).json(post);
+    }
     if (post === 1) {
         return res.status(204).json(post);
     }
-    return res.status(401).json({ message: 'Post does not exist' });
+    return res.status(404).json({ message: 'Post does not exist' });
 };
 
 const getPostById = async (req, res) => {
