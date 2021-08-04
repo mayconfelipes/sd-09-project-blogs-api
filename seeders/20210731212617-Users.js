@@ -5,7 +5,7 @@ module.exports = {
       [
         {
           id: 1,
-          displayName: 'Lewis Hamilton',
+          display_name: 'Lewis Hamilton',
           email: 'lewishamilton@gmail.com',
           password: '123456',
           image:
@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           id: 2,
-          displayName: 'Michael Schumacher',
+          display_name: 'Michael Schumacher',
           email: 'MichaelSchumacher@gmail.com',
           password: '123456',
           image:
