@@ -10,9 +10,8 @@ app.use('/login', login);
 app.use('/categories', categories);
 app.use('/post', post);
 
-app.use((err, _req, res, _next) => {
-  if (!res.status) return res.status(500).json(err);
-  res.status(err.status).json({ message: err.message });
+app.use(({ status, message }, _req, res, _next) => {
+  res.status(status).json({ message });
 });
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

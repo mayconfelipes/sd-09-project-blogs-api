@@ -7,4 +7,11 @@ const create = (req, res) => User.create(req.body)
 const login = (req, res) => generateToken(req.body)
   .then((token) => res.status(200).json(token));
 
-module.exports = { create, login };
+const getAll = (_req, res) => User.findAll()
+  .then((data) => res.status(200).json(data.map(({ dataValues }) => dataValues)));
+
+const getById = ({ params: { id } }, res) => User.findByPk(id)
+  .then(({ dataValues }) => res.status(200).json(dataValues))
+  .catch(() => res.status(404).json({ message: 'User does not exist' }));
+
+module.exports = { create, login, getAll, getById };

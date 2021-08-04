@@ -1,4 +1,5 @@
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
 const err = (message) => ({ message });
@@ -37,4 +38,15 @@ const login = async ({ email, password }) => {
   if (!userDB) throw err('Invalid fields');
 };
 
-module.exports = { user, userExists, login };
+const token = async ({ authorization }) => {
+  const secret = '60f25632bbd8eb246fbe3170';
+  if (!authorization) throw err('Token not found');
+  try {
+    const payload = jwt.verify(authorization, secret);
+    return payload;
+  } catch (e) {
+    throw err('Expired or invalid token');
+  }
+};
+
+module.exports = { user, userExists, login, token };
