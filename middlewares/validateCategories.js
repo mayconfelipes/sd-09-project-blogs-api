@@ -1,8 +1,5 @@
 const Joi = require('joi');
 
-// tive ajudar do aluno adrina na explicação do joi
-// https://github.com/adrianoforcellini
-
 const validateCategories = (body) => {
   const bodyValidate = Joi.object().keys({
     name: Joi.string().required(),
