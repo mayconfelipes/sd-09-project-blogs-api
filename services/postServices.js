@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { validateEmail: getByEmail } = require('./userService');
-const { BlogPosts } = require('../models');
+const { BlogPosts, Users, Categories } = require('../models');
 const validatePosts = require('../middlewares/validatePosts');
 
 function verifytoken(token) {
@@ -29,10 +29,18 @@ const createPost = async (bodyReq, token) => {
   return validatePost;
 };
 
+// consultei o repositorio do meu colega lucio
+// https://github.com/tryber/sd-09-project-blogs-api/pull/34/
 const getAll = async () => {
-   const result = await BlogPosts.findAll();
-   return result;
+  const posts = await BlogPosts.findAll({
+    include: [
+      { attributes: ['id', 'displayName', 'email', 'image'], model: Users, as: 'user' },
+      { model: Categories, as: 'categories' },
+    ],
+  });
+  return posts;
 };
+
 module.exports = {
   createPost,
   getAll,

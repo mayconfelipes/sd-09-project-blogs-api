@@ -1,3 +1,7 @@
+// todas as modificaçao do models e migrations foi realizado a modifiçao 
+// atraves do estudo  do pull request do  aluno lucio 
+// 'https://github.com/tryber/sd-09-project-blogs-api/pull/34' 
+// para resoluçao do proximo exercicio 8 a 10
 module.exports = (sequelize, DataTypes) => {
   const BlogPosts = sequelize.define('BlogPosts', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -7,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
     published: { type: DataTypes.DATE, defaultValue: Date.now() },
     updated: { type: DataTypes.DATE, defaultValue: Date.now() },
   },
-  {
-    timestamps: false,
-    tableName: 'BlogPosts',
-  });
+    {
+      timestamps: false,
+      tableName: 'BlogPosts',
+    });
 
   BlogPosts.associate = (models) => {
     BlogPosts.belongsTo(models.Users, { foreignKey: 'userId', as: 'user' });
