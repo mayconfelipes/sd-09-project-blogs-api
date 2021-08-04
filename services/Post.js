@@ -34,3 +34,4 @@ const createPost = async (userId, title, categoryIds, content) => {
 module.exports = {
   createPost,
 };
+// teste
