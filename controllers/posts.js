@@ -59,4 +59,14 @@ module.exports = {
       next(err);
     }
   },
+  async getByQueryParams(req, res, next) {
+    try {
+      const { q: query } = req.query;
+      const response = await postsService.getByTitleOrContent(query);
+
+      res.status(200).json(response);
+    } catch (err) {
+      next(err);
+    }
+  },
 };

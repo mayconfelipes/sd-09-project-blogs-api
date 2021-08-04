@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { Op } = require('sequelize');
 
 const { BlogPost, PostsCategory } = require('../models');
 const { InvalidArgumentError, NotFoundError, AccessError } = require('../errors');
@@ -57,11 +58,9 @@ module.exports = {
   async getAll() {
     const posts = await BlogPost.findAll();
 
-    const response = await Promise.all(
+    return Promise.all(
       posts.map(({ dataValues }) => retrievePostSerializer(dataValues)),
     );
-
-    return response;
   },
   async getById(id) {
     const post = await BlogPost.findOne({ where: { id } });
@@ -98,6 +97,23 @@ module.exports = {
 
     if (userId !== postUserId) throw new AccessError('Unauthorized user');
 
-    await BlogPost.destroy({ where: { id } });
+    return BlogPost.destroy({ where: { id } });
+  },
+  async getByTitleOrContent(query) {
+    const likeQuery = `%${query}%`;
+    const posts = await BlogPost.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: likeQuery } },
+          { content: { [Op.like]: likeQuery } },
+        ],
+      },
+    });
+
+    return !posts.length
+      ? posts
+      : Promise.all(
+        posts.map(({ dataValues }) => retrievePostSerializer(dataValues)),
+      );
   },
 };
