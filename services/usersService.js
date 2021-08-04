@@ -37,4 +37,7 @@ module.exports = {
     const { password, ...userData } = user.dataValues;
     return userData;
   },
+  async remove(id) {
+    return User.destroy({ where: { id } });
+  },
 };

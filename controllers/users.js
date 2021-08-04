@@ -30,4 +30,15 @@ module.exports = {
       next(err);
     }
   },
+  async deleteOwnUser(req, res, next) {
+    try {
+      const { id } = req.user;
+
+      await usersService.remove(id);
+
+      res.status(204).json();
+    } catch (err) {
+      next(err);
+    }
+  },
 };
