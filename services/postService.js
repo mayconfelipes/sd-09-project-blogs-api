@@ -99,14 +99,3 @@ module.exports = {
   getPostById,
   updatePost,
 };
-
-// metodo model.create retorna o objeto inserido, logo podemos pegar o id e inserilo na tabela n:n (postsCategories)
-
-// capturado esse id, vamos em nossa tabela n:n e inserimos o id do post e os ids das categories que vierem no array, exemplo:
-
-/**
- * categoryIds: [1, 2]
- * vamos inserir na tabela postsCategories:
- * postId (id do post retornado) -> categoryId (1)
- * postId -> categoryId (2)
- */
