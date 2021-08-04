@@ -46,8 +46,7 @@ const deletPost = async (id, token) => {
     const findPost = await BlogPosts.findOne({ where: { id } });
     if (findPost) {
         const normalizefindPost = normalizeObj(findPost);
-        const { userId } = normalizefindPost;
-        if (userLoggedId === userId) {
+        if (userLoggedId === normalizefindPost.userId) {
             const post = await BlogPosts.destroy({ where: { id } });
             return post;
         } return { message: 'Unauthorized user' };

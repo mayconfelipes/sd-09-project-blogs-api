@@ -1,6 +1,13 @@
+const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 const validationUser = require('../middlewares/validationUser');
 const validationLogin = require('../middlewares/validationLogin');
+
+const verifyToken = (token) => {
+    const JWT_SECRET = 'meuSegredoSuperSecreto';
+    const payload = jwt.verify(token, JWT_SECRET);
+    return payload;
+};
 
 const getAll = async () => {
     const users = await Users.findAll();
@@ -16,7 +23,7 @@ const findByEmail = async (email) => {
     }
 };
 
-const getbyId = async (id) => { 
+const getbyId = async (id) => {
     if (id) {
         const user = await Users.findOne({
             where: { id },
@@ -50,4 +57,13 @@ const login = async (body) => {
     return { message };
 };
 
-module.exports = { getAll, findByEmail, getbyId, addUser, login };
+const deleteMe = async (token) => {
+    const payload = verifyToken(token);
+    if (payload) {
+        const { email } = payload.user;
+        await Users.destroy({ where: { email } });
+        return 'ok';
+    }
+};
+
+module.exports = { getAll, deleteMe, findByEmail, getbyId, addUser, login };

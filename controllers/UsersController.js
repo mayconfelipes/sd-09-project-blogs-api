@@ -49,4 +49,13 @@ const getbyId = async (req, res) => {
     res.status(404).json({ message: 'User does not exist' });
 };
 
-module.exports = { getAll, addUser, getbyId, login };
+const deleteMe = async (req, res) => {
+    const token = req.headers.authorization;
+    const user = await userServices.deleteMe(token);
+    if (user.message) {
+        return res.status(401).json(user);
+    }
+    return res.status(204).send();
+};
+
+module.exports = { getAll, deleteMe, addUser, getbyId, login };

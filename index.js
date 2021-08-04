@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 app.get('/user', auth, UsersController.getAll);
 app.get('/user/:id', auth, UsersController.getbyId);
 app.post('/user', UsersController.addUser);
+app.delete('/user/me', auth, UsersController.deleteMe);
 app.post('/login', UsersController.login);
 
 app.get('/categories', auth, CategoriesController.getAll);
