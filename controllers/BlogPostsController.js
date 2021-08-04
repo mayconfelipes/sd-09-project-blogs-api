@@ -1,6 +1,4 @@
 const BlogPostsServices = require('../services/BlogPostsServices');
-// const UsersServices = require('../services/UsersServices');
-// const CategoriesServices = require('../services/CategoriesServices');
 
 const getAll = async (req, res) => {
     const posts = await BlogPostsServices.getAllBlogPosts();

@@ -18,3 +18,6 @@ module.exports = (sequelize, DataTypes) => {
 
   return Users;
 };
+
+// refatoração realizada após o estudo do pull requeste:
+//  https://github.com/tryber/sd-09-project-blogs-api/pulls/34

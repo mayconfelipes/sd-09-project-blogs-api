@@ -3,9 +3,6 @@ const { BlogPosts, Categories, Users } = require('../models');
 const validationBlogPosts = require('../middlewares/validationBlogPosts');
 const validationUpdatePosts = require('../middlewares/validationUpdatePosts');
 const { findByEmail } = require('./UsersServices');
-// const { getAllPosts } = require('./PostsCategoriesServices');
-
-// const { getbyIdCat } = require('./CategoriesServices');
 
 const verifyToken = (token) => {
     const JWT_SECRET = 'meuSegredoSuperSecreto';
@@ -15,27 +12,8 @@ const verifyToken = (token) => {
 
 const normalizeObj = (obj) => JSON.parse(JSON.stringify(obj));
 
-// const getParams = async () => {
-//     const findPostsAndCategories = await getAllPosts();
-//     const postsWithCategories = normalizeObj(findPostsAndCategories);
-//     const findPoster = await BlogPosts.findAll();
-//     const posts = normalizeObj(findPoster);
-//     const findUser = await getbyId(posts[0].userId);
-//     const user = normalizeObj(findUser);
-//     return 
-// }
-// const getAll = async () => {
-//     const findPostsAndCategories = await getAllPosts();
-//     const postsWithCategories = normalizeObj(findPostsAndCategories);
-//     const findPoster = await BlogPosts.findAll();
-//     const posts = normalizeObj(findPoster);
-//     // for ( let i = 0 ; i < posts.length ; i += 1)
-//     const findUser = await getbyId(posts[0].userId);
-//     const user = normalizeObj(findUser);
-// };
-
-//  consultei o repositorio de meu colega para refatoração desta função
-//  https://github1s.com/tryber/sd-09-project-blogs-api/pull/34/commits/13d13089ff008ddfd3b9bd6cc9e41e24fa965abf
+// refatoração realizada após o estudo do pull requeste:
+//  https://github.com/tryber/sd-09-project-blogs-api/pulls/34
 const getPostById = async (id) => {
     const post = await BlogPosts.findOne({
         where: { id },
@@ -47,6 +25,8 @@ const getPostById = async (id) => {
     return post;
 };
 
+// refatoração realizada após o estudo do pull requeste:
+//  https://github.com/tryber/sd-09-project-blogs-api/pulls/34
 async function getAllBlogPosts() {
     const posts = await BlogPosts.findAll({
       include: [

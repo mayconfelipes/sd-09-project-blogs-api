@@ -8,10 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'Categories',
   });
 
-  // Categories.associate = (models) => {
-  //   Categories.belongsToMany(models.PostsCategories,
-  //     { foreignKey: 'categoryId', as: 'categories', through: 'PostsCategories' });
-  // };
-
   return Categories;
 };
+
+// refatoração realizada após o estudo do pull requeste:
+//  https://github.com/tryber/sd-09-project-blogs-api/pulls/34
