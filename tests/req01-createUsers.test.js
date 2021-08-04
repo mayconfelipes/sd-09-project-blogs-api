@@ -9,7 +9,7 @@ describe('1 - Sua aplicação deve ter o endpoint POST `/user`', () => {
     shell.exec('npx sequelize-cli db:create && npx sequelize-cli db:migrate $');
   });
 
-  it.skip('Será validado que é possível cadastrar um usuário com sucesso', async () => {
+  it('Será validado que é possível cadastrar um usuário com sucesso', async () => {
     await frisby
       .post(`${url}/user`,
         {
@@ -119,7 +119,7 @@ describe('1 - Sua aplicação deve ter o endpoint POST `/user`', () => {
       });
   });
 
-  it.skip('Validar que não é possível cadastrar um usuário com email já existente', async () => {
+  it('Validar que não é possível cadastrar um usuário com email já existente', async () => {
     await frisby
       .post(`${url}/user`,
         {
