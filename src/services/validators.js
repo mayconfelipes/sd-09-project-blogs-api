@@ -1,5 +1,5 @@
-const { User } = require('../models');
 const validator = require('validator');
+const { User } = require('../models');
 
 const err = (message) => ({ message });
 
@@ -20,13 +20,9 @@ const validatePassword = (password) => {
 };
 
 const user = async ({ displayName, email, password }) => {
-  try {
-    validateDisplayName(displayName);
-    validateEmail(email);
-    validatePassword(password);
-  } catch (err) {
-    throw err;
-  }
+  validateDisplayName(displayName);
+  validateEmail(email);
+  validatePassword(password);
 };
 
 const userExists = async ({ email }) => {
