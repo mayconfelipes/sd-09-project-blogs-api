@@ -2,6 +2,7 @@ require('dotenv');
 
 const jwt = require('jsonwebtoken');
 const error = require('./error');
+const { User } = require('../models');
 
 const SECRET = process.env.JWT_SECRET;
 
@@ -10,8 +11,8 @@ const generateToken = (email, password) => {
     expiresIn: '1d',
     algorithm: 'HS256',
   };
-  const token = jwt.sign({ email, password }, SECRET, jwtConfig);
-  return token;
+  const tokenNum = jwt.sign({ email, password }, SECRET, jwtConfig);
+  return ({ token: tokenNum });
 };
 
 const isInvalidLogin = async (email, password) => {
@@ -22,7 +23,16 @@ const isInvalidLogin = async (email, password) => {
   return null;
 };
 
+const validateJWT = async (authorization) => {
+  if (!authorization) throw error.tokenNotFound;
+  const verifyToken = jwt.verify(authorization, SECRET);
+  const userEmail = await User.findOne({ where: { email: verifyToken.email } });
+  if (userEmail) return true;
+  return true;
+};
+
 module.exports = {
   generateToken,
   isInvalidLogin,
+  validateJWT,
 };

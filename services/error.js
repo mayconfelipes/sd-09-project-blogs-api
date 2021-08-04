@@ -43,6 +43,21 @@ const requiredPassword = {
   status: 400,
 };
 
+const tokenNotFound = {
+  message: 'Token not found',
+  status: 401,
+};
+
+const expiredOrInvalidToken = {
+  message: 'Expired or invalid token',
+  status: 401,
+};
+
+const userDontExist = {
+  message: 'User does not exist',
+  status: 404,
+};
+
 module.exports = {
   invalidEmail,
   requiredEmail,
@@ -53,4 +68,7 @@ module.exports = {
   emptyEmail,
   emptyPassword,
   invalidFields,
+  tokenNotFound,
+  expiredOrInvalidToken,
+  userDontExist,
 }; 

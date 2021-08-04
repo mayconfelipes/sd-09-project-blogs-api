@@ -8,12 +8,12 @@ app.use(bodyParser.json());
 
 app.post('/user', userController.createUser);
 app.post('/login', userController.login);
+app.get('/user', userController.getAllUsers);
+app.get('/user/:id', userController.getUserById);
 app.use((err, _req, res, _next) => {
-  if (!err.status) {  
-    return res.status(500).json(err.message);
-  }
-  console.log(err);
-  res.status(err.status).json({ message: err.message });
+  if (err.status) return res.status(err.status).json({ message: err.message });
+  if (err.message) return res.status(401).json({ message: 'Expired or invalid token' });
+  if (!err.status) return res.status(500).json(err.message);
 });
 
 const PORT = process.env.PORT || 3000;

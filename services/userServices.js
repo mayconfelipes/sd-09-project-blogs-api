@@ -29,12 +29,28 @@ const login = async ({ email, password }) => {
    }
    const validUser = await User.findOne({ where: { email, password } });
    if (validUser) {
-     return auth.generateToken(email, password);
+     const result = auth.generateToken(email, password);
+     return result;
    }
    return error.invalidFields;
+};
+
+const getAllUsers = async () => {
+  const result = await User.findAll();
+  return result;
+};
+
+const getUserById = async (id) => {
+  const result = await User.findByPk(id);
+  if (!result) {
+    return error.userDontExist;
+  }
+return result;
 };
 
 module.exports = {
   createUser,
   login,
+  getAllUsers,
+  getUserById,
 }; 
