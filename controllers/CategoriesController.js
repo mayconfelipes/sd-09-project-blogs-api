@@ -12,7 +12,7 @@ const getAll = async (_req, res) => {
 
 const addCategorie = async (req, res) => {
     const categorie = await CategoriesServices.addCategorie(req.body);
-    if (categorie.message === undefined) {
+    if (!categorie.message) {
         return res.status(201).json(categorie);
     }
     return res.status(400).json(categorie);

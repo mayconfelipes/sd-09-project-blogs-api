@@ -8,11 +8,12 @@ const getAll = async () => {
 
 const addCategorie = async (body) => {
     const validate = validationCategorie(body);
-    if (validate.error === undefined) {
+    const { message } = validate;
+    if (!message) {
         const categorie = await Categories.create(body);
         return categorie;
     }
-    return { message: validate.error };
+    return { message };
 };
 
 const getbyIdCat = async (id) => {

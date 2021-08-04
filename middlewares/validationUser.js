@@ -13,7 +13,7 @@ const validation = (body) => {
   } 
     const { details } = error;
     const message = details.map((i) => i.message).join(',');
-    return ({ error: message });
+    return ({ message });
 };
 
 module.exports = validation;

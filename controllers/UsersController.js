@@ -15,20 +15,22 @@ const getAll = async (_req, res) => {
 
 const addUser = async (req, res) => {
     const user = await userServices.addUser(req.body);
-    if (user.message === undefined) {
+    const { message } = user;
+    if (!message) {
         const token = jwt.sign({ user }, JWT_SECRET, {
             expiresIn: '1h', algorithm: 'HS256',
         });
         return res.status(201).json({ token });
-    } if (user.message === 'User already registered') {
-        return res.status(409).json(user);
+    } if (message === 'User already registered') {
+        return res.status(409).json({ message });
     }
-    return res.status(400).json(user);
+    return res.status(400).json({ message });
 };
 
 const login = async (req, res) => {
     const user = await userServices.login(req.body);
-    if (user.message === undefined && user.message !== 'Invalid fields') {
+    const { message } = user;
+    if (!message && message !== 'Invalid fields') {
         const token = jwt.sign({ user }, JWT_SECRET, {
             expiresIn: '1h', algorithm: 'HS256',
         });
@@ -38,10 +40,11 @@ const login = async (req, res) => {
 };
 
 const getbyId = async (req, res) => {
-    const { id } = req.params;
-    const user = await userServices.getbyId(id);
+    const { id: idReq } = req.params;
+    const user = await userServices.getbyId(idReq);
     if (user) {
-        return res.status(200).json(user);
+        const { id, displayName, email, image } = user;
+        return res.status(200).json({ id, displayName, email, image });
     }
     res.status(404).json({ message: 'User does not exist' });
 };

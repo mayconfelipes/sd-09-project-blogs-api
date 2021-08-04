@@ -7,12 +7,12 @@ const validation = (body) => {
   });
   
   const { error } = Joi.validate(body, bodyValidation);
-  if (error === null) {
+  if (!error) {
     return body;
   } 
     const { details } = error;
     const message = details.map((i) => i.message).join(',');
-    return ({ error: message });
+    return ({ message });
 };
 
 module.exports = validation;

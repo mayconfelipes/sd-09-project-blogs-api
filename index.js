@@ -1,7 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
-// const { Users, BlogPosts, Categories, PostsCategories } = require('./models');
 const UsersController = require('./controllers/UsersController');
 const BlogPostsController = require('./controllers/BlogPostsController');
 const CategoriesController = require('./controllers/CategoriesController');
@@ -9,8 +8,6 @@ const auth = require('./middlewares/auth');
 
 dotenv.config();
 const app = express();
-// const config = require('./config/config');
-
 app.use(bodyParser.json());
 
 app.listen(3000, () => console.log('O Pai Tá ON!!!'));
@@ -31,5 +28,5 @@ app.post('/categories', auth, CategoriesController.addCategorie);
 app.get('/post', auth, BlogPostsController.getAll);
 app.get('/post/:id', auth, BlogPostsController.getPostById);
 app.put('/post/:id', auth, BlogPostsController.updatePost);
-
+app.delete('/post/:id', BlogPostsController.deletPost);
 app.post('/post', auth, BlogPostsController.addPost);

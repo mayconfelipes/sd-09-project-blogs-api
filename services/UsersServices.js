@@ -13,39 +13,41 @@ const findByEmail = async (email) => {
             where: { email },
         });
         return user;
-    } return null;
+    }
 };
 
-const getbyId = async (id) => {
+const getbyId = async (id) => { 
     if (id) {
         const user = await Users.findOne({
             where: { id },
         });
         return user;
-    } return null;
+    }
 };
 
 const addUser = async (body) => {
     const validate = await validationUser(body);
     const emailExist = await findByEmail(body.email);
-    if (validate.error === undefined && !emailExist === true) {
+    const { message } = validate;
+    if (!message && !emailExist) {
         const user = await Users.create(body);
         return user;
     } if (emailExist) {
         return { message: 'User already registered' };
     }
-    return { message: validate.error };
+    return validate;
 };
 
 const login = async (body) => {
     const validate = await validationLogin(body);
     const emailExist = await findByEmail(body.email);
-    if (validate.error === undefined && emailExist !== null) {
+    const { message } = validate;
+    if (!message && emailExist) {
         return body;
-    } if (validate.error === undefined && emailExist === null) {
+    } if (!message && !emailExist) {
         return { message: 'Invalid fields' };
     }
-    return { message: validate.error };
+    return { message };
 };
 
 module.exports = { getAll, findByEmail, getbyId, addUser, login };
