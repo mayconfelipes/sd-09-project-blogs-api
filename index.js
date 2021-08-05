@@ -7,9 +7,11 @@ require('dotenv/config');
 const CreateUserController = require('./controllers/CreateUserController');
 const LoginController = require('./controllers/LoginController');
 const UserController = require('./controllers/UserController');
+const UserIdController = require('./controllers/UserIdController');
 const ErrorsUser = require('./middlewares/ErrorsUser');
-const ErrorsLogin = require('./middlewares/ErrosLogin');
+const ErrorsLogin = require('./middlewares/ErrorsLogin');
 const ErrorsToken = require('./middlewares/ErrorsToken');
+const Auth = require('./middlewares/Auth');
 const ResponseErrors = require('./middlewares/ResponseErrors');
 
 const PORT = process.env.PORT || 3000;
@@ -22,12 +24,12 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.post('/user', rescue(CreateUserController));
-app.use(ErrorsUser);
 app.post('/login', rescue(LoginController));
 app.use(ErrorsLogin);
-app.get('/user', rescue(UserController));
-app.use(ErrorsToken);
+app.get('/user/:id', rescue(Auth), rescue(UserIdController));
+app.get('/user', rescue(Auth), rescue(UserController));
+app.post('/user', rescue(CreateUserController));
+app.use(ErrorsToken, ErrorsUser);
 app.use(ResponseErrors);
 
 app.listen(PORT, () => console.log(`SERVER ONLINE IN ${PORT}!`));

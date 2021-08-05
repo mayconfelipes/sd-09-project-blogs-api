@@ -11,5 +11,9 @@ module.exports = (err, _req, res, _next) => {
       .json({ message: '"password" length must be 6 characters long' });
   }
 
+  if (message === 'User does not exist') {
+    return res.status(404).json({ message: err.message });
+  }
+
   res.status(400).json({ message: err.message });
 };

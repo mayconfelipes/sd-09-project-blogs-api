@@ -1,8 +1,6 @@
 const { User } = require('../../models');
-const { verifyToken } = require('../jwt');
 
-module.exports = async (token) => {
-  await verifyToken(token);
+module.exports = async () => {
   const users = await User.findAll({});
 
   return users;

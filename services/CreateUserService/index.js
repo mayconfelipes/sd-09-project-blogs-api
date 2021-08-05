@@ -1,5 +1,5 @@
 const validateUserData = require('../validateUserData');
-const { createToken } = require('../jwt');
+const { createToken } = require('../../middlewares/Auth/jwt');
 const { User } = require('../../models');
 
 module.exports = async (userData) => {

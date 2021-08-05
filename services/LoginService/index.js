@@ -1,5 +1,5 @@
 const validateLoginData = require('../validateLoginData');
-const { createToken } = require('../jwt');
+const { createToken } = require('../../middlewares/Auth/jwt');
 
 module.exports = async (loginData) => {
   await validateLoginData(loginData);
