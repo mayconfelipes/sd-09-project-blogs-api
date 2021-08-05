@@ -4,6 +4,7 @@ const BADREQUEST = 400;
 const NOTFOUND = 404;
 const CONFLICT = 409;
 const INTERNERERROR = 500;
+const UNAUTHORIZED = 401;
 
 module.exports = {
     OK,
@@ -12,4 +13,5 @@ module.exports = {
     NOTFOUND,
     CONFLICT,
     INTERNERERROR,
+    UNAUTHORIZED,
 };

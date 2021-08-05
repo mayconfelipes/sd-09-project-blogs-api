@@ -2,9 +2,10 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
-const { CONFLICT, CREATE, INTERNERERROR, BADREQUEST } = require('../ultils');
+const { CONFLICT, CREATE, INTERNERERROR, BADREQUEST, OK } = require('../ultils');
 
 const validate = require('../middlewares/user');
+const { auth } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -38,6 +39,15 @@ router.post('/', validate.validateIn, async (req, res) => {
         console.log(e.message);
         res.status(INTERNERERROR).json({ message: 'Algo deu errado' });
       }
+});
+
+router.get('/', auth, async (req, res) => {
+    try {
+        const getAll = await User.findAll();
+        return res.status(OK).json(getAll);
+    } catch (error) {
+        res.status(INTERNERERROR).json(error);
+    }
 });
 
 module.exports = router;
