@@ -11,4 +11,8 @@ categoriesRouter.post('/', authorization, rescue(async (req, res) => {
   return res.status(201).json(category);
 }));
 
+categoriesRouter.get('/', authorization, rescue(async (req, res) => {
+  const getCategory = await categoriesService.getAllCategories();
+  return res.status(200).json(getCategory); 
+}));
 module.exports = categoriesRouter;
