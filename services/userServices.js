@@ -50,7 +50,11 @@ const addUser = async (newUserData) => {
   return { token };
 };
 
-const getAllUsers = async () => User.findAll({ raw: true });
+const getAllUsers = async (authorization) => {
+  const response = jwt.verify(authorization);
+  if (response.error) return response;
+  return User.findAll({ raw: true });
+ };
 
 module.exports = {
   addUser,
