@@ -6,12 +6,12 @@ const createUser = rescue(async (req, res, _next) => {
 });
 
 const getAllUsers = rescue(async (req, res, _next) => {
-  const userList = await getUsers();
+  const userList = 'deu bom';
   return res.status(200).json(userList);
 });
 
 const getUserById = rescue(async (req, res, _next) => {
-  const user = await getById();
+  const user = 'deu bom';
   return res.status(200).json(user);
 });
 
