@@ -8,9 +8,14 @@ const userSchema = Joi.object({
   image: Joi.string().required(),
 });
 
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().length(6).required(),
+});
+
 const validateUser = async (req, _res, next) => {
-  const user = req.body;
-  const { error } = userSchema.validate(user);
+  const userInfo = req.body;
+  const { error } = userSchema.validate(userInfo);
   if (error) {
     return next({
       statusCode: 400,
@@ -32,4 +37,33 @@ const hasDuplicatedEmail = async (req, _res, next) => {
   return next();
 };
 
-module.exports = { validateUser, hasDuplicatedEmail };
+const userIsRegistered = async (req, _res, next) => {
+  const { email } = req.body;
+  const findUserByEmail = await User.findOne({ where: { email } });
+  if (findUserByEmail === null) {
+    return next({
+      statusCode: 400,
+      message: 'Invalid fields',
+    });
+  }
+  return next();
+};
+
+const validateLogin = async (req, _res, next) => {
+  const loginInfo = req.body;
+  const { error } = loginSchema.validate(loginInfo);
+  if (error) {
+    return next({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+  return next();
+};
+
+module.exports = {
+  validateUser,
+  hasDuplicatedEmail,
+  validateLogin,
+  userIsRegistered,
+};

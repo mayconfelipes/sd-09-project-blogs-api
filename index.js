@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser').json();
 
 const { createUser } = require('./controllers/user');
+const { login } = require('./controllers/login');
 const error = require('./middlewares/error');
 
 const app = express();
@@ -10,6 +11,7 @@ app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
 app.use(bodyParser);
 app.post('/user', createUser);
+app.post('/login', login);
 app.use(error);
 
 // não remova esse endpoint, e para o avaliador funcionar

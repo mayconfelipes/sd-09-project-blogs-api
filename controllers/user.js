@@ -6,8 +6,7 @@ const createUser = [
   validateUser,
   hasDuplicatedEmail,
   rescue(async (req, res) => {
-    const user = req.body;
-    const token = await userServices.user(user);
+    const token = await userServices.user(req.body);
     return res.status(201).json({ token });
   }),
 ];
