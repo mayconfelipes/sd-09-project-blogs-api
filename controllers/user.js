@@ -39,7 +39,7 @@ const listUsersController = async (req, res, next) => {
     const response = await userService.listUsers(id);
     res.status(200).json(response);
   } catch (e) {
-    next({ status: 404, msg: 'User does not exist' });
+    next({ status: 404, msg: e.msg });
   }
 };
 
