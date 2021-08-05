@@ -1,0 +1,6 @@
+apps:
+  - name: blogs_api
+    script: ./index.js
+    exec_mode: cluster
+    watch: true
+    instances: 2
