@@ -6,13 +6,14 @@ const {
   updatedPost,
   deletePost,
 } = require('../Controllers/postController');
+const validateJWT = require('../Auth/validateJWT');
 
 const router = express.Router();
 
-router.post('/', addPost);
-router.get('/', getAllPosts);
-router.get('/:id', getPostById);
-router.put('/:id', updatedPost);
-router.delete('/:id', deletePost);
+router.post('/', validateJWT, addPost);
+router.get('/', validateJWT, getAllPosts);
+router.get('/:id', validateJWT, getPostById);
+router.put('/:id', validateJWT, updatedPost);
+router.delete('/:id', validateJWT, deletePost);
 
 module.exports = router;
