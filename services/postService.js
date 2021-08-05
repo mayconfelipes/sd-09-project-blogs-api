@@ -1,4 +1,4 @@
-const { BlogPost } = require('../models');
+const { BlogPost, PostCategory } = require('../models');
 const { findAllCategories } = require('./categoryService');
 
 const createPostService = async (title, content, categoryIds, userId) => {
@@ -23,6 +23,14 @@ const createPostService = async (title, content, categoryIds, userId) => {
     return post;
 };
 
+const createPostCategory = async (postId, categoriesId) => {
+    const promisses = categoriesId.map((categoryId) => PostCategory.create({ postId, categoryId }));
+    const values = await Promise.all(promisses);
+    console.log(values, '<<<<< Pr');
+    return values;
+};
+
 module.exports = {
     createPostService,
+    createPostCategory,
 };
