@@ -1,18 +1,51 @@
-const { BlogPost } = require('../models');
+const { BlogPost, Categorie, PostsCategorie, User } = require('../models');
+const blogpostController = require('../controller/blogpostController');
 
-const createBlogpost = (req, res, _next) => {
-  const { title, content, userId } = req.body;
-  console.table('++++++++++++', req)
-  // plano pra quando acordar .... pegar id do usario pelo token .. e tratar ids de categoria
-  BlogPost.create({ title, content, userId })
-    .then((newBlogpost) => {
+const createBlogpost = async (req, res, _next) => {
+  const { title, content, categoryIds } = req.body;
+  const { id: userId } = req.user;
 
-      res.status(350).json(newBlogpost)
-    })
-    .catch((e) => {
+  // BlogPost.create({ title, content, userId })
+  //   .then((newBlogpost) => {
 
-      res.status(700).send({ message: e})
-    })
+  //     const reply = blogpostController.createBlogpostOk(newBlogpost);
+  //     res.status(reply.code).json(reply.blogpost);
+  //   })
+  //   .catch((e) => {
+  //     const reply = blogpostController.createBlogpostError(e.parent.sqlMessage)
+  //     res.status(reply.code).send({ message: reply.phrase })
+  //   })
+
+  try {
+
+    
+      const blogPost = await BlogPost.create({ title, content, userId })
+      
+      const categorie = await Categorie.findAll({ where: { id: categoryIds  } })
+// 
+      // console.log(JSON.stringify(blogPost, null, 2))
+      // console.log(blogPost.dataValues.id) 
+
+      // await newBlogpost.addPostCategorie(JSON.stringify(categorie, null, 2))
+
+      await blogPost.addCategorie()
+
+
+
+
+
+      const reply = blogpostController.createBlogpostOk(blogPost);
+      return res.status(reply.code).json(reply.blogpost);
+    
+
+  } catch (error) {
+      // const reply = blogpostController.createBlogpostError(error.parent.sqlMessage)
+      // res.status(reply.code).send({ message: reply.phrase })
+      console.log('------------------------ ', error )
+  }
+
+
+
 }
 
 module.exports = {

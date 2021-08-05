@@ -29,6 +29,7 @@
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
+      id: { allowNull: false, type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
       displayName: { type: DataTypes.STRING, validate: { len: [8] } },
       email: {
         allowNull: false, type: DataTypes.STRING, unique: true, validate: { isEmail: true } }, // tem quer ser único
@@ -37,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
+      tableName: 'Users',
     });
 
     User.associate = (models) => {

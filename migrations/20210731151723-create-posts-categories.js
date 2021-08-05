@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        references1: {
+        references: {
           model: 'BlogPosts',
           key: 'id',
         },
