@@ -20,8 +20,8 @@ router.post('/', validadeToken, validadeRequestBody.createPost, async (req, res,
 
 router.get('/', validadeToken, async (req, res, next) => {
   try {
-    const categories = await Service.findAll();
-    res.status(StatusCode.ok).json(categories);
+    const posts = await Service.findAll();
+    res.status(StatusCode.ok).json(posts);
   } catch (err) {
     next(err);
   }
