@@ -22,7 +22,7 @@ router.post('/', validate.validateIn, async (req, res) => {
       }
    
     const verifyEmail = await User.findOne({ where: { email } });
-    console.log(verifyEmail);
+   
     if (verifyEmail) return res.status(CONFLICT).json({ message: 'User already registered' });
 
     try {
