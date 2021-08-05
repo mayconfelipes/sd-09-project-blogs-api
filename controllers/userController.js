@@ -19,4 +19,10 @@ userRouter.get('/', authorization, async (req, res) => {
   return res.status(200).json(listAllUsers);
 });
 
+userRouter.get('/:id', authorization, rescue(async (req, res) => {
+  const { id } = req.params;
+  const getUser = await userService.findUser(id);
+  return res.status(200).json(getUser);
+}));
+
 module.exports = userRouter;

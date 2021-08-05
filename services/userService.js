@@ -8,6 +8,13 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
+ const userInexist = {
+   error: {
+     code: 'userNotFind',
+     message: 'User does not exist',
+   },
+ };
+
 const validateDisplayName = (displayName) => {
   const nameInvalid = {
     error: {
@@ -92,7 +99,16 @@ const listAll = async () => {
   return allUsers;
 };
 
+const findUser = async (id) => {
+  const getUser = await User.findOne({ where: { id } });
+  console.log(getUser);
+  if (!getUser) throw userInexist;
+  delete getUser.dataValues.password;
+  return getUser;
+};
+
 module.exports = {
   createUser,
   listAll,
+  findUser,
 };
