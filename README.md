@@ -1,6 +1,6 @@
 ### Termos e acordos
 
-Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
+#### Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
 
 ---
 
@@ -46,11 +46,11 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
     - [13 - Sua aplicação deve ter o endpoint GET `/post/search?q=searchTerm`](#13---sua-aplicação-deve-ter-o-endpoint-get-postsearchqsearchterm)
 - [Avisos Finais](#avisos-finais)
 
-# Habilidades 
+# Habilidades
 
 Nesse projeto, você vai construir um back-end usando `ORM` com o pacote `sequelize` do `npm`, e será capaz de:
  - Criar e associar tabelas usando `models` do `sequelize`
- - Construir endpoints para consumir os models que criar 
+ - Construir endpoints para consumir os models que criar
  - Fazer um `CRUD` com o `ORM`
 
 # Entregáveis
@@ -74,7 +74,7 @@ Primeiro, você irá criar uma tabela para os usuários que desejam se cadastrar
 Você deve desenvolver uma aplicação em `Node.js` usando o pacote `sequelize` para fazer um `CRUD` de posts.
 
 Para fazer um post é necessário usuário e login, portanto será trabalhada a **relação entre** `user` e `post`. Também será necessário a utlização de categorias para seus posts, assim trabalhando a relação de `posts` para `categorias` e de `categorias` para `posts`.
- 
+
 ### Data de Entrega
 
   - Projeto individual.
@@ -150,7 +150,7 @@ Para fazer um post é necessário usuário e login, portanto será trabalhada a 
 
 ### Execução de testes unitários
 
-Vamos usar o Jest para executar os testes, use o comando a seguir para executar todos os testes: 
+Vamos usar o Jest para executar os testes, use o comando a seguir para executar todos os testes:
 
 ```sh
 npm test
@@ -321,8 +321,8 @@ Alguns exemplos:
     "updated": "2011-08-01T19:58:51.947Z",
   }
   ```
-  
-  **Os dados acima são fictícios, e estão aqui apenas como exemplo**  
+
+  **Os dados acima são fictícios, e estão aqui apenas como exemplo**
 
   **OBS: Os testes irão rodar atráves do seu migrate usando os seguintes comandos:**
 
@@ -1044,7 +1044,7 @@ Se o token for inválido o resultado retornado deverá ser conforme exibido abai
 
 ![blogpost com token inválido](./public/buscarpostcomtokeninvalido.png)
 
---- 
+---
 
 ## Depois de terminar o desenvolvimento
 
