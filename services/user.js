@@ -79,6 +79,9 @@ const listUsers = async (id) => {
     return users;
   }
   const user = await User.findByPk(id);
+  if (!user) {
+    throw createErrorMsg('user_not_exists', 'User does not exist');
+  }
   return user;
 };
 
