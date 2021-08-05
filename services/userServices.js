@@ -56,7 +56,19 @@ const getAllUsers = async (authorization) => {
   return User.findAll({ raw: true });
  };
 
+ const getUserById = async ({ authorization, id }) => {
+  const response = jwt.verify(authorization);
+  if (response.error) return response;
+  const user = await User.findOne({ where: { id } });
+  if (user) {
+    return user;
+  }
+  const message = 'User does not exist';
+  return { error: { name: 'userDoesNotExist', message } };
+ };
+
 module.exports = {
   addUser,
   getAllUsers,
+  getUserById,
 };

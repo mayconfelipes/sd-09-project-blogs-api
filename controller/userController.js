@@ -17,6 +17,15 @@ const getUsers = async (req, res, next) => {
   return res.status(200).json(users);
 };
 
+const getUser = async (req, res, next) => {
+  const { authorization } = req.headers;
+  const { id } = req.params;
+  const user = await userServices.getUserById({ authorization, id });
+  if (user.error) return next(user.error);
+  return res.status(200).json(user);
+};
+
 module.exports = {
   addUserController,
-  getUsers };
+  getUsers,
+  getUser };
