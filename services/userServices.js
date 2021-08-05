@@ -17,4 +17,9 @@ const createUser = async (userData) => {
   return newUser;
 };
 
-module.exports = { createUser };
+const findUsers = async () => {
+  const users = await User.findAll();
+  return users;
+};
+
+module.exports = { createUser, findUsers };
