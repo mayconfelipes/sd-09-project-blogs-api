@@ -1,6 +1,6 @@
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
+const { User, Category, BlogPost } = require('../models');
 
 const err = (message) => ({ message });
 
@@ -27,7 +27,7 @@ const user = async ({ displayName, email, password }) => {
 };
 
 const userExists = async ({ email }) => {
-  const userDB = await User.findOne({ email });
+  const userDB = await User.findOne({ where: { email } });
   if (userDB) throw err('User already registered');
 };
 
@@ -52,5 +52,21 @@ const token = async ({ authorization }) => {
 const category = async ({ name }) => {
   if (!name) throw err('"name" is required');
 };
+const categoryIdExists = async (id) => {
+  const idExists = await Category.findByPk(id);
+  if (!idExists) throw err('"categoryIds" not found');
+};
 
-module.exports = { user, userExists, login, token, category };
+const post = async ({ title, content, categoryIds }) => {
+  if (!title) throw err('"title" is required');
+  if (!content) throw err('"content" is required');
+  if (!categoryIds) throw err('"categoryIds" is required');
+  await Promise.all(categoryIds.map(async (id) => categoryIdExists(id)));
+};
+
+const postExists = async ({ id }) => {
+  const exists = await BlogPost.findByPk(id);
+  if (!exists) throw err('Post does not exist');
+};
+
+module.exports = { user, userExists, login, token, category, post, postExists };

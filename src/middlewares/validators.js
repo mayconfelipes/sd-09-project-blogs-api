@@ -20,4 +20,12 @@ const category = (req, _res, next) => validate.category(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 400, message }));
 
-module.exports = { user, userExists, login, token, category };
+const post = (req, _res, next) => validate.post(req.body)
+  .then(() => next())
+  .catch(({ message }) => next({ status: 400, message }));
+
+const postExists = (req, _res, next) => validate.postExists(req.params)
+  .then(() => next())
+  .catch(({ message }) => next({ status: 404, message }));
+
+module.exports = { user, userExists, login, token, category, post, postExists };

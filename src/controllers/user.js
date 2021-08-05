@@ -10,7 +10,7 @@ const login = (req, res) => generateToken(req.body)
 const getAll = (_req, res) => User.findAll()
   .then((data) => res.status(200).json(data.map(({ dataValues }) => dataValues)));
 
-const getById = ({ params: { id } }, res) => User.findByPk(id)
+const getById = (req, res) => User.findByPk(req.params.id)
   .then(({ dataValues }) => res.status(200).json(dataValues))
   .catch(() => res.status(404).json({ message: 'User does not exist' }));
 
