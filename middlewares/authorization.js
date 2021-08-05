@@ -18,13 +18,16 @@ const jwtInvalid = {
 
 const authorization = (req, res, next) => {
   const { authorization: token } = req.headers;
-  if (!token) next(jwtNotFound);
+  if (!token) {
+    return next(jwtNotFound);
+  }
   try {
     jwt.verify(token, secret);
   } catch (err) {
-    throw jwtInvalid;
+    next(jwtInvalid);
   }
-  next();
+ 
+  return next();
 };
 
 module.exports = authorization;
