@@ -26,20 +26,36 @@ const createErrorMsg = (code, msg) => ({
 });
 
 const handleErrorJoi = (error) => {
-  console.log(error.message);
-  if (error.message.includes('password')) {
-    console.log('entei');
-    throw createErrorMsg('invalid_arguments', '"password" length must be 6 characters long');
+  if (error !== undefined) {
+    console.log(error.message);
+    if (error.message.includes('password')) {
+      console.log('entei');
+      throw createErrorMsg('invalid_arguments', '"password" length must be 6 characters long');
+    }
+      throw createErrorMsg('invalid_arguments', error.message);
   }
-    throw createErrorMsg('invalid_arguments', error.message);
+};
+
+const verifyIfEmailAndPassWord = (email, password) => {
+  if (!email) {
+    throw createErrorMsg('invalid_arguments', '"email" is required');
+  }
+  if (email === '') {
+    throw createErrorMsg('invalid_arguments', '"email" is not allowed to be empty');
+  }
+  if (password === '') {
+    throw createErrorMsg('invalid_arguments', '"password" is not allowed to be empty');
+  }
+  if (!password) {
+    throw createErrorMsg('invalid_arguments', '"password" is required');
+  }
 };
 
 const validateUser = async (user) => {
   const { email, displayName, password } = user;
+  verifyIfEmailAndPassWord(email, password);
   const { error } = UserSchema.validate({ email, password, displayName });
-  if (error !== undefined) {
-    handleErrorJoi(error);
-  }
+  handleErrorJoi(error);
   const currentUSer = await User.findOne({ where: { email } });
   if (currentUSer) {
     throw createErrorMsg('user_exists', 'User already registered');
@@ -48,7 +64,9 @@ const validateUser = async (user) => {
 
 const validateLogin = async (user) => {
   const { email, password } = user;
+  verifyIfEmailAndPassWord(email, password);
   const { error } = LoginSchema.validate({ email, password });
+  handleErrorJoi(error);
   if (error !== undefined) {
     handleErrorJoi(error);
   }
