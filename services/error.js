@@ -63,6 +63,26 @@ const requiredName = {
   status: 400,
 };
 
+const requiredTitle = {
+  message: '"title" is required',
+  status: 400,
+};
+
+const requiredContent = {
+  message: '"content" is required',
+  status: 400,
+};
+
+const requiredCategoryIds = {
+  message: '"categoryIds" is required',
+  status: 400,
+};
+
+const categoryIdsNotFound = {
+  message: '"categoryIds" not found',
+  status: 400,
+};
+
 module.exports = {
   invalidEmail,
   requiredEmail,
@@ -77,4 +97,8 @@ module.exports = {
   expiredOrInvalidToken,
   userDontExist,
   requiredName,
+  requiredTitle,
+  requiredContent,
+  requiredCategoryIds,
+  categoryIdsNotFound,
 }; 

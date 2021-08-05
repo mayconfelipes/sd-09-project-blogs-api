@@ -53,10 +53,8 @@ return result;
 const deleteUser = async (authorization) => {
   if (!authorization) {
     return error.tokenNotFound;
-  } console.log(authorization);
+  }
   const verifyToken = jwt.verify(authorization, process.env.JWT_SECRET);
-  
-  console.log(verifyToken.token);
   const { email } = verifyToken;
   const result = await User.destroy({ where: { email } });
   return result;
