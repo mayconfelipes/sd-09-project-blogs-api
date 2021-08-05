@@ -14,9 +14,9 @@ userRouter.post('/', rescue(async (req, res) => {
   return res.status(201).json({ token: newUser });
 }));
 
-userRouter.get('/', rescue(authorization), rescue(async (req, res) => {
+userRouter.get('/', rescue(authorization), async (req, res) => {
   const listAllUsers = await userService.listAll();
   return res.status(200).json(listAllUsers);
-}));
+});
 
 module.exports = userRouter;

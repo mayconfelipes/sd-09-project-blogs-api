@@ -8,6 +8,20 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
+// const jwtNotFound = {
+//   error: {
+//     code: 'jwtNotFound',
+//     message: 'Token not found',
+//   },
+// };
+
+// const jwtInvalid = {
+//   error: {
+//     code: 'jwtInvalid',
+//     message: 'Expired or invalid token',
+//   },  
+// };
+
 const validateDisplayName = (displayName) => {
   const nameInvalid = {
     error: {
@@ -88,6 +102,11 @@ const createUser = async (displayName, email, password, image) => {
 };
 
 const listAll = async () => {
+  // if (!token) throw jwtNotFound;
+  // jwt.verify(token, secret, (err) => {
+  //   if (err) throw jwtInvalid;
+  // });
+  
   const allUsers = await User.findAll({ attributes: { exclude: ['password'] } });
   return allUsers;
 };
