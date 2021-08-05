@@ -2,9 +2,9 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
-const { CONFLICT, CREATE, INTERNERERROR } = require('../ultils');
+const { CONFLICT, CREATE, INTERNERERROR, BADREQUEST } = require('../ultils');
 
-const { create } = require('../services/servicesUser');
+const validate = require('../middlewares/user');
 
 const router = express.Router();
 
@@ -15,12 +15,12 @@ const jwtConfig = {
     algorithm: 'HS256',
   };
 
-router.post('/', async (req, res) => {
+router.post('/', validate.validateIn, async (req, res) => {
     const { displayName, email, password, image } = req.body;
-    const result = await create({ displayName, email, password, image });
-    if (typeof result === 'object') {
-       return res.status(result.code).json(result.message);
-    }
+    if (!password) { 
+        return res.status(BADREQUEST).json({ message: '"password" is required' }); 
+      }
+   
     const verifyEmail = await User.findOne({ where: { email } });
     console.log(verifyEmail);
     if (verifyEmail) return res.status(CONFLICT).json({ message: 'User already registered' });
