@@ -31,12 +31,27 @@ const create = async ({ title, content, categoryIds }, userId) => {
 };
 
 const getAll = () => BlogPost.findAll({ 
+  include: [
+    { model: User, as: 'user' },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ],
+});
+
+const getById = async (id) => {
+  const post = await BlogPost.findByPk(id, {
     include: [
       { model: User, as: 'user' },
       { model: Category, as: 'categories', through: { attributes: [] } },
-  ] });
+    ],
+  });
+  if (!post) {
+    throw new CustomError('notFound', 'Post does not exist');
+  }
+  return post;
+};
 
 module.exports = {
   create,
   getAll,
+  getById,
 };

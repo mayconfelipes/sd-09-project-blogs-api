@@ -28,4 +28,14 @@ BlogPostRouter.get('/', Auth, async (_req, res, next) => {
   }
 });
 
+BlogPostRouter.get('/:id', Auth, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const post = await BlogPost.getById(id);
+    res.status(HTTP_OK).json(post);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = { BlogPostRouter };
