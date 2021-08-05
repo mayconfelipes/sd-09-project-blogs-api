@@ -20,7 +20,7 @@ const validatePassword = (password) => {
   if (password.length < 6) throw err('"password" length must be 6 characters long');
 };
 
-const user = async ({ displayName, email, password }) => {
+const userFields = async ({ displayName, email, password }) => {
   validateDisplayName(displayName);
   validateEmail(email);
   validatePassword(password);
@@ -52,14 +52,18 @@ const token = async ({ authorization }) => {
 const category = async ({ name }) => {
   if (!name) throw err('"name" is required');
 };
+
+const post = async ({ title, content }) => {
+  if (!title) throw err('"title" is required');
+  if (!content) throw err('"content" is required');
+};
+
 const categoryIdExists = async (id) => {
   const idExists = await Category.findByPk(id);
   if (!idExists) throw err('"categoryIds" not found');
 };
 
-const post = async ({ title, content, categoryIds }) => {
-  if (!title) throw err('"title" is required');
-  if (!content) throw err('"content" is required');
+const categoryId = async ({ categoryIds }) => {
   if (!categoryIds) throw err('"categoryIds" is required');
   await Promise.all(categoryIds.map(async (id) => categoryIdExists(id)));
 };
@@ -69,4 +73,24 @@ const postExists = async ({ id }) => {
   if (!exists) throw err('Post does not exist');
 };
 
-module.exports = { user, userExists, login, token, category, post, postExists };
+const categoryIdsExists = async (body) => {
+  if (body.categoryIds) throw err('Categories cannot be edited');
+};
+
+const authUser = async ({ id }, user) => {
+  const { dataValues: { userId } } = await BlogPost.findByPk(id);
+  if (user.id !== userId) throw err('Unauthorized user');
+};
+
+module.exports = {
+  userFields,
+  userExists,
+  login,
+  token,
+  category,
+  post,
+  categoryId,
+  postExists,
+  categoryIdsExists,
+  authUser,
+};

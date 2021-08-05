@@ -1,6 +1,6 @@
 const validate = require('../services/validators');
 
-const user = (req, _res, next) => validate.user(req.body)
+const user = (req, _res, next) => validate.userFields(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 400, message }));
 
@@ -24,8 +24,31 @@ const post = (req, _res, next) => validate.post(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 400, message }));
 
+const categoryId = (req, _res, next) => validate.categoryId(req.body)
+  .then(() => next())
+  .catch(({ message }) => next({ status: 400, message }));
+
 const postExists = (req, _res, next) => validate.postExists(req.params)
   .then(() => next())
   .catch(({ message }) => next({ status: 404, message }));
 
-module.exports = { user, userExists, login, token, category, post, postExists };
+const categoryIdsExists = (req, _res, next) => validate.categoryIdsExists(req.body)
+  .then(() => next())
+  .catch(({ message }) => next({ status: 400, message }));
+
+const authUser = (req, _res, next) => validate.authUser(req.params, req.user)
+  .then(() => next())
+  .catch(({ message }) => next({ status: 401, message }));
+
+module.exports = {
+  user,
+  userExists,
+  login,
+  token,
+  category,
+  post,
+  categoryId,
+  postExists,
+  categoryIdsExists,
+  authUser,
+};

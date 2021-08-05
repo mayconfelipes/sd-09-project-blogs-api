@@ -22,4 +22,20 @@ const getById = (req, res) => BlogPost.findOne({
     { model: Category, as: 'categories', through: { attributes: [] } },
   ] }).then((data) => res.status(200).json(data));
 
-module.exports = { create, getAll, getById };
+const update = async (req, res) => {
+  const { title, content } = req.body;
+  const { id } = req.params;
+  await BlogPost.update({ title, content }, { where: { id } });
+  const { dataValues } = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ] });
+  res.status(200).json(dataValues);
+};
+
+const destroy = (req, res) => BlogPost.destroy({ where: { id: req.params.id } })
+  .then(() => res.status(204).json());
+
+module.exports = { create, getAll, getById, update, destroy };

@@ -4,8 +4,11 @@ const validate = require('../middlewares/validators');
 
 const route = express.Router();
 
-route.post('/', validate.token, validate.post, post.create);
-route.get('/', validate.token, post.getAll);
-route.get('/:id', validate.token, validate.postExists, post.getById);
+route.use(validate.token);
+route.post('/', validate.post, validate.categoryId, post.create);
+route.get('/', post.getAll);
+route.get('/:id', validate.postExists, post.getById);
+route.put('/:id', validate.authUser, validate.post, validate.categoryIdsExists, post.update);
+route.delete('/:id', validate.postExists, validate.authUser, post.destroy);
 
 module.exports = route;
