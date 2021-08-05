@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
-const { CONFLICT, CREATE, INTERNERERROR, BADREQUEST, OK } = require('../ultils');
+const { CONFLICT, CREATE, INTERNERERROR, BADREQUEST, OK, NOTFOUND } = require('../ultils');
 
 const validate = require('../middlewares/user');
 const { auth } = require('../middlewares/auth');
@@ -47,6 +47,21 @@ router.get('/', auth, async (req, res) => {
         return res.status(OK).json(getAll);
     } catch (error) {
         res.status(INTERNERERROR).json(error);
+    }
+});
+
+router.get('/:id', auth, async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const getByid = await User.findByPk(id);
+
+        if (!getByid) {
+            return res.status(NOTFOUND).json({ message: 'User does not exist' });
+        }
+        return res.status(OK).json(getByid);
+    } catch (error) {
+        return res.status(INTERNERERROR).json(error);
     }
 });
 
