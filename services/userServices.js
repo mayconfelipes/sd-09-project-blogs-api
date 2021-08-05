@@ -50,6 +50,9 @@ const addUser = async (newUserData) => {
   return { token };
 };
 
+const getAllUsers = async () => User.findAll({ raw: true });
+
 module.exports = {
   addUser,
+  getAllUsers,
 };

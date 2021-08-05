@@ -1,10 +1,12 @@
 const errorHandling = (error, _req, res, _next) => {
   const INTERNAL_SERVER_ERROR = 500;
-
+  
   const statusByErrorName = {
     invalidField: 400,
     userAlreadyExist: 409,
     userNotFound: 400,
+    JsonWebTokenError: 401,
+    TokenExpiredError: 401,
   };
 
   const status = statusByErrorName[error.name] || INTERNAL_SERVER_ERROR;

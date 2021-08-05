@@ -23,7 +23,7 @@ const login = async ({ email, password }) => {
   if (!user) return invalidFieldError('Invalid fields');
   const { password: _, ...userWithoutPassword } = user.dataValues;
   
-  const token = jwt.sign({ userWithoutPassword });
+  const token = jwt.sign({ user: userWithoutPassword });
   return { token };
 };
 
