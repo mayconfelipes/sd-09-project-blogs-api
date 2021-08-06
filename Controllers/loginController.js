@@ -1,20 +1,11 @@
-const jwt = require('jsonwebtoken');
 require('dotenv');
+const rescue = require('express-rescue');
+const JWT = require('../Auth/createJWT');
+const LoginService = require('../Services/loginService');
 
-const { SECRET_KEY } = process.env;
+module.exports = rescue(async (req, res, _next) => {
+  await LoginService(req.body);
 
-module.exports = async (req, res, _next) => {
-  const { user } = req.body;
-  try {
-    const jwtConfig = {
-      expiresIn: '7d',
-      algorithm: 'HS256',
-    };
-
-    const token = jwt.sign({ data: user }, SECRET_KEY, jwtConfig);
-
-    res.status(200).json({ token });
-  } catch (error) {
-    return res.status(401).json({ message: error.message });
-  }
-};
+  const token = JWT(req.body);
+  res.status(200).json({ token });
+});

@@ -5,6 +5,7 @@ const UserRouter = require('./routers/User');
 const LoginRouter = require('./routers/Login');
 const CategoriesRouter = require('./routers/Categories');
 const PostRouter = require('./routers/Post');
+const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,6 +19,8 @@ app.use('/post', PostRouter);
 app.get('/', (request, response) => {
   response.send();
 });
+
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
