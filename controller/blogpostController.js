@@ -12,25 +12,35 @@ const replyContent = (answer) => {
     return { code: stateBadRequest, phrase: '"content" is required' };
   }
 };
-// const replyCategoryIds = (answer) => {
-//   if (answer === '') {
-//     return { code: stateBadRequest, phrase: '"categoryId" is required'}
-//   }
+
+const replyCategoryIds = (answer) => {
+  if (answer === 'WHERE parameter "id" has invalid "undefined" value') {
+    return { code: stateBadRequest, phrase: '"categoryIds" is required' }
+  }
+  if (answer.length === 0) {
+    return { code: stateBadRequest, phrase: '"categoryIds" not found'}
+  }
 
 //   // if (answer === '') {   
 //   //   return { code: stateBadRequest, phrase: '"categoryId" is required'}
 //   // }   aguardando  tabela de ids
-// }
+
+
+// return { code: stateBadRequest, phrase: `  dfasdfasdfa ${answer}`}
+
+}
 
 const createBlogpostError = (answer) => {
+
+  const categoryIdsError = replyCategoryIds(answer);
+  if (categoryIdsError) return categoryIdsError;
+
   const titleError = replyTitle(answer);
   if (titleError) return titleError;
 
   const contentError = replyContent(answer);
   if (contentError) return contentError;
 
-  // const categoryIdsError = replyCategoryIds(answer);
-  // if (categoryIdsError) return categoryIdsError;
 };
 
 const createBlogpostOk = ({ id, userId, title, content }) => {
