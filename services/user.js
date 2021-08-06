@@ -37,7 +37,7 @@ const handleErrorJoi = (error) => {
 };
 
 const verifyIfEmailAndPassWord = (email, password) => {
-  if (!email) {
+  if (email === undefined) {
     throw createErrorMsg('invalid_arguments', '"email" is required');
   }
   if (email === '') {
@@ -46,7 +46,7 @@ const verifyIfEmailAndPassWord = (email, password) => {
   if (password === '') {
     throw createErrorMsg('invalid_arguments', '"password" is not allowed to be empty');
   }
-  if (!password) {
+  if (password === undefined) {
     throw createErrorMsg('invalid_arguments', '"password" is required');
   }
 };
