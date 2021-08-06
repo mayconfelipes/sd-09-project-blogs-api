@@ -1,5 +1,15 @@
 const invalidFieldError = (message) => ({ error: { name: 'invalidField', message } });
 
+const noEmptyValidation = (valuesObj, fields) => {
+  const response = { error: false };
+  fields.forEach((field) => {
+    if (valuesObj[field] === undefined) {
+      response.error = { name: 'invalidField', message: `"${field}" is required` };
+    }
+  });
+  return response;
+};
+
 const displayNameValidation = (displayName) => {
   if (!displayName || displayName.length < 8) {
     const message = '"displayName" length must be at least 8 characters long';
@@ -27,4 +37,5 @@ module.exports = {
   displayNameValidation,
   passwordValidation,
   emailValidation,
+  noEmptyValidation,
 };
