@@ -15,23 +15,14 @@ const replyContent = (answer) => {
 
 const replyCategoryIds = (answer) => {
   if (answer === 'WHERE parameter "id" has invalid "undefined" value') {
-    return { code: stateBadRequest, phrase: '"categoryIds" is required' }
+    return { code: stateBadRequest, phrase: '"categoryIds" is required' };
   }
   if (answer.length === 0) {
-    return { code: stateBadRequest, phrase: '"categoryIds" not found'}
+    return { code: stateBadRequest, phrase: '"categoryIds" not found' };
   }
-
-//   // if (answer === '') {   
-//   //   return { code: stateBadRequest, phrase: '"categoryId" is required'}
-//   // }   aguardando  tabela de ids
-
-
-// return { code: stateBadRequest, phrase: `  dfasdfasdfa ${answer}`}
-
-}
+};
 
 const createBlogpostError = (answer) => {
-
   const categoryIdsError = replyCategoryIds(answer);
   if (categoryIdsError) return categoryIdsError;
 
@@ -40,10 +31,10 @@ const createBlogpostError = (answer) => {
 
   const contentError = replyContent(answer);
   if (contentError) return contentError;
-
 };
 
-const createBlogpostOk = ({ id, userId, title, content }) => {
+// cria um blogpost com sucesso mudei o nome da funçao no service por causa do lint no
+const createBpOk = ({ id, userId, title, content }) => {
   const blogpost = {
     id, 
     userId, 
@@ -55,6 +46,6 @@ const createBlogpostOk = ({ id, userId, title, content }) => {
 };
 
 module.exports = {
-  createBlogpostOk,
+  createBpOk,
   createBlogpostError,
-}
+};

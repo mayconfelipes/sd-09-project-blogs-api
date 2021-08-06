@@ -13,7 +13,6 @@ const replyEmail = (email) => {
   }
 };
 
-
 const replyPassword = (password) => {
   if (password === undefined) {
     return { code: stateBadRequest, phrase: '"password" is required' };
