@@ -1,4 +1,5 @@
 const express = require('express');
+
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
@@ -64,5 +65,13 @@ router.get('/:id', auth, async (req, res) => {
         return res.status(INTERNERERROR).json(error);
     }
 });
+
+router.delete('/me', auth, async (req, res) => {
+    const { email } = req.user;
+  
+    await User.destroy({ where: { email } });
+  
+    return res.status(204).json({});
+  });
 
 module.exports = router;
