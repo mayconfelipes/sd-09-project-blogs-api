@@ -13,4 +13,9 @@ module.exports = {
   category: Joi.object({
     name: Joi.string().required(),
   }),
+  post: Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+    categoryIds: Joi.array().required(),
+  }),
 };
