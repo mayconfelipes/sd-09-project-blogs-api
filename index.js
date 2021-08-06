@@ -13,5 +13,5 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/users', users);
+app.use('/user', users);
 app.use('/categories', categories);
