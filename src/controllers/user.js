@@ -1,17 +1,18 @@
-const { User } = require('../models');
-const generateToken = require('../utils/generateToken');
+const user = require('../services/user');
 
-const create = (req, res) => User.create(req.body)
-  .then(() => res.status(201).json(req.body));
+const create = (req, res) => user.create(req.body)
+  .then((dataValues) => res.status(201).json(dataValues));
 
-const login = (req, res) => generateToken(req.body)
+const login = (req, res) => user.login(req.body)
   .then((token) => res.status(200).json(token));
 
-const getAll = (_req, res) => User.findAll()
-  .then((data) => res.status(200).json(data.map(({ dataValues }) => dataValues)));
+const findAll = (_req, res) => user.findAll()
+  .then((dataValues) => res.status(200).json(dataValues));
 
-const getById = (req, res) => User.findByPk(req.params.id)
-  .then(({ dataValues }) => res.status(200).json(dataValues))
-  .catch(() => res.status(404).json({ message: 'User does not exist' }));
+const findOne = (req, res) => user.findOne(req.params)
+  .then((dataValues) => res.status(200).json(dataValues))
+  .catch(({ message }) => res.status(404).json({ message }));
 
-module.exports = { create, login, getAll, getById };
+const destroy = (req, res) => user.destroy(req.user).then(() => res.status(204).json());
+
+module.exports = { create, login, findAll, findOne, destroy };

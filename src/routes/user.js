@@ -5,7 +5,9 @@ const validate = require('../middlewares/validators');
 const route = express.Router();
 
 route.post('/', validate.user, validate.userExists, user.create);
-route.get('/', validate.token, user.getAll);
-route.get('/:id', validate.token, user.getById);
+route.use(validate.token);
+route.get('/', user.findAll);
+route.get('/:id', user.findOne);
+route.delete('/me', user.destroy);
 
 module.exports = route;

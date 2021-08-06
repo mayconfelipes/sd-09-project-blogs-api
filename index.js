@@ -1,5 +1,8 @@
 const express = require('express');
-const { user, login, categories, post } = require('./src/routes');
+const user = require('./src/routes/user');
+const login = require('./src/routes/login');
+const categories = require('./src/routes/categories');
+const post = require('./src/routes/post');
 
 const app = express();
 

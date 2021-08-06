@@ -1,4 +1,4 @@
-const validate = require('../services/validators');
+const validate = require('../utils/validators');
 
 const user = (req, _res, next) => validate.userFields(req.body)
   .then(() => next())

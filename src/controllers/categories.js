@@ -1,9 +1,9 @@
-const { Category } = require('../models');
+const category = require('../services/categories');
 
-const create = (req, res) => Category.create(req.body)
-  .then(({ dataValues }) => res.status(201).json(dataValues));
+const create = (req, res) => category.create(req.body)
+  .then((dataValues) => res.status(201).json(dataValues));
 
-const getAll = (req, res) => Category.findAll()
-  .then((data) => res.status(200).json(data.map(({ dataValues }) => dataValues)));
+const findAll = (_req, res) => category.findAll()
+  .then((dataValues) => res.status(200).json(dataValues));
 
-module.exports = { create, getAll };
+module.exports = { create, findAll };
