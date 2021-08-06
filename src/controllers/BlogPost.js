@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const Auth = require('../middlewares/Auth');
-const PostSchema = require('../middlewares/PostSchema');
+const EditPostSchema = require('../middlewares/EditPostSchema');
+const NewPostSchema = require('../middlewares/NewPostSchema');
 const BlogPost = require('../services/BlogPost');
 
 const BlogPostRouter = Router();
@@ -8,7 +9,7 @@ const BlogPostRouter = Router();
 const HTTP_OK = 200;
 const HTTP_CREATED = 201;
 
-BlogPostRouter.post('/', Auth, PostSchema, async (req, res, next) => {
+BlogPostRouter.post('/', Auth, NewPostSchema, async (req, res, next) => {
   try {
     const postData = req.body;
     const { id } = req.userData;
@@ -32,6 +33,18 @@ BlogPostRouter.get('/:id', Auth, async (req, res, next) => {
   try {
     const { id } = req.params;
     const post = await BlogPost.getById(id);
+    res.status(HTTP_OK).json(post);
+  } catch (err) {
+    next(err);
+  }
+});
+
+BlogPostRouter.put('/:id', Auth, EditPostSchema, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const newPostData = req.body;
+    const { id: userId } = req.userData;
+    const post = await BlogPost.updateById(id, userId, newPostData);
     res.status(HTTP_OK).json(post);
   } catch (err) {
     next(err);

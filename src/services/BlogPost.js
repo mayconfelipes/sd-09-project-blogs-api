@@ -50,8 +50,18 @@ const getById = async (id) => {
   return post;
 };
 
+const updateById = async (id, userId, postData) => {
+  const post = await getById(id);
+  if (post.userId !== userId) {
+    throw new CustomError('invalidToken', 'Unauthorized user');
+  }
+  await BlogPost.update({ ...postData }, { where: { id } });
+  return getById(id);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  updateById,
 };
