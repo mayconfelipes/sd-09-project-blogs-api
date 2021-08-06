@@ -32,9 +32,6 @@ const loginUsers = async ({ email, password }) => {
 const getAllUsersService = async () => {
   const getUser = await User.findAll();
 
-  // const { password: pass, ...user } = getUser.dataValues;
-  // console.log(getUser);
-
   return getUser;
 };
 
