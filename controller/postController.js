@@ -1,6 +1,6 @@
 const express = require('express');
 const { auth } = require('../middlewares/auth');
-const { BlogPost, Category } = require('../models');
+const { BlogPost, Categorie } = require('../models');
 const { CREATE, OK } = require('../ultils');
 const post = require('../middlewares/post');
 
@@ -20,7 +20,7 @@ router.post('/', auth, post.validatePost, async (req, res) => {
 router.get('/', auth, async (_req, res) => {
     const getAll = await BlogPost.findAll({ include: [
         { model: User, as: 'user' },
-        { model: Category, as: 'categories', through: { attributes: [] } },
+        { model: Categorie, as: 'categories', through: { attributes: [] } },
     ] });
 
     return res.status(OK).json(getAll);

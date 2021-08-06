@@ -1,14 +1,19 @@
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+const User = (sequelize, DataTypes) => {
+  const user = sequelize.define('User', {
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     image: DataTypes.STRING,
-  }, { timestamps: false });
+  },
+  {
+    timestamps: false,
+  });
 
-  User.associate = (models) => {
-    User.hasMany(models.BlogPost, { foreingKey: 'userId', as: 'BlogPost' });
+  user.associate = (models) => {
+    user.hasMany(models.BlogPost, { foreignKey: 'userId', as: 'blogPost' });
   };
 
-  return User;
+  return user;
 };
+
+module.exports = User;
