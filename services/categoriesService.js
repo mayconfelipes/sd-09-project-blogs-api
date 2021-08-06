@@ -1,4 +1,4 @@
-const { Categories } = require('../models');
+const { Category } = require('../models');
 
 const nameRequired = {
   error: {
@@ -12,12 +12,12 @@ const verifyName = (name) => {
 
 const createCategory = async (name) => {
   verifyName(name);
-  const category = await Categories.create({ name });
+  const category = await Category.create({ name });
   return category;
 };
 
 const getAllCategories = async () => {
-  const getCategory = await Categories.findAll({});
+  const getCategory = await Category.findAll({});
   return getCategory;
 };
 

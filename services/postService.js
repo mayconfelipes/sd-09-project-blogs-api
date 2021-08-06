@@ -1,4 +1,4 @@
-const { BlogPosts, Categories } = require('../models');
+const { BlogPost, Category, User } = require('../models');
 
 const titleIsRequired = {
   error: {
@@ -35,16 +35,26 @@ const validatePostInfo = (title, content, categoryIds) => {
 };
 
 const validateCategoryId = async (categoryIds) => {
- const categoryExists = await Categories.findAll({ where: { id: categoryIds } });
+ const categoryExists = await Category.findAll({ where: { id: categoryIds } });
  if (categoryExists.length === 0) throw categoryIdsNotFound;
 };
 const createPost = async (userId, title, content, categoryIds) => {
   validatePostInfo(title, content, categoryIds);
   await validateCategoryId(categoryIds);
-  const post = await BlogPosts.create({ userId, title, content });
+  const post = await BlogPost.create({ userId, title, content, categoryIds });
+  console.log(post);
+  delete post.dataValues.Categories;
   return post.dataValues;
+};
+
+const getAllPosts = async () => {
+  const posts = await BlogPost
+    .findAll({ include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } }] });
+  return posts;
 };
 
 module.exports = {
   createPost,
+  getAllPosts,
 };
