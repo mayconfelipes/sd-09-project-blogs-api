@@ -4,6 +4,7 @@ const bodyParser = require('body-parser').json();
 const errorMiddleware = require('./middlewares/error');
 const UserController = require('./controllers/UserController');
 const CategorieController = require('./controllers/CategorieController');
+const PostController = require('./controllers/PostController');
 const { tokenValidation } = require('./middlewares/tokenValidation');
 
 const app = express();
@@ -23,5 +24,6 @@ app.get('/user', tokenValidation, UserController.getAllUser);
 app.get('/user/:id', tokenValidation, UserController.getById);
 app.post('/categories', tokenValidation, CategorieController.createCategorie);
 app.get('/categories', tokenValidation, CategorieController.getAllCategorie);
+app.post('/post', tokenValidation, PostController.createPost);
 
 app.use(errorMiddleware);

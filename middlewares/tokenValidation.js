@@ -13,7 +13,7 @@ const tokenValidation = (req, _res, next) => {
   try {
     const payload = jwt.verify(token, secret);
 
-    const { _id: id } = payload;
+    const { id } = payload;
 
     req.userId = id;
   } catch (_error) {
