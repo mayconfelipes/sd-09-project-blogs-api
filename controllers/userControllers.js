@@ -1,6 +1,7 @@
 const userServices = require('../services/userServices');
 const { created, ok } = require('../helpers/getHttpStatusCode');
 const removeUsersPassword = require('../helpers/removeUsersPassword');
+const filterUserData = require('../helpers/filterUserData');
 
 const createUser = async (req, res, next) => {
   try {
@@ -13,6 +14,7 @@ const createUser = async (req, res, next) => {
 
 const findUsers = async (req, res, next) => {
   try {
+    console.log('payload', req.user);
     const users = await userServices.findUsers();
     const result = removeUsersPassword(users);
     return res.status(ok).json(result);
@@ -21,4 +23,18 @@ const findUsers = async (req, res, next) => {
   }
 };
 
-module.exports = { createUser, findUsers };
+const findById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const user = await userServices.findById(id);
+
+    const result = filterUserData(user);
+
+    return res.status(ok).json(result);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = { createUser, findUsers, findById };

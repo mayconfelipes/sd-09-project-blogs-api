@@ -1,6 +1,6 @@
 const { User } = require('../models');
 const { schema, validateError } = require('./schemas/userSchema');
-const { badRequest, conflict } = require('../helpers/getHttpStatusCode');
+const { badRequest, conflict, notFound } = require('../helpers/getHttpStatusCode');
 
 const createUser = async (userData) => {
   const { displayName, email, password } = userData;
@@ -22,4 +22,12 @@ const findUsers = async () => {
   return users;
 };
 
-module.exports = { createUser, findUsers };
+const findById = async (id) => {
+  const user = await User.findByPk(id);
+
+  if (!user) throw validateError(notFound, 'User does not exist');
+
+  return user;
+};
+
+module.exports = { createUser, findUsers, findById };

@@ -21,12 +21,9 @@ const login = async (userData) => {
 
   const user = await User.findOne({ where: { email, password } });
 
-  console.log('[findUser] > ', user);
   if (!user) throw validateError(badRequest, 'Invalid fields');
 
   const data = filterUserData(user.dataValues);
-
-  // extrair password, createdAt, updatedAt dos dados para gerar o token
 
   const token = jwt.sign(data, JWT_SECRET, jwtConfig);
 

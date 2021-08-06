@@ -38,6 +38,7 @@ describe('3 - Sua aplicação deve ter o endpoint GET `/user`', () => {
       .expect('status', 200)
       .then((responseSales) => {
         const { json } = responseSales;
+        console.log('[users] > ', json);
         const firstUser = json[0];
         const secondUser = json[1];
         expect(firstUser.displayName).toBe('Lewis Hamilton');
