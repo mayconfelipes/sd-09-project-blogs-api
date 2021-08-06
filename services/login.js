@@ -8,6 +8,7 @@ const login = async (loginInfo) => {
     expiresIn: '7d',
     algorithm: 'HS256',
   };
+  
   const token = jwt.sign({ data: loginInfo }, secret, jwtConfig);
   return token; 
 };

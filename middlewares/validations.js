@@ -40,7 +40,7 @@ const hasDuplicatedEmail = async (req, _res, next) => {
 const userIsRegistered = async (req, _res, next) => {
   const { email } = req.body;
   const findUserByEmail = await User.findOne({ where: { email } });
-  if (findUserByEmail === null) {
+  if (!findUserByEmail) {
     return next({
       statusCode: 400,
       message: 'Invalid fields',

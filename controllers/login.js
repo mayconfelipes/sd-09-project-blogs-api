@@ -6,7 +6,8 @@ const login = [
   validateLogin,
   userIsRegistered,
   rescue(async (req, res) => {
-    const token = await loginServices.login(req.body);
+    const { email } = req.body;
+    const token = await loginServices.login({ email });
     return res.status(200).json({ token });
   }),
 ];

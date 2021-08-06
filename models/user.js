@@ -7,7 +7,7 @@ const User = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       image: DataTypes.STRING,
       createdAt: { type: DataTypes.DATE, defaultValue: new Date() },
-    updatedAt: { type: DataTypes.DATE, defaultValue: new Date() },
+      updatedAt: { type: DataTypes.DATE, defaultValue: new Date() },
     },
     {
       timestamps: false,
