@@ -15,6 +15,19 @@ const userSchema = (userData) => {
     }
 };
 
+const loginSchema = (loginData) => {
+  const { error } = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required().length(6),
+  }).validate(loginData);
+  if (error) {
+    const { details } = error;
+    const { message } = details[0];
+    throw err(message, 400);
+  }
+};
+
 module.exports = {
   userSchema,
+  loginSchema,
 };

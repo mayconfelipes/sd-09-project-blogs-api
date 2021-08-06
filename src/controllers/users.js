@@ -6,4 +6,10 @@ const create = async (req, res) => {
   res.status(status).json(jsonResponse);
 };
 
-module.exports = { create };
+const login = async (req, res) => {
+  const { body } = req;
+  const { status, ...jsonResponse } = await users.login(body);
+  res.status(status).json(jsonResponse);
+};
+
+module.exports = { create, login };

@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const users = require('./src/routes/users');
 const categories = require('./src/routes/categories');
+const login = require('./src/routes/login');
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,4 +15,5 @@ app.get('/', (request, response) => {
 });
 
 app.use('/user', users);
+app.use('/login/', login);
 app.use('/categories', categories);
