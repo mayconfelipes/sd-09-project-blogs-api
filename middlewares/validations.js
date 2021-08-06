@@ -17,6 +17,10 @@ const loginSchema = Joi.object({
   password: Joi.string().length(6).required(),
 });
 
+const categorieSchema = Joi.object({
+  name: Joi.string().required(),
+});
+
 const validateUser = async (req, res, next) => {
   const userInfo = req.body;
   const { error } = userSchema.validate(userInfo);
@@ -60,10 +64,17 @@ const validateToken = async (req, res, next) => {
   }
 };
 
+const validateNewCategorie = async (req, res, next) => {
+  const { error } = categorieSchema.validate(req.body);
+  if (error) return res.status(400).json({ message: error.message });
+  return next();
+};
+
 module.exports = {
   validateUser,
   hasDuplicatedEmail,
   validateLogin,
   userIsRegistered,
   validateToken,
+  validateNewCategorie,
 };
