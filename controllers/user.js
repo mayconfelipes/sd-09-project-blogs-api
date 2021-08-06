@@ -24,10 +24,14 @@ const getUsers = [
   }),
 ];
 
-const getUserById = rescue(async (req, res) => {
-  const id = req.params;
-  const user = await userServices.findById(id);
-  return res.status(201).json(user);
-});
+const getUserById = [
+  validateToken,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const user = await userServices.findById(id);
+    if (!user) return res.status(404).json({ message: 'User does not exist' });
+    return res.status(200).json(user);
+  }),
+];
 
 module.exports = { createUser, getUsers, getUserById };

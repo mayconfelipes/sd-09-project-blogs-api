@@ -16,6 +16,6 @@ const user = async (userData) => {
 
 const findAllUsers = async () => User.findAll();
 
-const findById = async (id) => User.findOne({ where: id });
+const findById = async (id) => User.findByPk(id);
 
 module.exports = { user, findAllUsers, findById };
