@@ -17,52 +17,32 @@ const loginSchema = Joi.object({
   password: Joi.string().length(6).required(),
 });
 
-const validateUser = async (req, _res, next) => {
+const validateUser = async (req, res, next) => {
   const userInfo = req.body;
   const { error } = userSchema.validate(userInfo);
-  if (error) {
-    return next({
-      statusCode: 400,
-      message: error.message,
-    });
-  }
-  return next();
+  if (error) res.status(400).json({ message: error.message });
+  next();
 };
 
-const hasDuplicatedEmail = async (req, _res, next) => {
+const hasDuplicatedEmail = async (req, res, next) => {
   const { email } = req.body;
   const findUserByEmail = await User.findOne({ where: { email } });
-  if (findUserByEmail) {
-    return next({
-      statusCode: 409,
-      message: 'User already registered',
-    });
-  }
-  return next();
+  if (findUserByEmail) res.status(409).json({ message: 'User already registered' });
+  next();
 };
 
-const userIsRegistered = async (req, _res, next) => {
+const userIsRegistered = async (req, res, next) => {
   const { email } = req.body;
   const findUserByEmail = await User.findOne({ where: { email } });
-  if (!findUserByEmail) {
-    return next({
-      statusCode: 400,
-      message: 'Invalid fields',
-    });
-  }
-  return next();
+  if (!findUserByEmail) res.status(400).json({ message: 'Invalid fields' });
+  next();
 };
 
-const validateLogin = async (req, _res, next) => {
+const validateLogin = async (req, res, next) => {
   const loginInfo = req.body;
   const { error } = loginSchema.validate(loginInfo);
-  if (error) {
-    return next({
-      statusCode: 400,
-      message: error.message,
-    });
-  }
-  return next();
+  if (error) res.status(400).json({ message: error.message });
+  next();
 };
 
 const validateToken = async (req, res, next) => {
@@ -71,7 +51,6 @@ const validateToken = async (req, res, next) => {
     jwt.verify(token, secret);
     next();
   } catch (err) {
-    console.log('ERR MESSAGE', err.message);
     if (err.message === 'jwt must be provided') { 
       return res.status(401).json({ message: 'Token not found' });
     }
