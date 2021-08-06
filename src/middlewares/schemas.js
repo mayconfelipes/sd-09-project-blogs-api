@@ -1,9 +1,7 @@
 const Joi = require('joi');
 const err = require('./errors');
 
-const userSchema = (req, _res, next) => {
-  try {
-    const userData = req.body;
+const userSchema = (userData) => {
     const { error } = Joi.object({
       displayName: Joi.string().min(8),
       email: Joi.string().email().required(),
@@ -11,13 +9,10 @@ const userSchema = (req, _res, next) => {
       image: Joi.string(),
     }).validate(userData);
     if (error) {
-      console.log(error);
-      throw err(error, 400);
+      const { details } = error;
+      const { message } = details[0];
+      throw err(message, 400);
     }
-    next();
-  } catch (error) {
-    next(error);
-  }
 };
 
 module.exports = {
