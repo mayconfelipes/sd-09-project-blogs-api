@@ -14,4 +14,6 @@ const user = async (userData) => {
   return token; 
 };
 
-module.exports = { user };
+const findAllUsers = async () => User.findAll();
+
+module.exports = { user, findAllUsers };

@@ -1,5 +1,9 @@
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+require('dotenv').config();
+
+const secret = process.env.JWT_SECRET;
 
 const userSchema = Joi.object({
   displayName: Joi.string().min(8).required(),
@@ -61,9 +65,27 @@ const validateLogin = async (req, _res, next) => {
   return next();
 };
 
+const validateToken = async (req, res, next) => {
+  const token = req.headers.authorization;
+  try {
+    jwt.verify(token, secret);
+    next();
+  } catch (err) {
+    console.log('ERR MESSAGE', err.message);
+    if (err.message === 'jwt must be provided') { 
+      return res.status(401).json({ message: 'Token not found' });
+    }
+    if (err.message === 'jwt malformed') { 
+      return res.status(401).json({ message: 'Expired or invalid token' });
+    }
+    next(err);
+  }
+};
+
 module.exports = {
   validateUser,
   hasDuplicatedEmail,
   validateLogin,
   userIsRegistered,
+  validateToken,
 };
