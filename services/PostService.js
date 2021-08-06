@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { BlogPost } = require('../models');
+const { BlogPost, User, Categorie } = require('../models');
 const { errorHandling, existingCategory } = require('../utils');
 
 const schemaCreatePost = Joi.object({
@@ -25,11 +25,21 @@ const createPost = async (title, content, categoryIds, userId) => {
 
   const newPost = await BlogPost.create({ title, content, userId });
 
-  const { updated: _, published: __, ...User } = newPost.dataValues;
+  const { updated: _, published: __, ...UserWithoutTime } = newPost.dataValues;
 
-  return User;
+  return UserWithoutTime;
+};
+
+const getAllPost = async () => {
+  const posts = await BlogPost.findAll({ include: [
+    { model: User, as: 'user', attributes: { excludes: ['password'] } },
+    { model: Categorie, as: 'categories', through: { attributes: [] } },
+  ] });
+
+  return posts;
 };
 
 module.exports = {
   createPost,
+  getAllPost,
 };

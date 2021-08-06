@@ -25,5 +25,6 @@ app.get('/user/:id', tokenValidation, UserController.getById);
 app.post('/categories', tokenValidation, CategorieController.createCategorie);
 app.get('/categories', tokenValidation, CategorieController.getAllCategorie);
 app.post('/post', tokenValidation, PostController.createPost);
+app.get('/post', tokenValidation, PostController.getAllPost);
 
 app.use(errorMiddleware);
