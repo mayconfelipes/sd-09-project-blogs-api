@@ -1,11 +1,12 @@
 const rescue = require('express-rescue');
 const services = require('../services/usersService');
 const userValidate = require('../middlewares/userValidate');
-const validateEmail = require('../middlewares/validateEmail');
+const emailValidate = require('../middlewares/validateEmail');
+const validateLogin = require('../middlewares/validateLogin');
 
 const createUsers = [
   userValidate,
-  validateEmail,
+  emailValidate.validateEmail,
   rescue(async (req, res) => {
     const { displayName, email, password, image } = req.body;
     const userCreate = await services.createUsers({ displayName, email, password, image });
@@ -13,6 +14,19 @@ const createUsers = [
   }),
 ];
 
+const login = [
+  validateLogin,
+  emailValidate.existEmail,
+  rescue(async (req, res) => {
+    const { email, password } = req.body;
+
+    const loginUser = await services.loginUsers({ email, password });
+    // console.log('login', loginUser);
+    return res.status(200).json({ token: loginUser });
+  }),
+];
+
 module.exports = {
   createUsers,
+  login,
 };

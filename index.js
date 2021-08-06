@@ -8,6 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/user', usersControllers.createUsers);
+app.post('/login', usersControllers.login);
 
 app.use(errorMiddleware.errorMiddleware);
 // não remova esse endpoint, e para o avaliador funcionar

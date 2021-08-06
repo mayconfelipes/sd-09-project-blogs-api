@@ -12,12 +12,11 @@ const UserSchema = Joi.object({
 const userValidate = (req, _res, next) => {
   const { error } = UserSchema.validate(req.body);
   if (error) {
-  return next({
-    status: 400,
-    message: error.details[0].message,
-    // error.details[0].message,
-    // details é array que contém a message
-  });
+    return next({
+      status: 400,
+      message: error.details[0].message,
+      // details é array que contém a message
+    });
   }
   next();
 };
