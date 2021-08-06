@@ -1,4 +1,4 @@
-const { BlogPost, Categorie, PostsCategorie } = require('../models');
+const { BlogPost, Categorie, PostsCategorie, User } = require('../models');
 const blogpostController = require('../controller/blogpostController');
 
 const createBlogpost = async (req, res, _next) => {
@@ -37,6 +37,47 @@ const createBlogpost = async (req, res, _next) => {
   }
 };
 
+const showAllBlogPost = async (req, res, _next) => {
+
+  try {
+    const blogPostList = await BlogPost.findAll({ 
+      // where: {},
+      attributes: [ 'id', 'title', 'content', 'userId', 'published', 'updated' ],
+      // exclude: [ 'BlogPostId' ],
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Categorie, as: 'categories' }
+        
+      ],
+    }
+
+
+
+
+    //   {
+    //   attributes: [ 'id', 'title', 'content', 'userId', 'published', 'updated' ] 
+    //   // include: { model: BlogPost, as: 'post', through: { attributes: [] } },
+    // }
+
+    //   { include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    // { model: Categorie, as: 'categories', through: { attributes: [] } }] },
+    // );
+
+    ) 
+
+    console.log('--------------------------------- ', blogPostList)
+
+    const reply = blogpostController.showAllBlogPostOk(blogPostList);
+    res.status(reply.code).send(reply.blogpost);
+
+  } catch (error) {
+    console.log('**************************************   ', error)
+    
+  }
+  
+}
+
 module.exports = {
   createBlogpost,
+  showAllBlogPost,
 };

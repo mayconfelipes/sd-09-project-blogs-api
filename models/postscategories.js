@@ -4,18 +4,18 @@ module.exports = (sequelize, DataTypes) => {
 
    PostsCategorie.associate = (models) => {
     models.Categorie.belongsToMany(models.BlogPost, { 
-      as: 'post',
+      as: 'posts',
       through: PostsCategorie,
-      foreingKey: 'categoryId',
+      foreignKey: 'categoryId',
       otherKey: 'postId',
     });
   // };
-
+  // erro descoberto tabnine usava autocomplete com nome errado para foreignKey
   // PostCategorie.associate = (models) => {
     models.BlogPost.belongsToMany(models.Categorie, {
-      as: 'categorie',
+      as: 'categories',
       through: PostsCategorie,
-      foreingKey: 'postId',
+      foreignKey: 'postId',
       otherKey: 'categoryId',
     });
   };

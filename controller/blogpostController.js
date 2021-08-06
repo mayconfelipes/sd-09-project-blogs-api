@@ -45,7 +45,13 @@ const createBpOk = ({ id, userId, title, content }) => {
   return { code: stateCreated, blogpost };
 };
 
+const showAllBlogPostOk = (blogpost) => {
+
+  return { code: stateBadRequest, blogpost };  
+}
+
 module.exports = {
   createBpOk,
   createBlogpostError,
+  showAllBlogPostOk,
 };
