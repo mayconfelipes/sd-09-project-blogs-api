@@ -1,6 +1,7 @@
 const { User } = require('../models');
 const { schema, validateError } = require('./schemas/userSchema');
 const { badRequest, conflict, notFound } = require('../helpers/getHttpStatusCode');
+const { generateToken } = require('../helpers/manageJwt');
 
 const createUser = async (userData) => {
   const { displayName, email, password } = userData;
@@ -14,7 +15,16 @@ const createUser = async (userData) => {
 
   const newUser = await User.create(userData);
 
-  return newUser;
+  console.log('[newUser] > ', newUser.dataValues);
+
+  const token = generateToken(newUser.dataValues);
+
+  return token;
+};
+
+const findOne = async (userEmail) => {
+  const user = await User.findOne({ where: { email: userEmail } });
+  return user;
 };
 
 const findUsers = async () => {
@@ -25,9 +35,11 @@ const findUsers = async () => {
 const findById = async (id) => {
   const user = await User.findByPk(id);
 
+  console.log('[userById] > ', user);
+
   if (!user) throw validateError(notFound, 'User does not exist');
 
   return user;
 };
 
-module.exports = { createUser, findUsers, findById };
+module.exports = { createUser, findUsers, findById, findOne };

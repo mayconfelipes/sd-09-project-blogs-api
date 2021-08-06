@@ -5,8 +5,8 @@ const filterUserData = require('../helpers/filterUserData');
 
 const createUser = async (req, res, next) => {
   try {
-    const newUser = await userServices.createUser(req.body);
-    return res.status(created).json(newUser);
+    const token = await userServices.createUser(req.body);
+    return res.status(created).json({ token });
   } catch (err) {
     return next(err);
   }
