@@ -13,10 +13,23 @@ const createCategory = async ({ name, authorization }) => {
     const response = await Category.create({ name });
     return response;
   } catch (err) {
-    return { error: { message: err } };
+    return { error: { message: err.message } };
+  }
+};
+
+const getCategories = async ({ authorization }) => {
+  const responseJTW = jwt.verify(authorization);
+  if (responseJTW.error) return responseJTW;
+
+  try {
+    const response = await Category.findAll({ raw: true });
+    return response;
+  } catch (err) {
+    return { error: { message: err.message } };
   }
 };
 
 module.exports = {
   createCategory,
+  getCategories,
 };
