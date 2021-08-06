@@ -1,9 +1,7 @@
 const { Category } = require('../models');
 
-const create = (category) => Category.create(category)
-  .then(({ dataValues }) => dataValues);
+const create = (category) => Category.create(category);
 
-const findAll = () => Category.findAll()
-  .then((data) => data.map(({ dataValues }) => dataValues));
+const findAll = () => Category.findAll();
 
 module.exports = { create, findAll };

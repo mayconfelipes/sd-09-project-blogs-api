@@ -26,7 +26,7 @@ const userFields = async ({ displayName, email, password }) => {
   validatePassword(password);
 };
 
-const userExists = async ({ email }) => {
+const userRegistered = async ({ email }) => {
   const userDB = await User.findOne({ where: { email } });
   if (userDB) throw err('User already registered');
 };
@@ -49,6 +49,11 @@ const token = async ({ authorization }) => {
   }
 };
 
+const userExists = async ({ id }) => {
+  const exists = await User.findByPk(id);
+  if (!exists) throw err('User does not exist');
+};
+
 const category = async ({ name }) => {
   if (!name) throw err('"name" is required');
 };
@@ -58,14 +63,10 @@ const post = async ({ title, content }) => {
   if (!content) throw err('"content" is required');
 };
 
-const categoryIdExists = async (id) => {
-  const idExists = await Category.findByPk(id);
-  if (!idExists) throw err('"categoryIds" not found');
-};
-
 const categoryId = async ({ categoryIds }) => {
   if (!categoryIds) throw err('"categoryIds" is required');
-  await Promise.all(categoryIds.map(async (id) => categoryIdExists(id)));
+  const idExists = await Category.findAll({ where: { id: categoryIds } });
+  if (!idExists.length) throw err('"categoryIds" not found');
 };
 
 const postExists = async ({ id }) => {
@@ -73,8 +74,8 @@ const postExists = async ({ id }) => {
   if (!exists) throw err('Post does not exist');
 };
 
-const categoryIdsExists = async (body) => {
-  if (body.categoryIds) throw err('Categories cannot be edited');
+const categoryIdsExists = async ({ categoryIds }) => {
+  if (categoryIds) throw err('Categories cannot be edited');
 };
 
 const authUser = async ({ id }, user) => {
@@ -84,9 +85,10 @@ const authUser = async ({ id }, user) => {
 
 module.exports = {
   userFields,
-  userExists,
+  userRegistered,
   login,
   token,
+  userExists,
   category,
   post,
   categoryId,

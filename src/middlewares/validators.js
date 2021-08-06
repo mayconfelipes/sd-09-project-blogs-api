@@ -4,7 +4,7 @@ const user = (req, _res, next) => validate.userFields(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 400, message }));
 
-const userExists = (req, _res, next) => validate.userExists(req.body)
+const userRegistered = (req, _res, next) => validate.userRegistered(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 409, message }));
 
@@ -15,6 +15,10 @@ const login = (req, _res, next) => validate.login(req.body)
 const token = (req, _res, next) => validate.token(req.headers)
   .then((data) => { req.user = data; next(); })
   .catch(({ message }) => next({ status: 401, message }));
+
+const userExists = (req, _res, next) => validate.userExists(req.params)
+  .then(() => next())
+  .catch(({ message }) => next({ status: 404, message }));
 
 const category = (req, _res, next) => validate.category(req.body)
   .then(() => next())
@@ -42,9 +46,10 @@ const authUser = (req, _res, next) => validate.authUser(req.params, req.user)
 
 module.exports = {
   user,
-  userExists,
+  userRegistered,
   login,
   token,
+  userExists,
   category,
   post,
   categoryId,
