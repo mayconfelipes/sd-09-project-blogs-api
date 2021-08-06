@@ -11,9 +11,11 @@ const user = async (userData) => {
     algorithm: 'HS256',
   };
   const token = jwt.sign({ data: newUser }, secret, jwtConfig);
-  return token; 
+  return token;
 };
 
 const findAllUsers = async () => User.findAll();
 
-module.exports = { user, findAllUsers };
+const findById = async (id) => User.findOne({ where: id });
+
+module.exports = { user, findAllUsers, findById };

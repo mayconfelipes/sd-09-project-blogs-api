@@ -57,7 +57,6 @@ const validateToken = async (req, res, next) => {
     if (err.message === 'jwt malformed') { 
       return res.status(401).json({ message: 'Expired or invalid token' });
     }
-    next(err);
   }
 };
 

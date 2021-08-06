@@ -23,4 +23,10 @@ const getUsers = [
   }),
 ];
 
-module.exports = { createUser, getUsers };
+const getUserById = async (req, res) => {
+  const id = req.params;
+  const user = await userServices.findById(id);
+  return res.status(201).json(user);
+};
+
+module.exports = { createUser, getUsers, getUserById };
