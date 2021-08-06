@@ -20,9 +20,8 @@ const validateUserForm = (data) =>
   }).validate(data);
 
 const validateUserEmail = async (data) => {
-  const allUsers = await User.findAll();
-  const emailExist = allUsers.some((element) => element.email === data.email);
-  if (emailExist) return true;
+  const allUsers = await User.count({ where: { email: data.email } });
+  if (allUsers !== 0) return true;  
 };
 
 const validateForm = async (req, res, next) => {
