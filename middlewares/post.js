@@ -1,5 +1,5 @@
 const { BADREQUEST } = require('../ultils');
-const { Categorie } = require('../models');
+const { Category } = require('../models');
 
 const validatePost = [
     async (req, res, next) => {
@@ -24,7 +24,7 @@ const validatePost = [
     async (req, res, next) => {
         const { categoryIds } = req.body;
 
-        const categories = await Categorie.findAll();
+        const categories = await Category.findAll();
         const ids = categories.map((response) => response.id);
         // console.log(ids); // verifica os ids
         

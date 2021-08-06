@@ -1,5 +1,5 @@
 const express = require('express');
-const { Categorie } = require('../models');
+const { Category } = require('../models');
 const { auth } = require('../middlewares/auth');
 const { INTERNERERROR, CREATE, BADREQUEST } = require('../ultils');
 // const { BADREQUEST, INTERNERERROR, CREATE, OK } = require('../ultils');
@@ -13,7 +13,7 @@ router.post('/', auth, async (req, res) => {
         return res.status(BADREQUEST).json({ message: '"name" is required' });
     }
     try {
-        const newCategory = await Categorie.create({ name });
+        const newCategory = await Category.create({ name });
         
         return res.status(CREATE).json(newCategory);
     } catch (error) {
@@ -23,7 +23,7 @@ router.post('/', auth, async (req, res) => {
 
 router.get('/', auth, async (req, res) => {
     try {
-        const categories = await Categorie.findAll();
+        const categories = await Category.findAll();
         console.log(categories);
        return res.status(200).json(categories);
     } catch (error) {
