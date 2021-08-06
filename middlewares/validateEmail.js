@@ -21,6 +21,7 @@ const existEmail = async (req, _res, next) => {
   }
   return next();
 };
+
 module.exports = {
   validateEmail,
   existEmail,

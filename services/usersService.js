@@ -35,8 +35,16 @@ const getAllUsersService = async () => {
   return getUser;
 };
 
+const getUserByIdService = async ({ id }) => {
+  const getId = await User.findOne({ where: { id } });
+
+  console.log('service', getId);
+  return getId;
+};
+
 module.exports = {
   createUsers,
   loginUsers,
   getAllUsersService,
+  getUserByIdService,
 };

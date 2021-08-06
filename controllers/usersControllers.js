@@ -36,8 +36,23 @@ const getAllUsers = [
   }),
 ];
 
+const getUserById = [
+  validateToken,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    console.log('controllers', id);
+    const getId = await services.getUserByIdService({ id });
+
+    if (!getId) {
+      return res.status(404).json({ message: 'User does not exist' });
+    }
+
+    return res.status(200).json(getId);
+  }),
+];
 module.exports = {
   createUsers,
   login,
   getAllUsers,
+  getUserById,
 };
