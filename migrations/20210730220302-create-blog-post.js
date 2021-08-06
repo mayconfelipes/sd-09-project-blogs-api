@@ -31,7 +31,7 @@ module.exports = {
         field:'updated',
         allowNull: false,
         type: Sequelize.DATE,
-        dafaultValue: new Date(),
+        defaultValue: new Date(),
       }
     });
   },

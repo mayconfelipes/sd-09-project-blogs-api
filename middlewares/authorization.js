@@ -18,14 +18,13 @@ const jwtInvalid = {
 
 const authorization = (req, res, next) => {
   const { authorization: token } = req.headers;
-  if (!token) {
-    return next(jwtNotFound);
-  }
-  try {
-    jwt.verify(token, secret);
-  } catch (err) {
-    next(jwtInvalid);
-  }
+  if (!token) throw jwtNotFound;
+
+  const userData = jwt.verify(token, secret, (err, decoded) => {
+    if (err) throw jwtInvalid;
+    return decoded.userInfo;
+  });
+  req.user = userData;
  
   return next();
 };

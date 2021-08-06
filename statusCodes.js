@@ -14,6 +14,10 @@ const statusCodes = {
   jwtInvalid: 401,
   userNotFind: 404,
   NameRequired: 400,
+  titleIsRequired: 400,
+  contentIsRequired: 400,
+  categoryIdsIsRequired: 400,
+  categoryIdsNotFound: 400,
 };
 
 module.exports = statusCodes;
