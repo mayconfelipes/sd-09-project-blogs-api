@@ -1,9 +1,9 @@
 const { User } = require('../models');
 
-const createUser = (user) => User.create(user);
+const createUser = async (userFields) => {
+    const { displayName, email, password, image } = userFields;
+    const user = await User.createUser({ displayName, email, password, image });
+    return user;
+};
 
-const getAllUsers = () => User.findAll();
-
-const getUserById = (id) => User.findByPk(id);
-
-module.exports = { createUser, getAllUsers, getUserById };
+module.exports = { createUser };
