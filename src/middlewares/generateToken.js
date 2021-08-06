@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
 
 const jwtConfig = { expiresIn: '1h', algorithm: 'HS256' };
 
@@ -8,6 +7,4 @@ const generateToken = async ({ id, displayName, email }) => {
   return { token };
 };
 
-const getByEmail = async (email) => User.findOne({ where: { email } });
-
-module.exports = { generateToken, getByEmail };
+module.exports = { generateToken };
