@@ -1,4 +1,4 @@
-const { BlogPost, Categorie, PostsCategorie, User } = require('../models');
+const { BlogPost, Categorie, User } = require('../models');
 const blogpostController = require('../controller/blogpostController');
 
 const createBlogpost = async (req, res, _next) => {
@@ -6,7 +6,6 @@ const createBlogpost = async (req, res, _next) => {
 
   // BlogPost.create({ title, content, userId })
   //   .then((newBlogpost) => {
-
   //     const reply = blogpostController.createBlogpostOk(newBlogpost);
   //     res.status(reply.code).json(reply.blogpost);
   //   })
@@ -20,10 +19,12 @@ const createBlogpost = async (req, res, _next) => {
     if (!categorieList.length) { throw categorieList; } 
     const blogPost = await BlogPost.create({ title, content, userId });
 
-    categoryIds.forEach(async (catId) => { 
-      await PostsCategorie.create({
-        postId: blogPost.dataValues.id, categoryId: catId }, { fields: ['postId', 'categoryId'] }); 
-    });
+    // categoryIds.forEach(async (catId) => { 
+    //   await PostsCategorie.create({
+    //     postId: blogPost.dataValues.id, categoryId: catId }, { fields: ['postId', 'categoryId'] }); 
+    // });       // toquei pra versao da documentação depois que descobri o erro o tabnine
+
+    await blogPost.addCategories(categorieList);
 
     // cria um blogpost com sucesso mudei o nome da funçao e coloquei em uma linha por causa do lint
     const r = blogpostController.createBpOk(blogPost); return res.status(r.code).json(r.blogpost);
@@ -38,44 +39,17 @@ const createBlogpost = async (req, res, _next) => {
 };
 
 const showAllBlogPost = async (req, res, _next) => {
+  const blogPostList = await BlogPost.findAll({ 
+    attributes: ['id', 'title', 'content', 'userId', 'published', 'updated'],
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  }); 
 
-  try {
-    const blogPostList = await BlogPost.findAll({ 
-      // where: {},
-      attributes: [ 'id', 'title', 'content', 'userId', 'published', 'updated' ],
-      // exclude: [ 'BlogPostId' ],
-      include: [
-        { model: User, as: 'user', attributes: { exclude: ['password'] } },
-        { model: Categorie, as: 'categories' }
-        
-      ],
-    }
-
-
-
-
-    //   {
-    //   attributes: [ 'id', 'title', 'content', 'userId', 'published', 'updated' ] 
-    //   // include: { model: BlogPost, as: 'post', through: { attributes: [] } },
-    // }
-
-    //   { include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
-    // { model: Categorie, as: 'categories', through: { attributes: [] } }] },
-    // );
-
-    ) 
-
-    console.log('--------------------------------- ', blogPostList)
-
-    const reply = blogpostController.showAllBlogPostOk(blogPostList);
-    res.status(reply.code).send(reply.blogpost);
-
-  } catch (error) {
-    console.log('**************************************   ', error)
-    
-  }
-  
-}
+  const reply = blogpostController.showAllBlogPostOk(blogPostList);
+  res.status(reply.code).send(reply.blogpost);
+};
 
 module.exports = {
   createBlogpost,

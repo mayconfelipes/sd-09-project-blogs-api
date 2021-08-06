@@ -1,4 +1,5 @@
 const stateCreated = 201;
+const stateOk = 200;
 const stateBadRequest = 400;
 
 const replyTitle = (answer) => {
@@ -45,10 +46,7 @@ const createBpOk = ({ id, userId, title, content }) => {
   return { code: stateCreated, blogpost };
 };
 
-const showAllBlogPostOk = (blogpost) => {
-
-  return { code: stateBadRequest, blogpost };  
-}
+const showAllBlogPostOk = (blogpost) => ({ code: stateOk, blogpost });
 
 module.exports = {
   createBpOk,
