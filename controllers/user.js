@@ -1,4 +1,5 @@
 const rescue = require('express-rescue');
+
 const {
   validateUser,
   hasDuplicatedEmail,
@@ -23,10 +24,10 @@ const getUsers = [
   }),
 ];
 
-const getUserById = async (req, res) => {
+const getUserById = rescue(async (req, res) => {
   const id = req.params;
   const user = await userServices.findById(id);
   return res.status(201).json(user);
-};
+});
 
 module.exports = { createUser, getUsers, getUserById };
