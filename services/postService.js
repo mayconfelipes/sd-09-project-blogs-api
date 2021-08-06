@@ -11,7 +11,7 @@ const createPostService = async (title, content, categoryIds, userId) => {
     if (!canCreate) return { error: '"categoryIds" not found' };
 
     const { dataValues } = await BlogPost
-      .create({ title, content, categoryIds, published, updated, userId });
+      .create({ title, content, published, updated, userId });
 
     const post = {
         id: dataValues.id,

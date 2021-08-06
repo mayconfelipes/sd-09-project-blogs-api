@@ -15,7 +15,7 @@ const createCategory = [
     rescue(async (req, res) => {
         const { name } = req.body;
         const categoriInserted = await insertCategory(name);
-        res.status(201).json(categoriInserted);
+        return res.status(201).json(categoriInserted);
     }),
 ];
 
