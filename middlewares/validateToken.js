@@ -4,7 +4,7 @@ const SECRET = 'mysupersecret';
 
 const validateToken = (req, res, next) => {
   const token = req.headers.authorization;
-
+  // console.log('token', token) ok;
   if (!token) {
     return res.status(401).json({ message: 'Token not found' });
   }

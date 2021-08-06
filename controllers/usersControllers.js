@@ -3,6 +3,7 @@ const services = require('../services/usersService');
 const userValidate = require('../middlewares/userValidate');
 const emailValidate = require('../middlewares/validateEmail');
 const validateLogin = require('../middlewares/validateLogin');
+const validateToken = require('../middlewares/validateToken');
 
 const createUsers = [
   userValidate,
@@ -26,7 +27,17 @@ const login = [
   }),
 ];
 
+const getAllUsers = [
+  validateToken,
+  rescue(async (req, res) => {
+    const getUsers = await services.getAllUsersService();
+    // console.log('controllers', getUsers);
+    return res.status(200).json(getUsers);
+  }),
+];
+
 module.exports = {
   createUsers,
   login,
+  getAllUsers,
 };

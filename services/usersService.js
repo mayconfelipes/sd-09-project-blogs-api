@@ -25,10 +25,21 @@ const loginUsers = async ({ email, password }) => {
   const loginUser = await User.findOne({ where: { email, password } });
 
   const { password: pass, ...user } = loginUser.dataValues;
+  // console.log('serviceUser', user);
   return createToken(user);
+};
+
+const getAllUsersService = async () => {
+  const getUser = await User.findAll();
+
+  // const { password: pass, ...user } = getUser.dataValues;
+  // console.log(getUser);
+
+  return getUser;
 };
 
 module.exports = {
   createUsers,
   loginUsers,
+  getAllUsersService,
 };
