@@ -11,13 +11,9 @@ router.post('/', auth, async (req, res) => {
     if (!name) {
         return res.status(400).json({ message: '"name" is required' });
     }
-    try {
         const newCategory = await Categorie.create({ name });
         
         return res.status(201).json(newCategory);
-    } catch (error) {
-        return res.status(400).json(error);
-    }
 });
 
 router.get('/', auth, async (req, res) => {
@@ -26,7 +22,7 @@ router.get('/', auth, async (req, res) => {
         console.log(categories);
         res.status(200).json(categories);
     } catch (error) {
-        return res.status(400).json(error);
+        res.status(500).json(error);
     }
 });
 
