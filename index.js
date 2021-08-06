@@ -8,6 +8,7 @@ const CreateUserController = require('./controllers/CreateUserController');
 const CreateCategoryController = require('./controllers/CreateCategoryController');
 const LoginController = require('./controllers/LoginController');
 const UserController = require('./controllers/UserController');
+const CategoryController = require('./controllers/CategoryController');
 const UserIdController = require('./controllers/UserIdController');
 const ErrorsUser = require('./middlewares/ErrorsUser');
 const ErrorsLogin = require('./middlewares/ErrorsLogin');
@@ -35,6 +36,7 @@ app.post('/user', rescue(CreateUserController));
 app.use(ErrorsToken, ErrorsUser);
 
 app.post('/categories', rescue(Auth), rescue(CreateCategoryController));
+app.get('/categories', rescue(Auth), rescue(CategoryController));
 app.use(ErrorsToken, ErrorsCategory);
 app.use(ResponseErrors);
 
