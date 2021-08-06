@@ -3,8 +3,6 @@ const Categories = (sequelize, DataTypes) => {
     'Categories',
     {
       name: DataTypes.STRING,
-      createdAt: { type: DataTypes.DATE, defaultValue: new Date() },
-      updatedAt: { type: DataTypes.DATE, defaultValue: new Date() },
     },
     {
       timestamps: false,
