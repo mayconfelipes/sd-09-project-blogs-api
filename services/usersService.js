@@ -38,7 +38,7 @@ const getAllUsersService = async () => {
 const getUserByIdService = async ({ id }) => {
   const getId = await User.findOne({ where: { id } });
 
-  console.log('service', getId);
+  // console.log('service', getId);
   return getId;
 };
 
