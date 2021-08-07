@@ -25,6 +25,16 @@ const userExists = async (email) => {
   if (exists) throw error(409, 'User already registered');
 };
 
+const userNotExists = async (req, res, next) => {
+  try {
+    const exists = await User.findByPk(req.params.id);
+    if (exists === null) throw error(404, 'User does not exist');
+    next();
+  } catch (err) {
+    next({ status: 404, message: 'User does not exist' });
+  }
+};
+
 const validateUser = async (req, _res, next) => {
   const { displayName, email, password } = req.body;
   try {
@@ -41,4 +51,5 @@ const validateUser = async (req, _res, next) => {
 
 module.exports = {
   validateUser,
+  userNotExists,
 };
