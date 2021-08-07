@@ -6,7 +6,7 @@ const createUsers = async (req, res) => {
   try {
     const user = req.body;
     await Users.create(user);
-    return res.status(201).json({ token: 'LorenIpsonlorenippsono' });
+    return res.status(201).json({ token: jwt.sign({ data: user.email }, process.env.JWT_SECRET) });
   } catch (error) {
     return res.status(400).json(error.message);
   }
@@ -50,7 +50,6 @@ const login = async (req, res) => {
     
     return res.status(200).json({ token });
   } catch (error) {
-    console.log('ERREI AQUIIIOH');
     return res.status(400).json(error.message);
   }
 };
