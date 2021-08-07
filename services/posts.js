@@ -3,10 +3,10 @@ const { BlogPost, PostCategory, Category } = require('../models');
 
 const validateCategories = (categoryIds, categories) => {
   if (!categoryIds) return { status: 400, message: '"categoryIds" is required' };
-  categoryIds.forEach((category) => {
-    const found = categories.find((item) => item.id === category);
-    if (!found) return { status: 400, message: '"categoryIds" not found' };
-  });
+  const found = categoryIds.find(
+    (category) => categories.find((cat) => category === cat.dataValues.id),
+  );
+  if (!found) return response(400, '"categoryIds" not found');
   return { status: 200 };
 };
 
@@ -29,8 +29,6 @@ const create = async (userId, title, categoryIds, content) => {
     const post = await BlogPost.create(
       { userId, title, content, published: Date.now(), updated: Date.now() },
     );
-    console.log(post);
-    console.log(post.dataValues.id);
     await createAssociation(categoryIds, post.dataValues.id);
     return { status: 201, post };
   } catch (error) {
