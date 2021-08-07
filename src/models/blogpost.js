@@ -3,10 +3,11 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     userId: DataTypes.INTEGER,
-    published: {
+    createdAt: { type: DataTypes.DATE, field: 'published' },
+    updatedAt: {
       type: DataTypes.DATE,
+      field: 'updated',
     },
-    updated: { type: DataTypes.DATE },
   });
 
   BlogPost.associate = (models) => {
