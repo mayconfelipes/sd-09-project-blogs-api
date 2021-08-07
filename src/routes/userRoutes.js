@@ -1,6 +1,6 @@
 const express = require('express');
 const rescue = require('express-rescue');
-const { createUser, getAllUsers, getUserById } = require('../controllers/userController');
+const { createUser, getAllUsers, getUserById } = require('../controllers/userControllers');
 const { validateUser, userNotExists } = require('../middlewares/userValidators');
 const { validateToken } = require('../middlewares/tokenValidators');
 
