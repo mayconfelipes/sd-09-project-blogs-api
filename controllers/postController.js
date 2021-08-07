@@ -11,4 +11,4 @@ const createPost = rescue(async (req, res, next) => {
 
 module.exports = {
   createPost,
-}; 
+};  

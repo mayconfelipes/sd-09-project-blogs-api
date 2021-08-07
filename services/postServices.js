@@ -15,7 +15,6 @@ const createPost = async (blogPost, authorization) => {
   if (!title) return error.requiredTitle;
   if (!content) return error.requiredContent;
   if (!categoryIds) return error.requiredCategoryIds;
-  if (!authorization) return error.tokenNotFound;
   const isValidId = await isValidCategory(categoryIds);
   if (!isValidId) return error.categoryIdsNotFound;
   const verifyToken = jwt.verify(authorization, process.env.JWT_SECRET);
@@ -26,7 +25,7 @@ const createPost = async (blogPost, authorization) => {
       { title, content, userId: id, published: Date.now(), updated: Date.now() },
 );
   return newPost;
-  };
+ };
 module.exports = {
     createPost,
-  }; 
+  };  
