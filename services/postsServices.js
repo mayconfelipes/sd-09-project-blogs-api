@@ -1,4 +1,4 @@
-const { BlogPost } = require('../models');
+const { BlogPost, Category, User } = require('../models');
 const { validateCategory } = require('../middlewares/validateFormPost');
 
 const createPost = async (body, user) => {
@@ -17,7 +17,12 @@ const createPost = async (body, user) => {
 };
 
 const getAllPosts = async () => {
-  const allPosts = await BlogPost.findAll();
+  const allPosts = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
   return allPosts;
 };
 
