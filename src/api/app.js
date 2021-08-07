@@ -11,8 +11,8 @@ module.exports = app;
 
 app.use('/user', Routes.userRoutes);
 app.use('/login', Routes.loginRoutes);
-
 app.use('/categories', Routes.categoriesRoutes);
+app.use('/post', Routes.blogPostRoutes);
 
 app.use(handleError);
 
