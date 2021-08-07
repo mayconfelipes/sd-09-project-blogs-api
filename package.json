@@ -18,7 +18,7 @@
     "drop": "npx sequelize-cli db:drop $",
     "seed": "npx sequelize-cli db:seed:all $",
     "test": "jest --runInBand",
-    "teste": "nodemon src/api/server.js",
+    "dev": "nodemon src/api/server.js",
     "test-coverage": "jest --runInBand --coverage",
     "debug": "nodemon src/api/server.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
