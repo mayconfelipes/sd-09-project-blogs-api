@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     userId: { type: DataTypes.INTEGER, foreignKey: true },
-    published: DataTypes.STRING,
+    published: DataTypes.DATE,
+    updated: DataTypes.DATE,
   },
   { timestamps: false, tableName: 'BlogPosts', underscored: false });
   BlogPost.associate = (models) => {
