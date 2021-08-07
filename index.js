@@ -3,10 +3,13 @@ const bodyParser = require('body-parser');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 const usersControllers = require('./controllers/usersControllers');
 const categoriesControllers = require('./controllers/categoriesControllers');
+const blogPosts = require('./controllers/blogPostsControllers');
 
 const app = express();
 
 app.use(bodyParser.json());
+
+app.post('/post', blogPosts.createPosts);
 
 app.get('/categories', categoriesControllers.getCategories);
 app.post('/categories', categoriesControllers.createCategories);

@@ -11,7 +11,7 @@ const createCategories = [
     const { name } = req.body;
 
     const category = await services.createCategories({ name });
-    console.log('controllers', category);
+    // console.log('controllers', category);
     return res.status(201).json(category);
   }),
 ];

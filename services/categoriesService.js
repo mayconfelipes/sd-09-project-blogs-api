@@ -13,7 +13,7 @@ const { Category } = require('../models');
 
 const createCategories = async ({ name }) => {
   const categoryCreate = await Category.create({ name });
-  console.log('service', categoryCreate);
+  // console.log('service', categoryCreate);
   return categoryCreate;
 };
 
