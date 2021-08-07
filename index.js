@@ -14,4 +14,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+app.use((error, _req, res, _next) => {
+  if (error.status) return res.status(error.status).json({ message: error.message });
+  return res.status(500).json({ message: error.message });
+});
+
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
