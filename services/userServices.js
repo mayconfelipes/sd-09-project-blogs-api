@@ -1,3 +1,4 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
@@ -6,13 +7,13 @@ const {
   emailVerification,
   emailAlreadyExists,
   passwordVerification,
-} = require('../middlewares/userVerifications');
+} = require('../verifications/userVerifications');
 
 const jwtCreator = (userInfos) => {
   const { displayName, email, image } = userInfos;
   const secret = process.env.JWT_SECRET;
   const jwtConfig = {
-    expiresIn: '30m',
+    expiresIn: '7d',
     algorithm: 'HS256',
   };
   const token = jwt.sign({
@@ -20,7 +21,6 @@ const jwtCreator = (userInfos) => {
     email,
     image,
   }, secret, jwtConfig);
-
   return token;
 };
 
@@ -56,4 +56,5 @@ const createNewUser = async (userInfos) => {
 
 module.exports = {
   createNewUser,
+  jwtCreator,
 };

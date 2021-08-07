@@ -13,6 +13,7 @@ const emailVerification = (email) => {
   const validateEmail = emailRegex.test(email);
   if (!email) return invalidFieldObject('"email" is required');
   if (!validateEmail) return invalidFieldObject('"email" must be a valid email');
+  // if (email === '') return invalidFieldObject('"email" is not allowed to be empty');
   return { error: false };
 };
 
@@ -33,6 +34,7 @@ const emailAlreadyExists = async (email) => {
 const passwordVerification = (password) => {
   if (!password) return invalidFieldObject('"password" is required');
   if (password.length < 6) return invalidFieldObject('"password" length must be 6 characters long');
+  // if (password === '') return invalidFieldObject('"password" is not allowed to be empty');
   return { error: false };
 };
 
