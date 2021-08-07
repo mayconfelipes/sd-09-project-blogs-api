@@ -12,7 +12,7 @@ const validateJWT = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, secret);
-    req.user = decoded.data;
+    req.user = decoded;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Expired or invalid token' });

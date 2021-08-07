@@ -6,8 +6,8 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        type: Sequelize.INTEGER,
         primaryKey: true,
+        type: Sequelize.INTEGER,
       },
       displayName: {
         allowNull: false,
@@ -25,7 +25,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       }
-    })
+    },
+      { timestamps: false });
   },
 
   down: async (queryInterface, Sequelize) => {

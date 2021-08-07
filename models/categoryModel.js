@@ -5,5 +5,13 @@ module.exports = (sequelize, DataTypes) => {
   {
     timestamps: false,
   });
+
+  // Category.associate = (models) => {
+  //   Category.belongsToMany(models.BlogPosts, {
+  //     as: 'blog',
+  //     through: 'PostCategories',
+  //   });
+  // };
+
   return Category;
 };
