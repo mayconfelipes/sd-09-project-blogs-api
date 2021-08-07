@@ -28,9 +28,14 @@ const createPost = async (blogPost, authorization) => {
  };
 
  const getAllPosts = async () => {
-  const result = await BlogPost.findAll();
+  const result = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  }); 
   return result;
-};
+}; 
 
 module.exports = {
     createPost,

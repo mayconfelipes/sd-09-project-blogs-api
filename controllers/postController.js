@@ -11,11 +11,12 @@ const createPost = rescue(async (req, res, next) => {
     res.status(201).json(result);
 });
 
-const getAllPosts = rescue(async (req, res, _next) => {
+const getAllPosts = rescue(async (req, res, next) => {
   const { authorization } = req.headers;
   const loggedIn = await authServices.validateJWT(authorization);
   if (loggedIn) {
-    const result = await postServices.getAllUsers();
+    const result = await postServices.getAllPosts();
+    if (result.status) return next(result);
     res.status(200).json(result);
   }
 });
