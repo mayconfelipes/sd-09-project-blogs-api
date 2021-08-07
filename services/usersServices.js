@@ -8,8 +8,8 @@ const createUser = async (data) => {
   const emailExist = await validateUserEmail(data);
   if (emailExist) throw new Error('User already registered');
   const newUser = await User.create(data);
-  const { email, password } = newUser;
-  const token = jwt.sign({ email, password }, process.env.JWT_SECRET);
+  const { email, id } = newUser;
+  const token = jwt.sign({ email, id }, process.env.JWT_SECRET);
   return { token };
 };
 

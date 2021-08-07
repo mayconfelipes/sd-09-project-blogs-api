@@ -7,6 +7,7 @@ const errorMiddleware = require('./middlewares/errorMiddleware');
 const usersRouter = require('./routes/usersRoute');
 const loginRouter = require('./routes/loginRoute');
 const categoryRoute = require('./routes/categoryRoute');
+const postsRoute = require('./routes/postsRoute');
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => response.send());
@@ -14,6 +15,7 @@ app.get('/', (_request, response) => response.send());
 app.use(usersRouter);
 app.use(loginRouter);
 app.use(categoryRoute);
+app.use(postsRoute);
 
 app.use(errorMiddleware);
 
