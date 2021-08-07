@@ -4,6 +4,7 @@ const authServices = require('../services/auth');
 
 const createPost = rescue(async (req, res, next) => {
   const { authorization } = req.headers;
+  if (authorization === '') return res.status(401).json({ message: 'Token not found' });
   const blogPost = req.body;
     const result = await postServices.createPost(blogPost, authorization);
     if (result.status) return next(result);
