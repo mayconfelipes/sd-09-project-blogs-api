@@ -13,6 +13,19 @@ const createUser = async (user) => {
   return newToken(newUser);
 };
 
+const loginUser = async (login) => {
+  const checkLogin = await User.findOne({ where: { ...login } });
+  if (!checkLogin) {
+    const err = new Error('Invalid fields');
+    err.status = 400;
+    throw err;
+  }
+  const { dataValues: logedUser } = checkLogin;
+  delete logedUser.password;
+  return newToken(logedUser);
+};
+
 module.exports = {
   createUser,
+  loginUser,
 };
