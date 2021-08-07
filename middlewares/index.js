@@ -1,7 +1,7 @@
-const createUser = require('./middlewareUserCreate');
-const loginUser = require('./middlewareUserLogin');
+const { validUser } = require('./middlewareUserCreate');
+const { createToken } = require('./middlewareUserLogin');
 
 module.exports = {
-  createUser,
-  loginUser,
+  validUser,
+  createToken,
 };
