@@ -29,7 +29,7 @@ const login = [
 
 const getAllUsers = [
   validateToken,
-  rescue(async (req, res) => {
+  rescue(async (_req, res) => {
     const getUsers = await services.getAllUsersService();
     // console.log('controllers', getUsers);
     return res.status(200).json(getUsers);

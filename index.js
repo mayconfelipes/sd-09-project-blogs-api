@@ -8,6 +8,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/categories', categoriesControllers.getCategories);
 app.post('/categories', categoriesControllers.createCategories);
 
 app.post('/user', usersControllers.createUsers);
