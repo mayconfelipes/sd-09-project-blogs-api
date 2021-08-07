@@ -26,6 +26,13 @@ const createPost = async (blogPost, authorization) => {
 );
   return newPost;
  };
+
+ const getAllPosts = async () => {
+  const result = await BlogPost.findAll();
+  return result;
+};
+
 module.exports = {
     createPost,
+    getAllPosts,
   };  

@@ -1,5 +1,6 @@
 const rescue = require('express-rescue');
 const postServices = require('../services/postServices');
+const authServices = require('../services/auth');
 
 const createPost = rescue(async (req, res, next) => {
   const { authorization } = req.headers;
@@ -9,6 +10,16 @@ const createPost = rescue(async (req, res, next) => {
     res.status(201).json(result);
 });
 
+const getAllPosts = rescue(async (req, res, _next) => {
+  const { authorization } = req.headers;
+  const loggedIn = await authServices.validateJWT(authorization);
+  if (loggedIn) {
+    const result = await postServices.getAllUsers();
+    res.status(200).json(result);
+  }
+});
+
 module.exports = {
   createPost,
+  getAllPosts,
 };  
