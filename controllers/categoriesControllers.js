@@ -20,7 +20,7 @@ const getCategories = [
   validateToken,
   rescue(async (_req, res) => {
     const getByCategories = await services.getCategoriesService();
-    console.log(getByCategories);
+    // console.log(getByCategories);
     return res.status(200).json(getByCategories);
   }),
 ];

@@ -26,12 +26,17 @@ module.exports = {
         },
       },
       createAt: {
+        field: 'published',
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now')
+        // retornar a data de agora, senão retorna null quebrando a aplicacao
       },
       updateAt: {
+        field: 'updated',
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now')
       },
     });
   },
