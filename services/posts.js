@@ -1,5 +1,5 @@
 const response = require('../helpers/response');
-const { BlogPost, PostCategory, Category } = require('../models');
+const { BlogPost, PostCategory, Category, User } = require('../models');
 
 const validateCategories = (categoryIds, categories) => {
   if (!categoryIds) return { status: 400, message: '"categoryIds" is required' };
@@ -36,6 +36,24 @@ const create = async (userId, title, categoryIds, content) => {
   }
 };
 
+const getAll = async () => {
+  try {
+    const posts = await BlogPost.findAll({
+      include: [
+        { model: User, as: 'user' },
+      ],
+    });
+    console.log(posts);
+    return {
+      status: 200,
+      posts,
+    };
+  } catch (error) {
+    return { status: 500, message: error.message };
+  }
+};
+
 module.exports = {
   create,
+  getAll,
 };
