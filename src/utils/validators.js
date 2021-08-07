@@ -20,22 +20,22 @@ const validatePassword = (password) => {
   if (password.length < 6) throw err('"password" length must be 6 characters long');
 };
 
-const userFields = async ({ displayName, email, password }) => {
+const user = async ({ displayName, email, password }) => {
   validateDisplayName(displayName);
   validateEmail(email);
   validatePassword(password);
 };
 
-const userRegistered = async ({ email }) => {
-  const userDB = await User.findOne({ where: { email } });
-  if (userDB) throw err('User already registered');
+const userDB = async ({ email }) => {
+  const exists = await User.findOne({ where: { email } });
+  if (exists) throw err('User already registered');
 };
 
 const login = async ({ email, password }) => {
   validateEmail(email);
   validatePassword(password);
-  const userDB = await User.findOne({ where: { email, password } });
-  if (!userDB) throw err('Invalid fields');
+  const exists = await User.findOne({ where: { email, password } });
+  if (!exists) throw err('Invalid fields');
 };
 
 const token = async ({ authorization }) => {
@@ -49,7 +49,7 @@ const token = async ({ authorization }) => {
   }
 };
 
-const userExists = async ({ id }) => {
+const userExist = async ({ id }) => {
   const exists = await User.findByPk(id);
   if (!exists) throw err('User does not exist');
 };
@@ -63,36 +63,26 @@ const post = async ({ title, content }) => {
   if (!content) throw err('"content" is required');
 };
 
-const categoryId = async ({ categoryIds }) => {
+const categIds = async ({ categoryIds }) => {
   if (!categoryIds) throw err('"categoryIds" is required');
   const arr = await Category.findAll({ where: { id: categoryIds } });
   if (arr.length !== categoryIds.length) throw err('"categoryIds" not found');
 };
 
-const postExists = async ({ id }) => {
+const postExist = async ({ id }) => {
   const exists = await BlogPost.findByPk(id);
   if (!exists) throw err('Post does not exist');
 };
 
-const categoryIdsExists = async ({ categoryIds }) => {
+const categIdsReq = async ({ categoryIds }) => {
   if (categoryIds) throw err('Categories cannot be edited');
 };
 
-const authUser = async ({ id }, user) => {
+const authUser = async ({ id }, reqUser) => {
   const { dataValues: { userId } } = await BlogPost.findByPk(id);
-  if (user.id !== userId) throw err('Unauthorized user');
+  if (reqUser.id !== userId) throw err('Unauthorized user');
 };
 
 module.exports = {
-  userFields,
-  userRegistered,
-  login,
-  token,
-  userExists,
-  category,
-  post,
-  categoryId,
-  postExists,
-  categoryIdsExists,
-  authUser,
+  user, userDB, login, token, userExist, category, post, categIds, postExist, categIdsReq, authUser,
 };

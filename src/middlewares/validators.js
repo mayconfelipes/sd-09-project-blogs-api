@@ -1,10 +1,10 @@
 const validate = require('../utils/validators');
 
-const user = (req, _res, next) => validate.userFields(req.body)
+const user = (req, _res, next) => validate.user(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 400, message }));
 
-const userRegistered = (req, _res, next) => validate.userRegistered(req.body)
+const userDB = (req, _res, next) => validate.userDB(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 409, message }));
 
@@ -16,7 +16,7 @@ const token = (req, _res, next) => validate.token(req.headers)
   .then((data) => { req.user = data; next(); })
   .catch(({ message }) => next({ status: 401, message }));
 
-const userExists = (req, _res, next) => validate.userExists(req.params)
+const userExist = (req, _res, next) => validate.userExist(req.params)
   .then(() => next())
   .catch(({ message }) => next({ status: 404, message }));
 
@@ -28,15 +28,15 @@ const post = (req, _res, next) => validate.post(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 400, message }));
 
-const categoryId = (req, _res, next) => validate.categoryId(req.body)
+const categIds = (req, _res, next) => validate.categIds(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 400, message }));
 
-const postExists = (req, _res, next) => validate.postExists(req.params)
+const postExist = (req, _res, next) => validate.postExist(req.params)
   .then(() => next())
   .catch(({ message }) => next({ status: 404, message }));
 
-const categoryIdsExists = (req, _res, next) => validate.categoryIdsExists(req.body)
+const categIdsReq = (req, _res, next) => validate.categIdsReq(req.body)
   .then(() => next())
   .catch(({ message }) => next({ status: 400, message }));
 
@@ -45,15 +45,5 @@ const authUser = (req, _res, next) => validate.authUser(req.params, req.user)
   .catch(({ message }) => next({ status: 401, message }));
 
 module.exports = {
-  user,
-  userRegistered,
-  login,
-  token,
-  userExists,
-  category,
-  post,
-  categoryId,
-  postExists,
-  categoryIdsExists,
-  authUser,
+  user, userDB, login, token, userExist, category, post, categIds, postExist, categIdsReq, authUser,
 };
