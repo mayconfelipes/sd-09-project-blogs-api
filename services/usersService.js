@@ -25,7 +25,29 @@ const loginUser = async (login) => {
   return newToken(logedUser);
 };
 
+const getAllUsers = async () => {
+  const usersList = await User.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
+  return usersList.map((user) => user.dataValues);
+};
+
+const getUserById = async (id) => {
+  const foundUser = await User.findByPk(id, {
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
+  if (!foundUser) {
+    const err = new Error('User does not exist');
+    err.status = 404;
+    throw err;
+  }
+  const { dataValues: userById } = foundUser;
+  return userById;
+};
+
 module.exports = {
   createUser,
   loginUser,
+  getAllUsers,
+  getUserById,
 };
