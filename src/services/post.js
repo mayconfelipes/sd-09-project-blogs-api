@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 const { BlogPost, PostsCategory, User, Category } = require('../models');
 
-const include = [{ model: User, as: 'user' },
+const include = [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
   { model: Category, as: 'categories', through: { attributes: [] } }];
 
 const create = async ({ title, content, categoryIds }, userId) => {

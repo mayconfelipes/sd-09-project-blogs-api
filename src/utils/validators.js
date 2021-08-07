@@ -65,8 +65,8 @@ const post = async ({ title, content }) => {
 
 const categoryId = async ({ categoryIds }) => {
   if (!categoryIds) throw err('"categoryIds" is required');
-  const idExists = await Category.findAll({ where: { id: categoryIds } });
-  if (!idExists.length) throw err('"categoryIds" not found');
+  const arr = await Category.findAll({ where: { id: categoryIds } });
+  if (arr.length !== categoryIds.length) throw err('"categoryIds" not found');
 };
 
 const postExists = async ({ id }) => {
