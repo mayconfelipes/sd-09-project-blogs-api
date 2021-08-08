@@ -8,7 +8,10 @@ const createUser = rescue(async (req, res, _next) => {
   res.status(201).json({ token });
 });
 
-const getAllUsers = rescue(async (req, res, _next) => res.status(200).json(req.body));
+const getAllUsers = rescue(async (req, res, _next) => {
+  const listUsers = await UserService.findAll();
+  return res.status(200).json(listUsers);
+});
 
 const getUserById = rescue(async (req, res, _next) => {
   const user = 'deu bom';
