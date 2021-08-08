@@ -9,6 +9,6 @@ const categoriesRouter = express.Router();
 
 categoriesRouter.post('/', [validateToken, validateCategoryName],
   rescue(categoriesController.createCategory));
-// categoriesRouter.get('/', rescue(categoriesController.getAllcategories));
+categoriesRouter.get('/', validateToken, rescue(categoriesController.getAllcategories));
 
 module.exports = categoriesRouter;
