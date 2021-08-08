@@ -22,16 +22,15 @@ const login = async (email) => {
 };
 
 const token = async ({ authorization }) => {
-  const secret = process.env.JWT_SECRET;
   if (!authorization) {
     throw err('Token not found');
   }
   try {
-    const userData = jwt.verify(authorization, secret);
-    return userData;
+    const payload = jwt.verify(authorization, process.env.JWT_SECRET);
+    return payload.email;
   } catch (error) {
     throw err('Expired or invalid token');
   }
 };
 
-module.exports = { userExists, login, token, getById, idExists };
+module.exports = { userExists, login, token, getById, getByEmail, idExists };

@@ -12,8 +12,8 @@ const create = async (userInfo) => {
   } catch (error) {
     return error;
   }
-  const newUser = await User.create(userInfo);
-  const { token } = await getToken.generateToken(newUser);
+  await User.create(userInfo);
+  const { token } = await getToken.generateToken(email);
   return {
     status: 201,
     token,
@@ -45,8 +45,9 @@ const getAll = async () => {
 
 const token = async (req, res, next) => {
   try {
-     const userRegister = await validate.token(req.headers);
-     req.user = userRegister;
+     const email = await validate.token(req.headers);
+     const userRegister = await validate.getByEmail(email);
+     req.user = userRegister.id;
      next();
     } catch (error) {
       const { message } = error;
