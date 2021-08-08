@@ -30,6 +30,16 @@ BlogPostRouter.get('/', Auth, async (_req, res, next) => {
   }
 });
 
+BlogPostRouter.get('/search', Auth, async (req, res, next) => {
+  try {
+    const { q: query } = req.query;
+    const posts = await BlogPost.find(query);
+    res.status(HTTP_OK).json(posts);
+  } catch (err) {
+    next(err);
+  }
+});
+
 BlogPostRouter.get('/:id', Auth, async (req, res, next) => {
   try {
     const { id } = req.params;

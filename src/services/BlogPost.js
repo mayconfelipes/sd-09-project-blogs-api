@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost } = require('../models');
 const { PostsCategory, User, Category } = require('../models');
 const CustomError = require('../utils/CustomError');
@@ -67,10 +68,26 @@ const deleteById = async (id, userId) => {
   await BlogPost.destroy({ where: { id } });
 };
 
+const find = (query) => BlogPost.findAll(
+  { 
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${query}%` } },
+        { content: { [Op.like]: `%${query}%` } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ], 
+  },  
+);
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
   deleteById,
+  find,
 };
