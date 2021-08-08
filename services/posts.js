@@ -1,5 +1,5 @@
 const response = require('../helpers/response');
-const { BlogPost, PostCategory, Category, User } = require('../models');
+const { BlogPost, Category, User } = require('../models');
 
 const validateCategories = (categoryIds, categories) => {
   if (!categoryIds) return { status: 400, message: '"categoryIds" is required' };
