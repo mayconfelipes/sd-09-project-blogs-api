@@ -11,6 +11,7 @@ const jwtConfig = {
 // algoritmo usado para assinar a mensagem (HMAC-SHA256)
 
 const CONFLICT_ERROR = { status: 409, message: 'User already registered' };
+const INVALID_FIELDS = { status: 400, message: 'Invalid fields' };
 
 const generateToken = async (user) => {
   const token = jwt.sign({ data: user }, secret, jwtConfig);
@@ -26,24 +27,20 @@ const createUser = async (newUser) => {
   const { email } = newUser;
   const emailAlreadyExists = await verifyIfEmailAlreadyExists(email);
   if (emailAlreadyExists) throw CONFLICT_ERROR;
-  // const userFieldsValid = await validateUserFields(newUser);
-  // if (!userFieldsValid) return userFieldsValid;
-  const user = await User.create(newUser);
-  // delete user.password;
-  // return generateToken(user);
+  const { password, ...user } = await User.create(newUser);
+  // rest operator vai desestruturar password e o "resto" sem o password na variavel user
   return user;
 };
 
 const verifyUserRegistration = async (email) => {
-  const registeredUser = await User.findOne({ where: { email }});
+  const registeredUser = await User.findOne({ where: { email } });
   return registeredUser;
 };
 
-const login = async ({ email, password }) => {
+const login = async ({ email, password: psw }) => {
   const registeredUser = await verifyUserRegistration(email);
-  if (!registeredUser) return ({ message: 'Invalid fields' });
-  const user = await User.findOne({ where: { email, password } })
-  delete user.password;
+  if (!registeredUser) throw INVALID_FIELDS;
+  const { password, ...user } = await User.findOne({ where: { email, password: psw } });
   return generateToken(user);
 };
 

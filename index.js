@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userRouter = require('./routers/userRouter');
-// const loginRouter = require('./routers/loginRouter');
+const loginRouter = require('./routers/loginRouter');
 // const categoriesRouter = require('./routers/categoriesRouter');
 // const postRouter = require('./routers/postRouter');
 
@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 // converte o corpo da requisição de json p/ javascript
 
 app.use('/user', userRouter);
-// app.use('/login', loginRouter);
+app.use('/login', loginRouter);
 // app.use('/categories', categoriesRouter);
 // app.use('/post', postRouter);
 
