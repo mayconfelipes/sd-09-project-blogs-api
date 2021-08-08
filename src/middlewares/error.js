@@ -1,4 +1,4 @@
-const HTTP_SERVERERROR_STATUS = 500;
+const { HTTP_SERVERERROR_STATUS } = require('../helpers/statusProtocoloHTTP');
 
 module.exports = (err, _req, res, _next) => {
   if (err.status) {
