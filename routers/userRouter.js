@@ -9,6 +9,6 @@ const userRouter = express.Router();
 
 userRouter.post('/', validateUserFields, rescue(userController.createUser));
 userRouter.get('/', validateToken, rescue(userController.getAllUsers));
-// userRouter.post('/:id', rescue(userController.getUserById));
+userRouter.get('/:id', validateToken, rescue(userController.getUserById));
 
 module.exports = userRouter;

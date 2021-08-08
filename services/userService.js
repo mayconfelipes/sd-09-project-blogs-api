@@ -12,6 +12,7 @@ const jwtConfig = {
 
 const CONFLICT_ERROR = { status: 409, message: 'User already registered' };
 const INVALID_FIELDS = { status: 400, message: 'Invalid fields' };
+const USER_DOES_NOT_EXIST = { status: 404, message: 'User does not exist' };
 
 const generateToken = async (user) => {
   const token = jwt.sign({ data: user }, secret, jwtConfig);
@@ -49,8 +50,15 @@ const getAllUsers = async () => {
   return users;
 };
 
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+  if (!user) throw USER_DOES_NOT_EXIST;
+  return user;
+};
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
+  getUserById,
 };
