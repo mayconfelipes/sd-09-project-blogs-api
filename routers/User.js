@@ -1,11 +1,11 @@
 const express = require('express');
-const { createUser, getAllUsers, getUserById } = require('../Controllers/userController');
+const { createUser, findAll, findById } = require('../Controllers/userController');
 const validateJWT = require('../Auth/validateJWT');
 
 const router = express.Router();
 
 router.post('/', createUser);
-router.get('/', validateJWT, getAllUsers);
-router.get('/:id', validateJWT, getUserById);
+router.get('/', validateJWT, findAll);
+router.get('/:id', validateJWT, findById);
 
 module.exports = router;

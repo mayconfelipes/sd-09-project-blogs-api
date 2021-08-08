@@ -17,4 +17,11 @@ const findAll = async () => {
   const listUsers = await User.findAll();
   return listUsers;
 };
-module.exports = { createUser, findAll };
+
+const findById = async (id) => {
+  const user = await User.findByPk(id);
+  if (user === null) throw validateError(404, 'User does not exist');
+  return user;
+};
+
+module.exports = { createUser, findAll, findById };

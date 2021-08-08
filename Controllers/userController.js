@@ -8,14 +8,14 @@ const createUser = rescue(async (req, res, _next) => {
   res.status(201).json({ token });
 });
 
-const getAllUsers = rescue(async (req, res, _next) => {
+const findAll = rescue(async (req, res, _next) => {
   const listUsers = await UserService.findAll();
   return res.status(200).json(listUsers);
 });
 
-const getUserById = rescue(async (req, res, _next) => {
-  const user = 'deu bom';
+const findById = rescue(async (req, res, _next) => {
+  const user = await UserService.findById(req.params.id);
   return res.status(200).json(user);
 });
 
-module.exports = { createUser, getAllUsers, getUserById };
+module.exports = { createUser, findAll, findById };
