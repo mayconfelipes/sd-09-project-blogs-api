@@ -15,7 +15,14 @@ const createNewCategory = async (categoryInfos) => {
   return newCategory;
 };
 
+const getAllCategories = async () => {
+  const allUsers = await Category.findAll();
+
+  return allUsers;
+};
+
 module.exports = {
   createNewCategory,
   categoryVerification,
+  getAllCategories,
 };
