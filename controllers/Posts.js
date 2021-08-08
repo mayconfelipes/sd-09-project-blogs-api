@@ -23,15 +23,15 @@ const createPosts = [
   }),
 ];
 
-// const getAllPosts = [
-//   validateJWT(userService.getAllUsers),
-//   rescue(async (req, res, next) => {
-//     const { user } = req;
-
-//     const result = await PostService.
-//   })
-// ];
+const getAllPosts = [
+  validateJWT(userService.getAllUsers),
+  rescue(async (req, res, _next) => {
+    const result = await PostService.getAllPosts();
+    res.status(200).json(result);
+  }),
+];
 
 module.exports = {
   createPosts,
+  getAllPosts,
 };
