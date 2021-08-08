@@ -19,5 +19,3 @@ module.exports = (sequelize, _DataTypes) => {
 
   return PostCategory;
 };
-// postId: DataTypes.INTEGER,
-// categoryId: DataTypes.INTEGER,
