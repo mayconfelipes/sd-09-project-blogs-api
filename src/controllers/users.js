@@ -12,4 +12,9 @@ const login = async (req, res) => {
   res.status(status).json(jsonResponse);
 };
 
-module.exports = { create, login };
+const getAll = async (_req, res) => {
+  const { status, usersList } = await users.getAll();
+  res.status(status).json(usersList);
+};
+
+module.exports = { create, login, getAll };

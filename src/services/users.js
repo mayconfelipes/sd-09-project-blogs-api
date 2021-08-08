@@ -35,4 +35,23 @@ const login = async (loginData) => {
   };
 };
 
-module.exports = { create, login };
+const getAll = async () => {
+  const usersList = await User.findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
+  return {
+    status: 200,
+    usersList,
+  };
+};
+
+const token = async (req, res, next) => {
+  try {
+     const userRegister = await validate.token(req.headers);
+     req.user = userRegister;
+     next();
+    } catch (err) {
+      const { message } = err;
+      res.status(401).json({ message });
+    }
+};
+
+module.exports = { create, login, getAll, token };
