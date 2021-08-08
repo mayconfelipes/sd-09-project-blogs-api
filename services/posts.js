@@ -10,12 +10,12 @@ const validateCategories = (categoryIds, categories) => {
   return { status: 200 };
 };
 
-const createAssociation = async (categoryIds, postId) => {
-  const promises = categoryIds.map(async (category) => {
-    await PostCategory.create({ postId, categoryId: category }); 
-  });
-  return Promise.all(promises);
-};
+// const createAssociation = async (categoryIds, postId) => {
+//   const promises = categoryIds.map(async (category) => {
+//     await PostCategory.create({ postId, categoryId: category }); 
+//   });
+//   return Promise.all(promises);
+// };
 
 const create = async (userId, title, categoryIds, content) => {
   if (!title) return response(400, '"title" is required');
@@ -29,7 +29,7 @@ const create = async (userId, title, categoryIds, content) => {
     const post = await BlogPost.create(
       { userId, title, content, published: Date.now(), updated: Date.now() },
     );
-    await createAssociation(categoryIds, post.dataValues.id);
+    // await createAssociation(categoryIds, post.dataValues.id);
     return { status: 201, post };
   } catch (error) {
     return response(500, error.message);
@@ -41,13 +41,10 @@ const getAll = async () => {
     const posts = await BlogPost.findAll({
       include: [
         { model: User, as: 'user' },
+        { model: Category, as: 'categories', through: { attributes: [] } },
       ],
     });
-    console.log(posts);
-    return {
-      status: 200,
-      posts,
-    };
+    return { status: 200, posts };
   } catch (error) {
     return { status: 500, message: error.message };
   }
