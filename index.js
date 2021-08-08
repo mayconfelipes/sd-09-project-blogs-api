@@ -6,14 +6,17 @@ require('dotenv/config');
 
 const CreateUserController = require('./controllers/CreateUserController');
 const CreateCategoryController = require('./controllers/CreateCategoryController');
+const CreatePostController = require('./controllers/CreatePostController');
 const LoginController = require('./controllers/LoginController');
 const UserController = require('./controllers/UserController');
 const CategoryController = require('./controllers/CategoryController');
+const PostController = require('./controllers/PostController');
 const UserIdController = require('./controllers/UserIdController');
 const ErrorsUser = require('./middlewares/ErrorsUser');
 const ErrorsLogin = require('./middlewares/ErrorsLogin');
 const ErrorsToken = require('./middlewares/ErrorsToken');
 const ErrorsCategory = require('./middlewares/ErrorsCategory');
+const ErrorsPost = require('./middlewares/ErrorsPost');
 const Auth = require('./middlewares/Auth');
 const ResponseErrors = require('./middlewares/ResponseErrors');
 
@@ -38,6 +41,10 @@ app.use(ErrorsToken, ErrorsUser);
 app.post('/categories', rescue(Auth), rescue(CreateCategoryController));
 app.get('/categories', rescue(Auth), rescue(CategoryController));
 app.use(ErrorsToken, ErrorsCategory);
+
+app.post('/post', rescue(Auth), rescue(CreatePostController));
+app.get('/post', rescue(Auth), rescue(PostController));
+app.use(ErrorsToken, ErrorsPost);
 app.use(ResponseErrors);
 
 app.listen(PORT, () => console.log(`SERVER ONLINE IN ${PORT}!`));

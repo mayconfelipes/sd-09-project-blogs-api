@@ -9,7 +9,6 @@ const validateLoginData = (loginData) =>
 
 const userExixts = async (email, password) => {
   const exists = await User.findOne({ where: { email, password } });
-  console.log(exists);
   return exists;
 };
 
