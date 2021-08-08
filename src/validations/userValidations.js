@@ -1,5 +1,9 @@
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
+
 const { User } = require('../models');
+
+const privateKey = 'qualquercoisaaleatoria';
 
 const invalidDisplayName = {
   status: 400,
@@ -43,6 +47,20 @@ const userAlreadyExists = {
   },
 };
 
+const invalidToken = {
+  status: 401,
+  error: {
+    message: 'Expired or invalid token',
+  },
+};
+
+const missingAuth = {
+  status: 401,
+  error: {
+    message: 'Token not found',
+  },
+};
+
 function validateDisplayName(displayName) {
   if (displayName.length < 8) {
     throw invalidDisplayName;
@@ -74,9 +92,20 @@ async function validateUserExists(email) {
   }
 }
 
+function validateToken(token) {
+  if (!token) throw missingAuth;
+  try {
+    const decoded = jwt.verify(token, privateKey);
+    return decoded;
+  } catch (err) {
+    throw invalidToken;
+  }
+}
+
 module.exports = {
   validateDisplayName,
   validateEmail,
   validatePassword,
   validateUserExists,
+  validateToken,
 };

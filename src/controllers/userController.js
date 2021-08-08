@@ -5,6 +5,13 @@ async function addUser(req, res) {
   res.status(status).json(response);
 }
 
+async function getUsers(req, res) {
+  const { authorization: token } = req.headers;
+  const { status, response } = await userServices.getUsers(token);
+  res.status(status).json(response);
+}
+
 module.exports = {
   addUser,
+  getUsers,
 };
