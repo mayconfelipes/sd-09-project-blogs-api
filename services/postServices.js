@@ -35,6 +35,9 @@ const createNewPost = async (newPost, email) => {
     });
   });
 
+  // a partir da associaçao correta, dá pra usar o método do sequelize diretamente:
+  // await createdPost.addCategories(categoryIds);
+
   return createdPost;
 };
 
