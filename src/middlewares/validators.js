@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models'); 
+const { Category } = require('../models'); 
 const err = require('./errors');
 
 const getByEmail = async (email) => User.findOne({ where: { email } });
@@ -33,4 +34,23 @@ const token = async ({ authorization }) => {
   }
 };
 
-module.exports = { userExists, login, token, getById, getByEmail, idExists };
+const getCategories = async () => Category.findAll();
+
+const categoryIdsValidation = async (categoryIds) => {
+  const response = await getCategories();
+  categoryIds.forEach((id) => {
+    if (!(response.some(({ dataValues }) => dataValues.id === id))) {
+      throw err('"categoryIds" not found', 400);
+    }
+  });
+};
+
+module.exports = { 
+  userExists,
+  login, 
+  token, 
+  getById, 
+  getByEmail,
+  idExists,
+  categoryIdsValidation,
+};

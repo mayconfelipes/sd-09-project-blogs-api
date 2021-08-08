@@ -1,14 +1,16 @@
 const { BlogPost } = require('../models');
 const schemas = require('../middlewares/schemas');
+const validate = require('../middlewares/validators');
 
 const create = async (req) => {
     const { body, user } = req;
+    const { title, content, categoryIds } = body;
     try {
       await schemas.postSchema(body);
+      await validate.categoryIdsValidation(categoryIds);
     } catch (error) {
       return error;
     }
-    const { title, content, categoryIds } = body;
     const post = await BlogPost.create({ title, content, userId: user });
     return {
       status: 201,
