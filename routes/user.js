@@ -9,4 +9,6 @@ router.post('/', controllers.createNewUser);
 
 router.get('/', tokenValidation, controllers.getAllUsers);
 
+router.get('/:id', tokenValidation, controllers.getUserById);
+
 module.exports = router;
