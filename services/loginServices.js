@@ -21,7 +21,7 @@ const loginDataValidate = async ({ email, password }) => {
 };
 
 const jwtCreator = (userInfos) => {
-  const { displayName, email, image } = userInfos;
+  const { displayName, email, image, id } = userInfos;
   const secret = process.env.JWT_SECRET;
   const jwtConfig = {
     expiresIn: '7d',
@@ -31,14 +31,15 @@ const jwtCreator = (userInfos) => {
     displayName,
     email,
     image,
+    id,
   }, secret, jwtConfig);
   return token;
 };
 
-const loginUser = async ({ displayName, email, password }) => {
+const loginUser = async ({ displayName, email, password, id }) => {
   const loginDataError = await loginDataValidate({ email, password });
   if (loginDataError.error) return loginDataError;
-  const token = jwtCreator({ displayName, email, password });
+  const token = jwtCreator({ displayName, email, password, id });
 
   return { token };
 };
