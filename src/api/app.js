@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const router = require('../routers/router');
+
+const route = require('../routes/routes');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(router);
+app.use(route);
 module.exports = app; 
