@@ -44,7 +44,13 @@ const login = async ({ email, password: psw }) => {
   return generateToken(user);
 };
 
+const getAllUsers = async () => {
+  const users = await User.findAll();
+  return users;
+};
+
 module.exports = {
   createUser,
   login,
+  getAllUsers,
 };
