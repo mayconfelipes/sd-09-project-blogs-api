@@ -8,6 +8,14 @@ async function addCategory(name, token) {
   return { status: 201, response: newCategory.dataValues };
 }
 
+async function getCategories(token) {
+  categoriesValidations.validateToken(token);
+  const categories = await Category.findAll();
+  const response = categories.map((category) => category.dataValues);
+  return { status: 200, response };
+}
+
 module.exports = {
   addCategory,
+  getCategories,
 };
