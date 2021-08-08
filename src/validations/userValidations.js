@@ -5,63 +5,63 @@ const { User } = require('../models');
 
 const privateKey = 'qualquercoisaaleatoria';
 
-const invalidDisplayName = {
+const INVALID_DISPLAY_NAME = {
   status: 400,
   error: {
     message: '"displayName" length must be at least 8 characters long',
   },
 };
 
-const emailNotExists = {
+const EMAIL_NOT_EXISTS = {
   status: 400,
   error: {
     message: '"email" is required',
   },
 };
 
-const invalidEmail = {
+const INVALID_EMAIL = {
   status: 400,
   error: {
     message: '"email" must be a valid email',
   },
 };
 
-const passwordNotExists = {
+const PASSWORD_NOT_EXISTS = {
   status: 400,
   error: {
     message: '"password" is required',
   },
 };
 
-const invalidPassword = {
+const INVALID_PASSWORD = {
   status: 400,
   error: {
     message: '"password" length must be 6 characters long',
   },
 };
 
-const userAlreadyExists = {
+const USER_ALREADY_EXISTS = {
   status: 409,
   error: {
     message: 'User already registered',
   },
 };
 
-const invalidToken = {
+const INVALID_TOKEN = {
   status: 401,
   error: {
     message: 'Expired or invalid token',
   },
 };
 
-const missingAuth = {
+const MISSING_AUTH = {
   status: 401,
   error: {
     message: 'Token not found',
   },
 };
 
-const userNotExist = {
+const USER_NOT_EXISTS = {
   status: 404,
   error: {
     message: 'User does not exist',
@@ -70,47 +70,47 @@ const userNotExist = {
 
 function validateDisplayName(displayName) {
   if (displayName.length < 8) {
-    throw invalidDisplayName;
+    throw INVALID_DISPLAY_NAME;
   }
 }
 
 function validateEmail(email) {
   if (!email) {
-    throw emailNotExists;
+    throw EMAIL_NOT_EXISTS;
   }
   if (!validator.isEmail(email)) {
-    throw invalidEmail;
+    throw INVALID_EMAIL;
   }
 }
 
 function validatePassword(password) {
   if (!password) {
-    throw passwordNotExists;
+    throw PASSWORD_NOT_EXISTS;
   }
   if (password.length < 6) {
-    throw invalidPassword;
+    throw INVALID_PASSWORD;
   }
 }
 
 async function validateUserExists(email) {
   const userExists = await User.findOne({ where: { email } });
   if (userExists) {
-    throw userAlreadyExists;
+    throw USER_ALREADY_EXISTS;
   }
 }
 
 function validateToken(token) {
-  if (!token) throw missingAuth;
+  if (!token) throw MISSING_AUTH;
   try {
     const decoded = jwt.verify(token, privateKey);
     return decoded;
   } catch (err) {
-    throw invalidToken;
+    throw INVALID_TOKEN;
   }
 }
 
 function validateUser(user) {
-  if (!user) throw userNotExist;
+  if (!user) throw USER_NOT_EXISTS;
 }
 
 module.exports = {
