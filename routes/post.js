@@ -7,4 +7,6 @@ const tokenValidation = require('../verifications/jwtVerification');
 
 router.post('/', tokenValidation, controllers.createNewPost);
 
+router.get('/', tokenValidation, controllers.getAllPosts);
+
 module.exports = router;
