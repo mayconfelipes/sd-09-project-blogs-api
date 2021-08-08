@@ -4,7 +4,9 @@ module.exports = {
   user: Joi.object({
     displayName: Joi.string().min(8).required(),
     email: Joi.string().email().required(),
-    password: Joi.string().min(6).required(),
+    password: Joi.string().min(6).required().messages({
+      'string.min': '"password" length must be 6 characters long' }),
+    image: Joi.string(),
   }),
   login: Joi.object({
     email: Joi.string().required(),
