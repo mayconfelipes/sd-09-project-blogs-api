@@ -1,7 +1,6 @@
 const { Category } = require('../models');
 const schemas = require('../middlewares/schemas');
 
-
 const create = async (categoryInfo) => {
   try {
     await schemas.categorySchema(categoryInfo);
@@ -17,4 +16,12 @@ const create = async (categoryInfo) => {
   };
 };
 
-module.exports = { create };
+const getAll = async () => {
+  const categoryList = await Category.findAll();
+  return {
+    status: 200,
+    categoryList,
+  };
+};
+
+module.exports = { create, getAll };
