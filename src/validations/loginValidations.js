@@ -51,6 +51,7 @@ async function validateLogin(email, password) {
   delete userInfo.dataValues.password;
   return userInfo.dataValues;
 }
+
 module.exports = {
   validateEmail,
   validatePassword,
