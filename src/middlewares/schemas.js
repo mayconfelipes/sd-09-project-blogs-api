@@ -38,8 +38,22 @@ const categorySchema = (categoryData) => {
   }
 };
 
+const postSchema = (postData) => {
+  const { error } = Joi.object({
+    title: Joi.string().required().not().empty(),
+    content: Joi.string().required().not().empty(),
+    categoryIds: Joi.array().items(Joi.number().required()).required(),
+    }).validate(postData);
+  if (error) {
+    const { details } = error;
+    const { message } = details[0];
+    throw err(message, 400);
+  }
+};
+
 module.exports = {
   userSchema,
   loginSchema,
   categorySchema,
+  postSchema,
 };
