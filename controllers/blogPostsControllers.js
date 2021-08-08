@@ -19,7 +19,7 @@ const createPosts = [
 
 const getAllBlogPosts = [
   validateToken,
-  rescue(async (_req, res) => {
+  rescue(async (req, res) => {
     const getByPosts = await services.getAllPosts();
     return res.status(200).json(getByPosts);
   }),

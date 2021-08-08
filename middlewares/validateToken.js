@@ -10,11 +10,14 @@ const validateToken = (req, res, next) => {
     return res.status(401).json({ message: 'Token not found' });
   }
     const tokenVerify = jwt.verify(token, SECRET);
-    const { id, email } = tokenVerify;
+    const { id, displayName, email, image } = tokenVerify;
     req.user = {
       id,
+      displayName,
       email,
+      image,
     };
+
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Expired or invalid token' });
