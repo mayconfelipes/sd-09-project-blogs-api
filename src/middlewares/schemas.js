@@ -27,7 +27,19 @@ const loginSchema = (loginData) => {
   }
 };
 
+const categorySchema = (categoryData) => {
+  const { error } = Joi.object({
+    name: Joi.string().required().not().empty(),
+  }).validate(categoryData);
+  if (error) {
+    const { details } = error;
+    const { message } = details[0];
+    throw err(message, 400);
+  }
+};
+
 module.exports = {
   userSchema,
   loginSchema,
+  categorySchema,
 };

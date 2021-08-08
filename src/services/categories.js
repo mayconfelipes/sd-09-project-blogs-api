@@ -1,11 +1,19 @@
 const { Category } = require('../models');
+const schemas = require('../middlewares/schemas');
 
-const create = async (userInfo) => {
-  const newCategory = await 
-  Category.create(userInfo);
+
+const create = async (categoryInfo) => {
+  try {
+    await schemas.categorySchema(categoryInfo);
+  } catch (error) {
+    return error;
+  }
+  const { id, name } = await 
+  Category.create(categoryInfo);
   return {
     status: 201,
-    newCategory,
+    id,
+    name,
   };
 };
 
