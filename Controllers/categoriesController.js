@@ -7,8 +7,8 @@ const addCategories = rescue(async (req, res, _next) => {
 });
 
 const getAllCategories = rescue(async (req, res, _next) => {
- const name = req.body;
- return res.status(200).json(name);
+ const listCategories = await CategorieService.findAll();
+ return res.status(200).json(listCategories);
 });
 
 module.exports = {
