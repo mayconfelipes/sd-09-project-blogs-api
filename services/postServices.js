@@ -1,4 +1,4 @@
-const { Category, BlogPost, User } = require('../models');
+const { Category, BlogPost, User, PostCategory } = require('../models');
 
 const postTitleAndContentVerification = (newPost) => {
   const { title, content } = newPost;
@@ -20,13 +20,19 @@ const postCategoryIdsVerification = async (newPost) => {
 const createNewPost = async (newPost, email) => {
   postTitleAndContentVerification(newPost);
   await postCategoryIdsVerification(newPost);
-  const { title, content } = newPost;
+  const { title, content, categoryIds } = newPost;
   const userObject = await User.findOne({ where: { email } });
   const userId = userObject.dataValues.id;
   const createdPost = await BlogPost.create({
-    userId,
     title,
     content,
+    userId,
+  });
+  await categoryIds.forEach((catId) => {
+    PostCategory.create({
+      postId: createdPost.id,
+      categoryId: catId,
+    });
   });
 
   return createdPost;
