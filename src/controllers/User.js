@@ -8,6 +8,7 @@ const LoginRouter = Router();
 
 const HTTP_OK = 200;
 const HTTP_CREATED = 201;
+const HTTP_NO_CONTENT = 204;
 
 UserRouter.post('/', UserSchema, async (req, res, next) => {
   try {
@@ -43,6 +44,16 @@ LoginRouter.post('/', UserSchema, async (req, res, next) => {
     const userData = req.body;
     const token = await User.login(userData);
     res.status(HTTP_OK).json({ token });
+  } catch (err) {
+    next(err);
+  }
+});
+
+UserRouter.delete('/me', Auth, async (req, res, next) => {
+  try {
+    const { id } = req.userData;
+    await User.deleteById(id);
+    res.status(HTTP_NO_CONTENT).end();
   } catch (err) {
     next(err);
   }
