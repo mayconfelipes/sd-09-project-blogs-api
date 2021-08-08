@@ -61,6 +61,13 @@ const missingAuth = {
   },
 };
 
+const userNotExist = {
+  status: 404,
+  error: {
+    message: 'User does not exist',
+  },
+};
+
 function validateDisplayName(displayName) {
   if (displayName.length < 8) {
     throw invalidDisplayName;
@@ -102,10 +109,15 @@ function validateToken(token) {
   }
 }
 
+function validateUser(user) {
+  if (!user) throw userNotExist;
+}
+
 module.exports = {
   validateDisplayName,
   validateEmail,
   validatePassword,
   validateUserExists,
   validateToken,
+  validateUser,
 };
