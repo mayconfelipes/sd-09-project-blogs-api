@@ -14,12 +14,23 @@ const createPosts = [
       categoryIds: Joi.array().not().empty().required(),
     }),
   ),
-  rescue(async (req, res, _next) => {
+  rescue(async (req, res, next) => {
     const { body, user } = req;
     const post = await PostService.createPosts(body, user);
+    if 
+    (post.error) return next(post);
     res.status(201).json(post);
   }),
 ];
+
+// const getAllPosts = [
+//   validateJWT(userService.getAllUsers),
+//   rescue(async (req, res, next) => {
+//     const { user } = req;
+
+//     const result = await PostService.
+//   })
+// ];
 
 module.exports = {
   createPosts,

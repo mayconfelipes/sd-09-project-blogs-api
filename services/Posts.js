@@ -2,20 +2,14 @@ const { BlogPost } = require('../models');
 const categorieService = require('./Categories');
 
 const createPosts = async (body, user) => {
-  const { categoryIds: categoryId, ...otherInfo } = body;
-
+  const { categoryIds, ...otherInfo } = body;
+  
   const allCategories = await categorieService.getCategories();
+  const allCategoriesMappedAndIncluded = allCategories.map((item) => item.dataValues.id);
 
-  // if (!categoryId.includes(allCategories)) {
-  //   return {
-  //     error: {
-  //       code: 'categoryNotFound',
-  //       message: '"categoryIds" not found',
-  //     },
-  //   };
-  // }
-  console.log(categoryId);
-  console.log(allCategories);
+  if (!categoryIds.some((r) => allCategoriesMappedAndIncluded.includes(r))) {
+    return { error: { code: 'categoryNotFound', message: '"categoryIds" not found' } };
+  }
 
   const result = await BlogPost.create({
     ...otherInfo, 
@@ -24,9 +18,8 @@ const createPosts = async (body, user) => {
     updated: new Date(),
   });
 
-  await result.addCategory(categoryId, { through: {} });
-
-  return result;
+  const { published, updated, ...other } = result.dataValues;
+  return other;
 };
 
 module.exports = {
