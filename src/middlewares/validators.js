@@ -4,6 +4,13 @@ const err = require('./errors');
 
 const getByEmail = async (email) => User.findOne({ where: { email } });
 
+const getById = async (id) => User.findByPk(id);
+
+const idExists = async (id) => {
+  const idResponse = await getById(id);
+  if (!idResponse) throw err('User does not exist', 404);
+};
+
 const userExists = async (email) => {
   const emailExists = await getByEmail(email);
   if (emailExists) throw err('User already registered', 409);
@@ -27,4 +34,4 @@ const token = async ({ authorization }) => {
   }
 };
 
-module.exports = { userExists, login, token };
+module.exports = { userExists, login, token, getById, idExists };

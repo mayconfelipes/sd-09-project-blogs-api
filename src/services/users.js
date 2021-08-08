@@ -48,10 +48,25 @@ const token = async (req, res, next) => {
      const userRegister = await validate.token(req.headers);
      req.user = userRegister;
      next();
-    } catch (err) {
-      const { message } = err;
+    } catch (error) {
+      const { message } = error;
       res.status(401).json({ message });
     }
 };
 
-module.exports = { create, login, getAll, token };
+const getById = async (receivedId) => {
+  try {
+    await validate.idExists(receivedId);
+  } catch (error) {
+    return error;
+  }
+  const { id, displayName, email, image } = await validate.getById(receivedId);
+  return {
+    status: 200,
+    id,
+    displayName,
+    email,
+    image,
+  };
+};
+module.exports = { create, login, getAll, token, getById };
