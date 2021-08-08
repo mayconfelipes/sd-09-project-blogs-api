@@ -1,0 +1,25 @@
+const errorMessages = {
+  invalidName: '"displayName" length must be at least 8 characters long',
+  invalidEmail: '"email" must be a valid email',
+  invalidPassword: '"password" length must be 6 characters long',
+  invalidToken: 'Expired or invalid token',
+  nonexistentEmail: '"email" is required',
+  nonexistentPassword: '"password" is required',
+  nonexistentName: '"name" is required',
+  nonexistentToken: 'Token not found',
+  nonexistentUser: 'User does not exist',
+  nonexistentCategories: '"categoryIds" not found',
+  nonexistentTitle: '"title" is required',
+  nonexistentContent: '"content" is required',
+  nonexistentCategoryIds: '"categoryIds" is required',
+  nonexistentPost: 'Post does not exist',
+  userExists: 'User already registered',
+  emailEmpty: '"email" is not allowed to be empty',
+  passwordEmpty: '"password" is not allowed to be empty',
+  credentials: 'Invalid fields',
+  cannotCategory: 'Categories cannot be edited',
+  unauthorizedUser: 'Unauthorized user',
+  alreadyUpdate: 'Nothing to change',
+};
+
+module.exports = errorMessages;
