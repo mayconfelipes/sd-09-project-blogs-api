@@ -1,15 +1,13 @@
 const { Op } = require('sequelize');
-const { BlogPost, PostsCategory, User, Category } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 
 const include = [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
   { model: Category, as: 'categories', through: { attributes: [] } }];
 
-const create = async ({ title, content, categoryIds }, userId) => {
-  const data = await BlogPost.create({ title, content, userId });
-  categoryIds.forEach(async (categoryId) =>
-    PostsCategory.create({ postId: data.id, categoryId }));
-  return data;
-};
+const create = ({ title, content, categoryIds }, userId) =>
+  BlogPost.create({ title, content, userId }).then((post) => {
+    post.addCategory(categoryIds); return post;
+  });
 
 const findAll = () => BlogPost.findAll({ include });
 
