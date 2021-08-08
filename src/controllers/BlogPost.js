@@ -8,6 +8,7 @@ const BlogPostRouter = Router();
 
 const HTTP_OK = 200;
 const HTTP_CREATED = 201;
+const HTTP_NO_CONTENT = 204;
 
 BlogPostRouter.post('/', Auth, NewPostSchema, async (req, res, next) => {
   try {
@@ -46,6 +47,17 @@ BlogPostRouter.put('/:id', Auth, EditPostSchema, async (req, res, next) => {
     const { id: userId } = req.userData;
     const post = await BlogPost.updateById(id, userId, newPostData);
     res.status(HTTP_OK).json(post);
+  } catch (err) {
+    next(err);
+  }
+});
+
+BlogPostRouter.delete('/:id', Auth, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { id: userId } = req.userData;
+    await BlogPost.deleteById(id, userId);
+    res.status(HTTP_NO_CONTENT).end();
   } catch (err) {
     next(err);
   }
