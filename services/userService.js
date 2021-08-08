@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 require('dotenv/config');
-// const validateUserFields = require('../middlewares/validateUserFields');
 
 const secret = process.env.JWT_SECRET;
 const jwtConfig = {
