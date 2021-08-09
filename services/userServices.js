@@ -31,7 +31,23 @@ const getAll = async () => {
   return userData;
 };
 
+const getById = async (id) => {
+  const user = await User.findByPk(id);
+
+  if (!user) {
+    throw Object.assign(
+      new Error('User does not exist'),
+      { code: 'notFound' },
+   );
+  }
+  
+  const { password: _, ...dataValues } = user.dataValues;
+
+  return dataValues;
+};
+
 module.exports = { 
   create,
   getAll,
+  getById,
 };

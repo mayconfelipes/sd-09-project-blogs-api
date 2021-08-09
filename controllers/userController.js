@@ -22,4 +22,12 @@ userController.get('/', validateJWT, rescue(async (_req, res) => {
   return res.status(ok).json(users);
 }));
 
+userController.get('/:id', validateJWT, rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const user = await userServices.getById(id);
+
+  return res.status(ok).json(user);
+}));
+
 module.exports = userController;
