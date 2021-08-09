@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken');
 
 const secret = 'projectBlogApi';
-const config = { algorithm: 'H4N23', expiresIn: 'd' };
+const config = { algorithm: 'HS256', expiresIn: '1d' };
 
-const tokenCreate = (email) => {
+const createToken = (email) => {
   const token = jwt.sign({ user: { email } }, secret, config);
   return token;
 };
- /* este codigo foi feito juntamemte a trinca, Joao Victor e Joao pedro T9  */
-const checkToken = async (req, res, next) => {
+
+const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -26,6 +26,6 @@ const checkToken = async (req, res, next) => {
 };
 
 module.exports = {
-  tokenCreate,
-  checkToken,
+  createToken,
+  validateToken,
 };

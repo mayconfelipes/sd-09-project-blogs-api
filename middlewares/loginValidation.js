@@ -34,3 +34,4 @@ const loginValidation = (req, res, next) => {
 };
 
 module.exports = { loginValidation };
+/* este projeto tem participação  da trinca de 9: Joao Vitor Joao Pedro */

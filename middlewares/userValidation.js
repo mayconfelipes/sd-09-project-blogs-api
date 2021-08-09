@@ -1,7 +1,6 @@
-/* regex padrao gabarito / stack */
 const validateEmailRegex = (email) => /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/.test(email);
 
-const nameDisVal = (displayName) => {
+const validateDisplayName = (displayName) => {
   if (displayName.length < 8) {
     return '"displayName" length must be at least 8 characters long';
   }
@@ -20,8 +19,8 @@ const validatePassword = (password) => {
 
   return false;
 };
-/* este codigo foi feito juntamemte a trinca, Joao Victor e Joao pedro T9  */
-const emailIsValid = (email) => {
+
+const validateEmail = (email) => {
   if (!email) {
     return '"email" is required';
   }
@@ -32,12 +31,12 @@ const emailIsValid = (email) => {
 
   return false;
 };
-/* este codigo foi feito juntamemte a trinca, Joao Victor e Joao pedro T9  */
-const valUser = (req, res, next) => {
-  const { nameDis, email, password } = req.body;
 
-  const validation = nameDisVal(nameDis) || validatePassword(password)
-    || emailIsValid(email) || false;
+const userValidation = (req, res, next) => {
+  const { displayName, email, password } = req.body;
+
+  const validation = validateDisplayName(displayName) || validatePassword(password)
+    || validateEmail(email) || false;
 
   if (validation) {
     return res.status(400).json({ message: validation });
@@ -46,4 +45,5 @@ const valUser = (req, res, next) => {
   next();
 };
 
-module.exports = { valUser };
+module.exports = { userValidation };
+/* este projeto tem participação  da trinca de 9: Joao Vitor Joao Pedro */

@@ -1,7 +1,10 @@
 const express = require('express');
-
+/* este projeto tem participação  da trinca de 9: Joao Vitor Joao Pedro */
 const {
-  userControll,
+  userContrl,
+  loginContrl,
+  controlCateg,
+  controlCategPost,
 } = require('./controllers');
 
 const app = express();
@@ -14,6 +17,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/user', userControll);
+app.use('/user', userContrl);
+app.use('/login', loginContrl);
+app.use('/categories', controlCateg);
+app.use('/post', controlCategPost);
 
-app.listen(PORT, () => console.log(`Pai ta no dale na porta  ${PORT}!`));
+app.listen(PORT, () => console.log(`Breja na porta ${PORT}!`));

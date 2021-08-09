@@ -1,5 +1,5 @@
 const { Categories } = require('../models');
-
+/* este projeto tem participação  da trinca de 9: Joao Vitor Joao Pedro */
 const chekTittle = (title) => {
   if (!title) {
     return '"title" is required';
