@@ -5,7 +5,7 @@ const router = express.Router();
 const { validateToken } = require('../middlewares/auth');
 const { addCategory, getAllCategories } = require('../services/categoriesServices');
 
-router.get('/', async (_req, res) => {
+router.get('/', validateToken, async (_req, res) => {
   try {
     const categories = await getAllCategories();
     res.status(200).json(categories);

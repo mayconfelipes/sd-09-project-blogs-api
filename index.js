@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser').json();
 const categoriesController = require('./src/controllers/categoriesController');
-const postsController = require('./src/controllers/postsController');
+const postsController = require('./src/controllers/blogPostsController');
 const usersController = require('./src/controllers/usersController');
 const loginController = require('./src/controllers/loginController');
 
