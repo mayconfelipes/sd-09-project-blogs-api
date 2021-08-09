@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Joi = require('joi');
 const validate = require('../middlewares/validate');
-const { Categories } = require('../models');
+const { Category } = require('../models');
 
 module.exports = {
   validateField: validate(Joi.object({ name: Joi.string().required() })),
@@ -10,10 +10,10 @@ module.exports = {
     try {
       const { name } = req.body;
 
-      const CategoryExists = await Categories.findOne({ where: { name } });
+      const CategoryExists = await Category.findOne({ where: { name } });
       if (CategoryExists) return next({ statusCode: 400, message: 'Category exists' });
 
-      const newCategory = await Categories.create({ name });
+      const newCategory = await Category.create({ name });
 
       return res.status(201).json(newCategory);
     } catch (err) {
@@ -23,7 +23,7 @@ module.exports = {
 
   listAllCategories: async (_req, res, _next) => {
     try {
-      const listCategories = await Categories.findAll();
+      const listCategories = await Category.findAll();
 
       res.status(200).json(listCategories);
     } catch (err) {
