@@ -10,7 +10,7 @@ const postController = express.Router();
 
 postController.post('/', validateJWT, validatePost, rescue(async (req, res) => {
   const { title, content, categoryIds } = req.body;
-  const userId = req.userId;
+  const { userId } = req;
 
   const post = await postServices.create(title, content, categoryIds, userId);
 

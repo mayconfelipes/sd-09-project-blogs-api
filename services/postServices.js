@@ -12,10 +12,10 @@ const create = async (title, content, categoryIds, userId) => {
 
   if (!checkCategories) {
     throw Object.assign(
-      new Error('\"categoryIds"\ not found'),
+      new Error('\\"categoryIds"\\ not found'),
       { code: 'badRequest' },
    );
-  };
+  }
 
   const post = await BlogPost.create({ title, content, categoryIds, userId });
 
