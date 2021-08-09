@@ -1,6 +1,6 @@
 const express = require('express');
 const CategoryService = require('../services/CategoriesService');
-const { HTTP_CREATED_STATUS } = require('../helpers/statusProtocoloHTTP');
+const { HTTP_CREATED_STATUS, HTTP_OK_STATUS } = require('../helpers/statusProtocoloHTTP');
 const { validateDataCategory } = require('../middlewares/validateCategory');
 const { validateToken } = require('../middlewares/validateToken');
 
@@ -12,6 +12,16 @@ categoryRoute.post('/', validateToken, validateDataCategory,
 try {
   const category = await CategoryService.createCategory(name);
   return res.status(HTTP_CREATED_STATUS).json(category);
+} catch (error) {
+  return next(error);
+}
+});
+
+categoryRoute.get('/', validateToken,
+ async (_req, res, next) => {
+try {
+  const categories = await CategoryService.getCategoriesAll();
+  return res.status(HTTP_OK_STATUS).json(categories);
 } catch (error) {
   return next(error);
 }
