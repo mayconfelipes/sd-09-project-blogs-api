@@ -1028,7 +1028,7 @@
   "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
   "version" "3.7.2"
 
-"body-parser@1.19.0":
+"body-parser@^1.19.0", "body-parser@1.19.0":
   "integrity" "sha512-dhEPs72UPbDnAQJ9ZKMNTP6ptJaionhP5cBb541nXPlW60Jepo9RV/a4fX4XWW9CuFNK22krhrj1+rgzifNCsw=="
   "resolved" "https://registry.npmjs.org/body-parser/-/body-parser-1.19.0.tgz"
   "version" "1.19.0"
@@ -3526,7 +3526,7 @@
     "import-local" "^3.0.2"
     "jest-cli" "^26.0.1"
 
-"joi@^13.0.0":
+"joi@^13.0.0", "joi@^13.7.0":
   "integrity" "sha512-xuY5VkHfeOYK3Hdi91ulocfuFopwgbSORmIwzcwHKESQhC7w1kD5jaVSPnqDxS2I8t3RZ9omCKAxNwXN5zG1/Q=="
   "resolved" "https://registry.npmjs.org/joi/-/joi-13.7.0.tgz"
   "version" "13.7.0"
