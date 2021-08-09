@@ -19,6 +19,7 @@ const validateDataLogin = async (req, _res, next) => {
 const validateLoginSucess = async (req, _res, next) => {
   const { email, password } = req.body;
   const user = await UsersService.findByLogin(email, password);
+  console.log(user);
   if (!user) return next({ status: HTTP_BADREQ_STATUS, err: 'Invalid fields' });
   // criado para usar para criar o novo token ao logar
   req.user = user;

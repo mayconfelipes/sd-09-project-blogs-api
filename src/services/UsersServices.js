@@ -6,7 +6,7 @@ const findByEmail = async (email) =>
   User.findOne({ where: { email } }, { attributes: { exclude: ['password'] } });
 
 const findByLogin = async (email, password) =>
-  User.findOne({ where: { email, password } });
+  User.findOne({ where: { email, password } }, { attributes: { exclude: ['password'] } });
   
 const createUser = async (displayName, email, password, image) => {
   const user = await User.create({ displayName, email, password, image })
@@ -20,6 +20,9 @@ const createTokenForLogin = (user) => token.createToken(user);
 
 const getUsersAll = async () => 
   User.findAll({}, { attributes: { exclude: ['password', 'createAt', 'updateAt'] } });
+  
+  const findUserById = async (id) =>
+  User.findOne({ where: { id } }, { exclude: ['password', 'createAt', 'updateAt'] });
 
   module.exports = { 
   findByEmail,
@@ -27,4 +30,5 @@ const getUsersAll = async () =>
   findByLogin,
   createTokenForLogin,
   getUsersAll,
+  findUserById,
 };

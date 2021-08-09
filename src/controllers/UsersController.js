@@ -1,7 +1,7 @@
 const express = require('express');
 const UserService = require('../services/UsersServices');
 const { HTTP_CREATED_STATUS, HTTP_OK_STATUS } = require('../helpers/statusProtocoloHTTP');
-const { validateDataUser, userExists } = require('../middlewares/validateUser');
+const { validateDataUser, userExists, userIdExists } = require('../middlewares/validateUser');
 const { validateToken } = require('../middlewares/validateToken');
 
 const userRoute = express.Router();
@@ -21,6 +21,15 @@ userRoute.get('/', validateToken, async (_req, res, next) => {
   try {
     const listUsers = await UserService.getUsersAll();
     return res.status(HTTP_OK_STATUS).json(listUsers);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+userRoute.get('/:id', validateToken, userIdExists, async (req, res, next) => {
+  const { user } = req;
+  try {
+    return res.status(HTTP_OK_STATUS).json(user);
   } catch (error) {
     return next(error);
   }
