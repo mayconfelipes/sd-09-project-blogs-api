@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const { generateToken } = require('../middlewares/auth');
 const { User } = require('../models');
 
 const userSchema = Joi.object({
@@ -33,9 +32,8 @@ const addUser = async (user) => {
     const message = errorMessages.conflict;
     return { message: { message }, response: responseCodes.conflict };
   }
-  await User.create(user);
-  const token = generateToken(user);
-  return { message: { token }, response: responseCodes.created };
+  const newUser = await User.create(user);
+  return { newUser, response: responseCodes.created };
 };
 
 module.exports = {

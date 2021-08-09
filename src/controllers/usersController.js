@@ -1,4 +1,5 @@
 const express = require('express');
+const { generateToken } = require('../middlewares/auth');
 const { getAllUsers, getUserById, addUser } = require('../services/usersServices');
 
 const router = express.Router();
@@ -25,6 +26,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const response = await addUser(req.body);
+    if (response.newUser) {
+      const tokenCode = generateToken(response.newUser);
+      res.status(response.response).json({ token: tokenCode });
+    }
     res.status(response.response).json(response.message);
   } catch (error) {
     res.status(400).json({ message: error.message });

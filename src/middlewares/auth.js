@@ -1,13 +1,12 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
+const { getUserByEmail } = require('../services/usersServices');
 
 const secret = 'ran0405069miifjurdo43423zeuuADPlus';
 const jwtConfig = {
   expiresIn: '7d',
   algorithm: 'HS256',
 };
-
-const { getUserByEmail } = require('../services/usersServices');
 
 const loginSchema = Joi.object({
   email: Joi.string().empty().email().required(),

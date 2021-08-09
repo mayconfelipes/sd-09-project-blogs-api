@@ -8,7 +8,7 @@ router.post('/', authorizeLogin, async (req, res) => {
   const user = await getUserByEmail(req.body.email);
   delete user.password;
   const token = generateToken(user);
-  res.status(200).json(token);
+  res.status(200).json({ token });
 });
 
 module.exports = router;
