@@ -1,4 +1,3 @@
-const { verify } = require('jsonwebtoken');
 const { Categories } = require('../models');
 const { BlogPosts } = require('../models');
 
