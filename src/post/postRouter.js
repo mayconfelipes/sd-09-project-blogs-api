@@ -13,7 +13,7 @@ postRouter.post(
   rescue(PostController.create),
 );
 postRouter.get(
-  '/categories',
+  '/post',
   rescue(validateToken), 
   rescue(PostController.getAll),
 );

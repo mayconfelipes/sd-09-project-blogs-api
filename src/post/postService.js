@@ -10,7 +10,10 @@ const create = async ({ title, content, categoryIds, userEmail }) => {
   return { newPost };
 };
 
-const getAll = async () => BlogPost.findAll();
+const getAll = async () => BlogPost.findAll({ include: [
+  { model: User, as: 'user', attributes: ['id', 'displayName', 'email', 'image'] },
+  { model: Category, as: 'categories', through: { attributes: [] } },
+] });
 
 module.exports = {
   create,
