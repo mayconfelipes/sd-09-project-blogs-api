@@ -5,12 +5,14 @@ require('dotenv').config();
 
 const userRouter = require('./UserRoutes/routes');
 const categoriesRouter = require('./CategoriesRoutes/routes');
+const postRouter = require('./PostsRoutes/routes');
 
 const app = express();
 app.use(bodyParser);
 
 app.use(userRouter);
 app.use(categoriesRouter);
+app.use(postRouter);
 
 const PORT = 3000;
 
