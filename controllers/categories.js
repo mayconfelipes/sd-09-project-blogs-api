@@ -2,15 +2,15 @@ const rescue = require('express-rescue');
 
 const {
   validateToken,
-  validateNewCategorie,
+  validateNewCategory,
 } = require('../middlewares/validations');
 const categoriesServices = require('../services/categories');
 
-const createCategorie = [
+const createCategory = [
   validateToken,
-  validateNewCategorie,
+  validateNewCategory,
   rescue(async (req, res) => {
-    const newCategorie = await categoriesServices.categorie(req.body);
+    const newCategorie = await categoriesServices.category(req.body);
     return res.status(201).json(newCategorie);
   }),
 ];
@@ -23,4 +23,4 @@ const getCategories = [
   }),
 ];
 
-module.exports = { createCategorie, getCategories };
+module.exports = { createCategory, getCategories };

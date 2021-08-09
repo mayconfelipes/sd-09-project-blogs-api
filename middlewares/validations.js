@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
+const { User, Category } = require('../models');
 require('dotenv').config();
 
 const secret = process.env.JWT_SECRET;
@@ -17,8 +17,14 @@ const loginSchema = Joi.object({
   password: Joi.string().length(6).required(),
 });
 
-const categorieSchema = Joi.object({
+const categorySchema = Joi.object({
   name: Joi.string().required(),
+});
+
+const blogPostSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  categoryIds: Joi.array().required(),
 });
 
 const validateUser = async (req, res, next) => {
@@ -52,7 +58,8 @@ const validateLogin = async (req, res, next) => {
 const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
   try {
-    jwt.verify(token, secret);
+    const user = jwt.verify(token, secret);
+    req.user = user;
     return next();
   } catch (err) {
     if (err.message === 'jwt must be provided') { 
@@ -64,9 +71,22 @@ const validateToken = async (req, res, next) => {
   }
 };
 
-const validateNewCategorie = async (req, res, next) => {
-  const { error } = categorieSchema.validate(req.body);
+const validateNewCategory = async (req, res, next) => {
+  const { error } = categorySchema.validate(req.body);
   if (error) return res.status(400).json({ message: error.message });
+  return next();
+};
+
+const validateIfCategoryExists = async (req, res, next) => {
+  const { categoryIds } = req.body;
+  const category = await Category.findAll({ where: { id: categoryIds } });
+  if (!category) res.status(400).json({ message: 'categoryIds not found' });
+  return next();
+};
+
+const validateBlogPostData = async (req, res, next) => {
+  const { error } = blogPostSchema.validate(req.body);
+  if (error) res.status(400).json({ message: error.message });
   return next();
 };
 
@@ -76,5 +96,7 @@ module.exports = {
   validateLogin,
   userIsRegistered,
   validateToken,
-  validateNewCategorie,
+  validateNewCategory,
+  validateIfCategoryExists,
+  validateBlogPostData,
 };
