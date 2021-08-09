@@ -18,9 +18,13 @@ const createUser = async (displayName, email, password, image) => {
 
 const createTokenForLogin = (user) => token.createToken(user);
 
+const getUsersAll = async () => 
+  User.findAll({}, { attributes: { exclude: ['password', 'createAt', 'updateAt'] } });
+
   module.exports = { 
   findByEmail,
   createUser,
   findByLogin,
   createTokenForLogin,
+  getUsersAll,
 };

@@ -5,14 +5,14 @@ const UserService = require('../services/UsersServices');
 
 const { HTTP_UNAUTHORIZED_STATUS } = require('../helpers/statusProtocoloHTTP');
 
-const { SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 
-module.exports = async (req, _res, next) => {
+const validateToken = async (req, _res, next) => {
   const token = req.headers.authorization;
   if (!token) return next({ status: HTTP_UNAUTHORIZED_STATUS, err: 'Token not found' });
 
   try {
-    const payload = jwt.verify(token, SECRET);
+    const payload = jwt.verify(token, JWT_SECRET);
     // verify se  o que vem no retorno em caso de token inválido
     if (!payload) {
       return next({ status: HTTP_UNAUTHORIZED_STATUS, err: 'Expired or invalid token',
@@ -28,3 +28,5 @@ module.exports = async (req, _res, next) => {
     return next({ status: HTTP_UNAUTHORIZED_STATUS, err: error.message });
   }
 };
+
+module.exports = { validateToken };
