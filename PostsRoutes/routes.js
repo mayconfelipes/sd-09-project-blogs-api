@@ -5,6 +5,6 @@ const PostsController = require('../controllers/posts');
 const validateToken = require('../middlwares/validateToken');
 
 PostsRoutes.post('/post', validateToken, PostsController.createPost);
-//  PostsRoutes.get('/categories', validateToken, CategoriesController.listCategories);
+  PostsRoutes.get('/post', validateToken, PostsController.listsPosts);
 
 module.exports = PostsRoutes;

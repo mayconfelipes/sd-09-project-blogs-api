@@ -1,5 +1,4 @@
-const { Categories } = require('../models');
-const { BlogPosts } = require('../models');
+const { Categories, BlogPosts, User, PostCategories } = require('../models');
 
 const createErrorMsg = (code, msg) => ({
   code,
@@ -32,20 +31,36 @@ const verifyCategory = async (categoryIds) => {
   }
 };
 
+const saveOnDbPostCategory = async (categoryIds, postId) => {
+  const results = [];
+  for (let index = 0; index < categoryIds.length; index += 1) {
+    const categoryId = categoryIds[index]; 
+    results.push(PostCategories.create({ postId, categoryId }));  
+  }
+  await Promise.all(results);
+};
+
 const createPost = async (postInfos) => {
   const { title, content } = postInfos;
   validateTitleContentAndCategoryField(postInfos);
   await verifyCategory(postInfos.categoryIds);
   const post = await BlogPosts.create({ title, content });
   const allPostInfos = await BlogPosts.findByPk(post.id);  
+  await saveOnDbPostCategory(postInfos.categoryIds, post.id);
   return allPostInfos;
 };
 
-const listCategories = async () => {
-  const categories = await Categories.findAll();
-  return categories;
+const listsPosts = async () => {
+  const posts = await BlogPosts.findAll({
+    include:
+    [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return posts;
 };
 module.exports = {
   createPost,
-  listCategories,
+  listsPosts,
 };

@@ -12,10 +12,9 @@ const createPost = async (req, res, next) => {
   }
 };
 
-const listCategories = async (req, res, next) => {
+const listsPosts = async (req, res, next) => {
   try {
-    const { name } = req.body;
-    const response = await postsServices.listCategories(name);
+    const response = await postsServices.listsPosts();
     res.status(200).json(response);
   } catch (e) {
     console.log(e, 'aqui');
@@ -27,5 +26,5 @@ const listCategories = async (req, res, next) => {
 
 module.exports = {
   createPost,
-  listCategories,
+  listsPosts,
 };
