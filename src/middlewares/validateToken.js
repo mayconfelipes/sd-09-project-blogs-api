@@ -14,8 +14,11 @@ module.exports = async (req, _res, next) => {
   try {
     const payload = jwt.verify(token, SECRET);
     // verify se  o que vem no retorno em caso de token inválido
-    if (!payload) return next({ status: HTTP_UNAUTHORIZED_STATUS, err: 'Expired or invalid token' });
-    
+    if (!payload) {
+      return next({ status: HTTP_UNAUTHORIZED_STATUS, err: 'Expired or invalid token',
+      });
+    }
+
     const user = await UserService.findByEmail(payload.email);
     if (!user) return next({ status: HTTP_UNAUTHORIZED_STATUS, err: 'invalid user' });
     req.user = user;
