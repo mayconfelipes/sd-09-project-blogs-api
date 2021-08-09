@@ -8,22 +8,22 @@ const usersRouter = express.Router();
 
 usersRouter.post(
   '/user',
-  rescue(validateUser), 
+  rescue(validateUser),
   rescue(UserController.create),
 );
 usersRouter.get(
   '/user',
-  rescue(validateToken), 
+  rescue(validateToken),
   rescue(UserController.getAll),
 );
 usersRouter.get(
   '/user/:id',
-  rescue(validateToken), 
+  rescue(validateToken),
   rescue(UserController.getById),
 );
 usersRouter.post(
   '/login',
-  rescue(validateLogin), 
+  rescue(validateLogin),
   rescue(UserController.login),
 );
 
