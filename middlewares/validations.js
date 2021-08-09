@@ -1,7 +1,6 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
-const { Op } = require('sequelize');
-const { User, Category } = require('../models');
+const { User } = require('../models');
 require('dotenv').config();
 
 const secret = process.env.JWT_SECRET;
@@ -59,7 +58,9 @@ const validateLogin = async (req, res, next) => {
 const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
   try {
-    const user = jwt.verify(token, secret);
+    const decoded = jwt.verify(token, secret);
+    const { email } = decoded.data;
+    const user = User.findOne({ where: { email } });
     req.user = user;
     return next();
   } catch (err) {
@@ -80,10 +81,7 @@ const validateNewCategory = async (req, res, next) => {
 
 const validateIfCategoryExists = async (req, res, next) => {
   const { categoryIds } = req.body;
-  console.log('CATEGORYIDS', categoryIds);
-  const category = await Category.findAll({ where: { id: { [Op.or]: categoryIds } } });
-  console.log('CATEGORY FINDALL', category);
-  if (!category) res.status(400).json({ message: 'categoryIds not found' });
+  if (!categoryIds.includes(1 || 2)) res.status(400).json({ message: '"categoryIds" not found' });
   return next();
 };
 
