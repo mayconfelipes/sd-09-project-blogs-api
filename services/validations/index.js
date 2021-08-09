@@ -25,7 +25,6 @@ const passwordValidation = (password) => {
 };
 
 const emailValidation = (email) => {
-  console.log('Email');
   if (email === undefined) return invalidFieldError('"email" is required');
   if (email === '') return invalidFieldError('"email" is not allowed to be empty');
   const reg = /\S+@\S+\.\S+/;

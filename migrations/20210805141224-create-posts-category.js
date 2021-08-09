@@ -6,11 +6,15 @@ module.exports = {
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
+        onDelete: 'CASCADE',
+        references: { model:'BlogPosts', key: 'id' }
       },
       categoryId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
+        onDelete: 'CASCADE',
+        references: { model:'Categories', key: 'id' }
       },
     });
   },
