@@ -1,5 +1,4 @@
 const Joi = require('joi');
-// const CategoryService = require('../services/CategoriesService');
 const {
   HTTP_BADREQ_STATUS,
 } = require('../helpers/statusProtocoloHTTP');

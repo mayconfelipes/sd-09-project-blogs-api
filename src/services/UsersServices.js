@@ -5,9 +5,13 @@ const token = require('../helpers/createToken');
 const findByEmail = async (email) =>
   User.findOne({ where: { email } }, { attributes: { exclude: ['password'] } });
 
-const findByLogin = async (email, password) =>
-  User.findOne({ where: { email, password } }, { attributes: { exclude: ['password'] } });
-  
+const findByLogin = async (email, password) => {
+  const user = await User.findOne(
+    { where: { email, password } },
+    { attributes: { exclude: ['password'] } },
+  );
+  return user;
+};
 const createUser = async (displayName, email, password, image) => {
   const user = await User.create({ displayName, email, password, image })
     .then((newUser) => newUser.dataValues)
