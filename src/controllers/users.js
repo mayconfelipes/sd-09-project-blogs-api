@@ -1,14 +1,10 @@
-require('dotenv').config();
 const Joi = require('joi');
 const rescue = require('express-rescue');
-const jwt = require('jsonwebtoken');
+const generateToken = require('../utils/generateTokenJwt');
 
 const validate = require('../middlewares/validate');
 const { User } = require('../models');
 const UserService = require('../services/users');
-
-const { JWT_SECRET } = process.env;
-const jwtConfig = { expiresIn: '3h', algorithm: 'HS256' };
 
 const create = [
   validate(Joi.object({
@@ -23,8 +19,8 @@ const create = [
   
     if (user.error) return res.status(409).json(user.error);
 
-    const { password: _, ...userWithoutPassword } = user;
-    const token = jwt.sign(userWithoutPassword, JWT_SECRET, jwtConfig);
+    const token = generateToken(user);
+
     return res.status(201).json({ token });
   }),
 ];

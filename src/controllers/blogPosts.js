@@ -13,7 +13,7 @@ const create = [
   })),
   rescue(async (req, res) => {
     const { body: { title, content, categoryIds }, user } = req;
-    console.log(title);
+    
     const { dataValues: { id: userId } } = user;
     
     const post = await PostService.create(title, content, userId, categoryIds);
@@ -44,8 +44,18 @@ const findByPk = rescue(async (req, res) => {
   return res.status(200).json(post);
 });
 
+/* const update = rescue(async (req, res) => {
+  const { params: { id }, body: { title, content, categoryIds }, user } = req;
+  const { dataValues: { id: userId } } = user;
+
+  if (categoryIds) return res.status(400).json({ message: 'Categories cannot be edited' });
+
+  if (userId !== )
+}); */
+
 module.exports = {
   create,
   findAll,
   findByPk,
+  // update,
 };

@@ -1,4 +1,4 @@
-require('dotenv').config();
+/* require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -29,3 +29,4 @@ app.listen(PORT, () => console.log(`Ouvindo porta ${PORT}!`));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => response.send());
+ */
