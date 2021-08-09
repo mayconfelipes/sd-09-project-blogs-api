@@ -1,7 +1,7 @@
 const { validName } = require('../services');
 
 const validPost = async (req, res, next) => {
-  const { title, content } = req.body;
+  const { title, content, categoryIds } = req.body;
   const titleOk = validName(title);
 
   if (titleOk !== true) {
@@ -12,6 +12,15 @@ const validPost = async (req, res, next) => {
 
   if (contentOK !== true) {
     return res.status(400).json({ message: '"content" is required' });
+  }
+
+  const categoryIdsOK = validName(categoryIds);
+
+  if (categoryIdsOK !== true) {
+    return res.status(400).json({ message: '"categoryIds" is required' });
+  }
+  if (categoryIds >= 3) {
+    return res.status(400).json({ message: '"categoryIds" not found' });
   }
 
   next();
