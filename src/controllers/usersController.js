@@ -25,8 +25,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const response = await addUser(req.body);
-    console.log(response);
-    res.status(response.response).json({ message: response.message });
+    res.status(response.response).json(response.message);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
