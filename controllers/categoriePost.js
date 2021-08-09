@@ -22,17 +22,6 @@ router.post('/', validateToken, categoriePostVal, categorieVal, async (req, res)
   return res.status(201).json(post);
 });
 
-router.get('/', validateToken, async (_req, res) => {
-  const posts = await BlogPosts.findAll(
-    { include: [
-      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
-      { model: Categories, as: 'categories', through: { attributes: [] } },
-    ] },
-  );
-
-  return res.status(200).json(posts);
-});
-
 router.get('/:id', validateToken, async (req, res) => {
   const { id } = req.params;
 
@@ -49,6 +38,17 @@ router.get('/:id', validateToken, async (req, res) => {
   }
 
   return res.status(200).json(post);
+});
+/* este codigo foi feito na sala 12 com joao vitor andre e antonio arieiro */
+router.get('/', validateToken, async (_req, res) => {
+  const posts = await BlogPosts.findAll(
+    { include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ] },
+  );
+
+  return res.status(200).json(posts);
 });
 
 router.delete('/:id', validateToken, async (req, res) => {

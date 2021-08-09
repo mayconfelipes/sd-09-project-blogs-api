@@ -1,10 +1,10 @@
 const createPostsCategory = (sequelize, _DataTypes) => {
-  const PostsCategories = sequelize.define('PostsCategories', {},
+  const categoriePost = sequelize.define('categoriePost', {},
   {
     timestamps: false,
   });
-
-  PostsCategories.associate = (models) => {
+/* este codigo foi feito na sala 12 com joao vitor andre e antonio arieiro */
+  categoriePost.associate = (models) => {
     models.BlogPosts.belongsToMany(models.Categories,
       { 
         as: 'categories', through: PostsCategories, foreignKey: 'postId', otherKey: 'categoryId',
