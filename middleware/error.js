@@ -9,6 +9,7 @@ const errorHandling = (error, _req, res, _next) => {
     TokenExpiredError: 401,
     userDoesNotExist: 404,
     notFound: 404,
+    Unauthorized: 401,
   };
 
   const status = statusByErrorName[error.name] || INTERNAL_SERVER_ERROR;

@@ -1,3 +1,5 @@
+const { Category, BlogPost, User } = require('../../models');
+
 const invalidFieldError = (message) => ({ error: { name: 'invalidField', message } });
 
 const noEmptyValidation = (valuesObj, fields) => {
@@ -32,9 +34,35 @@ const emailValidation = (email) => {
   return { error: false };
 };
 
+const categoryEmpty = (categoryIds) => {
+  if (categoryIds) {
+    return { error: { name: 'invalidField', message: 'Categories cannot be edited' } };
+  }
+  return { error: false };
+};
+
+const isUserWhoPosted = async (userId, postId) => {
+  const { dataValues } = await BlogPost.findOne({ 
+    where: { id: postId },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+    fields: ['userId'],
+  });
+
+  if (dataValues.userId !== userId) {
+    return { error: { name: 'Unauthorized', message: 'Unauthorized user' } };
+  }
+  
+  return { error: false };
+};
+
 module.exports = {
   displayNameValidation,
   passwordValidation,
   emailValidation,
   noEmptyValidation,
+  categoryEmpty,
+  isUserWhoPosted,
 };

@@ -50,8 +50,6 @@ const getPostById = async ({ authorization, id }) => {
   const responseJTW = jwt.verify(authorization);
   if (responseJTW.error) return responseJTW;
 
-  console.log(id);
-
   const post = await BlogPost.findOne({ 
     where: { id },
     include: [
@@ -67,8 +65,30 @@ const getPostById = async ({ authorization, id }) => {
   return post.dataValues;
 };
 
+const updatePost = async ({ authorization, id, title, content, categoryIds }) => {
+  const responseJTW = jwt.verify(authorization);
+  if (responseJTW.error) return responseJTW;
+  const category = validations.categoryEmpty(categoryIds);
+  if (category.error) return category;
+  const { id: userId } = responseJTW.user;
+  const isUserTheSame = await validations.isUserWhoPosted(userId, id);
+  if (isUserTheSame.error) return isUserTheSame;
+  const emptyFields = await validations.noEmptyValidation({ title, content }, ['title', 'content']);
+  if (emptyFields.error) return emptyFields;
+  await BlogPost.update({ title, content }, { where: { id } });
+  const updatedPost = await BlogPost.findOne({ 
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return updatedPost;
+};
+
 module.exports = {
   createPost,
   getAllPost,
   getPostById,
+  updatePost,
 };
