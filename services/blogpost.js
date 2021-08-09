@@ -6,4 +6,6 @@ const createPost = async (postData) => {
   return { id, title, content, userId };
 };
 
-module.exports = { createPost };
+const findAllBlogPosts = async () => BlogPost.findAll();
+
+module.exports = { createPost, findAllBlogPosts };

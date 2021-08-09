@@ -4,7 +4,7 @@ const {
   validateBlogPostData,
   validateToken,
 } = require('../middlewares/validations');
-const { createPost } = require('../services/blogpost');
+const blogPostServices = require('../services/blogpost');
 
 const newBlogPost = [
   validateToken,
@@ -13,9 +13,22 @@ const newBlogPost = [
   rescue(async (req, res) => {
     const { title, content } = req.body;
     const { id } = await req.user;
-    const newPost = await createPost({ title, content, userId: id });
+    const newPost = await blogPostServices.createPost({
+      title,
+      content,
+      userId: id,
+    });
     return res.status(201).json(newPost);
   }),
 ];
 
-module.exports = { newBlogPost };
+const getBlogPosts = [
+  validateToken,
+  async (_req, res) => {
+    const posts = await blogPostServices.findAllBlogPosts();
+    console.log('POSTS', posts);
+    return res.status(200).json(posts);
+  },
+];
+
+module.exports = { newBlogPost, getBlogPosts };

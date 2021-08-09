@@ -4,7 +4,7 @@ const bodyParser = require('body-parser').json();
 const { createUser, getUsers, getUserById } = require('./controllers/user');
 const { login } = require('./controllers/login');
 const { createCategory, getCategories } = require('./controllers/categories');
-const { newBlogPost } = require('./controllers/blogpost');
+const { newBlogPost, getBlogPosts } = require('./controllers/blogpost');
 
 const app = express();
 
@@ -20,6 +20,7 @@ app.get('/categories', getCategories);
 app.post('/categories', createCategory);
 
 app.post('/post', newBlogPost);
+app.get('/post', getBlogPosts);
 
 app.post('/login', login);
 
