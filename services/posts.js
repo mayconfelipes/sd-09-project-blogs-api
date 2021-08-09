@@ -50,6 +50,20 @@ const createPost = async (postInfos) => {
   return allPostInfos;
 };
 
+const getPostById = async (id) => {
+  const post = await BlogPosts.findByPk(id, {
+    include:
+    [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  if (post === null) {
+    throw createErrorMsg('invalid_arguments', 'Post does not exist');
+  }
+  return post;
+}; 
+
 const listsPosts = async (id) => {
   if (!id) {
     const posts = await BlogPosts.findAll({
@@ -61,13 +75,7 @@ const listsPosts = async (id) => {
     });
     return posts;
   }
-  const post = await BlogPosts.findByPk(id, {
-    include:
-    [
-      { model: User, as: 'user', attributes: { exclude: ['password'] } },
-      { model: Categories, as: 'categories', through: { attributes: [] } },
-    ],
-  });
+  const post = await getPostById(id);
   return post;
 };
 module.exports = {
