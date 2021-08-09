@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Joi = require('joi');
-const { BlogPost, Category } = require('../models');
+const { BlogPosts, Categories } = require('../models');
 const validate = require('../middlewares/validate');
 
 module.exports = {
@@ -14,21 +14,21 @@ module.exports = {
     try {
       const { title, content, categoryIds } = req.body;
 
-      categoryIds.forEach(async (element) => {
-        const categoryExists = await Category.count({ where: element });
-        console.log('L19', categoryExists);
+      categoryIds.map(async (element) => {
+        const categoryExists = await Categories.count({ where: element });
+
         if (categoryExists === 0) {
           return next({ statusCode: 400, message: '"categoryIds" not found' });
         }
-      });
 
-      const newPost = await BlogPost.create({
-        title,
-        content,
-        userId: categoryIds[0],
-      });
+        const newPost = await BlogPosts.create({
+          title,
+          content,
+          userId: categoryIds[0],
+        });
 
-      return res.status(201).json(newPost);
+        return res.status(201).json(newPost);
+      });
     } catch (err) {
       res.status(500).json({ message: err });
     }

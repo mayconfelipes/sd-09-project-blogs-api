@@ -1,7 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
-const { User } = require('../models');
+const { Users } = require('../models');
 const validate = require('../middlewares/validate');
 
 const secret = process.env.JWT_SECRET;
@@ -18,10 +18,10 @@ module.exports = {
     try {
       const { displayName, email, password, image } = req.body;
 
-      const userExists = await User.findOne({ where: { email } });
+      const userExists = await Users.findOne({ where: { email } });
       if (userExists) return next({ statusCode: 409, message: 'User already registered' });
 
-      const newUser = await User.create({ displayName, email, password, image });
+      const newUser = await Users.create({ displayName, email, password, image });
 
       const jwtConfig = { expiresIn: '23h', algorithm: 'HS256' };
       const { password: _, ...withoutPassword } = newUser.dataValues;
@@ -35,7 +35,7 @@ module.exports = {
 
   listAllUsers: async (_req, res) => {
     try {
-      const userExists = await User.findAll({
+      const userExists = await Users.findAll({
         attributes: ['id', 'displayName', 'email', 'image'],
       });
 
@@ -48,7 +48,7 @@ module.exports = {
   listById: async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await User.findByPk(
+      const user = await Users.findByPk(
         id,
         { attributes: ['id', 'displayName', 'email', 'image'] },
       );

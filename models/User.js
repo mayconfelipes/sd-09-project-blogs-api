@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const UserStructure = sequelize.define('User', {
+  const User = sequelize.define('Users', {
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  return UserStructure;
+  return User;
 };
 
 // module.exports = (sequelize, DataTypes) => {

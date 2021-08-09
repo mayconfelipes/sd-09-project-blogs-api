@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const PostStructure = sequelize.define('BlogPost', {
+  const BlogPost = sequelize.define('BlogPosts', {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     userId: DataTypes.INTEGER,
@@ -7,5 +7,5 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  return PostStructure;
+  return BlogPost;
 };
