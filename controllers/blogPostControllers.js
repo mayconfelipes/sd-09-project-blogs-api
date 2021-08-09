@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Joi = require('joi');
-const { BlogPosts, Categories } = require('../models');
+const { BlogPosts, Categories, Users } = require('../models');
 const validate = require('../middlewares/validate');
 
 module.exports = {
@@ -29,6 +29,19 @@ module.exports = {
 
         return res.status(201).json(newPost);
       });
+    } catch (err) {
+      res.status(500).json({ message: err });
+    }
+  },
+
+  listAllPosts: async (_req, res, _next) => {
+    try {
+      const listPosts = await BlogPosts.findAll({
+        include: { model: Users, as: 'users' },
+      });
+      console.log(listPosts.dataValues);
+
+      return res.status(200).json(listPosts);
     } catch (err) {
       res.status(500).json({ message: err });
     }

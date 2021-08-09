@@ -9,4 +9,6 @@ userRoutes.post('/',
   middValidate.validateToken,
   blogPostControllers.addPost);
 
+userRoutes.get('/', middValidate.validateToken, blogPostControllers.listAllPosts);
+
 module.exports = userRoutes;
