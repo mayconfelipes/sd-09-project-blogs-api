@@ -1,10 +1,13 @@
 const rescue = require('express-rescue');
-const PostService = require('../Services/postService');
+const BlogPostService = require('../Services/BlogPostService');
 
 const addPost = rescue(async (req, res, _next) => {
-  const dataPost = req.body;
-  await PostService.addPost(dataPost);
-  res.status(200).json(dataPost);
+  const dataPost = {
+    body: req.body,
+    user: req.user,
+  };
+  await BlogPostService.addPost(dataPost);
+  res.status(201).json(dataPost);
 });
 
 const getAllPosts = rescue(async (req, res, _next) => {

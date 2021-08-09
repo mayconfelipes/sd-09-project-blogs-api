@@ -5,7 +5,7 @@ const {
   getPostById,
   updatedPost,
   deletePost,
-} = require('../Controllers/postController');
+} = require('../Controllers/BlogPostController');
 const validateJWT = require('../Auth/validateJWT');
 
 const router = express.Router();
