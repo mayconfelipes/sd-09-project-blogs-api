@@ -4,7 +4,6 @@ const {
   userContrl,
   loginContrl,
   controlCateg,
-  controlCategPost,
 } = require('./controllers');
 
 const app = express();
@@ -20,6 +19,6 @@ app.get('/', (_request, response) => {
 app.use('/user', userContrl);
 app.use('/login', loginContrl);
 app.use('/categories', controlCateg);
-app.use('/post', controlCategPost);
+
 
 app.listen(PORT, () => console.log(`Breja na porta ${PORT}!`));
