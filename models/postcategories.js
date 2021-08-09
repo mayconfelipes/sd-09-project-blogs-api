@@ -17,4 +17,4 @@ const createPostsCategory = (sequelize, _DataTypes) => {
 };
 
 module.exports = createPostsCategory;
-/* este codigo foi desenvolvido com a trica de 9 16 : Joao Vitor, Joao Pedro e ANtonio arieiro && WARROM*/
+/* este codigo foi desenvolvido com a trica de 9 16 : Joao Vitor, Joao Pedro e ANtonio arieiro && WARROM */
