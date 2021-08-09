@@ -1,15 +1,15 @@
 const express = require('express');
-const { generateToken } = require('../middlewares/auth');
+const { generateToken, validateToken } = require('../middlewares/auth');
 const { getAllUsers, getUserById, addUser } = require('../services/usersServices');
 
 const router = express.Router();
 
-router.get('/', async (_req, res) => {
+router.get('/', validateToken, async (req, res) => {
   try {
     const users = await getAllUsers();
     res.status(200).json(users);
   } catch (error) {
-    res.status(error.response).json({ message: error.message });
+    res.status(401).json({ message: error.message });
   }
 });
 

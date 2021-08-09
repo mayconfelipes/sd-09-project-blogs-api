@@ -19,7 +19,8 @@ const errorMessages = {
   conflict: 'User already registered',
 };
 
-const getAllUsers = async () => (User.findAll());
+const getAllUsers = async () => (
+  User.findAll({ attributes: { exclude: ['password'] } }));
 const getUserById = async (id) => (User.findByPk(id));
 const getUserByEmail = async (email) => (User.findOne({ where: { email } }));
 const addUser = async (user) => {

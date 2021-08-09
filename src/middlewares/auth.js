@@ -58,7 +58,7 @@ const validateToken = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     if (!token) {
-      return res.status(401).json({ message: 'missing auth token' });
+      return res.status(401).json({ message: 'Token not found' });
     }
     const user = await verifyToken(token);
     req.user = user;
@@ -67,7 +67,7 @@ const validateToken = async (req, res, next) => {
     if (req.url === '/admin') {
       return res.status(403).json({ message: 'Only admins can register new admins' });
     }
-    return res.status(401).json({ message: 'jwt malformed' });
+    return res.status(401).json({ message: 'Expired or invalid token' });
   }
 };
 
