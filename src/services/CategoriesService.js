@@ -8,9 +8,11 @@ const createCategory = async (name) => {
   return category;
 };
 
-const getCategoriesAll = async () => 
-  Categories.findAll({}, { attributes: { exclude: ['createAt', 'updateAt'] } });
-
+const getCategoriesAll = async () => {
+  const allCategories = await Categories.findAll({},
+    { attributes: { exclude: ['createAt', 'updateAt'] } });
+  return allCategories;
+}; 
   module.exports = { 
   createCategory,
   getCategoriesAll,
