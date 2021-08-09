@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
 const { Categories } = require('../models');
-const { categoriesValidation } = require('../middlewares/categoriesValidation');
+const { categorieVal } = require('../middlewares/categoriePost');
 const { validateToken } = require('../helpers/jwt');
 
 const router = new Router();
 
-router.post('/', categoriesValidation, validateToken, async (req, res) => {
+router.post('/', categorieVal, validateToken, async (req, res) => {
   const { name } = req.body;
 
   const category = await Categories.create({ name });
