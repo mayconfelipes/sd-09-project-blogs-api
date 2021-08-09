@@ -20,7 +20,7 @@ const validatePassword = (password) => {
 
   return false;
 };
-
+/* este codigo foi feito juntamemte a trinca, Joao Victor e Joao pedro T9  */
 const emailIsValid = (email) => {
   if (!email) {
     return '"email" is required';
@@ -32,7 +32,7 @@ const emailIsValid = (email) => {
 
   return false;
 };
-
+/* este codigo foi feito juntamemte a trinca, Joao Victor e Joao pedro T9  */
 const valUser = (req, res, next) => {
   const { nameDis, email, password } = req.body;
 
