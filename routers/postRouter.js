@@ -8,6 +8,6 @@ const validateNewPost = require('../middlewares/validateNewPost');
 const postRouter = express.Router();
 
 postRouter.post('/', [validateToken, validateNewPost], rescue(postController.createPost));
-// postRouter.get('/', rescue(postController.getAllPosts));
+postRouter.get('/', validateToken, rescue(postController.getAllPosts));
 
 module.exports = postRouter;

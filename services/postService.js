@@ -1,6 +1,5 @@
 const { Op } = require('sequelize');
-const { BlogPost } = require('../models');
-const { Category } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 
 const CATEGORY_NOT_FOUND = { status: 400, message: '"categoryIds" not found' };
 
@@ -21,12 +20,15 @@ const createPost = async (newPost, userId) => {
   return blogPost;
 };
 
-// const getAllCategories = async () => {
-//   const categories = await BlogPost.findAll();
-//   return categories;
-// };
+const getAllPosts = async () => {
+  const blogPosts = await BlogPost.findAll({ include: [
+    { model: User, as: 'user' },
+    { model: Category, as: 'categories' },
+  ] });
+  return blogPosts;
+};
 
 module.exports = {
   createPost,
-  // getAllCategories,
+  getAllPosts,
 };

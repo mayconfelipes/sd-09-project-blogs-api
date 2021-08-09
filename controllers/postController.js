@@ -1,7 +1,7 @@
 const postService = require('../services/postService');
 
 const CREATED = 201;
-// const OK = 200;
+const OK = 200;
 
 const createPost = async (req, res) => {
   const newPost = req.body;
@@ -10,12 +10,13 @@ const createPost = async (req, res) => {
   return res.status(CREATED).json(blogPost);
 };
 
-// const getAllcategories = async (req, res) => {
-//   const categories = await categoriesService.getAllCategories();
-//   return res.status(OK).json(categories);
-// };
+const getAllPosts = async (_req, res) => {
+  const blogPosts = await postService.getAllPosts();
+  console.log(blogPosts);
+  return res.status(OK).json(blogPosts);
+};
 
 module.exports = {
   createPost,
-  // getAllcategories,
+  getAllPosts,
 };
