@@ -4,28 +4,18 @@ const CategoryController = require('./categoryController');
 const { validateCategory } = require('./categoryMiddleware');
 const { validateToken } = require('../middlewares');
 
-const usersRouter = express.Router();
+const categoriesRouter = express.Router();
 
-usersRouter.post(
+categoriesRouter.post(
   '/categories',
   rescue(validateToken),
   rescue(validateCategory),
   rescue(CategoryController.create),
 );
-usersRouter.get(
+categoriesRouter.get(
   '/categories',
   rescue(validateToken), 
   rescue(CategoryController.getAll),
 );
-// usersRouter.get(
-//   '/categories',
-//   rescue(validateToken), 
-//   rescue(UserController.getById),
-// );
-// usersRouter.post(
-//   '/categories',
-//   rescue(validateLogin), 
-//   rescue(UserController.login),
-// );
 
-module.exports = usersRouter;
+module.exports = categoriesRouter;

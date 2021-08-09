@@ -4,27 +4,27 @@ const UserController = require('./userController');
 const { validateUser, validateLogin } = require('./userMiddleware');
 const { validateToken } = require('../middlewares');
 
-const usersRouter = express.Router();
+const userRouter = express.Router();
 
-usersRouter.post(
+userRouter.post(
   '/user',
   rescue(validateUser),
   rescue(UserController.create),
 );
-usersRouter.get(
+userRouter.get(
   '/user',
   rescue(validateToken),
   rescue(UserController.getAll),
 );
-usersRouter.get(
+userRouter.get(
   '/user/:id',
   rescue(validateToken),
   rescue(UserController.getById),
 );
-usersRouter.post(
+userRouter.post(
   '/login',
   rescue(validateLogin),
   rescue(UserController.login),
 );
 
-module.exports = usersRouter;
+module.exports = userRouter;

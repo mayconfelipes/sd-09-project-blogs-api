@@ -4,6 +4,7 @@ const errorTypes = {
   missingToken: { statusCode: 401, message: 'Token not found' },
   invalidToken: { statusCode: 401, message: 'Expired or invalid token' },
   userDoesNotExist: { statusCode: 404, message: 'User does not exist' },
+  categoryNotFound: { statusCode: 400, message: '"categoryIds" not found' },
 };
 
 module.exports = async (err, _req, res, _next) => {
