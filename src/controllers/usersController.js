@@ -1,6 +1,6 @@
 const express = require('express');
 const { generateToken, validateToken } = require('../middlewares/auth');
-const { getAllUsers, getUserById, addUser } = require('../services/usersServices');
+const { getAllUsers, addUser, getUserById } = require('../services/usersServices');
 
 const router = express.Router();
 
@@ -13,11 +13,12 @@ router.get('/', validateToken, async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const user = await getUserById(id);
-    res.status(200).json({ user });
+    if (!user) return res.status(404).json({ message: 'User does not exist' });
+    return res.status(200).json(user);
   } catch (error) {
     res.status(error.response).json({ message: error.message });
   }

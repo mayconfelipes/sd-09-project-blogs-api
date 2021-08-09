@@ -48,7 +48,7 @@ const verifyToken = async (token) => {
     if (!user) {
       throw new Error({ message: 'Invalid Token' });
     }
-    return user;
+    return user.dataValues;
   } catch (error) {
     throw new Error(error);
   }
