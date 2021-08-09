@@ -34,4 +34,6 @@ app.get('/categories', validateJWT, Category.getCategories);
 
 app.post('/post', validateJWT, Post.createPost);
 
+app.get('/post', validateJWT, Post.getAllPosts);
+
 app.use(errorMiddleware);
