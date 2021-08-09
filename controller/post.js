@@ -8,5 +8,13 @@ const createPost = async (req, res, next) => {
   return res.status(201).json(response);
 };
 
+const getAllPost = async (req, res, next) => {
+  const { authorization } = req.headers;
+  const response = await service.getAllPost({ authorization });
+  if (response.error) return next(response.error);
+  return res.status(200).json(response);
+};
+
 module.exports = {
-  createPost };
+  createPost,
+  getAllPost };

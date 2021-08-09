@@ -1,6 +1,6 @@
 const validations = require('./validations');
 const jwt = require('../auth/jwt');
-const { Category, BlogPost } = require('../models');
+const { Category, BlogPost, User } = require('../models');
 
 const isCategoryIdExist = async (ids) => {
   //  Podemos procurar colocando um array como parametro
@@ -34,6 +34,19 @@ const createPost = async ({ title, content, categoryIds, authorization }) => {
   return post.dataValues;
 };
 
+const getAllPost = async ({ authorization }) => {
+  const responseJTW = jwt.verify(authorization);
+  if (responseJTW.error) return responseJTW;
+
+  const posts = await BlogPost.findAll({ 
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+  
+  return posts;
+};
+
 module.exports = {
   createPost,
+  getAllPost,
 };
