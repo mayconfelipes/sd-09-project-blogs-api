@@ -1,4 +1,4 @@
-const { BlogPost } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 const blogValidations = require('../validations/blogValidations');
 
 async function addPost(title, content, categoryIds, token) {
@@ -14,6 +14,18 @@ async function addPost(title, content, categoryIds, token) {
   return { status: 201, response: newPost.dataValues };
 }
 
+async function getPosts(token) {
+  blogValidations.validateToken(token);
+  const postList = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', attributes: { through: [] } },
+    ],
+  });
+  return { status: 200, response: postList };
+}
+
 module.exports = {
   addPost,
+  getPosts,
 };

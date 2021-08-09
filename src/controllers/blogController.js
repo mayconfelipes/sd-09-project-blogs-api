@@ -7,6 +7,13 @@ async function addPost(req, res) {
   return res.status(status).json(response);
 }
 
+async function getPosts(req, res) {
+  const { authorization: token } = req.headers;
+  const { status, response } = await blogServices.getPosts(token);
+  return res.status(status).json(response);
+}
+
 module.exports = {
   addPost,
+  getPosts,
 };
