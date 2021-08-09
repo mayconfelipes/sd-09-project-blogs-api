@@ -14,7 +14,8 @@ const createPost = async (req, res, next) => {
 
 const listsPosts = async (req, res, next) => {
   try {
-    const response = await postsServices.listsPosts();
+    const { id } = req.params;
+    const response = await postsServices.listsPosts(id);
     res.status(200).json(response);
   } catch (e) {
     console.log(e, 'aqui');

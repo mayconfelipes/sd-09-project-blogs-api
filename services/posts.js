@@ -50,15 +50,25 @@ const createPost = async (postInfos) => {
   return allPostInfos;
 };
 
-const listsPosts = async () => {
-  const posts = await BlogPosts.findAll({
+const listsPosts = async (id) => {
+  if (!id) {
+    const posts = await BlogPosts.findAll({
+      include:
+      [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Categories, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    return posts;
+  }
+  const post = await BlogPosts.findByPk(id, {
     include:
     [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Categories, as: 'categories', through: { attributes: [] } },
     ],
   });
-  return posts;
+  return post;
 };
 module.exports = {
   createPost,
