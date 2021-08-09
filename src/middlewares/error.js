@@ -1,16 +1,16 @@
-// const errors = {};
+const errorTypes = {
+  userExists: { statusCode: 409, message: 'User already registered' },
+};
 
 module.exports = async (err, _req, res, _next) => {
-  // const { error } = err;
-
   if (err.isJoi) {
     return res.status(400).json({ message: err.details[0].message });
   }
 
-  // if (error) {
-  //   const { code, message } = errors[error];
-  //   return res.status(code).json({ message });
-  // }
+  if (err.type) {
+    const { statusCode, message } = errorTypes[err.type];
+    return res.status(statusCode).json({ message });
+  }
 
   console.error(err);
 

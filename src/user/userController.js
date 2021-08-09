@@ -1,9 +1,10 @@
-const { auth } = require('../utils');
+const UserService = require('./userService');
 
-const create = async (req, res) => {
+const create = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
-  const token = auth.createToken({ displayName, email });
-  res.status(201).json({ token });
+  const { error, token } = await UserService.create({ displayName, email, password, image });
+  if (error) return next(error);
+  return res.status(201).json({ token });
 };
 
 module.exports = {
