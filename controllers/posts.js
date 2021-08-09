@@ -22,6 +22,9 @@ const listsPosts = async (req, res, next) => {
     if (e.code === 'invalid_arguments') {
       next({ status: 400, msg: e.msg });
     }
+    if (e.code === 'not_found') {
+      next({ status: 404, msg: e.msg });
+    }
   }
 };
 

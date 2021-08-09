@@ -59,7 +59,7 @@ const getPostById = async (id) => {
     ],
   });
   if (post === null) {
-    throw createErrorMsg('invalid_arguments', 'Post does not exist');
+    throw createErrorMsg('not_found', 'Post does not exist');
   }
   return post;
 }; 
