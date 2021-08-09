@@ -1,19 +1,19 @@
 const express = require('express');
 const UserService = require('../services/UserServices');
+const { HTTP_CREATED_STATUS } = require('../helpers/statusProtocoloHTTP');
+const { validateDataUser, userExists } = require('../middlewares/validateUser');
 
 const userRoute = express.Router();
 
-userRoute.post('/', (req, res) => {
+userRoute.post('/', validateDataUser, userExists,
+ async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
-
-  User.create({ displayName, email, password, image })
-    .then((newUser) => {
-      console.log(newUser);
-      const { id, displayName, email, image, createdAt, updatedAt } = newUser;
-
-      return res.status(200).json({ id, displayName, email, image, createdAt, updatedAt });
-    })
-    .catch((error) => res.status(500).json({ message: error }));
+try {
+  const token = await UserService.createUser(displayName, email, password, image);
+  return res.status(HTTP_CREATED_STATUS).json({ token });
+} catch (error) {
+  return next(error);
+}
 });
 
 module.exports = userRoute;

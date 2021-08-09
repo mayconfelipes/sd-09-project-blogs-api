@@ -8,8 +8,8 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: { type: Sequelize.STRING },
-      createdAt: { allowNull: false, type: Sequelize.DATE, field: 'create_at' },
-      updatedAt: { allowNull: false, type: Sequelize.DATE, field: 'update_at' },
+      createdAt: { allowNull: false, type: Sequelize.DATE, defaultValue: new Date(), field: 'create_at' },
+      updatedAt: { allowNull: false, type: Sequelize.DATE, defaultValue: new Date(), field: 'update_at' },
     });
   },
   down: async (queryInterface, _Sequelize) => {
