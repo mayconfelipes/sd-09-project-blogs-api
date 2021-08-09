@@ -13,6 +13,13 @@ const create = rescue(async (req, res, next) => {
   }
 });
 
+const findAll = rescue(async (req, res) => {
+  const blogPosts = await BlogPost.findAll();
+
+  return res.status(200).json(blogPosts);
+});
+
 module.exports = {
   create,
+  findAll,
 };
