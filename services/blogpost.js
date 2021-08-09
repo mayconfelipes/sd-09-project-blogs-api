@@ -3,7 +3,8 @@ const { BlogPost, Category, User } = require('../models');
 const createPost = async (postData) => {
   const newPost = await BlogPost.create(postData);
   const { id, title, content, userId } = newPost.dataValues;
-  return { id, title, content, userId };
+  const data = { id, title, content, userId };
+  return data;
 };
 
 const findAllBlogPosts = async () =>

@@ -57,6 +57,7 @@ const validateLogin = async (req, res, next) => {
 
 const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ message: 'Token not found' });
   try {
     const decoded = jwt.verify(token, secret);
     const { email } = decoded.data;
@@ -64,30 +65,32 @@ const validateToken = async (req, res, next) => {
     req.user = user;
     return next();
   } catch (err) {
-    if (err.message === 'jwt must be provided') { 
-      return res.status(401).json({ message: 'Token not found' });
-    }
     if (err.message === 'jwt malformed') { 
       return res.status(401).json({ message: 'Expired or invalid token' });
     }
+    return next(err);
   }
 };
 
 const validateNewCategory = async (req, res, next) => {
-  const { error } = categorySchema.validate(req.body);
+  const category = req.body;
+  const { error } = categorySchema.validate(category);
   if (error) return res.status(400).json({ message: error.message });
   return next();
 };
 
 const validateIfCategoryExists = async (req, res, next) => {
   const { categoryIds } = req.body;
-  if (!categoryIds.includes(1 || 2)) res.status(400).json({ message: '"categoryIds" not found' });
+  if (!categoryIds.includes(1 || 2)) {
+    return res.status(400).json({ message: '"categoryIds" not found' });
+  }
   return next();
 };
 
 const validateBlogPostData = async (req, res, next) => {
-  const { error } = blogPostSchema.validate(req.body);
-  if (error) res.status(400).json({ message: error.message });
+  const post = req.body;
+  const { error } = blogPostSchema.validate(post);
+  if (error) return res.status(400).json({ message: error.message });
   return next();
 };
 
