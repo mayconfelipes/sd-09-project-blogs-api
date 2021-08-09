@@ -43,14 +43,16 @@ const getPostById = async (id) => {
 
 const verifyPostAuthor = async (postId, userId) => {
   const postToUpdate = await getPostById(postId);
-  const user = postToUpdate.user.id;
-  if (user !== userId) return false;
+  const user = postToUpdate.userId;
+  if (user === userId) return true;
 };
 
-const updatePost = async (postId, userId, info) => {
+const updatePost = async (postId, userId, newInfo) => {
+  const { title, content } = newInfo;
   const authorized = await verifyPostAuthor(postId, userId);
   if (!authorized) throw UNAUTHORIZED_USER;
-  const updatedPost = await BlogPost.update(info, { where: { postId } });
+  await BlogPost.update({ title, content }, { where: { id: postId } });
+  const updatedPost = await getPostById(postId);
   return updatedPost;
 };
 

@@ -8,9 +8,9 @@ const validateUpdate = require('../middlewares/validateUpdate');
 
 const postRouter = express.Router();
 
-postRouter.post('/', [validateToken, validateNewPost], rescue(postController.createPost));
+postRouter.post('/', validateToken, validateNewPost, rescue(postController.createPost));
 postRouter.get('/', validateToken, rescue(postController.getAllPosts));
 postRouter.get('/:id', validateToken, rescue(postController.getPostById));
-postRouter.put('/:id', [validateToken, validateUpdate], rescue(postController.updatePost));
+postRouter.put('/:id', validateToken, validateUpdate, rescue(postController.updatePost));
 
 module.exports = postRouter;

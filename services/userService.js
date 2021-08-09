@@ -4,7 +4,7 @@ require('dotenv/config');
 
 const secret = process.env.JWT_SECRET;
 const jwtConfig = {
-  expiresIn: '1h',
+  expiresIn: '24h',
   algorithm: 'HS256',
 };
 // algoritmo usado para assinar a mensagem (HMAC-SHA256)
