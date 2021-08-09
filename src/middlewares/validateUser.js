@@ -11,8 +11,9 @@ const schemaValidateUser = Joi.object({
 const validateDataUser = async (req, _res, next) => {
   const { displayName, email, password } = req.body;
   const validateUser = schemaValidateUser.validate({ displayName, email, password });
-  if (validateUser.error) return next({ status: HTTP_BADREQ_STATUS, err: validateUser.error.details[0].message });
-
+  if (validateUser.error) {
+    return next({ status: HTTP_BADREQ_STATUS, err: validateUser.error.details[0].message });
+  }
   return next();
 };
 
