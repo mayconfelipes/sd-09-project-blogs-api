@@ -4,15 +4,20 @@ const PostsCategory = (sequelize, _DataTypes) => {
   postsCategory.associate = (models) => {
     models.BlogPost.belongsToMany(models.Category, {
       as: 'categories',
+      // aqui parece invertido, mas é porque vamos jogar as categories dentro do post e vice versa
       through: postsCategory,
       foreignKey: 'postId',
+      // essa FK é a chave da postsCategory que vai ligar ela a chave id da blogPost
       otherKey: 'categoryId',
+      // outra chave da relação n-n
     });
     models.Category.belongsToMany(models.BlogPost, {
       as: 'posts',
       through: postsCategory,
       foreignKey: 'categoryId',
+      // essa FK é a chave da postsCategory que vai ligar ela a chave id da Category
       otherKey: 'postId',
+      // outra chave da relação n-n
     });
   };
 

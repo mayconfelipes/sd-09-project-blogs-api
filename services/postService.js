@@ -67,10 +67,29 @@ const deletePost = async (id, userId) => {
   if (!deletedPost) return true;
 };
 
+const getPostsByQuery = async (searchTerm) => {
+  // [Op.or]: {a: 5}, {a: 6}]  === (a = 5 OR a = 6)
+  // [Op.like]: '%hat' ===  LIKE '%hat'
+  const posts = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${searchTerm}%` } },
+        { content: { [Op.like]: `%${searchTerm}%` } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories' },
+    ],
+  });
+  return posts;
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   updatePost,
   deletePost,
+  getPostsByQuery,
 };
