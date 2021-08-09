@@ -7,15 +7,15 @@ module.exports = (sequelize, _DataTypes) => {
   models.Categories.belongsToMany(models.BlogPosts, {
     as: 'blogsposts',
     through: PostsCategories,
-    foreignKey: 'productId',
-    otherKey: 'selloffId',
+    foreignKey: 'categoryId',
+    otherKey: 'blogPostsId',
   });
 
-  models.Selloff.belongsToMany(models.Product, {
-    as: 'products',
-    through: SelloffProducts,
-    foreignKey: 'selloffId',
-    otherKey: 'productId',
+  models.BlogPosts.belongsToMany(models.Categories, {
+    as: 'categories',
+    through: PostsCategories,
+    foreignKey: 'blogPostsId',
+    otherKey: 'categoryId',
   });
 };
  return PostsCategories;
