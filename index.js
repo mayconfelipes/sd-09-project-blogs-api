@@ -4,8 +4,10 @@ const userValidation = require('./middlewares/validateUser');
 const loginValidation = require('./middlewares/validateLogin');
 const tokenValidation = require('./middlewares/validateToken');
 const categoryValidation = require('./middlewares/validateCategory');
+const postValidation = require('./middlewares/validatePost');
 const usersController = require('./controllers/usersController');
 const categoriesController = require('./controllers/categoriesController');
+const postsController = require('./controllers/postsController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +21,10 @@ app.get('/user', tokenValidation, usersController.getUsers);
 
 app.post('/categories', tokenValidation, categoryValidation, categoriesController.createCategory);
 app.get('/categories', tokenValidation, categoriesController.getCategories);
+
+app.post('/post', tokenValidation, postValidation, postsController.createPost);
+app.get('/post/:id', tokenValidation, postsController.getPosts);
+app.get('/post', tokenValidation, postsController.getPosts);
 
 app.use(errorMiddleware);
 
