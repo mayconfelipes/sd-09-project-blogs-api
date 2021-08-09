@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  UserController,
+  userControll,
 } = require('./controllers');
 
 const app = express();
@@ -14,7 +14,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/user', UserController);
+app.use('/user', userControll);
 
 
 app.listen(PORT, () => console.log(`Pai ta no dale na porta  ${PORT}!`));

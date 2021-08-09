@@ -1,8 +1,8 @@
 const { Router } = require('express');
 
-const { Users } = require('../models');
 const { userValidation } = require('../middlewares/userValidation');
-const { createToken, validateToken } = require('../helpers/jwt');
+const { tokenCreate, checkToken } = require('../helpers/jwt');
+const { Users } = require('../models');
 
 const router = new Router();
 
@@ -17,18 +17,18 @@ router.post('/', userValidation, async (req, res) => {
 
   await Users.create({ displayName, email, password, image });
 
-  const token = createToken(email);
+  const token = tokenCreate(email);
 
   return res.status(201).json({ token });
 });
 
-router.get('/', validateToken, async (_req, res) => {
+router.get('/', checkToken, async (_req, res) => {
   const users = await Users.findAll({});
 
   return res.status(200).json(users);
 });
 
-router.get('/:id', validateToken, async (req, res) => {
+router.get('/:id', checkToken, async (req, res) => {
   const { id } = req.params;
 
   const user = await Users.findOne({ where: { id } });
@@ -40,7 +40,7 @@ router.get('/:id', validateToken, async (req, res) => {
   return res.status(200).json(user);
 });
 
-router.delete('/me', validateToken, async (req, res) => {
+router.delete('/me', checkToken, async (req, res) => {
   const { email } = req.user;
 
   await Users.destroy({ where: { email } });

@@ -1,5 +1,5 @@
-const UserController = require('./userController');
+const userControll = require('./userController');
 
 module.exports = {
-  UserController,
+  userControll,
 };
