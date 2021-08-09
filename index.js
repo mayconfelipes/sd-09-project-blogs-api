@@ -47,6 +47,17 @@ app.get('/categories', [
   C.GetAllCategories,
 ]);
 
+app.post('/post', [
+  C.ValidateToken,
+  C.ValidateNewPost,
+  C.InsertPost,
+]);
+
+app.get('/post', [
+  C.ValidateToken,
+  C.GetAllBlogPost,
+]);
+
 app.use((err, _req, res, _next) => {
   console.error(err);
   return res.status(500).send('Algo deu errado');

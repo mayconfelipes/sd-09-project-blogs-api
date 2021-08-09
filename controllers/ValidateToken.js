@@ -13,7 +13,7 @@ const ValidateToken = async (req, res, next) => {
     const { email, password } = decoded.data;
     const find = await User.findOne({ where: { email, password } });
     if (!find) return res.status(401).json({ message: 'Expired or invalid token' });
-
+    req.id = find.id;
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Expired or invalid token' });

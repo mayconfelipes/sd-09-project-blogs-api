@@ -8,6 +8,9 @@ const GetAllUsers = require('./GetAllUsers');
 const GetUserById = require('./GetUserById');
 const InsertCategory = require('./InsertCategory');
 const GetAllCategories = require('./GetAllCategories');
+const ValidateNewPost = require('./ValidateNewPost');
+const InsertPost = require('./InsertPost');
+const GetAllBlogPost = require('./GetAllBlogPost');
 
 module.exports = {
   ValidateNewUser,
@@ -20,4 +23,7 @@ module.exports = {
   GetUserById,
   InsertCategory,
   GetAllCategories,
+  ValidateNewPost,
+  InsertPost,
+  GetAllBlogPost,
 };
