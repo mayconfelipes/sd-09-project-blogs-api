@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv');
 
-const UserService = require('../services/UserServices');
+const UserService = require('../services/UsersServices');
 
 const { HTTP_UNAUTHORIZED_STATUS } = require('../helpers/statusProtocoloHTTP');
 

@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const UserService = require('../services/UserServices');
+const UserService = require('../services/UsersServices');
 const { HTTP_CONFLIT_STATUS, HTTP_BADREQ_STATUS } = require('../helpers/statusProtocoloHTTP');
 
 const schemaValidateUser = Joi.object({
