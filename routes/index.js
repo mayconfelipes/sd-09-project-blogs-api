@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get('/user/:id', controllerUser.getUser);
 router.get('/user', controllerUser.getAllUsers);
+router.get('/categories', controllerCategory.getAllCategories);
 
 router.post('/user', middleware.validUser, controllerUser.createUsers);
 router.post('/login', middleware.createToken, controllerUser.login);

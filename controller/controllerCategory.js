@@ -9,7 +9,7 @@ const createCategory = async (req, res) => {
 
     if (!token) return res.status(401).json({ message: 'Token not found' });
     jwt.verify(token, process.env.JWT_SECRET);
-    
+
     const response = await Categories.create({ name });
     return res.status(201).json(response);
   } catch (error) {
@@ -17,4 +17,18 @@ const createCategory = async (req, res) => {
   }
 };
 
-module.exports = { createCategory };
+const getAllCategories = async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+
+    if (!token) return res.status(401).json({ message: 'Token not found' });
+    jwt.verify(token, process.env.JWT_SECRET);
+
+    const response = await Categories.findAll();
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(401).json({ message: 'Expired or invalid token' });
+  }
+};
+
+module.exports = { createCategory, getAllCategories };
