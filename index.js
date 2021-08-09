@@ -20,5 +20,4 @@ app.use('/user', userContrl);
 app.use('/login', loginContrl);
 app.use('/categories', controlCateg);
 
-
 app.listen(PORT, () => console.log(`Breja na porta ${PORT}!`));
