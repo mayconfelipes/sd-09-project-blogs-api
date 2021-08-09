@@ -4,6 +4,8 @@ const { Category } = require('../models');
 
 const create = async (name) => Category.create({ name });
 
+const getAll = async () => Category.findAll();
+
 // const login = async ({ email, password }) => {
 //   const user = await findByEmail(email);
 //   const invalidLoginData = !user || password !== user.dataValues.password;
@@ -11,8 +13,6 @@ const create = async (name) => Category.create({ name });
 //   const token = auth.createToken({ displayName: user.dataValues.displayName, email });
 //   return { token };
 // };
-
-// const getAll = async () => User.findAll();
 
 // const getById = async (id) => {
 //   const user = await User.findByPk(id);
@@ -22,7 +22,7 @@ const create = async (name) => Category.create({ name });
 
 module.exports = {
   create,
+  getAll,
   // login,
-  // getAll,
   // getById,
 };

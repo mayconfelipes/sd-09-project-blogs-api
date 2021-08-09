@@ -12,12 +12,11 @@ usersRouter.post(
   rescue(validateCategory),
   rescue(CategoryController.create),
 );
-
-// usersRouter.get(
-//   '/categories',
-//   rescue(validateToken), 
-//   rescue(UserController.getAll),
-// );
+usersRouter.get(
+  '/categories',
+  rescue(validateToken), 
+  rescue(CategoryController.getAll),
+);
 // usersRouter.get(
 //   '/categories',
 //   rescue(validateToken), 
