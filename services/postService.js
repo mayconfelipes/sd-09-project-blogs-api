@@ -42,18 +42,29 @@ const getPostById = async (id) => {
 };
 
 const verifyPostAuthor = async (postId, userId) => {
-  const postToUpdate = await getPostById(postId);
-  const user = postToUpdate.userId;
+  const user = postId.userId;
   if (user === userId) return true;
 };
 
-const updatePost = async (postId, userId, newInfo) => {
+const updatePost = async (id, userId, newInfo) => {
   const { title, content } = newInfo;
+  const postId = await getPostById(id);
+  if (!postId) throw POST_NOT_FOUND;
   const authorized = await verifyPostAuthor(postId, userId);
   if (!authorized) throw UNAUTHORIZED_USER;
-  await BlogPost.update({ title, content }, { where: { id: postId } });
-  const updatedPost = await getPostById(postId);
+  await BlogPost.update({ title, content }, { where: { id } });
+  const updatedPost = await getPostById(id);
   return updatedPost;
+};
+
+const deletePost = async (id, userId) => {
+  const postId = await getPostById(id);
+  if (!postId) throw POST_NOT_FOUND;
+  const authorized = await verifyPostAuthor(postId, userId);
+  if (!authorized) throw UNAUTHORIZED_USER;
+  await BlogPost.destroy({ where: { id } });
+  const deletedPost = await BlogPost.findOne({ where: { id } });
+  if (!deletedPost) return true;
 };
 
 module.exports = {
@@ -61,4 +72,5 @@ module.exports = {
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 };

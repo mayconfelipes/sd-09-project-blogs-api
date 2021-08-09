@@ -12,5 +12,6 @@ postRouter.post('/', validateToken, validateNewPost, rescue(postController.creat
 postRouter.get('/', validateToken, rescue(postController.getAllPosts));
 postRouter.get('/:id', validateToken, rescue(postController.getPostById));
 postRouter.put('/:id', validateToken, validateUpdate, rescue(postController.updatePost));
+postRouter.delete('/:id', validateToken, rescue(postController.deletePost));
 
 module.exports = postRouter;

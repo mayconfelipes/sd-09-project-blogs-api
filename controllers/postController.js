@@ -2,6 +2,7 @@ const postService = require('../services/postService');
 
 const CREATED = 201;
 const OK = 200;
+const NO_CONTENT = 204;
 
 const createPost = async (req, res) => {
   const newPost = req.body;
@@ -22,11 +23,18 @@ const getPostById = async (req, res) => {
 };
 
 const updatePost = async (req, res) => {
-  const { id: postId } = req.params;
+  const { id } = req.params;
   const newInfo = req.body;
   const userId = req.user.id;
-  const blogPost = await postService.updatePost(postId, userId, newInfo);
+  const blogPost = await postService.updatePost(id, userId, newInfo);
   return res.status(OK).json(blogPost);
+};
+
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  await postService.deletePost(id, userId);
+  return res.status(NO_CONTENT).json();
 };
 
 module.exports = {
@@ -34,4 +42,5 @@ module.exports = {
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 };
