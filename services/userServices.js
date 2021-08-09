@@ -19,6 +19,19 @@ const create = async (name, email, password, image) => {
   return token;
 };
 
+const getAll = async () => {
+  const users = await User.findAll();
+
+  const userData = users.map(({ dataValues }) => {
+    const { password: _, ...data } = dataValues;
+
+    return data;
+  });
+
+  return userData;
+};
+
 module.exports = { 
   create,
+  getAll,
 };
