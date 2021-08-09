@@ -8,4 +8,6 @@ router.post('/', controller.createPost);
 
 router.get('/', controller.getAllPost);
 
+router.get('/:id', controller.getPostById);
+
 module.exports = router;

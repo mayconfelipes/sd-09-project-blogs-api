@@ -8,6 +8,7 @@ const errorHandling = (error, _req, res, _next) => {
     JsonWebTokenError: 401,
     TokenExpiredError: 401,
     userDoesNotExist: 404,
+    notFound: 404,
   };
 
   const status = statusByErrorName[error.name] || INTERNAL_SERVER_ERROR;

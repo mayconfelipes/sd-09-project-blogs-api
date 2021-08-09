@@ -46,7 +46,29 @@ const getAllPost = async ({ authorization }) => {
   return posts;
 };
 
+const getPostById = async ({ authorization, id }) => {
+  const responseJTW = jwt.verify(authorization);
+  if (responseJTW.error) return responseJTW;
+
+  console.log(id);
+
+  const post = await BlogPost.findOne({ 
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  
+  if (!post) {
+    return { error: { name: 'notFound', message: 'Post does not exist' } }; 
+  }
+
+  return post.dataValues;
+};
+
 module.exports = {
   createPost,
   getAllPost,
+  getPostById,
 };
