@@ -1,6 +1,4 @@
 const Joi = require('joi');
-// const { User } = require('../models');
-const { BADREQUEST } = require('../ultils');
 
 const validateUser = (data) => {
   const schema = Joi.object({
@@ -25,7 +23,7 @@ const validateIn = async (req, res, next) => {
     const { error } = await validateUser(req.body);
   
     if (error) {
-      return res.status(BADREQUEST).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     }
     next();
   };

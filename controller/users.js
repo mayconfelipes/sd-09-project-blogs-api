@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const { CONFLICT, CREATE, INTERNERERROR, BADREQUEST, OK, NOTFOUND } = require('../ultils');
 
-const validate = require('../middlewares/user');
+const validate = require('../middlewares/users');
 const { auth } = require('../middlewares/auth');
 
 const router = express.Router();

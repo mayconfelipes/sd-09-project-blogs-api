@@ -1,5 +1,5 @@
 const PostsCategorie = (sequelize, _DataTypes) => {
-  const postsCategorie = sequelize.define('PostsCategory', {},
+  const postsCategorie = sequelize.define('PostsCategorie', {},
   { timestamps: false });
 
   postsCategorie.associate = (models) => {

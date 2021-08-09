@@ -1,25 +1,30 @@
 const jwt = require('jsonwebtoken');
-const { UNAUTHORIZED } = require('../ultils');
+
+const unauthorized = 401;
 
 const auth = async (req, res, next) => {
-    const token = req.headers.authorization;
+  const token = req.headers.authorization;
 
-    const JWT_SECRET = 'senhaforte';
+  const JWT_SECRET = 'meuSegredoSuperSecreto';
 
-    if (!token) {
-        return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
-    }
+  if (!token) {
+    return res.status(unauthorized).json({ message: 'Token not found' });
+  } 
+  
+  try {
+    const payload = jwt.verify(token, JWT_SECRET);
+    // console.log(payload, 'Payload');
 
-    try {
-        const user = jwt.verify(token, JWT_SECRET);
-        if (!user) {
-            return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
-        }
-        req.user = user;
-        return next();
-    } catch (error) {
-        return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });   
-    }
+    if (!payload) { 
+      return res.status(unauthorized).json({ message: 'Expired or invalid token' });
+    } 
+      req.user = payload;
+      return next();
+  } catch (err) {
+    return res.status(unauthorized).json({ message: 'Expired or invalid token' });
+  }
 };
 
-module.exports = { auth };
+module.exports = {
+  auth,
+};
