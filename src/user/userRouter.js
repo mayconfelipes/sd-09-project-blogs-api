@@ -2,7 +2,7 @@ const express = require('express');
 const rescue = require('express-rescue');
 const UserController = require('./userController');
 // const validateAuth = require('../middlewares/validateAuth');
-const { validateUser } = require('./userMiddleware');
+const { validateUser, validateLogin } = require('./userMiddleware');
 
 const usersRouter = express.Router();
 
@@ -11,7 +11,11 @@ usersRouter.post(
   rescue(validateUser), 
   rescue(UserController.create),
 );
-// usersRouter.post('/login', validateLogin, UsersController.login);
+usersRouter.post(
+  '/login',
+  rescue(validateLogin), 
+  rescue(UserController.login),
+);
 // usersRouter.post('/users/admin', validateAuth, validateUser, UsersController.createAdmin);
 
 module.exports = usersRouter;

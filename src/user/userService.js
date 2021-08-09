@@ -11,6 +11,15 @@ const create = async ({ displayName, email, password, image }) => {
   return { token };
 };
 
+const login = async ({ email, password }) => {
+  const user = await findByEmail(email);
+  const invalidLoginData = !user || password !== user.dataValues.password;
+  if (invalidLoginData) return { error: { type: 'invalidLoginData' } };
+  const token = auth.createToken({ displayName: user.dataValues.displayName, email });
+  return { token };
+};
+
 module.exports = {
   create,
+  login,
 };
