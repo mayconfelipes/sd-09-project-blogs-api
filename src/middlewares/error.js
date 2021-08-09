@@ -1,6 +1,8 @@
 const errorTypes = {
   userExists: { statusCode: 409, message: 'User already registered' },
   invalidLoginData: { statusCode: 400, message: 'Invalid fields' },
+  missingToken: { statusCode: 401, message: 'Token not found' },
+  invalidToken: { statusCode: 401, message: 'Expired or invalid token' },
 };
 
 module.exports = async (err, _req, res, _next) => {

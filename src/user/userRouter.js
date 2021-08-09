@@ -1,8 +1,8 @@
 const express = require('express');
 const rescue = require('express-rescue');
 const UserController = require('./userController');
-// const validateAuth = require('../middlewares/validateAuth');
 const { validateUser, validateLogin } = require('./userMiddleware');
+const { validateToken } = require('../middlewares');
 
 const usersRouter = express.Router();
 
@@ -11,11 +11,15 @@ usersRouter.post(
   rescue(validateUser), 
   rescue(UserController.create),
 );
+usersRouter.get(
+  '/user',
+  rescue(validateToken), 
+  rescue(UserController.getAll),
+);
 usersRouter.post(
   '/login',
   rescue(validateLogin), 
   rescue(UserController.login),
 );
-// usersRouter.post('/users/admin', validateAuth, validateUser, UsersController.createAdmin);
 
 module.exports = usersRouter;
