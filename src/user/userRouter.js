@@ -16,6 +16,11 @@ usersRouter.get(
   rescue(validateToken), 
   rescue(UserController.getAll),
 );
+usersRouter.get(
+  '/user/:id',
+  rescue(validateToken), 
+  rescue(UserController.getById),
+);
 usersRouter.post(
   '/login',
   rescue(validateLogin), 
