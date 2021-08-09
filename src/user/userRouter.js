@@ -1,11 +1,11 @@
 const express = require('express');
-const UsersController = require('./usersController');
+const UserController = require('./userController');
 // const validateAuth = require('../middlewares/validateAuth');
-const { validateUser } = require('./usersMiddleware');
+const { validateUser } = require('./userMiddleware');
 
 const usersRouter = express.Router();
 
-usersRouter.post('/user', validateUser, UsersController.create);
+usersRouter.post('/user', validateUser, UserController.create);
 // usersRouter.post('/login', validateLogin, UsersController.login);
 // usersRouter.post('/users/admin', validateAuth, validateUser, UsersController.createAdmin);
 
