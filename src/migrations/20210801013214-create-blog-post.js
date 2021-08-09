@@ -29,15 +29,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         field: 'published',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
         field: 'updated',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     });
   },
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface, _Sequelize) => {
     await queryInterface.dropTable('BlogPosts');
   },
 };
