@@ -1,6 +1,7 @@
+/* regex padrao gabarito / stack */
 const validateEmailRegex = (email) => /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/.test(email);
 
-const validateDisplayName = (displayName) => {
+const nameDisVal = (displayName) => {
   if (displayName.length < 8) {
     return '"displayName" length must be at least 8 characters long';
   }
@@ -20,7 +21,7 @@ const validatePassword = (password) => {
   return false;
 };
 
-const validateEmail = (email) => {
+const emailIsValid = (email) => {
   if (!email) {
     return '"email" is required';
   }
@@ -32,11 +33,11 @@ const validateEmail = (email) => {
   return false;
 };
 
-const userValidation = (req, res, next) => {
-  const { displayName, email, password } = req.body;
+const valUser = (req, res, next) => {
+  const { nameDis, email, password } = req.body;
 
-  const validation = validateDisplayName(displayName) || validatePassword(password)
-    || validateEmail(email) || false;
+  const validation = nameDisVal(nameDis) || validatePassword(password)
+    || emailIsValid(email) || false;
 
   if (validation) {
     return res.status(400).json({ message: validation });
@@ -45,4 +46,4 @@ const userValidation = (req, res, next) => {
   next();
 };
 
-module.exports = { userValidation };
+module.exports = { valUser };

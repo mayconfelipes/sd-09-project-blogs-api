@@ -16,5 +16,4 @@ app.get('/', (_request, response) => {
 
 app.use('/user', userControll);
 
-
 app.listen(PORT, () => console.log(`Pai ta no dale na porta  ${PORT}!`));

@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
-const { userValidation } = require('../middlewares/userValidation');
+const { valUser } = require('../middlewares/userValidation');
 const { tokenCreate, checkToken } = require('../helpers/jwt');
 const { Users } = require('../models');
 
 const router = new Router();
 
-router.post('/', userValidation, async (req, res) => {
+router.post('/', valUser, async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
   const user = await Users.findOne({ where: { email } });
