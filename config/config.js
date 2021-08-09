@@ -2,7 +2,7 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    username: process.env.MYSQL_USERNAME,
+    username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: 'blogs_api',
     host: process.env.MYSQL_HOSTNAME,
