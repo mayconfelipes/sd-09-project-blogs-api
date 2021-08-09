@@ -2,6 +2,7 @@ const userService = require('../services/userService');
 
 const CREATED = 201;
 const OK = 200;
+const NO_CONTENT = 204;
 
 const createUser = async (req, res) => {
   const newUser = req.body;
@@ -26,9 +27,16 @@ const getUserById = async (req, res) => {
   return res.status(OK).json(user);
 };
 
+const deleteUser = async (req, res) => {
+  const { id } = req.user;
+  await userService.deleteUser(id);
+  return res.status(NO_CONTENT).json();
+};
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
   getUserById,
+  deleteUser,
 };
