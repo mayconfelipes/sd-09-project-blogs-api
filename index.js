@@ -28,6 +28,7 @@ app.post('/login', rescue(Login));
 app.post('/categories', JwtValidator, rescue(Category.addCategory));
 app.get('/categories', JwtValidator, rescue(Category.getAllCategories));
 
+app.get('/post/:id', JwtValidator, rescue(Post.getPostById));
 app.post('/post', JwtValidator, rescue(Post.addPost));
 app.get('/post', JwtValidator, rescue(Post.getAllPosts));
 

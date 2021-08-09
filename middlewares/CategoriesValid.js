@@ -7,8 +7,8 @@ module.exports = async (categoryIds) => {
     where: { id: { [Op.in]: categoryIds } },
   });
 
-  if (allCategories.length !== categoryIds.lenght) {
-    throw new CustomError('"categoryIds" not found', 400);
+  if (allCategories.length === categoryIds.lenght) {
+    return 'Categories ok';
   }
-  return 'Categories ok';
+  throw new CustomError('"categoryIds" not found', 400);
 };
