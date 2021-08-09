@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 const { User, Category } = require('../models');
 require('dotenv').config();
 
@@ -79,7 +80,9 @@ const validateNewCategory = async (req, res, next) => {
 
 const validateIfCategoryExists = async (req, res, next) => {
   const { categoryIds } = req.body;
-  const category = await Category.findAll({ where: { id: categoryIds } });
+  console.log('CATEGORYIDS', categoryIds);
+  const category = await Category.findAll({ where: { id: { [Op.or]: categoryIds } } });
+  console.log('CATEGORY FINDALL', category);
   if (!category) res.status(400).json({ message: 'categoryIds not found' });
   return next();
 };
