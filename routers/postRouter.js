@@ -4,11 +4,13 @@ const rescue = require('express-rescue');
 const postController = require('../controllers/postController');
 const validateToken = require('../middlewares/validateToken');
 const validateNewPost = require('../middlewares/validateNewPost');
+const validateUpdate = require('../middlewares/validateUpdate');
 
 const postRouter = express.Router();
 
 postRouter.post('/', [validateToken, validateNewPost], rescue(postController.createPost));
 postRouter.get('/', validateToken, rescue(postController.getAllPosts));
 postRouter.get('/:id', validateToken, rescue(postController.getPostById));
+postRouter.put('/:id', [validateToken, validateUpdate], rescue(postController.updatePost));
 
 module.exports = postRouter;

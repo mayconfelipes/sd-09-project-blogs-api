@@ -2,7 +2,8 @@ const { Op } = require('sequelize');
 const { BlogPost, User, Category } = require('../models');
 
 const CATEGORY_NOT_FOUND = { status: 400, message: '"categoryIds" not found' };
-const POST_NOT_FOUND = { status: 404, message: 'Post does not exist'}
+const POST_NOT_FOUND = { status: 404, message: 'Post does not exist' };
+const UNAUTHORIZED_USER = { status: 401, message: 'Unauthorized user' };
 
 const verifyIfCategoryExists = async (categoryIds) => {
   const catExists = await Category.findAll({ where: { id: { [Op.in]: categoryIds } } });
@@ -40,8 +41,22 @@ const getPostById = async (id) => {
   return blogPost;
 };
 
+const verifyPostAuthor = async (postId, userId) => {
+  const postToUpdate = await getPostById(postId);
+  const user = postToUpdate.user.id;
+  if (user !== userId) return false;
+};
+
+const updatePost = async (postId, userId, info) => {
+  const authorized = await verifyPostAuthor(postId, userId);
+  if (!authorized) throw UNAUTHORIZED_USER;
+  const updatedPost = await BlogPost.update(info, { where: { postId } });
+  return updatedPost;
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };
