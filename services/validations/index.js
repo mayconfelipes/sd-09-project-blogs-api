@@ -42,7 +42,7 @@ const categoryEmpty = (categoryIds) => {
 };
 
 const isUserWhoPosted = async (userId, postId) => {
-  const { dataValues } = await BlogPost.findOne({ 
+  const response = await BlogPost.findOne({ 
     where: { id: postId },
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
@@ -51,7 +51,11 @@ const isUserWhoPosted = async (userId, postId) => {
     fields: ['userId'],
   });
 
-  if (dataValues.userId !== userId) {
+  if (!response) {
+    return { error: { name: 'notFound', message: 'Post does not exist' } };
+  }
+
+  if (response.dataValues.userId !== userId) {
     return { error: { name: 'Unauthorized', message: 'Unauthorized user' } };
   }
   

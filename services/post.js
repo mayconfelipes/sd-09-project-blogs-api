@@ -86,9 +86,26 @@ const updatePost = async ({ authorization, id, title, content, categoryIds }) =>
   return updatedPost;
 };
 
+const deletePost = async ({ authorization, id }) => {
+  const responseJTW = jwt.verify(authorization);
+  if (responseJTW.error) return responseJTW;
+
+  const { id: userId } = responseJTW.user;
+  const isUserTheSame = await validations.isUserWhoPosted(userId, id);
+  if (isUserTheSame.error) return isUserTheSame;
+
+  try {
+    await BlogPost.destroy({ where: { id } });
+    return { error: false };
+  } catch (err) {
+    return { error: { name: 'notFound', message: 'Post does not exist' } };
+  }
+};
+
 module.exports = {
   createPost,
   getAllPost,
   getPostById,
   updatePost,
+  deletePost,
 };
