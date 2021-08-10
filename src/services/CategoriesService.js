@@ -1,8 +1,8 @@
 const { Op } = require('sequelize');
-const { Categories } = require('../models');
+const { Category } = require('../models');
 
 const createCategory = async (name) => {
-  const category = await Categories.create({ name })
+  const category = await Category.create({ name })
     .then((newCategory) => newCategory.dataValues)
     .catch((error) => error);
 
@@ -10,13 +10,13 @@ const createCategory = async (name) => {
 };
 
 const getCategoriesAll = async () => {
-  const allCategories = await Categories.findAll({},
+  const allCategories = await Category.findAll({},
     { attributes: { exclude: ['createAt', 'updateAt'] } });
   return allCategories;
 }; 
 
 const existsCategoriesIds = async (categoryIds) => {
-  const categories = await Categories.findAll({ where: { id: { [Op.in]: categoryIds } } });
+  const categories = await Category.findAll({ where: { id: { [Op.in]: categoryIds } } });
   return categories.length === categoryIds.length;
 };
 

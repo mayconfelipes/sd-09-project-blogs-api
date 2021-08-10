@@ -1,6 +1,6 @@
 const express = require('express');
 const PostService = require('../services/PostService');
-const { HTTP_CREATED_STATUS } = require('../helpers/statusProtocoloHTTP');
+const { HTTP_CREATED_STATUS, HTTP_OK_STATUS } = require('../helpers/statusProtocoloHTTP');
 const { validateToken } = require('../middlewares/validateToken');
 const { categoryExists, validateDataPost } = require('../middlewares/validatePost');
 
@@ -18,4 +18,13 @@ try {
 }
 });
 
+PostRoute.get('/', validateToken,
+ async (_req, res, next) => {
+try {
+  const post = await PostService.getPostsAll();
+  return res.status(HTTP_OK_STATUS).json(post);
+} catch (error) {
+  return next(error);
+}
+});
 module.exports = PostRoute;

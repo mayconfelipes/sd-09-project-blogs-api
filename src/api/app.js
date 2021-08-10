@@ -6,4 +6,4 @@ const route = require('../routes/routes');
 const app = express();
 app.use(bodyParser.json());
 app.use(route);
-module.exports = app; 
+module.exports = app;

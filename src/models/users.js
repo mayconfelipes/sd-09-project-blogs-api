@@ -7,11 +7,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
     underscored: true,
-    tableName: 'Users',
   });
   User.associate = (models) => {
     User.hasOne(models.BlogPost,
-      { foreignKey: 'user_id', as: 'blogposts' });
+      { foreignKey: 'userId', as: 'blogposts' });
   };
 
   return User;
