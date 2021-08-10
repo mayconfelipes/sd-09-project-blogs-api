@@ -9,8 +9,11 @@ const createPost = async (userId, title, content) => {
 };
 
 const getPostsAll = async () => {
-const post = await BlogPost.findAll({ include: [{ model: User, as: 'user' },
-{ model: Category, as: 'categories', through: { attributes: [] } }] });
+const post = await BlogPost.findAll({ 
+  include: [{ 
+    model: User, as: 'user' },
+{ 
+  model: Category, as: 'categories', through: { attributes: [] } }] });
 return post;
 };
   module.exports = { 
