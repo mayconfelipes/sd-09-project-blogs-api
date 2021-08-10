@@ -4,6 +4,7 @@ require('dotenv');
 // const { User } = require('./models');
 const userController = require('./controllers/userController');
 const categoryController = require('./controllers/categoryController');
+const blogPostController = require('./controllers/blogPostController');
 const { isValidToken } = require('./middlewares/validateToken');
 const error = require('./services/error');
 
@@ -18,13 +19,12 @@ app.get('/user', isValidToken, userController.getAll);
 app.get('/user/:id', isValidToken, userController.getById);
 app.post('/categories/', isValidToken, categoryController.createCategory);
 app.get('/categories', isValidToken, categoryController.getAllCategories);
+app.post('/post', isValidToken, blogPostController.createBlogPost);
 
 app.use((err, _req, res, _next) => {
   if (err.status) return res.status(err.status).json({ message: err.message });
   if (err.name === 'JsonWebTokenError') {
-    return res.status(401).json({
-      message: error.expiredOrInvalidToken.message,
-    });
+    return res.status(401).json(error.expiredOrInvalidToken);
   }
   if (!err.status) return res.status(500).json(err.message);
 });

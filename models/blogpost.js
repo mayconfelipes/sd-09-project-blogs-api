@@ -1,18 +1,20 @@
-module.exports = (sequelize, _DataTypes) => {
-  const BlogPost = sequelize.define('BlogPost', {}, { timestamps: true });
-  BlogPost.associate = (models) => {
-    models.User.hasOne(models.BlogPost, {
-      as: 'blogPosts',
-      through: BlogPost,
-      foreignKey: 'userId',
-      otherKey: 'id',
-    });
-    models.BlogPost.belongsToMany(models.User, {
+module.exports = (sequelize, DataTypes) => {
+  const BlogPosts = sequelize.define('BlogPosts',
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    content: DataTypes.STRING,
+    title: DataTypes.STRING,
+  },
+  { timestamps: false,
+    tableName: 'BlogPosts',
+  });
+  BlogPosts.associate = (models) => {
+    models.BlogPosts.belongsTo(models.User, {
       as: 'users',
-      through: BlogPost,
-      foreignKey: 'id',
-      otherKey: 'userId',
+      foreignKey: 'userId',
+      // through: BlogPosts, // só eh utilizado no N to N
+      // otherKey: 'userId', // só eh utilizado no N to N
     });
   };
-  return BlogPost;
+  return BlogPosts;
 };

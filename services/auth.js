@@ -16,7 +16,6 @@ const generateToken = (email, password) => {
 };
 
 const isInvalidLogin = async (email, password) => {
-  console.log(email, password);
   if (email === '') return error.emptyEmail;
   if (!email) return error.requiredEmail;
   if (password === '') return error.emptyPassword;
@@ -26,7 +25,6 @@ const isInvalidLogin = async (email, password) => {
 
 const validateToken = async (authorization) => {
   if (!authorization) throw error.tokenNotFound;
-  // jwt.verify(authorization, SECRET);
   const extractToken = jwt.verify(authorization, SECRET);
   const userEmail = await User.findOne({ where: { email: extractToken.email } });
   if (userEmail) return true;

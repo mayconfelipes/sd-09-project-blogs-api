@@ -11,9 +11,10 @@ const isValidToken = rescue(async (req, _res, next) => {
   if (!authorization) throw error.tokenNotFound;
   // jwt.verify(authorization, SECRET);
   const extractToken = jwt.verify(authorization, SECRET);
-  const userEmail = await User.findOne({ where: { email: extractToken.email } });
-  if (userEmail) return next();
-  return true;
+  const user = await User.findOne({ where: { email: extractToken.email } });
+  if (!user) return false;
+  req.user = user.id;
+  return next();
 });
 
 module.exports = {

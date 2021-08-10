@@ -58,8 +58,28 @@ const userNotFound = {
   status: 404,
 };
 
+const CategoryIdNotFound = {
+  message: '"categoryIds" not found',
+  status: 400,
+};
+
 const requiredName = {
   message: '"name" is required',
+  status: 400,
+};
+
+const requiredTitle = {
+  message: '"title" is required',
+  status: 400,
+};
+
+const requiredCategoryId = {
+  message: '"categoryIds" is required',
+  status: 400,
+};
+
+const requiredContent = {
+  message: '"content" is required',
   status: 400,
 };
 
@@ -77,4 +97,8 @@ module.exports = {
   expiredOrInvalidToken,
   userNotFound,
   requiredName,
+  requiredTitle,
+  requiredCategoryId,
+  requiredContent,
+  CategoryIdNotFound,
 };

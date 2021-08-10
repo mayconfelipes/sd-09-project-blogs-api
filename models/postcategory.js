@@ -1,17 +1,19 @@
-module.exports = (sequelize, _DataTypes) => {
-  const PostCategory = sequelize.define('PostCategory', {}, { timestamps: false });
+module.exports = (sequelize, DataTypes) => {
+  const PostCategory = sequelize.define('PostCategory',
+   { postId: DataTypes.INTEGER, categoryId: DataTypes.INTEGER },
+   { timestamps: false, tableName: 'PostCategories' });
   PostCategory.associate = (models) => {
-    models.PostCategory.belongsToMany(models.User, {
+    models.BlogPosts.belongsToMany(models.Category, {
       as: 'categories',
       through: PostCategory,
-      foreignKey: 'id',
-      otherKey: 'userId',
-    });
-    models.PostCategory.hasOne(models.BlogPost, {
-      as: 'blogPosts',
-      through: PostCategory,
       foreignKey: 'postId',
-      otherKey: 'CategoryId',
+      otherKey: 'categoryId',
+    });
+    models.Category.belongsToMany(models.BlogPosts, {
+      as: 'BlogPosts',
+      through: PostCategory,
+      foreignKey: 'categoryId', // é preciso linkar as 2 tabelas por isso pega a infos da associate acima.
+      otherKey: 'postId', // id do BlogPosts
     });
   };
   return PostCategory;
