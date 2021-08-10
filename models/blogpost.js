@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   BlogPosts.associate = (models) => {
     models.BlogPosts.belongsTo(models.User, {
-      as: 'users',
+      as: 'user',
       foreignKey: 'userId',
       // through: BlogPosts, // só eh utilizado no N to N
       // otherKey: 'userId', // só eh utilizado no N to N
