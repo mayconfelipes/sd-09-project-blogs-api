@@ -9,7 +9,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-          model: 'blogPosts', // nome da tabela
+          model: 'BlogPosts', // nome da tabela
           key: 'id'
         },
       },
@@ -20,7 +20,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-          model: 'categories',
+          model: 'Categories',
           key: 'id'
         },
       },
