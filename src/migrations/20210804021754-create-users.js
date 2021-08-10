@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      displayName: { type: Sequelize.STRING, field: 'display_name' },
+      displayName: { type: Sequelize.STRING },
       email: { type: Sequelize.STRING },
       password: { type: Sequelize.STRING },
       image: { type: Sequelize.STRING },
