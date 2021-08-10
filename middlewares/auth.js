@@ -1,30 +1,24 @@
 const jwt = require('jsonwebtoken');
 
-const unauthorized = 401;
-
 const auth = async (req, res, next) => {
-  const token = req.headers.authorization;
+    const token = req.headers.authorization;
 
-  const JWT_SECRET = 'meuSegredoSuperSecreto';
+    const JWT_SECRET = 'senhaforte';
 
-  if (!token) {
-    return res.status(unauthorized).json({ message: 'Token not found' });
-  } 
-  
-  try {
-    const payload = jwt.verify(token, JWT_SECRET);
-    // console.log(payload, 'Payload');
+    if (!token) {
+        return res.status(401).json({ message: 'Token not found' });
+    }
 
-    if (!payload) { 
-      return res.status(unauthorized).json({ message: 'Expired or invalid token' });
-    } 
-      req.user = payload;
-      return next();
-  } catch (err) {
-    return res.status(unauthorized).json({ message: 'Expired or invalid token' });
-  }
+    try {
+        const user = jwt.verify(token, JWT_SECRET);
+        if (!user) {
+            return res.status(401).json({ message: 'Expired or invalid token' });
+        }
+        req.user = user;
+        return next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Expired or invalid token' });   
+    }
 };
 
-module.exports = {
-  auth,
-};
+module.exports = { auth };

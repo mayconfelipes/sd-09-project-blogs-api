@@ -3,7 +3,6 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
-const { CONFLICT, CREATE, INTERNERERROR, BADREQUEST, OK, NOTFOUND } = require('../ultils');
 
 const validate = require('../middlewares/users');
 const { auth } = require('../middlewares/auth');
@@ -20,12 +19,12 @@ const jwtConfig = {
 router.post('/', validate.validateIn, async (req, res) => {
     const { displayName, email, password, image } = req.body;
     if (!password) { 
-        return res.status(BADREQUEST).json({ message: '"password" is required' }); 
+        return res.status(400).json({ message: '"password" is required' }); 
       }
    
     const verifyEmail = await User.findOne({ where: { email } });
    
-    if (verifyEmail) return res.status(CONFLICT).json({ message: 'User already registered' });
+    if (verifyEmail) return res.status(409).json({ message: 'User already registered' });
 
     try {
         const newUser = await User.create({ displayName, email, password, image });
@@ -35,19 +34,19 @@ router.post('/', validate.validateIn, async (req, res) => {
         
         const token = jwt.sign(user, JWT_SECRET, jwtConfig);
     
-        return res.status(CREATE).json({ token });
+        return res.status(201).json({ token });
       } catch (e) {
         console.log(e.message);
-        res.status(INTERNERERROR).json({ message: 'Algo deu errado' });
+       return res.status(500).json({ message: 'Algo deu errado' });
       }
 });
 
 router.get('/', auth, async (req, res) => {
     try {
         const getAll = await User.findAll();
-        return res.status(OK).json(getAll);
+        return res.status(200).json(getAll);
     } catch (error) {
-        res.status(INTERNERERROR).json(error);
+       return res.status(500).json(error);
     }
 });
 
@@ -58,11 +57,11 @@ router.get('/:id', auth, async (req, res) => {
         const getByid = await User.findByPk(id);
 
         if (!getByid) {
-            return res.status(NOTFOUND).json({ message: 'User does not exist' });
+            return res.status(404).json({ message: 'User does not exist' });
         }
-        return res.status(OK).json(getByid);
+        return res.status(200).json(getByid);
     } catch (error) {
-        return res.status(INTERNERERROR).json(error);
+        return res.status(500).json(error);
     }
 });
 
