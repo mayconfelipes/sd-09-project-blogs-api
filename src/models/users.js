@@ -8,9 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
   User.associate = (models) => {
-    User.hasOne(models.BlogPost,
-      { foreignKey: 'userId', as: 'blogposts' });
+    User.hasMany(models.BlogPost,
+      { foreignKey: 'userId', as: 'users' });
   };
+  // associação as é o apelido
+  // é o mesmo da blogPost
 
   return User;
 };
