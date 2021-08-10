@@ -34,7 +34,7 @@ const userExists = async (req, _res, next) => {
 const userIdExists = async (req, res, next) => {
   const { id } = req.params;
   const user = await UserService.findUserById(id);
-  if (!user) return next({ status: HTTP_NOTFOUND_STATUS, err: 'User does not exists' });
+  if (!user) return next({ status: HTTP_NOTFOUND_STATUS, err: 'User does not exist' });
   // guarda dados do usuario, para evitar acessar banco de dados no next
   req.user = user;
   return next();
