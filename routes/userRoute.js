@@ -10,4 +10,6 @@ router.get('/', userController.getUsers);
 
 router.get('/:id', userController.getUser);
 
+router.delete('/me', userController.deleteUser);
+
 module.exports = router;

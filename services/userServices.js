@@ -67,8 +67,20 @@ const getAllUsers = async (authorization) => {
   return { error: { name: 'userDoesNotExist', message } };
  };
 
+ const deleteUser = async ({ authorization }) => {
+  const responseJWT = jwt.verify(authorization);
+  console.log(responseJWT);
+  if (responseJWT.error) return responseJWT;
+
+  const { id } = responseJWT.user;
+  const result = await User.destroy({ where: { id } });
+  if (result) return { error: false };
+  return { error: { name: 'Unauthorized', message: 'User not deleted' } };
+ };
+
 module.exports = {
   addUser,
   getAllUsers,
   getUserById,
+  deleteUser,
 };
