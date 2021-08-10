@@ -1,20 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { User } = require('./models/index');
+const { userRouter } = require('./routes');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (_req, res) => {
-  User.findAll().then((data) => {
-    res.status(200).json(data);
-  }).catch((e) => {
-    console.log(e.message);
-    res.status(500).json({ message: 'Algo deu Errado!' });
-  });
-});
+app.use('/user', userRouter);
 
 const PORT = process.env.PORT || 3000;
 
