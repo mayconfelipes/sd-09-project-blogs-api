@@ -10,8 +10,7 @@ const createCategory = async (name) => {
 };
 
 const getCategoriesAll = async () => {
-  const allCategories = await Category.findAll({},
-    { attributes: { exclude: ['createAt', 'updateAt'] } });
+  const allCategories = await Category.findAll({});
   return allCategories;
 }; 
 

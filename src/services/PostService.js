@@ -12,13 +12,14 @@ const getPostsAll = async () => {
   const post = await BlogPost.findAll({
     include: [{
         model: User,
-        as: 'users',
+        as: 'user',
+        attributes: { excludes: ['password'] },
      },
      {
-        model: Category,
-        as: 'categories',
-        through: { attributes: [] },
-      },
+      model: Category,
+      as: 'categories',
+      through: { attributes: [] },
+     },
     ],
   });
   return post;
