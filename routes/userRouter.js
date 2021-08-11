@@ -25,4 +25,4 @@ router.post('/', validateNewUserInput, (req, res) => {
   });
 });
 
-  module.exports = router;
+module.exports = router;
