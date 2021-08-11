@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { Users } = require('../models');
 
 const newUserSchema = Joi.object({
   dislayName: Joi.string().min(8).max(64).required(),
@@ -9,6 +10,8 @@ const newUserSchema = Joi.object({
 
 const checkNewUser = (params) => newUserSchema.validate(params);
 
-const getUser = () => {};
+const getUser = async (email) => Users.findOne({ where: { email } });
 
-module.exports = { checkNewUser, getUser };
+const createUser = async (user) => Users.create(user);
+
+module.exports = { checkNewUser, getUser, createUser };
