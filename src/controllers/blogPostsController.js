@@ -1,6 +1,10 @@
 const express = require('express');
-const { validateToken } = require('../middlewares/auth');
-const { addBlogPost, getAllBlogPosts, getBlogPostById } = require('../services/blogPostsServices');
+const { validateToken, validateUSerPrivilege } = require('../middlewares/auth');
+const {
+  addBlogPost,
+  getAllBlogPosts,
+  getBlogPostById,
+  editBlogPost } = require('../services/blogPostsServices');
 
 const router = express.Router();
 
@@ -39,8 +43,14 @@ router.post('/', validateToken, async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
-  res.status(200).json({ item: 'ok' });
+router.put('/:id', validateToken, validateUSerPrivilege, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blogPost = await editBlogPost(id, req.body);
+    res.status(200).json(blogPost);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
 router.delete('/id', (req, res) => {

@@ -9,6 +9,11 @@ const blogPostSchema = Joi.object({
   userId: Joi.number().required(),
 });
 
+const editBlogPostSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+});
+
 const config = require('../config/config');
 const { getAllCategories } = require('./categoriesServices');
 const { getAllUsers, getUserById } = require('./usersServices');
@@ -88,8 +93,29 @@ const addBlogPost = async (blogPostData) => {
   }
 };
 
+const editBlogPost = async (id, blogPostData) => {
+  if (blogPostData && blogPostData.categoryIds) throw new Error('Categories cannot be edited');
+  const { error } = editBlogPostSchema.validate(blogPostData);
+  if (error) throw new Error(error.details[0].message);
+  const { title, content } = blogPostData;
+  await BlogPost.update({ title, content }, { where: { id } });
+  const blogPostUpdated = await BlogPost.findOne({ where: { id } });
+  const blogPost = blogPostUpdated.dataValues;
+  const postId = id;
+  const postCategories = await PostsCategories.findAll({ where: { postId } });
+  const allCategories = await getAllCategories();
+  const categories = postCategories.map((postCategory) => {
+    const category = allCategories.find((cat) => cat.id === postCategory.categoryId);
+    return category;
+  });
+  blogPost.categories = categories;
+  delete blogPost.UserId;
+  return blogPost;
+};
+
 module.exports = {
   getAllBlogPosts,
   getBlogPostById,
   addBlogPost,
+  editBlogPost,
 };

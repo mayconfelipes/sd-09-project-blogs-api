@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
+const { getBlogPostById } = require('../services/blogPostsServices');
 const { getUserByEmail } = require('../services/usersServices');
 
 const secret = 'ran0405069miifjurdo43423zeuuADPlus';
@@ -71,9 +72,22 @@ const validateToken = async (req, res, next) => {
   }
 };
 
+const validateUSerPrivilege = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+    const blogpost = await getBlogPostById(id);
+    if (userId !== blogpost.userId) throw new Error('Unauthorized user');
+    next();
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
+
 module.exports = {
   authorizeLogin,
   generateToken,
   validateToken,
+  validateUSerPrivilege,
   verifyToken,
 };
