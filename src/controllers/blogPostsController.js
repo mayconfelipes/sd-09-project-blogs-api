@@ -5,13 +5,24 @@ const {
   getAllBlogPosts,
   getBlogPostById,
   editBlogPost, 
-  removeBlogPost } = require('../services/blogPostsServices');
+  removeBlogPost, 
+  getPostsBySearchTerm } = require('../services/blogPostsServices');
 
 const router = express.Router();
 
 router.get('/', validateToken, async (req, res) => {
   try {
     const blogPosts = await getAllBlogPosts();
+    res.status(200).json(blogPosts);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+router.get('/search', validateToken, async (req, res) => {
+  try {
+    const searchTerm = req.query.q;
+    const blogPosts = await getPostsBySearchTerm(searchTerm);
     res.status(200).json(blogPosts);
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
@@ -26,10 +37,6 @@ router.get('/:id', validateToken, async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-});
-
-router.get('/search', (req, res) => {
-  res.status(200).json({ item: 'ok' });
 });
 
 router.post('/', validateToken, async (req, res) => {

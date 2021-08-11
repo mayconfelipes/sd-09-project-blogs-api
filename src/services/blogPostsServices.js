@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const Joi = require('joi');
 const { BlogPost, PostsCategories } = require('../models');
 
@@ -65,6 +66,27 @@ const getBlogPostById = async (id) => {
   return newBlogPost;
 };
 
+const getPostsBySearchTerm = async (searchTerm) => {
+  const users = await getAllUsers();
+  const allCategories = await getAllCategories();
+  const allPostsCategories = await PostsCategories.findAll();
+  const blogPosts = await BlogPost.findAll({ where: { [Op.or]: [
+          { title: { [Op.substring]: searchTerm } }, { content: { [Op.substring]: searchTerm } },
+        ] } });
+  const blogPostsReport = blogPosts.map((blogPost) => {
+    const user = users.find((us) => us.id === blogPost.userId);
+    const newBlogPost = formatBlogPostObject(user, blogPost.dataValues);
+    const postsCategories = allPostsCategories.filter((postCat) => postCat.postId === blogPost.id);
+    const categories = postsCategories.map((postsCategory) => {
+      const category = allCategories.find((cat) => cat.id === postsCategory.categoryId);
+      return category;
+  });
+  newBlogPost.categories = categories;
+  return newBlogPost;
+  });
+  return blogPostsReport;
+};
+
 const validateCategories = async (categoryIds) => {
   const allCategories = await getAllCategories();
   let isValid = true;
@@ -121,6 +143,7 @@ const removeBlogPost = async (id) => {
 module.exports = {
   getAllBlogPosts,
   getBlogPostById,
+  getPostsBySearchTerm,
   addBlogPost,
   editBlogPost,
   removeBlogPost,
