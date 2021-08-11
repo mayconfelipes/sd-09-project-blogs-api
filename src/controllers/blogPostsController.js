@@ -1,11 +1,16 @@
 const express = require('express');
 const { validateToken } = require('../middlewares/auth');
-const { addBlogPost } = require('../services/blogPostsServices');
+const { addBlogPost, getAllBlogPosts } = require('../services/blogPostsServices');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({ item: 'ok' });
+router.get('/', validateToken, async (req, res) => {
+  try {
+    const blogPosts = await getAllBlogPosts();
+    res.status(200).json(blogPosts);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
 
 router.get('/:id', (req, res) => {

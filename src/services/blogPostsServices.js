@@ -11,10 +11,35 @@ const blogPostSchema = Joi.object({
 
 const config = require('../config/config');
 const { getAllCategories } = require('./categoriesServices');
+const { getAllUsers } = require('./usersServices');
 
 const sequelize = new Sequelize(config.development);
 let promises = [];
-const getAllBloPosts = () => (BlogPost.findAll());
+const formatBlogPostObject = (user, blogPost) => {
+  const newBlogPost = { ...blogPost, user };
+  delete newBlogPost.UserId;
+  return newBlogPost;
+};
+const getAllBlogPosts = async () => {
+  const blogPosts = await BlogPost.findAll();
+  const users = await getAllUsers();
+  const allCategories = await getAllCategories();
+  const allPostsCategories = await PostsCategories.findAll();
+  const blogPostsReport = blogPosts.map((blogpost) => {
+    const user = users.find((us) => us.id === blogpost.userId);
+    const newBlogPost = formatBlogPostObject(user, blogpost.dataValues);
+    const postsCategories = allPostsCategories.filter(
+      (postCategory) => postCategory.postId === blogpost.id,
+    );
+    const categories = postsCategories.map((postsCategory) => {
+        const category = allCategories.find((cat) => cat.id === postsCategory.categoryId);
+        return category;
+    });
+    newBlogPost.categories = categories;
+    return newBlogPost;
+  });
+  return blogPostsReport;
+};
 const getBlogPostById = (id) => (BlogPost.findOne({ where: { id } }));
 const validateCategories = async (categoryIds) => {
   const allCategories = await getAllCategories();
@@ -44,7 +69,7 @@ const addBlogPost = async (blogPostData) => {
 };
 
 module.exports = {
-  getAllBloPosts,
+  getAllBlogPosts,
   getBlogPostById,
   addBlogPost,
 };
