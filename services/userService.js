@@ -1,9 +1,8 @@
 const {
-  user,
+  User,
 } = require('../models');
-require('dotenv/config');
 
-const { userModel } = require('../models/user');
+require('dotenv/config');
 
 const ERROR_EMAIL_AE = {
   status: 409,
@@ -11,7 +10,7 @@ const ERROR_EMAIL_AE = {
 };
 
 const verifyIfEmailAlreadyExists = async (email) => {
-  const emailAlreadyExists = await user.findOne({
+  const emailAlreadyExists = await User.findOne({
     where: {
       email,
     },
@@ -24,7 +23,7 @@ const createUser = async (newUser) => {
   const emailAlreadyExists = await verifyIfEmailAlreadyExists(email);
 
   if (emailAlreadyExists) throw ERROR_EMAIL_AE;
-  const userToCreate = await userModel.create(newUser);
+  const userToCreate = await User.create(newUser);
   return userToCreate;
 };
 

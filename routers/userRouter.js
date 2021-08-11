@@ -1,5 +1,5 @@
-const express = require('express');
 const rescue = require('express-rescue');
+const express = require('express');
 
 const {
   createUserController,
