@@ -6,10 +6,10 @@ const router = express.Router();
 
 router.get('/', (_req, res) => {
     User.findAll().then((data) => {
-      res.status(200).json(data);
+      return res.status(200).json(data);
     }).catch((e) => {
       console.log(e.message);
-      res.status(500).json({ message: 'Algo deu Errado!' });
+      return res.status(500).json({ message: 'Algo deu Errado!' });
     });
 });
 
@@ -18,10 +18,10 @@ router.post('/', validateNewUserInput, (req, res) => {
   const newUserInfo = { displayName, email, password, image };
 
   User.create(newUserInfo).then(() => {
-    res.status(201).send({ token: tokenGenerator(newUserInfo) });
+    return res.status(201).send({ token: tokenGenerator(newUserInfo) });
   }).catch((e) => {
     console.log(e.message);
-    res.status(304).send({ message: 'Novo usuário não foi cadastrado. Algo deu Errado' });
+    return res.status(304).send({ message: 'Novo usuário não foi cadastrado. Algo deu Errado' });
   });
 });
 
