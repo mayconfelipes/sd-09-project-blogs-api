@@ -20,10 +20,10 @@ const getAll = rescue(async (req, res) => {
 });
 
 const getById = rescue(async (req, res, next) => {
-    const { id } = req.params;
-    const result = await getUserById(id);
-    if (result.status) return next(result);
-    res.status(200).json(result);
+  const { id } = req.params;
+  const result = await getUserById(id);
+  if (result.status) return next(result);
+  res.status(200).json(result);
 });
 
 module.exports = {

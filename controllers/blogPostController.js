@@ -2,8 +2,7 @@ const rescue = require('express-rescue');
 const { createPostServ, getAllPostsServ } = require('../services/blogPostService');
 
 const createBlogPost = rescue(async (req, res) => {
-  const userId = req.user;
-  const result = await createPostServ(req.body, userId);
+  const result = await createPostServ(req.body, req.user);
   // if (result.status) return next(result);
   return res.status(201).json(result);
 });

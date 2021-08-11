@@ -32,12 +32,13 @@ const logIn = async ({ email, password }) => {
 };
 
 const getAllUsers = async () => {
-  const result = await User.findAll();
+  const result = await User.findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
   return result;
 };
 
 const getUserById = async (id) => { 
-  const result = await User.findByPk(id);
+  
+  const result = await User.findByPk(id, { attributes: ['id', 'displayName', 'email', 'image'] });
   if (!result) return error.userNotFound;
   return result;
 };
