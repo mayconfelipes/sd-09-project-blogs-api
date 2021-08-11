@@ -7,14 +7,14 @@ const newUser = rescue(async (req, res) => {
   const { error } = checkNewUser({ displayName, email, password, image });
   if (error) return res.status(400).json(error.message);
 
-  const [user] = await getUser(email);
-  console.log(user);
+  const user = await getUser(email);
   if (user) return res.status(409).json({ message: 'User already registered' });
 
   const created = await createUser({ displayName, email, password, image });
   if (created.err) return res.status(500).json({ message: created.err.message });
 
-  return req.token;
+  req.token = 'token';
+  return res.status(201).json(req.token);
 });
 
 module.exports = { newUser };
