@@ -37,9 +37,19 @@ const addUser = async (user) => {
   return { newUser, response: responseCodes.created };
 };
 
+const removeUser = async (id) => {
+  try {
+    await User.destroy({ where: { id } });
+    return 0;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   getUserByEmail,
   addUser,
+  removeUser,
 };

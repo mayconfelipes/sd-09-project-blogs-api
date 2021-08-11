@@ -48,7 +48,7 @@ router.put('/:id', validateToken, validateUSerPrivilege, async (req, res) => {
   try {
     const { id } = req.params;
     const blogPost = await editBlogPost(id, req.body);
-    res.status(204).json(blogPost);
+    res.status(200).json(blogPost);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

@@ -1,6 +1,6 @@
 const express = require('express');
 const { generateToken, validateToken } = require('../middlewares/auth');
-const { getAllUsers, addUser, getUserById } = require('../services/usersServices');
+const { getAllUsers, addUser, getUserById, removeUser } = require('../services/usersServices');
 
 const router = express.Router();
 
@@ -37,8 +37,13 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.delete('/me', (req, res) => {
-  res.status(200).json({ item: 'ok' });
+router.delete('/me', validateToken, async (req, res) => {
+  try {
+    await removeUser(req.user.id);
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
 
 module.exports = router;
