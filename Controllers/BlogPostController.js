@@ -6,18 +6,19 @@ const addPost = rescue(async (req, res, _next) => {
     body: req.body,
     user: req.user,
   };
-  await BlogPostService.addPost(dataPost);
-  res.status(201).json(dataPost);
+  const post = await BlogPostService.addPost(dataPost);
+  res.status(201).json(post);
 });
 
 const getAllPosts = rescue(async (req, res, _next) => {
- const name = req.body;
- res.status(200).json(name);
+ const listPost = await BlogPostService.findAll();
+ res.status(200).json(listPost);
 });
 
 const getPostById = rescue(async (req, res, _next) => {
-  const postId = req.params;
-  res.status(200).json(postId);
+  const postId = req.params.id;
+  const result = await BlogPostService.findById(postId);
+  res.status(200).json(result);
 });
 
 const updatedPost = rescue(async (req, res, _next) => {
