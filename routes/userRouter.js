@@ -1,5 +1,6 @@
 const express = require('express');
 const { User } = require('../models/index');
+const { tokenGenerator, validateNewUserInput } = require('../middlewares/index');
 
 const router = express.Router();
 
@@ -10,18 +11,18 @@ router.get('/', (_req, res) => {
       console.log(e.message);
       res.status(500).json({ message: 'Algo deu Errado!' });
     });
-  });
+});
 
-  router.post('/', (req, res) => {
-    const { displayName, email, password, image } = req.body;
-    const newUserInfo = { displayName, email, password, image };
+router.post('/', validateNewUserInput, (req, res) => {
+  const { displayName, email, password, image } = req.body;
+  const newUserInfo = { displayName, email, password, image };
 
-    User.create(newUserInfo).then(() => {
-      res.status(201).send({ message: 'Token' });
-    }).catch((e) => {
-      console.log(e.message);
-      res.status(304).send({ message: 'Novo usuário não foi cadastrado. Algo deu Errado' });
-    });
+  User.create(newUserInfo).then(() => {
+    res.status(201).send({ token: tokenGenerator(newUserInfo) });
+  }).catch((e) => {
+    console.log(e.message);
+    res.status(304).send({ message: 'Novo usuário não foi cadastrado. Algo deu Errado' });
   });
+});
 
   module.exports = router;
