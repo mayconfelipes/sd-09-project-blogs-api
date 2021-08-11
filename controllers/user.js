@@ -13,8 +13,7 @@ const newUser = rescue(async (req, res) => {
   const created = await createUser({ displayName, email, password, image });
   if (created.err) return res.status(500).json({ message: created.err.message });
 
-  req.token = 'token';
-  return res.status(201).json(req.token);
+  return res.status(201).json({ token: req.token });
 });
 
 module.exports = { newUser };
