@@ -4,4 +4,4 @@ const Categories = (sequelize, DataTypes) => (
   })
 );
 
-module.export = Categories;
+module.exports = Categories;

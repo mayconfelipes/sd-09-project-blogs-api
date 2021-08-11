@@ -7,11 +7,11 @@ module.exports = (sequelize, _DataTypes) => {
   PostsCategories.associate = (models) => {
     PostsCategories.belongsTo(
       models.Categories,
-      { foreignKey: 'categoryId', as: 'categoryId' },
+      { foreignKey: 'id', as: 'categoryId' },
     );
     PostsCategories.belongsTo(
       models.BlogPosts,
-      { foreignKey: 'postId', as: 'postId' },
+      { foreignKey: 'id', as: 'postId' },
     );
   };
   return PostsCategories;

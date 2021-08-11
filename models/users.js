@@ -7,4 +7,4 @@ const Users = (sequelize, DataTypes) => (
   })
 );
 
-module.export = Users;
+module.exports = Users;

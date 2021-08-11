@@ -6,6 +6,7 @@ const post = require('./routes/post');
 const categories = require('./routes/categories');
 
 const app = express();
+app.use(express.json());
 
 app.use('/user', user);
 app.use('/login', login);
@@ -17,5 +18,5 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-const PORT = process.env.PORT || 3000;
+const { PORT } = process.env;
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
