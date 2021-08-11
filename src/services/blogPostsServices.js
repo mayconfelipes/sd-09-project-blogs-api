@@ -11,15 +11,17 @@ const blogPostSchema = Joi.object({
 
 const config = require('../config/config');
 const { getAllCategories } = require('./categoriesServices');
-const { getAllUsers } = require('./usersServices');
+const { getAllUsers, getUserById } = require('./usersServices');
 
 const sequelize = new Sequelize(config.development);
 let promises = [];
+
 const formatBlogPostObject = (user, blogPost) => {
   const newBlogPost = { ...blogPost, user };
   delete newBlogPost.UserId;
   return newBlogPost;
 };
+
 const getAllBlogPosts = async () => {
   const blogPosts = await BlogPost.findAll();
   const users = await getAllUsers();
@@ -40,7 +42,24 @@ const getAllBlogPosts = async () => {
   });
   return blogPostsReport;
 };
-const getBlogPostById = (id) => (BlogPost.findOne({ where: { id } }));
+
+const getBlogPostById = async (id) => {
+  const blogPost = await BlogPost.findOne({ where: { id } });
+  if (!blogPost) throw new Error('Post does not exist');
+  const postId = blogPost.id;
+  const { userId } = blogPost;
+  const user = await getUserById(userId);
+  const newBlogPost = formatBlogPostObject(user, blogPost.dataValues);
+  const postCategories = await PostsCategories.findAll({ where: { postId } });
+  const allCategories = await getAllCategories();
+  const categories = postCategories.map((postCategory) => {
+    const category = allCategories.find((cat) => cat.id === postCategory.categoryId);
+    return category;
+  });
+  newBlogPost.categories = categories;
+  return newBlogPost;
+};
+
 const validateCategories = async (categoryIds) => {
   const allCategories = await getAllCategories();
   let isValid = true;
@@ -48,6 +67,7 @@ const validateCategories = async (categoryIds) => {
     allCategories.find((category) => categoryId === category.id)));
   return isValid;
 };
+
 const addBlogPost = async (blogPostData) => {
   const { error } = blogPostSchema.validate(blogPostData);
   if (error) throw new Error(error.details[0].message);
