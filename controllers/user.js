@@ -5,7 +5,7 @@ const newUser = rescue(async (req, res) => {
   const { displayName, email, password, image } = req.body;
   
   const { error } = checkNewUser({ displayName, email, password, image });
-  if (error) return res.status(400).json(error.message);
+  if (error) return res.status(400).json(error.details[0]);
 
   const user = await getUser(email);
   if (user) return res.status(409).json({ message: 'User already registered' });

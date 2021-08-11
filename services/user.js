@@ -4,7 +4,7 @@ const { Users } = require('../models');
 const newUserSchema = Joi.object({
   displayName: Joi.string().min(8).max(64).required(),
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).max(128).required(),
+  password: Joi.string().length(6).required(),
   image: Joi.string().uri().required(),
 });
 
