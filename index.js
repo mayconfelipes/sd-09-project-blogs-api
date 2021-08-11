@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser').json();
 const categoriesController = require('./src/controllers/categoriesController');
-const postsController = require('./src/controllers/blogPostsController');
+const blogPostsController = require('./src/controllers/blogPostsController');
 const usersController = require('./src/controllers/usersController');
 const loginController = require('./src/controllers/loginController');
 
@@ -12,7 +12,7 @@ app.use(bodyParser);
 
 app.use('/login', loginController);
 app.use('/user', usersController);
-app.use('post', postsController);
+app.use('/post', blogPostsController);
 app.use('/categories', categoriesController);
 
 const PORT = process.env.PORT || 3000;

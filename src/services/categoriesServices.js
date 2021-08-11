@@ -6,6 +6,7 @@ const categorySchema = Joi.object({
 });
 
 const getAllCategories = async () => (Category.findAll());
+const getCategoryById = async (id) => (Category.findByPk(id));
 const addCategory = async (categoryName) => {
   const { error } = categorySchema.validate(categoryName);
   if (error) {
@@ -17,5 +18,6 @@ const addCategory = async (categoryName) => {
 
 module.exports = {
   getAllCategories,
+  getCategoryById,
   addCategory,
 };
