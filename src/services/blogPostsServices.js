@@ -113,9 +113,15 @@ const editBlogPost = async (id, blogPostData) => {
   return blogPost;
 };
 
+const removeBlogPost = async (id) => {
+  await BlogPost.destroy({ where: { id } });
+  return 0;
+};
+
 module.exports = {
   getAllBlogPosts,
   getBlogPostById,
   addBlogPost,
   editBlogPost,
+  removeBlogPost,
 };
