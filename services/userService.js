@@ -37,7 +37,6 @@ const getAllUsers = async () => {
 };
 
 const getUserById = async (id) => { 
-  
   const result = await User.findByPk(id, { attributes: ['id', 'displayName', 'email', 'image'] });
   if (!result) return error.userNotFound;
   return result;
