@@ -20,7 +20,7 @@ const insertUser = rescue(async (request, response) => {
 
 const listUsers = rescue(async (request, response) => {
     const users = await userService.listUsers();
-    console.log(`Imprimindo o valor de users/controllers ${users}`);
+    // console.log(`Imprimindo o valor de users/controllers ${users}`);
     return response.status(200).json(users);
 });
 
