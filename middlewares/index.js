@@ -1,6 +1,10 @@
 const tokenGenerator = require('./tokenGenerator');
-const validateNewUserInput = require('./validateNewUserInput');
+const checkDisplayName = require('./checkDisplayName');
+const checkEmail = require('./checkEmail');
+const checkPassword = require('./checkPassword');
 
 module.exports = { 
   tokenGenerator,
-  validateNewUserInput };
+  checkDisplayName,
+  checkEmail,
+  checkPassword };

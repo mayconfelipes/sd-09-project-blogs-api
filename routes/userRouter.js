@@ -1,6 +1,10 @@
 const express = require('express');
 const { User } = require('../models/index');
-const { tokenGenerator, validateNewUserInput } = require('../middlewares/index');
+const { 
+  tokenGenerator,
+  checkDisplayName,
+  checkEmail,
+  checkPassword } = require('../middlewares/index');
 
 const router = express.Router();
 
@@ -11,7 +15,11 @@ router.get('/', (_req, res) => {
     });
 });
 
-router.post('/', validateNewUserInput, (req, res) => {
+router.post('/', 
+  checkDisplayName, 
+  checkEmail,
+  checkPassword,
+  (req, res) => {
   const { displayName, email, password, image } = req.body;
   const newUserInfo = { displayName, email, password, image };
 
