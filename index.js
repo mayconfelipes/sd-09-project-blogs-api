@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { userRouter, loginRouter } = require('./routes/index');
+const { userRouter, loginRouter, categoriesRouter } = require('./routes/index');
 
 const app = express();
 
@@ -10,6 +10,8 @@ app.use(bodyParser.json());
 app.use('/login', loginRouter);
 
 app.use('/user', userRouter);
+
+app.use('/categories', categoriesRouter);
 
 const PORT = process.env.PORT || 3000;
 
