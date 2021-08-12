@@ -5,16 +5,25 @@ const {
   checkDisplayName,
   checkEmail,
   checkPassword,
-  checkIfUserAlreadyExist } = require('../middlewares/index');
+  checkIfUserAlreadyExist,
+  tokenValidation } = require('../middlewares/index');
 
 const userRouter = express.Router();
 
-// userRouter.get('/', (_req, res) => {
-//     User.findAll().then((data) => res.status(200).json(data)).catch((e) => {
-//       console.log(e.message);
-//       return res.status(500).json({ message: 'Algo deu Errado!' });
-//     });
-// });
+userRouter.get('/', tokenValidation, (_req, res) => {
+    User.findAll().then((data) => {
+      const allUsersInfo = [];
+      data.forEach((userInfo) => {
+        const { displayName, email, id, image } = userInfo;
+        const publicInfo = { displayName, email, id, image };
+        allUsersInfo.push(publicInfo);
+      });  
+      return res.status(200).send(allUsersInfo);
+    }).catch((e) => {
+      console.log(e.message);
+      return res.status(500).json({ message: e.message });
+    });
+});
 
 userRouter.post('/', 
   checkDisplayName, 
@@ -28,7 +37,7 @@ userRouter.post('/',
   User.create(newUserInfo)
     .then(() => res.status(201).send({ token: tokenGenerator({ email, password }) })).catch((e) => {
     console.log(e.message);
-    return res.status(304).send({ message: 'Novo usuário não foi cadastrado. Algo deu Errado' });
+    return res.status(304).send({ message: e.message });
   });
 });
 
