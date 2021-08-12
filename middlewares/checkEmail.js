@@ -5,7 +5,7 @@ const checkEmail = async (req, res, next) => {
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const userAlreadyExist = await User.findOne({ where: { email } });
 
-    if (!email) {
+    if (!email || email === undefined) {
       return res.status(400).send({ message: '"email" is required' });
     }
 

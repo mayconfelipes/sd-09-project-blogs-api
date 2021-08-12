@@ -1,6 +1,6 @@
 const checkDisplayName = (req, res, next) => {
   const { displayName } = req.body;
-  const validDisplayName = /^(?=.{7,})/;
+  const validDisplayName = /^(?=.{8,})/;
 
   if (!displayName) {
     return res.status(400).send({
