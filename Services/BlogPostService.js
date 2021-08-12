@@ -29,7 +29,6 @@ const getAll = async () => {
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
   });
-  console.log(result);
   return result;
 };
 
@@ -67,8 +66,17 @@ const updatedPost = async (id, body, user) => {
   return result;
 };
 
-const deletePost = async (id) => {
-  await User.destroy({ where: { id } });
+const deletePost = async (id, user) => {
+  const { dataValues } = user;
+
+  if (!await BlogPost.findByPk(id)) throw ValidateError(404, 'Post does not exist');
+
+  const { dataValues: { userId } } = await BlogPost.findByPk(id);
+
+  if (userId !== dataValues.id) throw ValidateError(401, 'Unauthorized user');
+
+  await BlogPost.destroy({ where: { id } });
+  return true;
 };
 
 module.exports = { addPost, getAll, findById, updatedPost, deletePost };
