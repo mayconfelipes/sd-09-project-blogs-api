@@ -1,11 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { userRouter } = require('./routes');
+const { userRouter, loginRouter } = require('./routes/index');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use('/login', loginRouter);
 
 app.use('/user', userRouter);
 

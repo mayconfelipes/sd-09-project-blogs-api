@@ -1,7 +1,13 @@
 const checkPassword = (req, res, next) => {
     const { password } = req.body;
     const validPassword = /^(?=.{6,})/;
-    
+
+    if (password === '') {
+      return res.status(400).send({
+        message: '"password" is not allowed to be empty',
+      });
+    }
+
     if (!password) {
       return res.status(400).send({
         message: '"password" is required',
