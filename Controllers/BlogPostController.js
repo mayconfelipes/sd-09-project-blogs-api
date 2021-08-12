@@ -1,3 +1,4 @@
+const { CLIEngine } = require('eslint');
 const rescue = require('express-rescue');
 const BlogPostService = require('../Services/BlogPostService');
 
@@ -11,7 +12,7 @@ const addPost = rescue(async (req, res, _next) => {
 });
 
 const getAllPosts = rescue(async (req, res, _next) => {
- const listPost = await BlogPostService.findAll();
+ const listPost = await BlogPostService.getAll();
  res.status(200).json(listPost);
 });
 
@@ -22,13 +23,16 @@ const getPostById = rescue(async (req, res, _next) => {
 });
 
 const updatedPost = rescue(async (req, res, _next) => {
-  const postId = req.param;
-  res.status(200).json(postId);
+  const { user } = req;
+  const { id } = req.params;
+
+  const result = await BlogPostService.updatedPost(id, req.body, user);
+  res.status(200).json(result);
 });
 
 const deletePost = rescue(async (req, res, _next) => {
   const postId = req.param;
-  res.status(200).json(postId);
+  res.status(204).json(postId);
 });
 
 module.exports = {

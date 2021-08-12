@@ -9,11 +9,7 @@ const addPost = async (postData) => {
   const { error } = Schema.post.validate(body);
   if (error) throw ValidateError(400, error.message);
 
-  console.log(body.categoryIds);
-  const category = await Category.findAll({ where: { id: {
-    [Op.in]: body.categoryIds,
-  } } });
-
+  const category = await Category.findAll({ where: { id: { [Op.in]: body.categoryIds } } });
   if (category.length !== body.categoryIds.length) {
     throw ValidateError(400, '"categoryIds" not found');
   }
@@ -26,19 +22,53 @@ const addPost = async (postData) => {
   return listPost;
 };
 
-const findAll = async () => {
+const getAll = async () => {
   const result = await BlogPost.findAll({
     include: [
       { model: User, as: 'user' },
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
   });
+  console.log(result);
   return result;
 };
 
 const findById = async (id) => {
-  const result = await BlogPost.findOne({ id });
+  const result = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!result) throw ValidateError(404, 'Post does not exist');
+
   return result;
 };
 
-module.exports = { addPost, findAll, findById };
+const updatedPost = async (id, body, user) => {
+  const { error } = Schema.updated.validate(body);
+  if (error) throw ValidateError(400, error.message);
+
+  const { title, content } = body;
+  if (body.categoryIds) throw ValidateError(400, 'Categories cannot be edited');
+
+  const { dataValues } = user;
+  const { userId } = await BlogPost.findByPk(id);
+  if (userId !== dataValues.id) throw ValidateError(401, 'Unauthorized user');
+
+  await BlogPost.update({ title, content }, { where: { id } });
+
+  const result = await BlogPost.findOne({
+    where: { id }, include: { model: Category, as: 'categories' },
+  });
+
+  return result;
+};
+
+const deletePost = async (id) => {
+  await User.destroy({ where: { id } });
+};
+
+module.exports = { addPost, getAll, findById, updatedPost, deletePost };
