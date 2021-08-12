@@ -3,6 +3,7 @@ const {
   createUser,
   loginService,
   getAllUsersService,
+  getUserByIdService,
 } = require('../services/userService');
 
 const createUserController = async (req, res) => {
@@ -25,8 +26,16 @@ const getAllUsersController = async (_req, res) => {
   return res.status(code.OK).json(users);
 };
 
+const getUserByIdController = async (req, res) => {
+  const { id } = req.params;
+  const user = await getUserByIdService(id);
+
+  return res.status(code.OK).json(user);
+};
+
 module.exports = {
   createUserController,
   loginController,
   getAllUsersController,
+  getUserByIdController,
 };

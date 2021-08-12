@@ -7,6 +7,10 @@ const erro = {
     status: 400,
     message: 'Invalid fields',
   },
+  NONEXISTENT_USER: {
+    status: 404,
+    message: 'User does not exist',
+},
 };
 
 module.exports = erro;

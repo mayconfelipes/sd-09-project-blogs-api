@@ -26,7 +26,7 @@ const createUser = async (newUser) => {
 
 // ------------Login-------------------------------------------------------
 
-const secret = process.env.JWT_SECRET;
+const secret = 'teste';
 const jwtConfig = {
   expiresIn: '6h',
   algorithm: 'HS256',
@@ -55,8 +55,17 @@ const getAllUsersService = async () => {
   return users;
 };
 
+const getUserByIdService = async (id) => {
+  const user = await User.findOne({ where: { id } });
+
+  if (!user) throw erro.NONEXISTENT_USER;
+
+  return user;
+};
+
 module.exports = {
   createUser,
   loginService,
   getAllUsersService,
+  getUserByIdService,
 };
