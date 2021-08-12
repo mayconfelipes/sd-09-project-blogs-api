@@ -41,4 +41,14 @@ userRouter.post('/',
   });
 });
 
+userRouter.get('/:id', tokenValidation, async (req, res) => {
+  const { id } = req.params;
+  User.findByPk(id).then((userInfo) => {
+    const numberId = Number(id);
+    const { displayName, email, image } = userInfo;
+    const publicInfo = { displayName, email, id: numberId, image };
+    return res.status(200).send(publicInfo);
+  }).catch(() => res.status(404).send({ message: 'User does not exist' }));
+});
+
 module.exports = userRouter;
