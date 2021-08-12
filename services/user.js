@@ -66,6 +66,12 @@ const emailAlreadyExists = async (request, response, next) => {
   next();
 };
 
+/* Traz todos os usuários do banco */
+const listUsers = async () => {
+  const users = await User.findAll();
+  return users;
+};
+
 module.exports = {
   validatesDisplayName,
   validateEmail,
@@ -73,4 +79,5 @@ module.exports = {
   validatePassword,
   validatePasswordLength,
   emailAlreadyExists,
+  listUsers,
 };

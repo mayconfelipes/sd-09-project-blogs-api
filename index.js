@@ -11,6 +11,11 @@ app.listen(3000, () => console.log('ouvindo porta 3000!'));
 app.use(userRouter);
 app.use(loginRouter);
 
+app.use((error, _request, response, _next) => {
+  console.log(error);
+  response.status(error).json({ message: error.message });
+});
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();

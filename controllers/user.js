@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
 const { User } = require('../models');
+const userService = require('../services/user');
 
 const SECRET = 'jwtSenha';
 
@@ -17,6 +18,13 @@ const insertUser = rescue(async (request, response) => {
     response.status(201).json(token);
   });
 
+const listUsers = rescue(async (request, response) => {
+    const users = await userService.listUsers();
+    console.log(`Imprimindo o valor de users/controllers ${users}`);
+    return response.status(200).json(users);
+});
+
 module.exports = {
   insertUser,
+  listUsers,
 };
