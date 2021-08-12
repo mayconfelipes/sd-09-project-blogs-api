@@ -1,32 +1,61 @@
-const {
-  User,
-} = require('../models');
-
 require('dotenv/config');
+const jwt = require('jsonwebtoken');
+const { User } = require('../models');
+const erro = require('../utils/error');
 
-const ERROR_EMAIL_AE = {
-  status: 409,
-  message: 'User already registered',
-};
-
+// ------------Create User-------------------------------------------
 const verifyIfEmailAlreadyExists = async (email) => {
-  const emailAlreadyExists = await User.findOne({
+  const emailToTest = await User.findOne({
     where: {
       email,
     },
   });
-  return emailAlreadyExists;
+  // console.log(email,emailToTest,">>>>>>>>>>>>>>>>>>>")
+  return emailToTest;
 };
 
 const createUser = async (newUser) => {
   const { email } = newUser;
   const emailAlreadyExists = await verifyIfEmailAlreadyExists(email);
 
-  if (emailAlreadyExists) throw ERROR_EMAIL_AE;
+  if (emailAlreadyExists) throw erro.ERROR_EMAIL_AE;
+
   const userToCreate = await User.create(newUser);
   return userToCreate;
 };
+// ------------------------------------------------------------------------
+
+// ------------Login-------------------------------------------------------
+
+const secret = 'teste';
+const jwtConfig = {
+  expiresIn: '6h',
+  algorithm: 'HS256',
+};
+
+const generateToken = async (user) => {
+  // console.log("---------------------------token-----------------------");
+  const token = jwt.sign({ data: user }, secret, jwtConfig);
+
+  return { token };
+};
+
+const loginService = async ({ email, password }) => {
+  // console.log("login service----------",email,"-----------");
+  const isUser = await verifyIfEmailAlreadyExists(email);
+
+  // console.log("-------isuser------------",isUser,"-------------------------")
+  if (!isUser) throw erro.INVALID_FIELDS;
+
+  const user = await User.findOne({ where: { email, password } });
+  // console.log("---------user----------",user,"-------------------------")
+
+  return generateToken(user);
+};
+
+// ------------------------------------------------------------------------
 
 module.exports = {
   createUser,
+  loginService,
 };
