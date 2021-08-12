@@ -24,7 +24,16 @@ const listUsers = rescue(async (request, response) => {
     return response.status(200).json(users);
 });
 
+const userById = rescue(async (request, response) => {
+  const { id } = request.params;
+  const user = await userService.userById(id);
+
+  if (!user) return response.status(404).json({ message: 'User does not exist' });
+  return response.status(200).json(user);
+});
+
 module.exports = {
   insertUser,
   listUsers,
+  userById,
 };

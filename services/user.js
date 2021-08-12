@@ -72,6 +72,12 @@ const listUsers = async () => {
   return users;
 };
 
+/* Traz usuário pelo id do banco */
+const userById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+  return user;
+};
+
 module.exports = {
   validatesDisplayName,
   validateEmail,
@@ -80,4 +86,5 @@ module.exports = {
   validatePasswordLength,
   emailAlreadyExists,
   listUsers,
+  userById,
 };

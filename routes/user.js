@@ -22,4 +22,10 @@ router.get(
   userController.listUsers,
 );
 
+router.get(
+  '/user/:id',
+  helperValidateToken,
+  userController.userById,
+);
+
 module.exports = router;
