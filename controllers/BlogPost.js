@@ -14,14 +14,14 @@ const setNew = rescue(async (req, res, next) => {
 
   if (error) return next(error);
 
-  const { id } = await User.findOne({ where: req.email });
+  const { id } = await User.findOne({ where: req });
   const { title, content, categoryIds } = req.body;
   const categories = await Category.findAll();
   const categoriesArr = categories.map((categorie) => categorie.id);
 
   for (let i = 0; i < categoryIds.length; i += 1) {
     if (!categoriesArr.includes(categoryIds[i])) {
-      return res.status(400).json({ message: '"categoryIds" not found' }); 
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: '"categoryIds" not found' }); 
     }
   }
 
@@ -66,26 +66,25 @@ const updateById = rescue(async (req, res, next) => {
  res.status(StatusCodes.BAD_REQUEST).json({ message: 'Categories cannot be edited' }); 
 }
   
-  const { error } = joi.object({ title: joi.string().required(),
-      content: joi.string().required(),
+  const { error } = joi.object({ title: joi.string().required(), content: joi.string().required(),
   }).validate(req.body);
 
   if (error) return next(error);
 
   const { title, content } = req.body;
-  const { categories, userId } = await BlogPost.findOne({ where: req.params.id, 
+  const { id } = req.params;
+  const { categories, userId } = await BlogPost.findOne({ where: { id },
     include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
   });
+  const user = await User.findOne({ where: userId });
 
-  const user = await User.findOne({ where: req.email });
-
-  if (user.id !== userId) {
-    res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Unauthorized user' }); 
-}
-      
+  if (req.email !== user.email) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Unauthorized user' });  
+  }
+   
   await sequelize.transaction(async (transaction) => (
-    BlogPost.update({ title, content }, { where: req.params.id }, { transaction })));
-  
+    BlogPost.update({ title, content }, { where: { id } }, { transaction })));
+
   res.status(StatusCodes.OK).json({ title, content, categories, userId });
 });
 
