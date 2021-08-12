@@ -1,3 +1,5 @@
+const { Category } = require('../models');
+
 const validateName = async (request, response, next) => {
   const { name } = request.body;
   // console.log(`Imprimindo valor de name em category/services ${name}`);
@@ -8,4 +10,13 @@ const validateName = async (request, response, next) => {
   next();
 };
 
-module.exports = { validateName };
+/* Traz todos as categorias do banco */
+const listCategories = async () => {
+  const categories = await Category.findAll();
+  return categories;
+};
+
+module.exports = {
+  validateName,
+  listCategories,
+};

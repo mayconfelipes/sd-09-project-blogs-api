@@ -12,4 +12,10 @@ router.post(
   categoryController.insertCategory,
 );
 
+router.get(
+  '/categories',
+  helperValidateToken,
+  categoryController.listCategories,
+);
+
 module.exports = router;
