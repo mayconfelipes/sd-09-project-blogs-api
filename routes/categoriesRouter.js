@@ -17,4 +17,10 @@ categoriesRouter.post('/', tokenValidation, (req, res) => {
     .catch((e) => res.status(301).send({ message: e.message }));
 });
 
+categoriesRouter.get('/', tokenValidation, (_req, res) => {
+  Category.findAll()
+    .then((categories) => res.status(200).send(categories))
+    .catch((e) => res.status(404).send({ message: e.message }));
+});
+
 module.exports = categoriesRouter;
