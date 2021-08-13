@@ -10,7 +10,7 @@ describe('6 - Sua aplicação deve ter o endpoint GET `/categories`', () => {
     shell.exec('npx sequelize-cli db:seed:all $');
   });
 
-  it.skip('Será validado que é possível listar todas as categorias com sucesso', async () => {
+  it('Será validado que é possível listar todas as categorias com sucesso', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -46,7 +46,7 @@ describe('6 - Sua aplicação deve ter o endpoint GET `/categories`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível listar as categorias sem o token', async () => {
+  it('Será validado que não é possível listar as categorias sem o token', async () => {
     await frisby
       .setup({
         request: {
@@ -64,7 +64,7 @@ describe('6 - Sua aplicação deve ter o endpoint GET `/categories`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível listar as categorias com o token inválido', async () => {
+  it('Será validado que não é possível listar as categorias com o token inválido', async () => {
     await frisby
       .setup({
         request: {
