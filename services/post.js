@@ -1,6 +1,7 @@
 const { Category } = require('../models');
 const { BlogPost } = require('../models');
 const { PostsCategory } = require('../models');
+const { User } = require('../models');
 
 const validateTitle = async (request, response, next) => {
   const { title } = request.body;
@@ -52,10 +53,20 @@ const insertPost = async (post, userId) => {
   return newPost;
 };
 
+const listPosts = async () => {
+  const posts = await BlogPost.findAll({ include: [
+    { model: User, as: 'user' },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ],
+});
+return posts;
+};
+
 module.exports = {
   validateTitle,
   validateContent,
   validateCategoryId,
   validateCategories,
   insertPost,
+  listPosts,
 };

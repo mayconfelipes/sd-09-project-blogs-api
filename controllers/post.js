@@ -8,4 +8,13 @@ const insertPost = rescue(async (request, response) => {
   return response.status(201).json(post);
 });
 
-module.exports = { insertPost };
+const listPosts = rescue(async (request, response) => {
+  const posts = await postService.listPosts();
+  console.log(`Imprimindo valor de posts/controllers ${posts}`);
+  return response.status(200).json(posts);
+});
+
+module.exports = {
+  insertPost,
+  listPosts,
+};

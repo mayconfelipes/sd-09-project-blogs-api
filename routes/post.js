@@ -15,4 +15,10 @@ router.post(
   postController.insertPost,
 );
 
+router.get(
+  '/post',
+  helperValidateToken,
+  postController.listPosts,
+);
+
 module.exports = router;
