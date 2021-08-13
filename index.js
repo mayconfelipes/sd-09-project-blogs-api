@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { userRouter, loginRouter, categoriesRouter } = require('./routes/index');
+const { 
+  userRouter,
+  loginRouter,
+  categoriesRouter,
+  postRouter } = require('./routes/index');
 
 const app = express();
 
@@ -12,6 +16,8 @@ app.use('/login', loginRouter);
 app.use('/user', userRouter);
 
 app.use('/categories', categoriesRouter);
+
+app.use('/post', postRouter);
 
 const PORT = process.env.PORT || 3000;
 

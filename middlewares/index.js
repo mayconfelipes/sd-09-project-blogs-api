@@ -5,6 +5,8 @@ const checkPassword = require('./checkPassword');
 const checkIfUserAlreadyExist = require('./checkIfUserAlreadyExist');
 const checkIfLoginIsValid = require('./checkIfLoginIsValid');
 const tokenValidation = require('./tokenValidation');
+const checkTitleAndContentPost = require('./checkTitleAndContentPost');
+const checkCategoryId = require('./checkCategoryId');
 
 module.exports = { 
   tokenGenerator,
@@ -13,4 +15,6 @@ module.exports = {
   checkPassword,
   checkIfUserAlreadyExist,
   checkIfLoginIsValid, 
-  tokenValidation };
+  tokenValidation,
+  checkTitleAndContentPost,
+  checkCategoryId };
