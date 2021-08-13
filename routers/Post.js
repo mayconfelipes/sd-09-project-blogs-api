@@ -5,6 +5,7 @@ const {
   getPostById,
   updatedPost,
   deletePost,
+  findByTitle,
 } = require('../Controllers/BlogPostController');
 const validateJWT = require('../Auth/validateJWT');
 
@@ -15,5 +16,6 @@ router.get('/', validateJWT, getAllPosts);
 router.get('/:id', validateJWT, getPostById);
 router.put('/:id', validateJWT, updatedPost);
 router.delete('/:id', validateJWT, deletePost);
+router.get('/search?q', validateJWT, findByTitle);
 
 module.exports = router;

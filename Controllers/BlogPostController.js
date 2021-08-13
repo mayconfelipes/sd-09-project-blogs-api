@@ -37,10 +37,15 @@ const deletePost = rescue(async (req, res, _next) => {
   return res.status(204).json();
 });
 
+const findByTitle = rescue(async (req, res, _next) => {
+  res.status(200);
+});
+
 module.exports = {
   addPost,
   getAllPosts,
   getPostById,
   updatedPost,
   deletePost,
+  findByTitle,
 };

@@ -79,4 +79,6 @@ const deletePost = async (id, user) => {
   return true;
 };
 
-module.exports = { addPost, getAll, findById, updatedPost, deletePost };
+const findByTitle = async (title) => title;
+
+module.exports = { addPost, getAll, findById, updatedPost, deletePost, findByTitle };
