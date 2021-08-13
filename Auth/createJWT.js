@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { SECRET_KEY } = process.env || 'evaluetor';
+const SECRET_KEY = process.env.SECRET_KEY || 'evaluetor';
 
 module.exports = (user) => {
   const jwtConfig = {
