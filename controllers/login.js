@@ -15,7 +15,7 @@ const login = rescue(async (request, response) => {
     if (!userLogged) response.status(400).json({ message: 'Invalid fields' });
     
     const { dataValues } = userLogged;
-    // console.log(dataValues);
+    console.log(userLogged);
     const token = jwt.sign(dataValues, SECRET, jwtConfig);
     response.status(200).json({ token }); // se existir retorna o token
 });
