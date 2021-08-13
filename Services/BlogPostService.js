@@ -67,7 +67,7 @@ const updatedPost = async (id, body, user) => {
 };
 
 const deletePost = async (id, user) => {
-  const { dataValues } = user.dataValues;
+  const { dataValues } = user;
   if (!await BlogPost.findByPk(id)) throw ValidateError(404, 'Post does not exist');
 
   const post = await BlogPost.findByPk(id);

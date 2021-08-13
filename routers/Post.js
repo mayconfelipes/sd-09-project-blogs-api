@@ -13,9 +13,9 @@ const router = express.Router();
 
 router.post('/', validateJWT, addPost);
 router.get('/', validateJWT, getAllPosts);
+router.get('/search', validateJWT, findByTitle);
 router.get('/:id', validateJWT, getPostById);
 router.put('/:id', validateJWT, updatedPost);
 router.delete('/:id', validateJWT, deletePost);
-router.get('/search', validateJWT, findByTitle);
 
 module.exports = router;
