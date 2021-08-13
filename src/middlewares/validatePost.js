@@ -1,7 +1,7 @@
 const Joi = require('joi');
-// const PostService = require('../services/PostService');
+const PostService = require('../services/PostService');
 const CategoryService = require('../services/CategoriesService');
-const { HTTP_BADREQ_STATUS } = require('../helpers/statusProtocoloHTTP');
+const { HTTP_BADREQ_STATUS, HTTP_NOTFOUND_STATUS } = require('../helpers/statusProtocoloHTTP');
 
 const schemaValidatePost = Joi.object({
   title: Joi.string().required(),
@@ -29,7 +29,16 @@ const categoryExists = async (req, _res, next) => {
   return next();
 };
 
+const validatePostExists = async (req, _res, next) => {
+  const { id } = req.params;
+  const post = await PostService.getPostsById(id);
+  if (!post) return next({ status: HTTP_NOTFOUND_STATUS, err: 'Post does not exist' });
+  req.post = post;
+  return next();
+};
+
 module.exports = {
   validateDataPost,
   categoryExists,
+  validatePostExists,
 };
