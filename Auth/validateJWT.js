@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv');
 const { User } = require('../models');
 
-const { SECRET_KEY } = process.env;
+const { SECRET_KEY } = process.env || 'evaluetor';
 
 module.exports = async (req, res, next) => {
   try {
