@@ -1,5 +1,5 @@
 const categoryServices = require('../services/categoryServices');
-const { created } = require('../helpers/getHttpStatusCode');
+const { created, ok } = require('../helpers/getHttpStatusCode');
 
 const createCategory = async (req, res, next) => {
   try {
@@ -10,4 +10,13 @@ const createCategory = async (req, res, next) => {
   }
 };
 
-module.exports = { createCategory };
+const findCategories = async (req, res, next) => {
+  try {
+    const categories = await categoryServices.findCategories();
+    res.status(ok).json(categories);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = { createCategory, findCategories };
