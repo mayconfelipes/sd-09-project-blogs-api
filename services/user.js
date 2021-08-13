@@ -20,4 +20,9 @@ const createUser = async (user) => {
   return created;
 };
 
-module.exports = { checkNewUser, getUser, createUser };
+const findUsers = async () => {
+  const users = await Users.findAll();
+  return users;
+};
+
+module.exports = { checkNewUser, getUser, createUser, findUsers };

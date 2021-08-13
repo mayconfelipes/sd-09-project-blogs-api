@@ -24,7 +24,7 @@ const login = rescue(async (req, res) => {
     algorithm: ALGORITHM,
   },
   );
-  req.token = token;
+  req.headers.authorization = token;
   return res.status(200).json({ token });
 });
 
