@@ -35,9 +35,8 @@ userRouter.post('/',
   const newUserInfo = { displayName, email, password, image };
 
   User.create(newUserInfo)
-    .then(() => res.status(201).send({ token: tokenGenerator({ email, password }) })).catch((e) => {
-    return res.status(304).send({ message: e.message });
-  });
+    .then(() => res.status(201).send({ token: tokenGenerator({ email, password }) }))
+    .catch((e) => res.status(304).send({ message: e.message }));
 });
 
 userRouter.get('/:id', tokenValidation, async (req, res) => {

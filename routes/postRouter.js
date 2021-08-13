@@ -12,8 +12,7 @@ postRouter.post('/',
     const { content, title } = req.body;
     
     BlogPost.create({ title, content, userId: req.user })
-      .then((postInfo) => res.status(201).send(postInfo.dataValues))
-      .catch((e) => res.status(301).send({ message: e.message }));
+      .then((postInfo) => res.status(201).send(postInfo.dataValues));
 });
 
 module.exports = postRouter;
