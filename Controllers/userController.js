@@ -18,4 +18,10 @@ const findById = rescue(async (req, res, _next) => {
   return res.status(200).json(user);
 });
 
-module.exports = { createUser, findAll, findById };
+const deleteUser = rescue(async (req, res, _next) => {
+  const { user } = req;
+  await UserService.deleteUser(user);
+  res.status(204).json(user);
+});
+
+module.exports = { createUser, findAll, findById, deleteUser };
