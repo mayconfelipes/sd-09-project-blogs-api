@@ -1,7 +1,9 @@
 const express = require('express');
-// const controllers = require('../controllers/post');
+const tokenValidate = require('../middlewares/tokenValidate');
+const controllers = require('../controllers/post');
+
 const post = express.Router();
 
-post.get('/');
+post.post('/', tokenValidate, controllers.newPost);
 
 module.exports = post;

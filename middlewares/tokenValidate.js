@@ -7,7 +7,8 @@ const tokenValidate = async (req, res, next) => {
     const { headers: { authorization } } = req;
     if (!authorization) return res.status(401).json({ message: 'Token not found' });
 
-    await jwt.verify(authorization, JWT_SECRET);
+    const user = await jwt.verify(authorization, JWT_SECRET);
+    req.user = user.data;
     next();
   } catch (err) {
     res.status(401).json({ message: 'Expired or invalid token' });
