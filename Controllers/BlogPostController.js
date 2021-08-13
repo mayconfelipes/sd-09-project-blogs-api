@@ -11,8 +11,8 @@ const addPost = rescue(async (req, res, _next) => {
 });
 
 const getAllPosts = rescue(async (req, res, _next) => {
- const listPost = await BlogPostService.getAll();
- res.status(200).json(listPost);
+  const listPost = await BlogPostService.getAll();
+  res.status(200).json(listPost);
 });
 
 const getPostById = rescue(async (req, res, _next) => {
@@ -38,7 +38,11 @@ const deletePost = rescue(async (req, res, _next) => {
 });
 
 const findByTitle = rescue(async (req, res, _next) => {
-  res.status(200);
+  const title = req.query.q;
+
+  const result = await BlogPostService.findByTitle(title);
+  console.log(result);
+  res.status(200).json(result);
 });
 
 module.exports = {

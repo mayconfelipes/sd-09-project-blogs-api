@@ -79,6 +79,22 @@ const deletePost = async (id, user) => {
   return true;
 };
 
-const findByTitle = async (title) => title;
+const findByTitle = async (title) => {
+  if (!title) return getAll();
+
+  const post = await BlogPost.findOne({
+    where: {
+      [Op.or]: [{ title }, { content: title }],
+    },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!post) return [];
+
+  return [post];
+};
 
 module.exports = { addPost, getAll, findById, updatedPost, deletePost, findByTitle };
