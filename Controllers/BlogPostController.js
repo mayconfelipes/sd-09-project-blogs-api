@@ -26,7 +26,7 @@ const updatedPost = rescue(async (req, res, _next) => {
   const { id } = req.params;
 
   const result = await BlogPostService.updatedPost(id, req.body, user);
-  res.status(200).json(result);
+  return res.status(200).json(result);
 });
 
 const deletePost = rescue(async (req, res, _next) => {
@@ -41,8 +41,7 @@ const findByTitle = rescue(async (req, res, _next) => {
   const title = req.query.q;
 
   const result = await BlogPostService.findByTitle(title);
-  console.log(result);
-  res.status(200).json(result);
+  return res.status(200).json(result);
 });
 
 module.exports = {
