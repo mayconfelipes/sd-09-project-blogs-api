@@ -15,8 +15,6 @@ const createUser = async (userData) => {
 
   const newUser = await User.create(userData);
 
-  console.log('[newUser] > ', newUser.dataValues);
-
   const token = generateToken(newUser.dataValues);
 
   return token;
