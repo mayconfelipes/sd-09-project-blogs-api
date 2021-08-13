@@ -10,7 +10,7 @@ describe('4 - Sua aplicação deve ter o endpoint GET `/user/:id`', () => {
     shell.exec('npx sequelize-cli db:seed:all $');
   });
 
-  it.skip('Será validado que é possível listar um usuário específico com sucesso', async () => {
+  it('Será validado que é possível listar um usuário específico com sucesso', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -46,7 +46,7 @@ describe('4 - Sua aplicação deve ter o endpoint GET `/user/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível listar um usuário inexistente', async () => {
+  it('Será validado que não é possível listar um usuário inexistente', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -79,7 +79,7 @@ describe('4 - Sua aplicação deve ter o endpoint GET `/user/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível listar um determinado usuário sem o token na requisição', async () => {
+  it('Será validado que não é possível listar um determinado usuário sem o token na requisição', async () => {
     await frisby
       .setup({
         request: {
@@ -97,7 +97,7 @@ describe('4 - Sua aplicação deve ter o endpoint GET `/user/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível listar um determinado usuário com o token inválido', async () => {
+  it('Será validado que não é possível listar um determinado usuário com o token inválido', async () => {
     await frisby
       .setup({
         request: {

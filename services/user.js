@@ -25,4 +25,9 @@ const findUsers = async () => {
   return users;
 };
 
-module.exports = { checkNewUser, getUser, createUser, findUsers };
+const findUserById = async (id) => {
+  const user = await Users.findByPk(id);
+  return user;
+};
+
+module.exports = { checkNewUser, getUser, createUser, findUsers, findUserById };

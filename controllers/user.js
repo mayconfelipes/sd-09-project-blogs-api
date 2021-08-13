@@ -1,5 +1,5 @@
 const rescue = require('express-rescue');
-const { checkNewUser, getUser, createUser, findUsers } = require('../services/user');
+const { checkNewUser, getUser, createUser, findUsers, findUserById } = require('../services/user');
 
 const newUser = rescue(async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -17,9 +17,16 @@ const newUser = rescue(async (req, res) => {
 });
 
 const getUsers = rescue(async (req, res) => {
-  console.log('heyyy');
   const users = await findUsers();
   return res.status(200).json(users);
 });
 
-module.exports = { newUser, getUsers };
+const getUserById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const user = await findUserById(id);
+  if (!user) return res.status(404).json({ message: 'User does not exist' });
+
+  return res.status(200).json(user);
+});
+
+module.exports = { newUser, getUsers, getUserById };
