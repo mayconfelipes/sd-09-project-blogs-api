@@ -33,7 +33,7 @@ const deletePost = rescue(async (req, res, _next) => {
   const { user } = req;
   const { id } = req.params;
 
-  await BlogPostService.deletePost(id, user);
+  await BlogPostService.deletePost(Number(id), user);
   return res.status(204).json();
 });
 
