@@ -1,6 +1,11 @@
 const express = require('express');
 const UserService = require('../services/UsersServices');
-const { HTTP_CREATED_STATUS, HTTP_OK_STATUS, HTTP_NOCONTENT_STATUS } = require('../helpers/statusProtocoloHTTP');
+const {
+  HTTP_CREATED_STATUS,
+  HTTP_OK_STATUS,
+  HTTP_NOCONTENT_STATUS,
+} = require('../helpers/statusProtocoloHTTP');
+
 const { validateDataUser, userExists, userIdExists } = require('../middlewares/validateUser');
 const { validateToken } = require('../middlewares/validateToken');
 

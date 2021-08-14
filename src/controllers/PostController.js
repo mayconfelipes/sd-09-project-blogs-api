@@ -39,6 +39,19 @@ PostRoute.get('/', validateToken, async (_req, res, next) => {
   }
 });
 
+PostRoute.get('/search', validateToken, async (req, res, next) => {
+  const search = req.query.q;
+  try {
+    const posts = await (!search
+      ? PostService.getPostsAll()
+      : PostService.SearchPost(search));
+
+    return res.status(HTTP_OK_STATUS).json(posts);
+  } catch (error) {
+    return next(error);
+  }
+});
+
 PostRoute.get('/:id', validateToken, validatePostExists,
   async (req, res, next) => {
     const { post } = req;
