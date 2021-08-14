@@ -14,7 +14,17 @@ const listPosts = rescue(async (request, response) => {
   return response.status(200).json(posts);
 });
 
+const postById = rescue(async (request, response) => {
+  const { id } = request.params;
+  const postId = await postService.postById(id);
+
+  if (!postId) return response.status(404).json({ message: 'Post does not exist' });
+
+  return response.status(200).json(postId);
+});
+
 module.exports = {
   insertPost,
   listPosts,
+  postById,
 };

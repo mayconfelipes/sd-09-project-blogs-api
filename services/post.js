@@ -62,6 +62,15 @@ const listPosts = async () => {
 return posts;
 };
 
+const postById = async (id) => {
+  const postId = await BlogPost.findOne({
+    where: { id },
+    include: [{ model: User, as: 'user' }, { model: Category, as: 'categories' },
+  ],
+  });
+  return postId;
+};
+
 module.exports = {
   validateTitle,
   validateContent,
@@ -69,4 +78,5 @@ module.exports = {
   validateCategories,
   insertPost,
   listPosts,
+  postById,
 };
