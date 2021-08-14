@@ -6,6 +6,7 @@ const {
   categoryExists,
   validateDataPost,
   validatePostExists,
+  validatePostUser,
 } = require('../middlewares/validatePost');
 
 const PostRoute = express.Router();
@@ -41,4 +42,6 @@ async (req, res, next) => {
     return next(error);
   }
 });
+
+PostRoute.put('/post/:id', validateToken, validatePostUser);
 module.exports = PostRoute;

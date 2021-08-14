@@ -16,8 +16,7 @@ const validateToken = async (req, _res, next) => {
     const user = await UserService.findByEmail(payload.email);
     if (!user) return next({ status: HTTP_UNAUTHORIZED_STATUS, err: 'invalid user' });
     req.user = user;
-  
-    next();
+    return next();
   } catch (error) {
     return next({ status: HTTP_UNAUTHORIZED_STATUS, err: 'Expired or invalid token' });
   }

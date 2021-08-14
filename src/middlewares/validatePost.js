@@ -1,7 +1,11 @@
 const Joi = require('joi');
 const PostService = require('../services/PostService');
 const CategoryService = require('../services/CategoriesService');
-const { HTTP_BADREQ_STATUS, HTTP_NOTFOUND_STATUS } = require('../helpers/statusProtocoloHTTP');
+const {
+  HTTP_BADREQ_STATUS,
+  HTTP_NOTFOUND_STATUS,
+  HTTP_UNAUTHORIZED_STATUS,
+} = require('../helpers/statusProtocoloHTTP');
 
 const schemaValidatePost = Joi.object({
   title: Joi.string().required(),
@@ -37,8 +41,18 @@ const validatePostExists = async (req, _res, next) => {
   return next();
 };
 
+const validatePostUser = async (req, _res, next) => {
+  const userId = req.user.id;
+  const { id } = req.params;
+  const post = await PostService.getPostsById(id);
+  if (post.userId !== userId) {
+    return next({ status: HTTP_UNAUTHORIZED_STATUS, err: 'Unauthorized user' });
+  }
+  return next();
+};
 module.exports = {
   validateDataPost,
   categoryExists,
   validatePostExists,
+  validatePostUser,
 };
