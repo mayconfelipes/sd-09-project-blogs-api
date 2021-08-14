@@ -38,7 +38,7 @@ const getPostsById = async (id) => {
       {
         model: User,
         as: 'user',
-        attributes: { excludes: ['password'] },
+        attributes: { exclude: ['password'] },
       },
       {
         model: Category,
@@ -50,10 +50,23 @@ const getPostsById = async (id) => {
   return postById;
 };
 
-const updatePost = async (userId, title, content) => {
-  const post = await BlogPost.create({ userId, title, content })
-    .then((postUpdate) => postUpdate.dataValues)
-    .catch((error) => error);
+const getPostsByIdForUpdate = async (id) => {
+  const postById = await BlogPost.findByPk((id), {
+    attributes: { exclude: ['id', 'published', 'updated'] },
+    include: [
+      {
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+    ],
+  });
+  return postById;
+};
+
+const updatePost = async (title, content, id) => {
+  const post = await BlogPost.update({ title, content }, { where: { id } })
+    .then(() => getPostsByIdForUpdate(id));
 
   return post;
 };

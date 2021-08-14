@@ -8,6 +8,7 @@ const {
   validatePostExists,
   validateCameWithCategories,
   validatePostUser,
+  validateDataPostUpdate,
 
 } = require('../middlewares/validatePost');
 
@@ -46,5 +47,15 @@ async (req, res, next) => {
   }
 });
 
-PostRoute.put('/post/:id', validateToken, validateCameWithCategories, validatePostUser);
+PostRoute.put('/:id', validateToken, validatePostUser, validateCameWithCategories,
+  validateDataPostUpdate, async (req, res, next) => {
+    const { id } = req.params;
+    const { title, content } = req.body;
+    try {
+      const post = await PostService.updatePost(title, content, id);
+      return res.status(HTTP_OK_STATUS).json(post);
+    } catch (error) {
+      return next(error);
+    }
+  });
 module.exports = PostRoute;
