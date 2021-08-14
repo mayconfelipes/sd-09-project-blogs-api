@@ -1,6 +1,6 @@
 const express = require('express');
 const UserService = require('../services/UsersServices');
-const { HTTP_CREATED_STATUS, HTTP_OK_STATUS } = require('../helpers/statusProtocoloHTTP');
+const { HTTP_CREATED_STATUS, HTTP_OK_STATUS, HTTP_NOCONTENT_STATUS } = require('../helpers/statusProtocoloHTTP');
 const { validateDataUser, userExists, userIdExists } = require('../middlewares/validateUser');
 const { validateToken } = require('../middlewares/validateToken');
 
@@ -34,5 +34,15 @@ userRoute.get('/:id', validateToken, userIdExists, async (req, res, next) => {
     return next(error);
   }
 });
+
+userRoute.delete('/me', validateToken, async (req, res, next) => {
+  const { id } = req.user;
+  try {
+    await UserService.deleteUserMe(id);
+    return res.status(HTTP_NOCONTENT_STATUS).send();
+  } catch (error) {
+    return next(error);
+  }
+}); 
 
 module.exports = userRoute;
