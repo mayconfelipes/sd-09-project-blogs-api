@@ -2,9 +2,10 @@ require('dotenv').config();
 const boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
 const userSchema = require('../schema/user');
+const loginSchema = require('../schema/login');
 const { User } = require('../models');
 
-const findUserExists = async (email) => {
+const findUserExisting = async (email) => {
   const result = await User.findAll({ where: { email } });
   if (result.length > 0) throw boom.conflict('User already registered');
 };
@@ -26,7 +27,7 @@ const createUser = async (payload) => {
   const { error } = userSchema.validate({ displayName, email, password });
   if (error) throw error;
 
-  await findUserExists(email);
+  await findUserExisting(email);
 
   const user = await User.create(payload);
 
@@ -35,6 +36,30 @@ const createUser = async (payload) => {
   return result;
 };
 
+const validUser = async (email, password) => {
+  const userExisting = await User.findAll({ where: { email } });
+  
+  if (!userExisting[0] || userExisting[0].dataValues.password !== password) {
+    throw boom.badRequest('Invalid fields');
+  }
+
+  const user = userExisting;
+
+  return user;
+};
+
+const login = async ({ email, password }) => {
+  const { error } = loginSchema.validate({ email, password });
+  if (error) throw error;
+
+  const user = await validUser(email, password);
+
+  const result = createToken(user.id, user.email);
+
+  return result;
+};
+
 module.exports = {
   createUser,
+  login,
 };
