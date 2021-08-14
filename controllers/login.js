@@ -12,7 +12,7 @@ const jwtConfig = {
 const login = rescue(async (request, response) => {
     const { email } = request.body;
     const userLogged = await User.findOne({ where: { email } });
-    if (!userLogged) response.status(400).json({ message: 'Invalid fields' });
+    if (!userLogged) return response.status(400).json({ message: 'Invalid fields' });
     
     const { dataValues } = userLogged;
     console.log(userLogged);

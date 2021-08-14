@@ -1,5 +1,5 @@
 /* regras de negócio */
-const { User } = require('../models');
+const { User, BlogPost } = require('../models');
 
 const validatesDisplayName = async (request, response, next) => {
   const { displayName } = request.body;
@@ -78,6 +78,22 @@ const userById = async (id) => {
   return user;
 };
 
+const removePost = async (id, userId) => {
+  const post = await BlogPost.findOne({ where: { id } });
+  
+  if (!post) {
+    return { error: { status: 404, message: 'Post does not exist' } };
+  }
+ 
+  if (post.userId !== userId) {
+    return { error: { status: 401, message: 'Unauthorized user' } };
+  }
+ 
+  await BlogPost.destroy({ where: { userId: id } });
+
+  return post;
+};
+
 module.exports = {
   validatesDisplayName,
   validateEmail,
@@ -87,4 +103,5 @@ module.exports = {
   emailAlreadyExists,
   listUsers,
   userById,
+  removePost,
 };

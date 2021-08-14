@@ -32,8 +32,21 @@ const userById = rescue(async (request, response) => {
   return response.status(200).json(user);
 });
 
+const removePost = rescue(async (request, response) => {
+ const { id } = request.params;
+ const { id: userId } = request.user;
+ const { error } = await userService.removePost(id, userId);
+
+ if (error) {
+   return response.status(error.status).json({ message: error.message });
+ }
+
+ response.status(204).json();
+});
+
 module.exports = {
   insertUser,
   listUsers,
   userById,
+  removePost,
 };

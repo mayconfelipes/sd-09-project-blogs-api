@@ -25,6 +25,6 @@ router.get(
   '/post/:id',
   helperValidateToken,
   postController.postById,
-);
+  );
 
 module.exports = router;

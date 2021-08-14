@@ -28,4 +28,10 @@ router.get(
   userController.userById,
 );
 
+router.delete(
+  '/post/:id',
+  helperValidateToken,
+  userController.removePost,
+);
+
 module.exports = router;

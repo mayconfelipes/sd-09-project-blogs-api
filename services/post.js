@@ -65,7 +65,9 @@ return posts;
 const postById = async (id) => {
   const postId = await BlogPost.findOne({
     where: { id },
-    include: [{ model: User, as: 'user' }, { model: Category, as: 'categories' },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
   ],
   });
   return postId;
