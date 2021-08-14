@@ -2,8 +2,9 @@ const rescue = require('express-rescue');
 const userService = require('../services/users');
 
 const HTTP_STATUS_CREATED = 201;
+const HTTP_STATUS_OK = 200;
 
-const postUsers = rescue(async (req, res) => {
+const createUser = rescue(async (req, res) => {
   const payload = req.body;
 
   const result = await userService.createUser(payload);
@@ -11,6 +12,13 @@ const postUsers = rescue(async (req, res) => {
   return res.status(HTTP_STATUS_CREATED).json({ token: result });
 });
 
+const getAllUsers = rescue(async (req, res) => {
+  const result = await userService.getAll();
+
+  return res.status(HTTP_STATUS_OK).json(result);
+});
+
 module.exports = {
-  postUsers,  
+  createUser,
+  getAllUsers,
 };
