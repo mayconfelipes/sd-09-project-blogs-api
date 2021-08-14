@@ -4,14 +4,15 @@ const { HTTP_CREATED_STATUS, HTTP_OK_STATUS } = require('../helpers/statusProtoc
 const { validateToken } = require('../middlewares/validateToken');
 const {
   categoryExists,
-  validateDataPost,
+  validateDataPostCreate,
   validatePostExists,
+  validateCameWithCategories,
   validatePostUser,
 } = require('../middlewares/validatePost');
 
 const PostRoute = express.Router();
 
-PostRoute.post('/', validateToken, validateDataPost, categoryExists,
+PostRoute.post('/', validateToken, validateDataPostCreate, categoryExists,
  async (req, res, next) => {
   const { title, content } = req.body;
   const { id } = req.user;
@@ -43,5 +44,5 @@ async (req, res, next) => {
   }
 });
 
-PostRoute.put('/post/:id', validateToken, validatePostUser);
+PostRoute.put('/post/:id', validateToken, validateCameWithCategories, validatePostUser);
 module.exports = PostRoute;

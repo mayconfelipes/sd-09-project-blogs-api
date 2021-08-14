@@ -7,16 +7,16 @@ const {
   HTTP_UNAUTHORIZED_STATUS,
 } = require('../helpers/statusProtocoloHTTP');
 
-const schemaValidatePost = Joi.object({
+const schemaValidatePostCreate = Joi.object({
   title: Joi.string().required(),
   content: Joi.string().required(),
   categoryIds: Joi.array().items(Joi.number()).not().empty()
 .required(),
 });
 
-const validateDataPost = async (req, _res, next) => {
+const validateDataPostCreate = async (req, _res, next) => {
   const { title, content, categoryIds } = req.body;
-  const validatePost = schemaValidatePost.validate({
+  const validatePost = schemaValidatePostCreate.validate({
     title, content, categoryIds,
   });
   if (validatePost.error) {
@@ -24,7 +24,25 @@ const validateDataPost = async (req, _res, next) => {
   }
   return next();
 };
+const validateCameWithCategories = async (req, res, next) => {
+  if (req.body.categoryIds) {
+    return next({ status: HTTP_BADREQ_STATUS, err: 'Categories cannot be edited' });
+  }
+  return next();
+};
+const schemaValidatePostUpdate = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+});
 
+const validateDataPostUpdate = async (req, _res, next) => {
+  const { title, content } = req.body;
+  const validatePost = schemaValidatePostUpdate.validate({ title, content });
+  if (validatePost.error) {
+    return next({ status: HTTP_BADREQ_STATUS, err: validatePost.error.details[0].message });
+  }
+  return next();
+};
 const categoryExists = async (req, _res, next) => {
   const { categoryIds } = req.body;
   const exists = await CategoryService.existsCategoriesIds(categoryIds);
@@ -51,8 +69,10 @@ const validatePostUser = async (req, _res, next) => {
   return next();
 };
 module.exports = {
-  validateDataPost,
+  validateDataPostCreate,
   categoryExists,
   validatePostExists,
   validatePostUser,
+  validateCameWithCategories,
+  validateDataPostUpdate,
 };
