@@ -8,16 +8,18 @@ const {
   validatePostExists,
   validateCameWithCategories,
   validatePostUser,
+
 } = require('../middlewares/validatePost');
 
 const PostRoute = express.Router();
 
 PostRoute.post('/', validateToken, validateDataPostCreate, categoryExists,
  async (req, res, next) => {
-  const { title, content } = req.body;
+  const { title, content, categoryIds } = req.body;
   const { id } = req.user;
 try {
   const post = await PostService.createPost(id, title, content);
+  await PostService.CreatePostCategory(categoryIds, post.id);
   return res.status(HTTP_CREATED_STATUS).json(post);
 } catch (error) {
   return next(error);
