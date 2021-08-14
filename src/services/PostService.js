@@ -1,4 +1,4 @@
-const { BlogPost, User, Category } = require('../models');
+const { BlogPost, User, Category, PostsCategory } = require('../models');
 
 const createPost = async (userId, title, content) => {
   const post = await BlogPost.create({ userId, title, content })
@@ -6,6 +6,12 @@ const createPost = async (userId, title, content) => {
     .catch((error) => error);
 
   return post;
+};
+
+const CreatePostCategory = async (categoryIds, postId) => {
+  categoryIds.forEach((categoryId) => {
+     PostsCategory.create({ categoryId, postId });
+  });
 };
 
 const getPostsAll = async () => {
@@ -44,8 +50,18 @@ const getPostsById = async (id) => {
   return postById;
 };
 
+const updatePost = async (userId, title, content) => {
+  const post = await BlogPost.create({ userId, title, content })
+    .then((postUpdate) => postUpdate.dataValues)
+    .catch((error) => error);
+
+  return post;
+};
+
   module.exports = { 
   createPost,
   getPostsAll,
   getPostsById,
+  CreatePostCategory,
+  updatePost,
 };
