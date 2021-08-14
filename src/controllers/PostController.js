@@ -1,6 +1,10 @@
 const express = require('express');
 const PostService = require('../services/PostService');
-const { HTTP_CREATED_STATUS, HTTP_OK_STATUS } = require('../helpers/statusProtocoloHTTP');
+const {
+  HTTP_CREATED_STATUS,
+  HTTP_OK_STATUS,
+  HTTP_NOCONTENT_STATUS,
+} = require('../helpers/statusProtocoloHTTP');
 const { validateToken } = require('../middlewares/validateToken');
 const {
   categoryExists,
@@ -57,5 +61,17 @@ PostRoute.put('/:id', validateToken, validatePostUser, validateCameWithCategorie
     } catch (error) {
       return next(error);
     }
-  });
+});
+
+PostRoute.delete('/:id', validateToken, validatePostExists, validatePostUser,
+  async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await PostService.deletePost(id);
+    return res.status(HTTP_NOCONTENT_STATUS).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = PostRoute;
