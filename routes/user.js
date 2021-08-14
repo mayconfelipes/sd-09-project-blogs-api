@@ -28,10 +28,17 @@ router.get(
   userController.userById,
 );
 
+/* coloquei a rota no route errado, corrigir depois */
 router.delete(
   '/post/:id',
   helperValidateToken,
   userController.removePost,
+);
+
+router.delete(
+  '/user/me',
+  helperValidateToken,
+  userController.removeUser,
 );
 
 module.exports = router;

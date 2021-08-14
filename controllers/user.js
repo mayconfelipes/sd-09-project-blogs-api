@@ -44,9 +44,16 @@ const removePost = rescue(async (request, response) => {
  response.status(204).json();
 });
 
+const removeUser = rescue(async (request, response) => {
+  const { id } = request.user;
+  await userService.removeUser(id);
+  return response.status(204).json();
+});
+
 module.exports = {
   insertUser,
   listUsers,
   userById,
   removePost,
+  removeUser,
 };

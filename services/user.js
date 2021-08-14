@@ -94,6 +94,12 @@ const removePost = async (id, userId) => {
   return post;
 };
 
+const removeUser = async (id) => {
+  await User.destroy({ where: { id } });
+  const user = await User.findOne({ where: { id } });
+  return user;
+};
+
 module.exports = {
   validatesDisplayName,
   validateEmail,
@@ -104,4 +110,5 @@ module.exports = {
   listUsers,
   userById,
   removePost,
+  removeUser,
 };
