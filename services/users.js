@@ -65,8 +65,17 @@ const getAll = async () => {
   return result;
 };
 
+const getUserById = async (id) => {
+  const result = await User.findByPk(id);
+
+  if (!result) throw boom.notFound('User does not exist');
+
+  return result;
+};
+
 module.exports = {
   createUser,
   login,
   getAll,
+  getUserById,
 };
