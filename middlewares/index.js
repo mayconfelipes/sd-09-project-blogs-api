@@ -4,6 +4,7 @@ const checkIfUserEmailAlreadyExist = require('./checkIfUserEmailAlreadyExist');
 const checkPassword = require('./checkPassword');
 const tokenGenerator = require('./tokenGenerator');
 const tokenValidation = require('./tokenValidation');
+const checkLogin = require('./checkLogin');
 
 module.exports = { 
   checkDisplayName,
@@ -12,4 +13,5 @@ module.exports = {
   checkPassword,
   tokenGenerator,
   tokenValidation,
+  checkLogin,
   };

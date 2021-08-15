@@ -2,6 +2,11 @@ const checkPassword = (req, res, next) => {
   const { password } = req.body;
   const MIN_LENGTH_PASSWORD = 6;
 
+  if (password === '') {
+    return res.status(400).send({
+      message: '"password" is not allowed to be empty',
+    });
+  }
   if (!password) {
     return res.status(400).send({
       message: '"password" is required',
@@ -13,6 +18,7 @@ const checkPassword = (req, res, next) => {
         message: '"password" length must be 6 characters long',
     });
   }
+  
   return next();
 };
 
