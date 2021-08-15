@@ -6,7 +6,7 @@ const {
   checkIfUserEmailAlreadyExist,
   tokenValidation,
   } = require('../middlewares/index');
-const { newUser, getAllUsers } = require('../controllers/user');
+const { newUser, getAllUsers, getUserById } = require('../controllers/user');
 
   const userRouter = express.Router();
 
@@ -16,6 +16,7 @@ const { newUser, getAllUsers } = require('../controllers/user');
   checkIfUserEmailAlreadyExist,
   checkPassword, newUser);
 
+  userRouter.get('/user/:id', tokenValidation, getUserById);
   userRouter.get('/user', tokenValidation, getAllUsers);
 
 module.exports = { userRouter };
