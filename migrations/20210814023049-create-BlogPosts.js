@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('BlogPosts', {
@@ -27,20 +26,17 @@ module.exports = {
           key: 'id',
         },
       },
-      createdAt: {
-        allowNull: true,
+      createdAt: { 
         type: Sequelize.DATE,
-        field: 'published',
+        field: 'published' 
       },
-      updatedAt: {
-        allowNull: true,
+      updatedAt: { 
         type: Sequelize.DATE,
-        field: 'updated',
+        field: 'updated'
       },
     });
   },
-
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('BlogPosts');
+    await queryInterface.dropTable('blogPosts');
   }
-};
+}; 
