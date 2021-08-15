@@ -23,6 +23,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        defaultValue: 1,
       },
       createdAt: {
         allowNull: false,
