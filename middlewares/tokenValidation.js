@@ -7,7 +7,7 @@ const SECRET = process.env.JWT_SECRET;
 const tokenValidation = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-    return res.status(401).send({ message: 'missing auth token' });
+    return res.status(401).send({ message: 'Token not found' });
   }
 
   try {
