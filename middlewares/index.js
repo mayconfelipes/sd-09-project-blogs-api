@@ -5,6 +5,8 @@ const checkPassword = require('./checkPassword');
 const tokenGenerator = require('./tokenGenerator');
 const tokenValidation = require('./tokenValidation');
 const checkLogin = require('./checkLogin');
+const checkCategoryId = require('./checkCategoryId');
+const checkTitleAndContent = require('./checkTitleAndContent');
 
 module.exports = { 
   checkDisplayName,
@@ -14,4 +16,6 @@ module.exports = {
   tokenGenerator,
   tokenValidation,
   checkLogin,
+  checkCategoryId,
+  checkTitleAndContent,
   };
