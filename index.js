@@ -8,7 +8,7 @@ const {
 const app = express();
 app.use(bodyParser.json());
 
-const { PORT } = process.env;
+const PORT = process.env.PORT || 3000;
 
 app.use(userRouter);
 

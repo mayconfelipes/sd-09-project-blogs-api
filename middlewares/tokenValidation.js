@@ -16,7 +16,7 @@ const tokenValidation = async (req, res, next) => {
     const userInfo = await User.findOne({ where: { email } });
     const userId = userInfo.dataValues.id;
 
-  req.user = userId;
+    req.user = userId;
   } catch (e) {
     return res.status(401).send({ message: 'Expired or invalid token' });
   } 

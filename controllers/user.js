@@ -9,8 +9,7 @@ const newUser = async (req, res) => {
     return res.status(201).send({ token: tokenGenerator({ email, password }) });
   } catch (error) {
     console.error(error);
-    return res.status(304)
-      .json({ error: error.message });
+    return res.status(304).json({ error: error.message });
   }
 };
 
