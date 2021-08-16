@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const { 
   tokenValidation,
   checkTitleAndContentPost,
@@ -6,6 +7,8 @@ const {
   checkPostUserId, 
   blockCategoriesFromBeingEdited,
   checkIfPostExist } = require('../middlewares');
+
+const getAllPosts = require('../auxiliarFunction/getAllPosts');
 
 const { BlogPost, User, Category } = require('../models/index');
 
@@ -25,13 +28,28 @@ postRouter.post('/',
 postRouter.get('/', 
   tokenValidation,
   async (_req, res) => {
-  const allPosts = await BlogPost.findAll({
+  const allPosts = await getAllPosts();
+  return res.status(200).send(allPosts);
+});
+
+postRouter.get('/search', tokenValidation, async (req, res) => {
+  const { q } = req.query;
+  if (!q) {
+    const allPosts = await getAllPosts();
+    return res.status(200).send(allPosts);
+  }
+  const searchedPosts = await BlogPost.findAll({ where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${q}%` } },
+        { content: { [Op.like]: `%${q}%` } },
+      ],
+    },
     include: [
       { model: User, as: 'user' },
       { model: Category, as: 'categories' },
     ],
   });
-  return res.status(200).send(allPosts);
+  return res.status(200).send(searchedPosts);
 });
 
 postRouter.get('/:id', 
