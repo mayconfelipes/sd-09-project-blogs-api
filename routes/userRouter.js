@@ -19,10 +19,7 @@ userRouter.get('/', tokenValidation, (_req, res) => {
         allUsersInfo.push(publicInfo);
       });  
       return res.status(200).send(allUsersInfo);
-    }).catch((e) => {
-      console.log(e.message);
-      return res.status(500).json({ message: e.message });
-    });
+    }).catch((e) => res.status(500).json({ message: e.message }));
 });
 
 userRouter.post('/', 
