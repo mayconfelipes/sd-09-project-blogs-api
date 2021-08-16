@@ -73,6 +73,31 @@ const postById = async (id) => {
   return postId;
 };
 
+const editCategories = (request, response, next) => {
+  const { categoryIds } = request.body;
+  if (categoryIds) {
+    return response.status(400).json({ message: 'Categories cannot be edited' });
+  }
+  next();
+};
+
+const validUser = async (request, response, next) => {
+  const { id } = request.params;
+  // console.log(request.user);
+  const { id: userId } = request.user;
+  const post = await BlogPost.findOne({ where: { id } });
+  if (post.userId !== userId) return response.status(401).json({ message: 'Unauthorized user' });
+  next();
+};
+
+const updatePost = async (id, title, content) => {
+  await BlogPost.update({ title, content }, { where: { id } });
+  const post = await BlogPost.findOne({ where: { id },
+  include: [{ model: Category, as: 'categories', through: { attributes: [] } }] });
+  // console.log(post);
+  return post;
+};
+
 module.exports = {
   validateTitle,
   validateContent,
@@ -81,4 +106,7 @@ module.exports = {
   insertPost,
   listPosts,
   postById,
+  updatePost,
+  editCategories,
+  validUser,
 };

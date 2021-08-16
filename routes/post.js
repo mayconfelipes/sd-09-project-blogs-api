@@ -27,4 +27,14 @@ router.get(
   postController.postById,
   );
 
+router.put(
+  '/post/:id',
+  helperValidateToken,
+  postService.validateTitle,
+  postService.validateContent,
+  postService.editCategories,
+  postService.validUser,
+  postController.updatePost,
+);
+
 module.exports = router;

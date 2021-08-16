@@ -10,7 +10,7 @@ const insertPost = rescue(async (request, response) => {
 
 const listPosts = rescue(async (request, response) => {
   const posts = await postService.listPosts();
-  console.log(`Imprimindo valor de posts/controllers ${posts}`);
+  // console.log(`Imprimindo valor de posts/controllers ${posts}`);
   return response.status(200).json(posts);
 });
 
@@ -23,8 +23,17 @@ const postById = rescue(async (request, response) => {
   return response.status(200).json(postId);
 });
 
+const updatePost = rescue(async (request, response) => {
+  const { id } = request.params;
+  const { title, content } = request.body;
+  const post = await postService.updatePost(id, title, content);
+
+  response.status(200).json(post);
+});
+
 module.exports = {
   insertPost,
   listPosts,
   postById,
+  updatePost,
 };
