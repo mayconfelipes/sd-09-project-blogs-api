@@ -30,4 +30,18 @@ const findPosts = async () => {
   }
 };
 
-module.exports = { checkPost, createPost, findPosts };
+const findPostById = async (blogPostId) => {
+  try {
+    const post = await BlogPosts.findOne({
+      where: { id: blogPostId },
+      include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ] });
+    return post;
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = { checkPost, createPost, findPosts, findPostById };

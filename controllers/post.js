@@ -1,5 +1,5 @@
 const rescue = require('express-rescue');
-const { checkPost, createPost, findPosts } = require('../services/post');
+const { checkPost, createPost, findPosts, findPostById } = require('../services/post');
 const { createPostCategory } = require('../services/postCategory');
 const { findCategories } = require('../services/categories');
 
@@ -25,8 +25,14 @@ const newPost = rescue(async (req, res) => {
 
 const getPosts = rescue(async (_req, res) => {
   const posts = await findPosts();
-  console.log(posts);
   return res.status(200).json(posts);
 });
 
-module.exports = { newPost, getPosts };
+const getPostById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const post = await findPostById(id);
+  if (!post) return res.status(404).json({ message: 'Post does not exist' });
+  return res.status(200).json(post);
+});
+
+module.exports = { newPost, getPosts, getPostById };
