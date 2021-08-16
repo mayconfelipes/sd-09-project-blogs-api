@@ -36,6 +36,7 @@ postRouter.get('/',
 
 postRouter.get('/:id', 
   tokenValidation,
+  checkIfPostExist,
   async (req, res) => {
   const { id } = req.params;
   const getPostById = await BlogPost.findOne({
@@ -45,7 +46,6 @@ postRouter.get('/:id',
       { model: Category, as: 'categories' },
     ],
   });
-  if (!getPostById) return res.status(404).send({ message: 'Post does not exist' });
   return res.status(200).send(getPostById);
 });
 

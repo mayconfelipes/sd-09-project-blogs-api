@@ -46,4 +46,11 @@ userRouter.get('/:id', tokenValidation, async (req, res) => {
   }).catch(() => res.status(404).send({ message: 'User does not exist' }));
 });
 
+userRouter.delete('/me', tokenValidation, async (req, res) => {
+  const userId = req.user;
+  await User.destroy({ where: { id: userId } })
+  .then(() => res.status(204).send())
+  .catch((e) => res.status(400).send({ Error: e.message })); 
+});
+
 module.exports = userRouter;
