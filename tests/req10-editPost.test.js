@@ -10,7 +10,7 @@ describe('10 - Sua aplicação deve ter o endpoint PUT `/post/:id`', () => {
     shell.exec('npx sequelize-cli db:seed:all $');
   });
 
-  it.skip('Será validado que é possível editar um blogpost com sucesso', async () => {
+  it('Será validado que é possível editar um blogpost com sucesso', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -49,7 +49,7 @@ describe('10 - Sua aplicação deve ter o endpoint PUT `/post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que é não é possível editar as categorias de um blogpost', async () => {
+  it('Será validado que é não é possível editar as categorias de um blogpost', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -85,7 +85,7 @@ describe('10 - Sua aplicação deve ter o endpoint PUT `/post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível editar um blogpost com outro usuário', async () => {
+  it('Será validado que não é possível editar um blogpost com outro usuário', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -120,7 +120,7 @@ describe('10 - Sua aplicação deve ter o endpoint PUT `/post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não possível editar um blogpost sem token', async () => {
+  it('Será validado que não possível editar um blogpost sem token', async () => {
     await frisby
       .setup({
         request: {
@@ -141,7 +141,7 @@ describe('10 - Sua aplicação deve ter o endpoint PUT `/post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não possível editar um blogpost com token inválido', async () => {
+  it('Será validado que não possível editar um blogpost com token inválido', async () => {
     await frisby
       .setup({
         request: {
@@ -162,7 +162,7 @@ describe('10 - Sua aplicação deve ter o endpoint PUT `/post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não possível editar um blogpost sem o campo `title`', async () => {
+  it('Será validado que não possível editar um blogpost sem o campo `title`', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -196,7 +196,7 @@ describe('10 - Sua aplicação deve ter o endpoint PUT `/post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não possível editar um blogpost sem o campo `content`', async () => {
+  it('Será validado que não possível editar um blogpost sem o campo `content`', async () => {
     let token;
     await frisby
       .post(`${url}/login`,

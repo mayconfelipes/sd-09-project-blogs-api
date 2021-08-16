@@ -7,6 +7,11 @@ const postSchema = Joi.object({
   categoryIds: Joi.array().items(Joi.number().required()).required(),
 });
 
+const updatedPostSchema = Joi.object({
+  title: Joi.string().not().empty().required(),
+  content: Joi.string().not().empty().required(),
+});
+
 const checkPost = (params) => postSchema.validate(params);
 
 const createPost = async (post) => {
@@ -44,4 +49,28 @@ const findPostById = async (blogPostId) => {
   }
 };
 
-module.exports = { checkPost, createPost, findPosts, findPostById };
+const checkUser = async (id, postId) => {
+  const post = await findPostById(postId);
+  return post.id === id;
+};
+
+const checkUpdatedPost = (params) => updatedPostSchema.validate(params);
+
+const editPost = async (body, id) => {
+  await BlogPosts.update(body, { where: { id } });
+  const editedPost = await BlogPosts.findOne({
+    where: { id },
+    include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
+  });
+  return editedPost;
+};
+
+module.exports = {
+  checkPost,
+  createPost,
+  findPosts,
+  findPostById,
+  checkUpdatedPost,
+  checkUser,
+  editPost,
+};
