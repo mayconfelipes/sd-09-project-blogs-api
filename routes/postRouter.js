@@ -4,7 +4,7 @@ const {
   checkTitleAndContentPost,
   checkCategoryId,
   checkPostUserId, 
-  blockCategoriesFromBeingEdited  } = require('../middlewares');
+  blockCategoriesFromBeingEdited } = require('../middlewares');
 
 const { BlogPost, User, Category } = require('../models/index');
 
