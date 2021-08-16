@@ -65,6 +65,10 @@ const editPost = async (body, id) => {
   return editedPost;
 };
 
+const deletePostById = async (id) => {
+  await BlogPosts.destroy({ where: { id } });
+};
+
 module.exports = {
   checkPost,
   createPost,
@@ -73,4 +77,5 @@ module.exports = {
   checkUpdatedPost,
   checkUser,
   editPost,
+  deletePostById,
 };

@@ -10,7 +10,7 @@ describe('11 - Sua aplicação deve ter o endpoint DELETE `post/:id`', () => {
     shell.exec('npx sequelize-cli db:seed:all $');
   });
 
-  it.skip('Será validado que é possível deletar um blogpost com sucesso', async () => {
+  it('Será validado que é possível deletar um blogpost com sucesso', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -38,7 +38,7 @@ describe('11 - Sua aplicação deve ter o endpoint DELETE `post/:id`', () => {
       .expect('status', 204);
   });
 
-  it.skip('Será validado que não é possível deletar um blogpost com outro usuário', async () => {
+  it('Será validado que não é possível deletar um blogpost com outro usuário', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -70,7 +70,7 @@ describe('11 - Sua aplicação deve ter o endpoint DELETE `post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível deletar um blogpost inexistente', async () => {
+  it('Será validado que não é possível deletar um blogpost inexistente', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -102,7 +102,7 @@ describe('11 - Sua aplicação deve ter o endpoint DELETE `post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível deletar um blogpost sem o token', async () => {
+  it('Será validado que não é possível deletar um blogpost sem o token', async () => {
     await frisby
       .setup({
         request: {
@@ -120,7 +120,7 @@ describe('11 - Sua aplicação deve ter o endpoint DELETE `post/:id`', () => {
       });
   });
 
-  it.skip('Será validado que não é possível deletar um blogpost com o token inválido', async () => {
+  it('Será validado que não é possível deletar um blogpost com o token inválido', async () => {
     await frisby
       .setup({
         request: {

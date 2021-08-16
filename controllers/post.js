@@ -7,6 +7,7 @@ const {
   findPostById,
   checkUser,
   editPost,
+  deletePostById,
 } = require('../services/post');
 const { createPostCategory } = require('../services/postCategory');
 const { findCategories } = require('../services/categories');
@@ -59,4 +60,19 @@ const updatePost = rescue(async (req, res) => {
   const updated = await editPost(body, postId);
   return res.status(200).json(updated);
 });
-module.exports = { newPost, getPosts, getPostById, updatePost };
+
+const deletePost = rescue(async (req, res) => {
+  const { params: { id: postId }, user: { id } } = req;
+
+  const post = await findPostById(postId);
+  if (!post) return res.status(404).json({ message: 'Post does not exist' });
+
+  const checkedUser = await checkUser(id, postId);
+  if (!checkedUser) return res.status(401).json({ message: 'Unauthorized user' });
+
+  await deletePostById(postId);
+
+  return res.status(204).end();
+});
+
+module.exports = { newPost, getPosts, getPostById, updatePost, deletePost };
