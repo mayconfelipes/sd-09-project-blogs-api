@@ -9,7 +9,7 @@ module.exports = {
         onDelete: 'CASCADE',
         references: {
           model: 'BlogPosts',
-          foreignKey: 'id',
+          key: 'id',
         }
       },
       categoryId: {
@@ -19,7 +19,7 @@ module.exports = {
         onDelete: 'CASCADE',
         references: {
           model: 'Categories',
-          foreignKey: 'id',
+          key: 'id',
         }
       }
     });

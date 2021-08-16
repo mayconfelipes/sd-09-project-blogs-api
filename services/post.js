@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { BlogPosts } = require('../models');
+const { BlogPosts, Users, Categories } = require('../models');
 
 const postSchema = Joi.object({
   title: Joi.string().not().empty().required(),
@@ -14,4 +14,20 @@ const createPost = async (post) => {
   return newPost;
 };
 
-module.exports = { checkPost, createPost };
+const findPosts = async () => {
+  try {
+    const allPosts = await BlogPosts.findAll(
+      {
+        include: [
+          { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+          { model: Categories, as: 'categories', through: { attributes: [] } },
+        ],
+      },
+    );
+    return allPosts;
+  } catch (error) {
+    return error;
+  }
+};
+
+module.exports = { checkPost, createPost, findPosts };
