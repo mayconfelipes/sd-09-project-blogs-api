@@ -6,7 +6,7 @@ const {
   checkPostUserId, 
   blockCategoriesFromBeingEdited  } = require('../middlewares');
 
-  const { BlogPost, User, Category } = require('../models/index');
+const { BlogPost, User, Category } = require('../models/index');
 
 const postRouter = express.Router();
 
