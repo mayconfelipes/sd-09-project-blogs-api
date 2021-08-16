@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { checkLogin } = require('../services/login');
 const { getUser } = require('../services/user');
 
-const { EXPIRES_IN, ALGORITHM, JWT_SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 
 const login = rescue(async (req, res) => {
   const { email, password } = req.body;
@@ -20,8 +20,8 @@ const login = rescue(async (req, res) => {
   },
   JWT_SECRET,
   {
-    expiresIn: EXPIRES_IN,
-    algorithm: ALGORITHM,
+    expiresIn: '7d',
+    algorithm: 'HS256',
   },
   );
   req.headers.authorization = token;
