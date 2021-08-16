@@ -10,7 +10,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.0",
     "nodemon": "^2.0.12",
-    "sequelize": "^6.3.4",
+    "sequelize": "^6.6.5",
     "shelljs": "0.8.4"
   },
   "scripts": {

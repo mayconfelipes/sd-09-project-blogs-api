@@ -7,6 +7,8 @@ const checkIfLoginIsValid = require('./checkIfLoginIsValid');
 const tokenValidation = require('./tokenValidation');
 const checkTitleAndContentPost = require('./checkTitleAndContentPost');
 const checkCategoryId = require('./checkCategoryId');
+const checkPostUserId = require('./checkPostUserId');
+const blockCategoriesFromBeingEdited = require('./blockCategoriesFromBeingEdited');
 
 module.exports = { 
   tokenGenerator,
@@ -17,4 +19,6 @@ module.exports = {
   checkIfLoginIsValid, 
   tokenValidation,
   checkTitleAndContentPost,
-  checkCategoryId };
+  checkCategoryId,
+  checkPostUserId,
+  blockCategoriesFromBeingEdited };

@@ -28,13 +28,15 @@ module.exports = {
         },
       },
       createdAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
+        allowNull: false,
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         field: 'published',
       },
       updatedAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
+        allowNull: false,
+        type: 'TIMESTAMP',
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         field: 'updated',
       },
     });
