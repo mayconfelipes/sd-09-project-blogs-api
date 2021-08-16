@@ -4,7 +4,8 @@ const {
   checkTitleAndContentPost,
   checkCategoryId,
   checkPostUserId, 
-  blockCategoriesFromBeingEdited } = require('../middlewares');
+  blockCategoriesFromBeingEdited,
+  checkIfPostExist } = require('../middlewares');
 
 const { BlogPost, User, Category } = require('../models/index');
 
@@ -67,5 +68,16 @@ postRouter.put('/:id',
     })
     .catch((e) => res.status(400).send({ Error: e.message }));
 });
+
+postRouter.delete('/:id',
+  tokenValidation,
+  checkIfPostExist,
+  checkPostUserId,
+  async (req, res) => {
+    const { id } = req.params;
+    await BlogPost.destroy({ where: { id } })
+    .then(() => res.status(204).send())
+    .catch((e) => res.status(400).send({ Error: e.message }));
+  });
 
 module.exports = postRouter;

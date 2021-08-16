@@ -9,6 +9,7 @@ const checkTitleAndContentPost = require('./checkTitleAndContentPost');
 const checkCategoryId = require('./checkCategoryId');
 const checkPostUserId = require('./checkPostUserId');
 const blockCategoriesFromBeingEdited = require('./blockCategoriesFromBeingEdited');
+const checkIfPostExist = require('./checkIfPostExist');
 
 module.exports = { 
   tokenGenerator,
@@ -21,4 +22,5 @@ module.exports = {
   checkTitleAndContentPost,
   checkCategoryId,
   checkPostUserId,
-  blockCategoriesFromBeingEdited };
+  blockCategoriesFromBeingEdited,
+  checkIfPostExist };
