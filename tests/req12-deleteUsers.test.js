@@ -10,7 +10,7 @@ describe('12 - Sua aplicação deve ter o endpoint DELETE `/user/me`', () => {
     shell.exec('npx sequelize-cli db:seed:all $');
   });
 
-  it.skip('Será validado que é possível excluir meu usuário com sucesso', async () => {
+  it('Será validado que é possível excluir meu usuário com sucesso', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -38,7 +38,7 @@ describe('12 - Sua aplicação deve ter o endpoint DELETE `/user/me`', () => {
       .expect('status', 204);
   });
 
-  it.skip('Será validado que não é possivel excluir meu usuário com token inválido', async () => {
+  it('Será validado que não é possivel excluir meu usuário com token inválido', async () => {
     await frisby
       .setup({
         request: {
@@ -56,7 +56,7 @@ describe('12 - Sua aplicação deve ter o endpoint DELETE `/user/me`', () => {
       });
   });
 
-  it.skip('Será validado que não é possivel excluir meu usuário sem o token', async () => {
+  it('Será validado que não é possivel excluir meu usuário sem o token', async () => {
     await frisby
       .setup({
         request: {
