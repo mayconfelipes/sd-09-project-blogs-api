@@ -75,4 +75,9 @@ const deletePost = rescue(async (req, res) => {
   return res.status(204).end();
 });
 
-module.exports = { newPost, getPosts, getPostById, updatePost, deletePost };
+const searchPost = rescue(async (req, res) => {
+  const { query } = req;
+  return res.status(200).json(query);
+});
+
+module.exports = { newPost, getPosts, getPostById, updatePost, deletePost, searchPost };

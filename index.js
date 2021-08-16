@@ -19,4 +19,4 @@ app.get('/', (request, response) => {
 });
 
 const { PORT } = process.env;
-app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
+app.listen(PORT || 3000, () => console.log(`ouvindo porta ${PORT}!`));
