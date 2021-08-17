@@ -1,6 +1,6 @@
 const joi = require('joi');
 const { User } = require('../models');
-const { messages, codes, objectError } = require('../util/responseHandling');
+const { messages, codes, objectError, objectResponse } = require('../util/responseHandling');
 const { createToken } = require('../util/tokenGenerate');
 
 const userValidator = joi.object({
@@ -21,4 +21,9 @@ const createUser = async (displayName, email, password, image) => {
   return createToken({ email, password }, codes.CODE_201);
 };
 
-module.exports = { createUser };
+const getAllUsers = async () => {
+  const users = await User.findAll();
+  return objectResponse(users, codes.CODE_200);
+};
+
+module.exports = { createUser, getAllUsers };

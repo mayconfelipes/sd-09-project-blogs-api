@@ -12,9 +12,18 @@ const createUser = async (req, res) => {
     const { code, response } = await UserService.createUser(displayName, email, password, image);
 
     return res.status(code).json(response);
-  } catch (e) {
+  } catch (err) {
     res.status(500).json({ message: 'Algo deu errado' });
   }
 };
 
-module.exports = { createUser };
+const getAllUsers = async (req, res) => {
+  try {
+    const { response, code } = await UserService.getAllUsers();
+    res.status(code).json(response);
+  } catch (err) {
+    res.status(500).json({ message: 'Algo deu errado' });
+  }
+};
+
+module.exports = { createUser, getAllUsers };
