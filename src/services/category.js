@@ -30,6 +30,16 @@ const create = async (authorization, data) => {
   return categories;
 };
 
+// list all users
+const list = async (authorization) => {
+  await validateAuth(authorization);
+
+  const categories = await Categories.findAll();
+
+  return categories;
+};
+
 module.exports = {
   create,
+  list,
 };

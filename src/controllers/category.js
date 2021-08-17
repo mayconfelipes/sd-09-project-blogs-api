@@ -13,17 +13,21 @@ const create = async (req, res, next) => {
 
     const categories = await Category.create(authorization, req.body);
 
-    res.status(statusHTTP.CREATED).json(categories);
+    return res.status(statusHTTP.CREATED).json(categories);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
 const list = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'listar categorias' });
+    const { authorization } = req.headers;
+
+    const categories = await Category.list(authorization);
+
+    return res.status(statusHTTP.OK).json(categories);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
