@@ -28,7 +28,11 @@ const login = async (req, res, next) => {
 
 const list = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'listar todos usuarios' });
+    const { authorization } = req.headers;
+
+    const users = await User.list(authorization);
+
+    res.status(200).json(users);
   } catch (error) {
     return next(error);
   }

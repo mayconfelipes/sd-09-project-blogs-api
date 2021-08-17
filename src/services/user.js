@@ -2,8 +2,9 @@ const Joi = require('joi');
 
 const { Users } = require('../models');
 const createAuth = require('../middlewares/createAuth');
+const validateAuth = require('../middlewares/validateAuth');
 
-// validadores
+// error
 const objectError = (code, message) => ({
   code,
   message,
@@ -73,7 +74,19 @@ const login = async (data) => {
   return { token };
 };
 
+const list = async (authorization) => {
+  await validateAuth(authorization);
+
+  const users = await Users.findAll({
+    // exclui o campo
+    attributes: { exclude: ['password'] },
+  });
+
+  return users;
+};
+
 module.exports = {
   create,
   login,
+  list,
 };
