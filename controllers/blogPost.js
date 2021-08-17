@@ -56,9 +56,20 @@ const getAllPosts = async (_req, res) => {
       .catch((error) => res.status(400).json({ error: error.message }));
   };
 
+  const deleteById = async (req, res) => {
+    try {
+      const { id } = req.params;
+      await BlogPost.destroy({ where: { id } });
+      return res.status(204).send();
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  };
+
 module.exports = {
   postBlogPosts,
   getAllPosts,
   getPostById,
   updateById,
+  deleteById,
 };

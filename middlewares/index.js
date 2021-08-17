@@ -9,6 +9,7 @@ const checkCategoryId = require('./checkCategoryId');
 const checkTitleAndContent = require('./checkTitleAndContent');
 const checkCategoryIdNotUpdate = require('./checkCateroryIdNotUpdate');
 const checkPostUser = require('./checkPostUser');
+const checkIfPostAlreadyExist = require('./checkPostAlreadyExist.js');
 
 module.exports = { 
   checkDisplayName,
@@ -22,4 +23,5 @@ module.exports = {
   checkTitleAndContent,
   checkCategoryIdNotUpdate,
   checkPostUser,
+  checkIfPostAlreadyExist,
   };

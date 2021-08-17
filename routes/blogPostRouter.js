@@ -5,8 +5,13 @@ const {
   checkTitleAndContent, 
   checkCategoryIdNotUpdate,
   checkPostUser,
+  checkIfPostAlreadyExist,
 } = require('../middlewares/index');
-const { postBlogPosts, getAllPosts, getPostById, updateById } = require('../controllers/blogPost');
+const { postBlogPosts, 
+  getAllPosts, 
+  getPostById, 
+  updateById, 
+  deleteById } = require('../controllers/blogPost');
 
 const blogPostRouter = express.Router();
 blogPostRouter.get('/post/:id', tokenValidation, getPostById);
@@ -16,7 +21,13 @@ checkPostUser,
 checkTitleAndContent,
 checkCategoryIdNotUpdate, 
 updateById);
-blogPostRouter.post('/post', checkCategoryId, checkTitleAndContent, tokenValidation, postBlogPosts);
+blogPostRouter.delete('/post/:id', 
+tokenValidation, 
+checkIfPostAlreadyExist, 
+checkPostUser, 
+deleteById);
+blogPostRouter.post('/post', 
+checkCategoryId, checkTitleAndContent, tokenValidation, postBlogPosts);
 blogPostRouter.get('/post', tokenValidation, getAllPosts);
 
 module.exports = { blogPostRouter };
