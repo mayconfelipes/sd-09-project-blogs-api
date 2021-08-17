@@ -10,7 +10,7 @@ const createToken = (user) => {
   const secret = process.env.JWT_SECRET;
   const token = jwt.sign(user, secret, jwtConfig);
   
-  return objectResponse({ token }, codes.CODE_200);
+  return objectResponse({ token }, codes.CODE_201);
 };
 
 module.exports = { createToken };

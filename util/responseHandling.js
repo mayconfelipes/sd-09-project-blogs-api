@@ -5,6 +5,8 @@ const messages = {
 const codes = {
   CODE_400: 400,
   CODE_200: 200,
+  CODE_201: 201,
+  CODE_409: 409,
 };
 
 const objectError = (message, code) => ({ response: { message }, code });

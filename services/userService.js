@@ -15,7 +15,7 @@ const createUser = async (displayName, email, password, image) => {
   if (error) return objectError(error.details[0].message, codes.CODE_400);
 
   const userExists = await User.findOne({ where: { email } });
-  if (userExists) return objectError(messages.USER_ALREADY_EXISTS, codes.CODE_400);
+  if (userExists) return objectError(messages.USER_ALREADY_EXISTS, codes.CODE_409);
 
   await User.create({ displayName, email, password, image });
   return createToken({ displayName, email, password, image });
