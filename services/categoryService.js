@@ -16,4 +16,9 @@ const createCategory = async (name) => {
   return objectResponse(newCategory, codes.CODE_201);
 };
 
-module.exports = { createCategory };
+const getAllCategories = async () => {
+  const categories = await Category.findAll();
+  return objectResponse(categories, codes.CODE_200);
+};
+
+module.exports = { createCategory, getAllCategories };
