@@ -43,7 +43,10 @@ const validUser = async (email, password) => {
     throw boom.badRequest('Invalid fields');
   }
 
-  const user = userExisting;
+  const user = {
+    id: userExisting[0].dataValues.id,
+    email: userExisting[0].dataValues.email,
+  };
 
   return user;
 };
