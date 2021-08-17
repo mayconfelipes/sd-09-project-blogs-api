@@ -1,9 +1,18 @@
+const User = require('../services/user');
+
+const statusHTTP = {
+  OK: 200,
+  CREATED: 201,
+};
+
 // Rotas
 const create = async (req, res, next) => {
   try {
-    res.status(201).json({ message: 'criar usuario' });
+    const users = await User.create(req.body);
+
+    res.status(statusHTTP.CREATED).json(users);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -17,9 +26,9 @@ const login = async (req, res, next) => {
 
 const list = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'listar usuarios' });
+    res.status(200).json({ message: 'listar todos usuarios' });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
