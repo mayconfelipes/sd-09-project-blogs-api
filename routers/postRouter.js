@@ -6,6 +6,7 @@ const { validateNewPost } = require('../middlewares/validatePost');
 const {
   createPostController,
   getAllPostsController,
+  getPostByIdController,
 } = require('../controllers/postController');
 
 const postRouter = express.Router();
@@ -18,5 +19,6 @@ postRouter.post(
 );
 
 postRouter.get('/', validateToken, rescue(getAllPostsController));
+postRouter.get('/:id', validateToken, rescue(getPostByIdController));
 
 module.exports = postRouter;

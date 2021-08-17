@@ -32,7 +32,20 @@ const getAllPostsService = async () => {
   return blogPosts;
 };
 
+const getPostByIdService = async (id) => {
+  const blogPost = await BlogPost.findOne({
+    where: { id },
+    include: [
+    { model: User, as: 'user' },
+    { model: Category, as: 'categories' },
+  ] });
+
+  if (!blogPost) throw erro.POST_NOT_FOUND;
+  return blogPost;
+};
+
 module.exports = {
   createPostService,
   getAllPostsService,
+  getPostByIdService,
 };

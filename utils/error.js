@@ -15,6 +15,10 @@ const erro = {
     status: 400,
     message: '"categoryIds" not found',
   },
+  POST_NOT_FOUND: {
+    status: 404,
+    message: 'Post does not exist',
+  },
 };
 
 module.exports = erro;
