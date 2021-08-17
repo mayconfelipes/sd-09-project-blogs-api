@@ -18,9 +18,11 @@ const create = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'login' });
+    const users = await User.login(req.body);
+
+    res.status(statusHTTP.OK).json(users);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
