@@ -1,5 +1,6 @@
 const messages = {
   USER_ALREADY_EXISTS: 'User already registered',
+  INVALID_FIELDS: 'Invalid fields',
 };
 
 const codes = {

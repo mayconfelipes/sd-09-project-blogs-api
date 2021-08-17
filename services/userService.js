@@ -18,7 +18,7 @@ const createUser = async (displayName, email, password, image) => {
   if (userExists) return objectError(messages.USER_ALREADY_EXISTS, codes.CODE_409);
 
   await User.create({ displayName, email, password, image });
-  return createToken({ displayName, email, password, image });
+  return createToken({ email, password }, codes.CODE_201);
 };
 
 module.exports = { createUser };
