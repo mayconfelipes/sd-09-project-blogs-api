@@ -3,11 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "body-parser": "^1.19.0",
     "dotenv": "8.2.0",
     "eslint-config-trybe-backend": "1.0.3",
     "express": "4.17.1",
+    "express-rescue": "^1.1.31",
+    "file-system": "^2.2.2",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.0",
-    "sequelize": "^6.3.4",
+    "nodemon": "^2.0.12",
+    "sequelize": "^6.6.5",
     "shelljs": "0.8.4"
   },
   "scripts": {
@@ -17,7 +24,7 @@
     "seed": "npx sequelize-cli db:seed:all $",
     "test": "jest --runInBand",
     "test-coverage": "jest --runInBand --coverage",
-    "debug": "nodemon index.js",
+    "dev": "nodemon index.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
   "devDependencies": {
