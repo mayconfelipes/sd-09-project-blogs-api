@@ -40,8 +40,25 @@ const getAllPosts = async (_req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+
+  const updateById = async (req, res) => {
+    const { title, content } = req.body;
+    const { id } = req.params;
+    BlogPost.update({ title, content }, { where: { id } })
+      .then(async () => { 
+       const postUpdated = await BlogPost.findOne({ 
+         where: { id },
+         include: [
+          { model: Category, as: 'categories' },
+        ] });
+       return res.status(200).json(postUpdated); 
+      })
+      .catch((error) => res.status(400).json({ error: error.message }));
+  };
+
 module.exports = {
   postBlogPosts,
   getAllPosts,
   getPostById,
+  updateById,
 };

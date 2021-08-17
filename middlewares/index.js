@@ -7,6 +7,8 @@ const tokenValidation = require('./tokenValidation');
 const checkLogin = require('./checkLogin');
 const checkCategoryId = require('./checkCategoryId');
 const checkTitleAndContent = require('./checkTitleAndContent');
+const checkCategoryIdNotUpdate = require('./checkCateroryIdNotUpdate');
+const checkPostUser = require('./checkPostUser');
 
 module.exports = { 
   checkDisplayName,
@@ -18,4 +20,6 @@ module.exports = {
   checkLogin,
   checkCategoryId,
   checkTitleAndContent,
+  checkCategoryIdNotUpdate,
+  checkPostUser,
   };
