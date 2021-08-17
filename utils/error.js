@@ -10,7 +10,11 @@ const erro = {
   NONEXISTENT_USER: {
     status: 404,
     message: 'User does not exist',
-},
+  },
+  CATEGORY_NOT_FOUND: {
+    status: 400,
+    message: '"categoryIds" not found'
+  },
 };
 
 module.exports = erro;
