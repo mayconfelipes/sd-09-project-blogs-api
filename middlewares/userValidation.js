@@ -24,9 +24,8 @@ const validateUser = (user) => {
   return null;
 };
 
-const validateExistingUser = async (user) => {
-  const foundUser = await User.findOne({ where: { email: user.email } });
-  console.log(foundUser);
+const validateExistingUser = async (email) => {
+  const foundUser = await User.findOne({ where: { email } });
   if (foundUser) return { status: 409, message: 'User already registered' };
   return null;
 };
@@ -35,11 +34,12 @@ const validateNewUser = async (user) => {
   const invalidUser = validateUser(user);
   console.log(invalidUser);
   if (validateUser(user)) return validateUser(user);
-  const existingUser = await validateExistingUser(user);
+  const existingUser = await validateExistingUser(user.email);
   if (existingUser) return existingUser;
   return null;
 };
 
 module.exports = {
   validateNewUser,
+  validateExistingUser,
 };

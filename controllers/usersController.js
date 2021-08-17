@@ -15,6 +15,13 @@ const createNewUser = async (req, res, _next) => {
   });
 };
 
+const getUserByData = async (field, value) => {
+  const user = await User.findOne({ where: { [field]: value } });
+  console.log(user);
+  return user;
+};
+
 module.exports = {
   createNewUser,
+  getUserByData,
 };
