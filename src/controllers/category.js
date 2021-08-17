@@ -1,13 +1,25 @@
+const Category = require('../services/category');
+
+const statusHTTP = {
+  OK: 200,
+  CREATED: 201,
+  NO_CONTENT: 204,
+};
+
 // Rotas
-const createCategory = async (req, res, next) => {
+const create = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'criar categoria' });
+    const { authorization } = req.headers;
+
+    const categories = await Category.create(authorization, req.body);
+
+    res.status(statusHTTP.CREATED).json(categories);
   } catch (error) {
     next(error);
   }
 };
 
-const getCategory = async (req, res, next) => {
+const list = async (req, res, next) => {
   try {
     res.status(200).json({ message: 'listar categorias' });
   } catch (error) {
@@ -16,6 +28,6 @@ const getCategory = async (req, res, next) => {
 };
 
 module.exports = {
-  createCategory,
-  getCategory,
+  create,
+  list,
 };
