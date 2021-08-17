@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.createTable('Users', {
@@ -5,28 +6,25 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        unique: true,
         type: Sequelize.INTEGER,
       },
-      title: {
+      displayName: {
         allowNull: false,
         type: Sequelize.STRING,
-        field: 'first_name',
       },
-      content: {
+      email: {
         allowNull: false,
         type: Sequelize.STRING,
-        field: 'last_name',
+        unique: true,
       },
-      userId: {
-        type: Sequelize.INTEGER,
+      password: {
         allowNull: false,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        field: 'user_Id',
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
+        type: Sequelize.STRING,
+      },
+      image: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
     });
   },
