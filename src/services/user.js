@@ -74,6 +74,7 @@ const login = async (data) => {
   return { token };
 };
 
+// list all users
 const list = async (authorization) => {
   await validateAuth(authorization);
 
@@ -85,6 +86,7 @@ const list = async (authorization) => {
   return users;
 };
 
+// list user by id
 const listById = async (id, authorization) => {
   await validateAuth(authorization);
 
@@ -99,9 +101,17 @@ const listById = async (id, authorization) => {
   return userWithoutImagePassword;
 };
 
+// delete
+const exclude = async (authorization) => {
+  const payload = await validateAuth(authorization);
+
+  await Users.destroy({ where: { ...payload.email } });
+};
+
 module.exports = {
   create,
   login,
   list,
   listById,
+  exclude,
 };

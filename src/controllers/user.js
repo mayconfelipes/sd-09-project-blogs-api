@@ -3,6 +3,7 @@ const User = require('../services/user');
 const statusHTTP = {
   OK: 200,
   CREATED: 201,
+  NO_CONTENT: 204,
 };
 
 // Rotas
@@ -53,9 +54,13 @@ const listById = async (req, res, next) => {
 
 const exclude = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'excluir usuario' });
+    const { authorization } = req.headers;
+
+    const users = await User.exclude(authorization);
+
+    res.status(statusHTTP.NO_CONTENT).json(users);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
