@@ -10,7 +10,7 @@ const categoriesRouter = express.Router();
 categoriesRouter.post(
   '/',
   [validateToken, validateName],
-  rescue(createCategoryController)
+  rescue(createCategoryController),
 );
 
 module.exports = categoriesRouter;
