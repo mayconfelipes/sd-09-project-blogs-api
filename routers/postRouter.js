@@ -14,7 +14,7 @@ postRouter.post(
   '/',
   validateToken,
   validateNewPost,
-  rescue(createPostController)
+  rescue(createPostController),
 );
 
 postRouter.get('/', validateToken, rescue(getAllPostsController));
