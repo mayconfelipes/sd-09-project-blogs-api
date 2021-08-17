@@ -32,7 +32,7 @@ const list = async (req, res, next) => {
 
     const users = await User.list(authorization);
 
-    res.status(200).json(users);
+    res.status(statusHTTP.OK).json(users);
   } catch (error) {
     return next(error);
   }
@@ -40,9 +40,14 @@ const list = async (req, res, next) => {
 
 const listById = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'listar usuario por id' });
+    const { id } = req.params;
+    const { authorization } = req.headers;
+
+    const users = await User.listById(id, authorization);
+
+    res.status(statusHTTP.OK).json(users);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 

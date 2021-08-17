@@ -85,8 +85,23 @@ const list = async (authorization) => {
   return users;
 };
 
+const listById = async (id, authorization) => {
+  await validateAuth(authorization);
+
+  const users = await Users.findOne({ where: { id } });
+
+  if (!users) {
+    throw objectError('NOT_FOUND', 'User does not exist');
+  }
+
+  const { password, ...userWithoutImagePassword } = users.dataValues;
+
+  return userWithoutImagePassword;
+};
+
 module.exports = {
   create,
   login,
   list,
+  listById,
 };
