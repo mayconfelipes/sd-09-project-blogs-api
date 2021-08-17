@@ -13,7 +13,7 @@ const erro = {
   },
   CATEGORY_NOT_FOUND: {
     status: 400,
-    message: '"categoryIds" not found'
+    message: '"categoryIds" not found',
   },
 };
 
