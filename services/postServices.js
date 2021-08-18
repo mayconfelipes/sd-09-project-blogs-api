@@ -26,4 +26,9 @@ const createPost = async (postData) => {
   return createdPost;
 };
 
-module.exports = { createPost };
+const getAll = async () => {
+  const posts = await BlogPost.findAll();
+  return posts;
+};
+
+module.exports = { createPost, getAll };

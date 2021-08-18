@@ -6,6 +6,7 @@ const { validateToken } = require('../middlewares/validateToken');
 const router = Router();
 
 router.route('/')
-  .post(validateToken, controllers.createPost);
+  .post(validateToken, controllers.createPost)
+  .get(validateToken, controllers.getAll);
 
 module.exports = router;

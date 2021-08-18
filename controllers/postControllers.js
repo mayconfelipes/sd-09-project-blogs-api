@@ -1,5 +1,5 @@
 const postServices = require('../services/postServices');
-const { created } = require('../helpers/getHttpStatusCode');
+const { created, ok } = require('../helpers/getHttpStatusCode');
 
 const createPost = async (req, res, next) => {
   const { id } = req.user;
@@ -12,4 +12,13 @@ const createPost = async (req, res, next) => {
   }
 };
 
-module.exports = { createPost };
+const getAll = async (req, res, next) => {
+  try {
+    const posts = await postServices.findAll();
+    return res.status(ok).json(posts);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = { createPost, getAll };
