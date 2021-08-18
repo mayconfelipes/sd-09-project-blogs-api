@@ -8,6 +8,7 @@ const {
   getAllPostsController,
   getPostByIdController,
   updatePostController,
+  deletePostController,
 } = require('../controllers/postController');
 
 const postRouter = express.Router();
@@ -28,5 +29,7 @@ postRouter.put(
   validateUpdate,
   rescue(updatePostController),
 );
+
+postRouter.delete('/:id', validateToken, rescue(deletePostController));
 
 module.exports = postRouter;

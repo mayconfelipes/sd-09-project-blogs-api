@@ -4,11 +4,12 @@ const {
   getAllPostsService,
   getPostByIdService,
   updatePostService,
+  deletePostService,
 } = require('../services/postService');
 
 const createPostController = async (req, res) => {
   const newPost = req.body;
-  const { id: userId } = req.user.data;
+  const { id: userId } = req.user;
 
   const blogPost = await createPostService(newPost, userId);
   return res.status(code.CREATED).json(blogPost.dataValues);
@@ -27,14 +28,20 @@ const getPostByIdController = async (req, res) => {
 };
 
 const updatePostController = async (req, res) => {
-  // console.log(req.params, req.user.id, req.body,'AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
   const { id } = req.params;
   const userId = req.user.id;
   const newContent = req.body;
 
   const blogPost = await updatePostService(id, userId, newContent);
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>blogpost',blogPost);
   return res.status(code.OK).json(blogPost);
+};
+
+const deletePostController = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+
+  await deletePostService(id, userId);
+  return res.status(code.NO_CONTENT).json();
 };
 
 module.exports = {
@@ -42,4 +49,5 @@ module.exports = {
   getAllPostsController,
   getPostByIdController,
   updatePostController,
+  deletePostController,
 };

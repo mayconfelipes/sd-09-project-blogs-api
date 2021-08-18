@@ -47,7 +47,6 @@ const getPostByIdService = async (id) => {
 const verifyAuthorPost = async (postId, userId) => {
   const userIdPost = postId;
   let authorized = false;
-  console.log(userIdPost, userId, '-*-*-*-*-*-*-*-*-*-*-*-*-*');
 
   if (parseInt(userIdPost, 10) === userId) {
     authorized = true;
@@ -63,7 +62,6 @@ const updatePostService = async (id, userId, data) => {
   if (!post) throw erro.POST_NOT_FOUND;
 
   const authorized = await verifyAuthorPost(id, userId);
-  // console.log('ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh', id, userId,authorized);
   if (!authorized) throw erro.UNAUTHORIZED_USER;
   await BlogPost.update({ title, content }, { where: { id } });
 
@@ -71,9 +69,25 @@ const updatePostService = async (id, userId, data) => {
   return updatedPost;
 };
 
+const deletePostService = async (id, userId) => {
+  let postId = await getPostByIdService(id);
+  if (!postId) throw erro.POST_NOT_FOUND;
+
+  postId = postId.dataValues.id;
+
+  const authorized = await verifyAuthorPost(postId, userId);
+  if (!authorized) throw erro.UNAUTHORIZED_USER;
+
+  await BlogPost.destroy({ where: { id } });
+
+  const deletedPost = await BlogPost.findOne({ where: { id } });
+  if (!deletedPost) return true;
+};
+
 module.exports = {
   createPostService,
   getAllPostsService,
   getPostByIdService,
   updatePostService,
+  deletePostService,
 };
