@@ -93,7 +93,9 @@ const deletePost = async (userId, id) => {
 // https://sequelize.org/master/manual/model-querying-basics.html#applying-where-clauses
 const getBySeach = async (query) => {
   const posts = await BlogPost.findAll({ 
-    where: { [Op.or]: [{ title: { [Op.substring]: query } }, { content: { [Op.substring]: query } }] },
+    where: { 
+      [Op.or]: [{ title: { [Op.substring]: query } }, { content: { [Op.substring]: query } }],
+    },
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Category, as: 'categories' },
