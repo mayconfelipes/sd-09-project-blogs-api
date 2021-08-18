@@ -8,15 +8,15 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-const insertUser = async (request, response) => {
+const insertUser = async (req, res) => {
   try {
-    const { displayName, email, password, image } = request.body;
+    const { displayName, email, password, image } = req.body;
     await User.create({ displayName, email, password, image });
     const token = jwt.sign({ email }, SECRET, jwtConfig);
-    response.status(201).json(token);
+    res.status(201).json(token);
   } catch (error) {
     console.log(error);
-    response.status(500).json('insertUser error');
+    res.status(500).json('insertUser error');
   }
 };
 
