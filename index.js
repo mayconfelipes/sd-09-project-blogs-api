@@ -15,8 +15,8 @@ userServices.validatePassword,
 userController.insertUser);
 
 app.post('/login',
-userServices.validateLogin,
-userServices.validatePassword,
+userServices.validateLoginEmail,
+userServices.validateLoginPassword,
 userController.logUser);
 
 // não remova esse endpoint, e para o avaliador funcionar
