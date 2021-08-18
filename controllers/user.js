@@ -4,6 +4,7 @@ const joi = require('joi');
 const jwt = require('jsonwebtoken');
 
 const { user } = require('../services');
+const { auth } = require('../middlewares');
 
 const { JWT_SECRET } = process.env;
 
@@ -38,6 +39,12 @@ router.post('/', async (req, res, next) => {
   const token = tokenGenerator({ email });
 
   res.status(201).json({ token });
+});
+
+router.get('/', auth, async (_req, res, _next) => {
+  const users = await user.readUsers();
+  
+  res.status(200).json(users);
 });
 
 module.exports = router;

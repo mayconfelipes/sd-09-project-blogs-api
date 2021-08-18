@@ -12,6 +12,9 @@ const addUser = async (newUser) => {
   return user;
 };
 
+const readUsers = () => User.findAll({ attributes: { exclude: ['password'] } });
+
 module.exports = {
   addUser,
+  readUsers,
 };
