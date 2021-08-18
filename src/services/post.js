@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { Op } = require('sequelize');
 
 const { BlogPosts, Categories, PostsCategories, Users } = require('../models');
 
@@ -163,10 +164,35 @@ const exclude = async (authorization, id) => {
   await BlogPosts.destroy({ where: { id } });
 };
 
+// search by term
+const search = async (authorization, queryParam) => {
+  await validateAuth(authorization);
+
+  const post = await BlogPosts.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.substring]: queryParam } },
+        { content: { [Op.substring]: queryParam } },
+      ],
+    },
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return post;
+};
+
 module.exports = {
   create,
   list,
   listById,
   edit,
   exclude,
+  search,
 };

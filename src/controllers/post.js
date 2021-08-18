@@ -72,9 +72,14 @@ const exclude = async (req, res, next) => {
 
 const search = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'procurar post por termo' });
+    const { authorization } = req.headers;
+    const { q } = req.query;
+
+    const posts = await Post.search(authorization, q);
+
+    return res.status(statusHTTP.OK).json(posts);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 

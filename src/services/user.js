@@ -109,7 +109,7 @@ const listById = async (id, authorization) => {
 const exclude = async (authorization) => {
   const payload = await validateAuth(authorization);
 
-  await Users.destroy({ where: { ...payload.email } });
+  await Users.destroy({ where: { email: payload.email } });
 };
 
 module.exports = {
