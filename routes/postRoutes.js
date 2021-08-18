@@ -1,4 +1,4 @@
-const { Router} = require('express');
+const { Router } = require('express');
 
 const controllers = require('../controllers/postControllers');
 const { validateToken } = require('../middlewares/validateToken');
