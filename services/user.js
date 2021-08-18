@@ -3,7 +3,6 @@ const { User } = require('../models');
 
 const validateEmail = async (req, res, next) => {
   const { email } = req.body;
-  console.log(email);
   const regex = /\S+@\S+\.\S+/;
   if (email === '' || !email) {
     return res.status(400).json({ message: '"email" is required' });
@@ -20,16 +19,20 @@ const validateEmail = async (req, res, next) => {
   next();
 };
 
-const validateNamePassword = async (req, res, next) => {
-  const { displayName, password } = req.body;
-  console.log(displayName);
-  console.log(password);
+const validateName = async (req, res, next) => {
+  const { displayName } = req.body;
 
   if (displayName.length < 8) {
     return res.status(400).json({ 
       message: '"displayName" length must be at least 8 characters long',
     });
   }
+
+  next();
+};
+
+const validatePassword = async (req, res, next) => {
+  const { password } = req.body;
 
   if (password === '' || !password) {
     return res.status(400).json({ message: '"password" is required' });
@@ -46,5 +49,6 @@ const validateNamePassword = async (req, res, next) => {
 
 module.exports = {
   validateEmail,
-  validateNamePassword,
+  validateName,
+  validatePassword,
 }; 
