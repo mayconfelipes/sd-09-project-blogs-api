@@ -2,6 +2,7 @@
 // verifica se email está cadasrado
 const Joi = require('joi');
 const { validateExistingUser } = require('./userValidation');
+const { getUserByData } = require('./users');
 
 const checkLoginData = Joi.object({
   email: Joi.string()
@@ -17,8 +18,6 @@ const checkLoginData = Joi.object({
       'string.max': '"password" length must be 6 characters long',
     }),
 });
-
-const { getUserByData } = require('../controllers/usersController');
 
 const isPasswordCorrect = async (loginData) => {
   const userData = await getUserByData('email', loginData.email);

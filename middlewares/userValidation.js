@@ -32,8 +32,7 @@ const validateExistingUser = async (email) => {
 
 const validateNewUser = async (user) => {
   const invalidUser = validateUser(user);
-  console.log(invalidUser);
-  if (validateUser(user)) return validateUser(user);
+  if (invalidUser) return invalidUser;
   const existingUser = await validateExistingUser(user.email);
   if (existingUser) return existingUser;
   return null;

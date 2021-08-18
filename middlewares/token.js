@@ -12,11 +12,18 @@ const generateToken = (userData) => {
   return jwt.sign(userData, secret, jwtConfig);
 };
 
-// const validateToken = () => {
+const validateToken = (token) => {
+  if (!token) return { status: 401, message: 'Token not found' };
 
-// };
+  try {
+    const decoded = jwt.verify(token, secret);
+    return decoded.email;
+  } catch (err) {
+    return { status: 401, message: 'Expired or invalid token' };
+  }
+};
 
 module.exports = {
   generateToken,
-  // validateToken,
+  validateToken,
 };

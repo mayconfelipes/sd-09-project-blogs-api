@@ -1,27 +1,30 @@
-const { User } = require('../models');
+const { createNewUser, getAllUsers } = require('../middlewares/users');
 const { validateNewUser } = require('../middlewares/userValidation');
-const { generateToken } = require('../middlewares/token');
+const { validateToken } = require('../middlewares/token');
 
-const createNewUser = async (req, res, _next) => {
+const createUser = async (req, res, _next) => {
   const newUser = req.body;
+
   const invalidData = await validateNewUser(newUser);
   if (invalidData) return res.status(invalidData.status).json({ message: invalidData.message });
 
-  await User.create(newUser).then((data) => {
-    const { password: _, ...userWithoutPassword } = data;
-    const token = generateToken(userWithoutPassword);
-    
-    res.status(201).json(token);
-  });
+  const response = await createNewUser(newUser);
+  console.log(response);
+  return res.status(201).json(response);
 };
 
-const getUserByData = async (field, value) => {
-  const user = await User.findOne({ where: { [field]: value } });
-  console.log(user);
-  return user;
+const listAllUsers = async (req, res, _next) => {
+  const token = req.headers.authorization;
+  console.log(token);
+
+  const isTokenValid = await validateToken(token);
+  if (isTokenValid.status) return res.status(401).json({ message: isTokenValid.message });
+
+  const response = await getAllUsers();
+  return res.status(200).json(response);
 };
 
 module.exports = {
-  createNewUser,
-  getUserByData,
+  createUser,
+  listAllUsers,
 };

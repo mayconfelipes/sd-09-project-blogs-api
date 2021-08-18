@@ -10,7 +10,7 @@ const newLogin = async (req, res, _next) => {
   const { password: _, ...noPassword } = loginData;
   const token = generateToken(noPassword);
 
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 };
 
 module.exports = {
