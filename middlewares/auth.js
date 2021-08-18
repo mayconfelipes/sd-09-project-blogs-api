@@ -23,6 +23,8 @@ const auth = (req, _res, next) => {
   } catch (err) {
     err.statusCode = 401;
 
+    err.message = 'Expired or invalid token';
+
     return next(err);
   }
 };

@@ -32,7 +32,7 @@ router.post('/', async (req, res, next) => {
 
   if (error) return next(error);
 
-  const newUser = await user.addUser({ displayName, email, password, image });
+  const newUser = await user.createUser({ displayName, email, password, image });
 
   if (newUser.message) return next(newUser);
 
@@ -43,8 +43,18 @@ router.post('/', async (req, res, next) => {
 
 router.get('/', auth, async (_req, res, _next) => {
   const users = await user.readUsers();
-  
+
   res.status(200).json(users);
+});
+
+router.get('/:id', auth, async (req, res, next) => {
+  const { id } = req.params;
+
+  const found = await user.readUser(id);
+
+  if (found.message) return next(found);
+
+  res.status(200).json(found);
 });
 
 module.exports = router;
