@@ -3,6 +3,7 @@ const {
   createPostService,
   getAllPostsService,
   getPostByIdService,
+  updatePostService,
 } = require('../services/postService');
 
 const createPostController = async (req, res) => {
@@ -25,8 +26,20 @@ const getPostByIdController = async (req, res) => {
   return res.status(code.OK).json(blogPost);
 };
 
+const updatePostController = async (req, res) => {
+  // console.log(req.params, req.user.id, req.body,'AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
+  const { id } = req.params;
+  const userId = req.user.id;
+  const newContent = req.body;
+
+  const blogPost = await updatePostService(id, userId, newContent);
+  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>blogpost',blogPost);
+  return res.status(code.OK).json(blogPost);
+};
+
 module.exports = {
   createPostController,
   getAllPostsController,
   getPostByIdController,
+  updatePostController,
 };

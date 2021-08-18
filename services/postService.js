@@ -44,8 +44,36 @@ const getPostByIdService = async (id) => {
   return blogPost;
 };
 
+const verifyAuthorPost = async (postId, userId) => {
+  const userIdPost = postId;
+  let authorized = false;
+  console.log(userIdPost, userId, '-*-*-*-*-*-*-*-*-*-*-*-*-*');
+
+  if (parseInt(userIdPost, 10) === userId) {
+    authorized = true;
+  }
+
+  return authorized;
+};
+
+const updatePostService = async (id, userId, data) => {
+  const { title, content } = data;
+
+  const post = await getPostByIdService(id);
+  if (!post) throw erro.POST_NOT_FOUND;
+
+  const authorized = await verifyAuthorPost(id, userId);
+  // console.log('ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh', id, userId,authorized);
+  if (!authorized) throw erro.UNAUTHORIZED_USER;
+  await BlogPost.update({ title, content }, { where: { id } });
+
+  const updatedPost = await getPostByIdService(id);
+  return updatedPost;
+};
+
 module.exports = {
   createPostService,
   getAllPostsService,
   getPostByIdService,
+  updatePostService,
 };

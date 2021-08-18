@@ -19,6 +19,10 @@ const erro = {
     status: 404,
     message: 'Post does not exist',
   },
+  UNAUTHORIZED_USER: {
+    status: 401,
+    message: 'Unauthorized user',
+  },
 };
 
 module.exports = erro;
