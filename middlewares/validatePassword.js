@@ -1,4 +1,8 @@
 const validatePassword = (pass, res) => {
+  if (pass === '') {
+    return res.status(400)
+      .json({ message: '"password" is not allowed to be empty' });
+  }
   if (!pass) {
     return res
       .status(400)
