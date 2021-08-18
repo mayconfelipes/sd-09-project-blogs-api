@@ -63,9 +63,17 @@ const getUserByIdService = async (id) => {
   return user;
 };
 
+const deleteUserService = async (id) => {
+  await User.destroy({ where: { id } });
+  const deletedUser = await User.findOne({ where: { id } });
+
+  if (!deletedUser) return true;
+};
+
 module.exports = {
   createUser,
   loginService,
   getAllUsersService,
   getUserByIdService,
+  deleteUserService,
 };

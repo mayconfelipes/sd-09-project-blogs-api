@@ -5,6 +5,7 @@ const {
   createUserController,
   getAllUsersController,
   getUserByIdController,
+  deleteUserController,
 } = require('../controllers/userController');
 const validateUser = require('../middlewares/validateUser');
 const validateToken = require('../middlewares/validateToken');
@@ -14,5 +15,6 @@ const userRouter = express.Router();
 userRouter.post('/', validateUser, rescue(createUserController));
 userRouter.get('/', validateToken, rescue(getAllUsersController));
 userRouter.get('/:id', validateToken, rescue(getUserByIdController));
+userRouter.delete('/me', validateToken, rescue(deleteUserController));
 
 module.exports = userRouter;
