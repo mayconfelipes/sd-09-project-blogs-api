@@ -69,8 +69,31 @@ const list = async (authorization) => {
 
   return post;
 };
+// list post by id
+const listById = async (authorization, id) => {
+  await validateAuth(authorization);
+
+  const post = await BlogPosts.findOne({
+    where: { id },
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!post) {
+    throw objectError('NOT_FOUND', 'Post does not exist');
+  }
+
+  return post;
+};
 
 module.exports = {
   create,
   list,
+  listById,
 };

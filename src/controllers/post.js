@@ -23,19 +23,24 @@ const list = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
-    const posts = await Post.list(authorization, req.body);
+    const posts = await Post.list(authorization);
 
     return res.status(statusHTTP.OK).json(posts);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
 const listById = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'listar post por id' });
+    const { authorization } = req.headers;
+    const { id } = req.params;
+
+    const posts = await Post.listById(authorization, id);
+
+    return res.status(statusHTTP.OK).json(posts);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
