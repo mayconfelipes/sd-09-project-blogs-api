@@ -30,14 +30,21 @@ const createPost = async (title, content, categoryIds, userId) => {
 
 const getAllPosts = async () => {
   const posts = await BlogPost.findAll({ 
-    include: [{ model: User, as: 'user' }, { model: Category, as: 'categories' }], 
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }, { model: Category, as: 'categories' }], 
   });
   console.log(posts);
   return objectResponse(posts, codes.CODE_200);
 };
 
 const getPostById = async (id) => {
-  const post = await BlogPost.findOne(id);
+  const post = await BlogPost.findOne(
+    { 
+      where: { id },
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories' }],
+    },
+  );
   if (!post) return objectError(messages.POST_NOT_EXIST, codes.CODE_404);
   return objectResponse(post, codes.CODE_200);
 };
