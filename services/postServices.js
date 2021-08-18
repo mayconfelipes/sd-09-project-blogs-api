@@ -1,10 +1,15 @@
 const { Category, BlogPost, User } = require('../models');
 const { schema, validateError } = require('./schemas/postSchema');
-const { badRequest } = require('../helpers/getHttpStatusCode');
+const { badRequest, notFound } = require('../helpers/getHttpStatusCode');
 
 const checkIfCategoriesExist = async (categoryIds) => {
   const categories = await Promise.all(categoryIds.map((id) => Category.findByPk(id)));
   return categories.some((category) => category === null);
+};
+
+const checkIfPostExist = async (id) => {
+  const post = await BlogPost.findByPk(id);
+  return post;
 };
 
 const createPost = async (postData) => {
@@ -39,6 +44,11 @@ const getAll = async () => {
 };
 
 const getById = async (postId) => {
+  // Verifica se o post existe
+  const searchedPost = await checkIfPostExist(postId);
+  if (!searchedPost) throw validateError(notFound, 'Post does not exist');
+
+  // Busca post por id
   const post = await BlogPost.findOne({
     where: { id: postId },
     include: [
