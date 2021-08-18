@@ -29,7 +29,10 @@ const createPost = async (postData) => {
 const getAll = async () => {
   const posts = await BlogPost.findAll({
     // model: [model], as: [apelido definido na associacao]
-    include: { model: User, as: 'users' },
+    include: [
+      { model: User, as: 'users' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
   });
 
   return posts;
