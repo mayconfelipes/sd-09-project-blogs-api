@@ -15,13 +15,22 @@ const createPost = rescue(async (req, res) => {
   return res.status(HTTP_STATUS_CREATED).json(result);
 });
 
-const getAllPosts = rescue(async (req, res) => {
+const getAllPosts = rescue(async (_req, res) => {
   const result = await postServices.getAll();
+
+  return res.status(HTTP_STATUS_OK).json(result);
+});
+
+const getPostById = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await postServices.getById(id);
 
   return res.status(HTTP_STATUS_OK).json(result);
 });
 
 module.exports = {
   createPost,
+  getPostById,
   getAllPosts,
 };
