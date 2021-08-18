@@ -21,7 +21,11 @@ const create = async (req, res, next) => {
 
 const list = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'listar posts' });
+    const { authorization } = req.headers;
+
+    const posts = await Post.list(authorization, req.body);
+
+    return res.status(statusHTTP.OK).json(posts);
   } catch (error) {
     next(error);
   }

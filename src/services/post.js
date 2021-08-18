@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const { BlogPosts, Categories, PostsCategories } = require('../models');
+const { BlogPosts, Categories, PostsCategories, Users } = require('../models');
 
 const validateAuth = require('../middlewares/validateAuth');
 
@@ -22,7 +22,7 @@ const validateDataPost = (userWithoutImage) => {
   }
 };
 
-// create user
+// create post
 const create = async (authorization, data) => {
   const payload = await validateAuth(authorization);
 
@@ -50,4 +50,27 @@ const create = async (authorization, data) => {
   return postWithoutDates;
 };
 
-module.exports = { create };
+// list all post with user and categories
+const list = async (authorization) => {
+  await validateAuth(authorization);
+
+  const post = await BlogPosts.findAll({
+    // concatena os dados de outra model associada
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      // concatena quando model esta num relacionamento N:N
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return post;
+};
+
+module.exports = {
+  create,
+  list,
+};
