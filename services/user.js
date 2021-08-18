@@ -19,6 +19,19 @@ const validateEmail = async (req, res, next) => {
   next();
 };
 
+const validateLogin = async (req, res, next) => {
+  const { email } = req.body;
+  const regex = /\S+@\S+\.\S+/;
+  if (email === '' || !email) {
+    return res.status(400).json({ message: '"email" is required' });
+  }
+
+  if (!regex.test(email)) {
+    return res.status(400).json({ message: '"email" must be a valid email' });
+  }
+  next();
+};
+
 const validateName = async (req, res, next) => {
   const { displayName } = req.body;
 
@@ -49,6 +62,7 @@ const validatePassword = async (req, res, next) => {
 
 module.exports = {
   validateEmail,
+  validateLogin,
   validateName,
   validatePassword,
 }; 

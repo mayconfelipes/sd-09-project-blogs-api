@@ -15,7 +15,7 @@ userServices.validatePassword,
 userController.insertUser);
 
 app.post('/login',
-userServices.validateEmail,
+userServices.validateLogin,
 userServices.validatePassword,
 userController.logUser);
 
