@@ -28,10 +28,13 @@ module.exports = {
       published: {
         allowNull: false,
         type: Sequelize.DATE,
+        // Definindo valor default
+        defaultValue: Sequelize.NOW,
       },
       updated: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
     });
   },

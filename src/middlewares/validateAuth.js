@@ -17,7 +17,7 @@ module.exports = async (authorization) => {
   try {
     const { payload } = jwt.verify(authorization, process.env.JWT_SECRET);
 
-    const users = await Users.findOne({ where: { ...payload.email } });
+    const users = await Users.findByPk(payload.id);
 
     if (!users) {
       throw objectError('UNAUTHORIZED', 'Expired or invalid token');

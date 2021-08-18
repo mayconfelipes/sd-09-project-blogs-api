@@ -1,13 +1,25 @@
+const Post = require('../services/post');
+
+const statusHTTP = {
+  OK: 200,
+  CREATED: 201,
+  NO_CONTENT: 204,
+};
+
 // Rotas
-const createPost = async (req, res, next) => {
+const create = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'criar post' });
+    const { authorization } = req.headers;
+
+    const posts = await Post.create(authorization, req.body);
+
+    return res.status(statusHTTP.CREATED).json(posts);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
-const getPost = async (req, res, next) => {
+const list = async (req, res, next) => {
   try {
     res.status(200).json({ message: 'listar posts' });
   } catch (error) {
@@ -15,7 +27,7 @@ const getPost = async (req, res, next) => {
   }
 };
 
-const getPostById = async (req, res, next) => {
+const listById = async (req, res, next) => {
   try {
     res.status(200).json({ message: 'listar post por id' });
   } catch (error) {
@@ -23,7 +35,7 @@ const getPostById = async (req, res, next) => {
   }
 };
 
-const editPost = async (req, res, next) => {
+const edit = async (req, res, next) => {
   try {
     res.status(200).json({ message: 'editar post' });
   } catch (error) {
@@ -31,7 +43,7 @@ const editPost = async (req, res, next) => {
   }
 };
 
-const deletePost = async (req, res, next) => {
+const exclude = async (req, res, next) => {
   try {
     res.status(200).json({ message: 'excluir post' });
   } catch (error) {
@@ -39,7 +51,7 @@ const deletePost = async (req, res, next) => {
   }
 };
 
-const searchPost = async (req, res, next) => {
+const search = async (req, res, next) => {
   try {
     res.status(200).json({ message: 'procurar post por termo' });
   } catch (error) {
@@ -48,10 +60,10 @@ const searchPost = async (req, res, next) => {
 };
 
 module.exports = {
-  createPost,
-  getPost,
-  getPostById,
-  editPost,
-  deletePost,
-  searchPost,
+  create,
+  list,
+  listById,
+  edit,
+  exclude,
+  search,
 };

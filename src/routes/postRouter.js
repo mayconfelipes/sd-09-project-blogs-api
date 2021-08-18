@@ -2,11 +2,11 @@ const postRouter = require('express').Router();
 
 const Post = require('../controllers/post');
 
-postRouter.post('/post', Post.createPost);
-postRouter.get('/post', Post.getPost);
-postRouter.get('/post/:id', Post.getPostById);
-postRouter.put('/post/:id', Post.editPost);
-postRouter.delete('/post/:id', Post.deletePost);
-postRouter.get('/post/search', Post.searchPost);
+postRouter.post('/post', Post.create);
+postRouter.get('/post', Post.list);
+postRouter.get('/post/:id', Post.listById);
+postRouter.put('/post/:id', Post.edit);
+postRouter.delete('/post/:id', Post.exclude);
+postRouter.get('/post/search', Post.search);
 
 module.exports = postRouter;

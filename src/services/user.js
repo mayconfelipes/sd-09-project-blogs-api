@@ -44,7 +44,7 @@ const verifyEmailExists = async (type, email) => {
     throw objectError('BAD_REQUEST', 'Invalid fields');
   }
 
-  return emailDB;
+  return emailDB.dataValues;
 };
 
 // create user
