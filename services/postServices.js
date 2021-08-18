@@ -1,4 +1,4 @@
-const { Category, BlogPost } = require('../models');
+const { Category, BlogPost, User } = require('../models');
 const { schema, validateError } = require('./schemas/postSchema');
 const { badRequest } = require('../helpers/getHttpStatusCode');
 
@@ -27,7 +27,11 @@ const createPost = async (postData) => {
 };
 
 const getAll = async () => {
-  const posts = await BlogPost.findAll();
+  const posts = await BlogPost.findAll({
+    // model: [model], as: [apelido definido na associacao]
+    include: { model: User, as: 'users' },
+  });
+
   return posts;
 };
 
