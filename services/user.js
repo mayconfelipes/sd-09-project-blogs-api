@@ -52,7 +52,7 @@ const validateLoginEmail = async (req, res, next) => {
   if (!email) {
     return res.status(400).json({ message: '"email" is required' });
   }
-  if (email === '') {
+  if (email === '' || email === null) {
     return res.status(400).json({ message: '"email" is not allowed to be empty' });
   }
   next();
@@ -63,7 +63,7 @@ const validateLoginPassword = async (req, res, next) => {
   if (!password) {
     return res.status(400).json({ message: '"password" is required' });
   }
-  if (password === '') {
+  if (password === '' || password === null) {
     return res.status(400).json({ message: '"password" is not allowed to be empty' });
   }
   next();
