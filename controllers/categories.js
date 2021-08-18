@@ -13,7 +13,7 @@ const createCategory = rescue(async (req, res) => {
   return res.status(HTTP_STATUS_CREATED).json(result);
 });
 
-const getCategories = rescue(async (req, res) => {
+const getCategories = rescue(async (_req, res) => {
   const result = await categoriesService.getAll();
 
   return res.status(HTTP_STATUS_OK).json(result);

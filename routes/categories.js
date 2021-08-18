@@ -10,6 +10,7 @@ const middlewares = require('../middlewares');
 const router = express.Router();
 
 router.post('/', middlewares.validateJWT, createCategory);
+
 router.get('/', middlewares.validateJWT, getCategories);
 
 module.exports = router;
