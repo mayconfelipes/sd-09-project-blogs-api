@@ -1,4 +1,5 @@
 const joi = require('joi');
+const { Op } = require('sequelize');
 const { BlogPost, Category, User } = require('../models');
 const { codes, objectError, objectResponse, messages } = require('../util/responseHandling');
 
@@ -89,4 +90,17 @@ const deletePost = async (userId, id) => {
   return objectResponse(null, codes.CODE_204);
 };
 
-module.exports = { createPost, getAllPosts, getPostById, editPost, deletePost };
+// https://sequelize.org/master/manual/model-querying-basics.html#applying-where-clauses
+const getBySeach = async (query) => {
+  const posts = await BlogPost.findAll({ 
+    where: { [Op.or]: [{ title: { [Op.substring]: query } }, { content: { [Op.substring]: query } }] },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' },
+    ],
+  });
+  console.log(posts);
+  return objectResponse(posts, codes.CODE_200);
+};
+
+module.exports = { createPost, getAllPosts, getPostById, editPost, deletePost, getBySeach };

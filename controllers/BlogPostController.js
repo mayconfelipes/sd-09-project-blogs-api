@@ -56,4 +56,15 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { createPost, getAllPosts, getPostById, editPost, deletePost };
+const getBySeach = async (req, res) => {
+  try {
+    const { q } = req.query;
+    console.log('controller');
+    const { response, code } = await BlogPostService.getBySeach(q);
+    res.status(code).json(response);
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
+  }
+};
+
+module.exports = { createPost, getAllPosts, getPostById, editPost, deletePost, getBySeach };
