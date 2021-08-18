@@ -14,7 +14,6 @@ const generateToken = (userData) => {
 
 const validateToken = (token) => {
   if (!token) return { status: 401, message: 'Token not found' };
-
   try {
     const decoded = jwt.verify(token, secret);
     return decoded.email;

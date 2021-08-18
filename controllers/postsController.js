@@ -1,5 +1,5 @@
 // const {  } = require('../middlewares/postsValidation');
-const { newCategory } = require('../middlewares/posts');
+const { newCategory, getCategories } = require('../middlewares/posts');
 
 const createCategory = async (req, res, _next) => {
   const category = req.body;
@@ -12,6 +12,20 @@ const createCategory = async (req, res, _next) => {
   return res.status(201).json(create);
 };
 
+const getAllCategories = async (req, res, _next) => {
+  const token = req.headers.authorization;
+
+  const categoriesList = await getCategories(token);
+
+  if (categoriesList.status) {
+    return res.status(categoriesList.status)
+    .json({ message: categoriesList.message });
+  }
+
+  return res.status(200).json(categoriesList);
+};
+
 module.exports = {
   createCategory,
+  getAllCategories,
 };

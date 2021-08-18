@@ -9,7 +9,6 @@ const createUser = async (req, res, _next) => {
   if (invalidData) return res.status(invalidData.status).json({ message: invalidData.message });
 
   const response = await createNewUser(newUser);
-  console.log(response);
   return res.status(201).json(response);
 };
 

@@ -15,6 +15,15 @@ const newCategory = async (data) => {
   return createCategory;
 };
 
+const getCategories = async (token) => {
+  const validToken = await validateToken(token);
+  if (validToken.status) return validToken;
+
+  const categories = await Category.findAll();
+  return categories;
+};
+
 module.exports = {
   newCategory,
+  getCategories,
 };
