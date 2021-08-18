@@ -1,10 +1,5 @@
-// const Sequelize = require('sequelize');
-// const config = require('../config/config');
 const UserService = require('../services/userService');
-
-// const sequelize = new Sequelize(
-//   process.env.NODE_ENV === 'test' ? config.test : config.development
-// );
+const { messages, codes } = require('../util/responseHandling');
 
 const createUser = async (req, res) => {
   try {
@@ -12,8 +7,8 @@ const createUser = async (req, res) => {
     const { code, response } = await UserService.createUser(displayName, email, password, image);
 
     return res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: 'Algo deu errado' });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 
@@ -21,8 +16,8 @@ const getAllUsers = async (_req, res) => {
   try {
     const { response, code } = await UserService.getAllUsers();
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: 'Algo deu errado' });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 
@@ -31,9 +26,19 @@ const getUserById = async (req, res) => {
     const { id } = req.params;
     const { response, code } = await UserService.getUserById(id);
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: 'Algo deu errado' });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 
-module.exports = { createUser, getAllUsers, getUserById };
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req;
+    const { response, code } = await UserService.deleteUser(id);
+    res.status(code).json(response);
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
+  }
+};
+
+module.exports = { createUser, getAllUsers, getUserById, deleteUser };

@@ -37,4 +37,9 @@ const getUserByEmail = async (email) => {
   return id;
 };
 
-module.exports = { createUser, getAllUsers, getUserById, getUserByEmail };
+const deleteUser = async (id) => {
+  await User.destroy({ where: { id } });
+  return objectResponse(null, codes.CODE_204);
+};
+
+module.exports = { createUser, getAllUsers, getUserById, getUserByEmail, deleteUser };

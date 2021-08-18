@@ -1,4 +1,5 @@
 const CategoryService = require('../services/categoryService');
+const { messages, codes } = require('../util/responseHandling');
 
 const createCategory = async (req, res) => {
   console.log('aqui');
@@ -6,8 +7,8 @@ const createCategory = async (req, res) => {
     const { name } = req.body;
     const { response, code } = await CategoryService.createCategory(name);
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: 'Algo deu errado' });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 
@@ -15,8 +16,8 @@ const getAllCategories = async (_req, res) => {
   try {
     const { response, code } = await CategoryService.getAllCategories();
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: 'Algo deu errado' });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 

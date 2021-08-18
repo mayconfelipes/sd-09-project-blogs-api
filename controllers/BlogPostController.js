@@ -1,7 +1,5 @@
 const BlogPostService = require('../services/blogPostService');
-const { messages } = require('../util/responseHandling');
-
-const { UNEXPECTED_ERROR } = messages;
+const { messages, codes } = require('../util/responseHandling');
 
 const createPost = async (req, res) => {
   try {
@@ -13,8 +11,8 @@ const createPost = async (req, res) => {
       req.id,
     );
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: UNEXPECTED_ERROR });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 
@@ -22,8 +20,8 @@ const getAllPosts = async (_req, res) => {
   try {
     const { response, code } = await BlogPostService.getAllPosts();
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: UNEXPECTED_ERROR });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 
@@ -32,8 +30,8 @@ const getPostById = async (req, res) => {
     const { id } = req.params;
     const { response, code } = await BlogPostService.getPostById(id);
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: UNEXPECTED_ERROR });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 
@@ -43,8 +41,8 @@ const editPost = async (req, res) => {
 
     const { response, code } = await BlogPostService.editPost(req.body, req.id, id);
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: UNEXPECTED_ERROR });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 
@@ -53,8 +51,8 @@ const deletePost = async (req, res) => {
     const { id } = req.params;
     const { response, code } = await BlogPostService.deletePost(req.id, id);
     res.status(code).json(response);
-  } catch (err) {
-    res.status(500).json({ message: UNEXPECTED_ERROR });
+  } catch (error) {
+    res.status(codes.CODE_500).json({ message: messages.UNEXPECTED_ERROR, error });
   }
 };
 

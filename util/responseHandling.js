@@ -19,6 +19,7 @@ const codes = {
   CODE_401: 401,
   CODE_404: 404,
   CODE_204: 204,
+  CODE_500: 500,
 };
 
 const objectError = (message, code) => ({ response: { message }, code });
