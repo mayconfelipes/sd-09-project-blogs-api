@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 const postServices = require('../services/posts');
 
 const HTTP_STATUS_CREATED = 201;
+const HTTP_STATUS_OK = 200;
 
 const createPost = rescue(async (req, res) => {
   const { title, content, categoryIds } = req.body;
@@ -14,6 +15,13 @@ const createPost = rescue(async (req, res) => {
   return res.status(HTTP_STATUS_CREATED).json(result);
 });
 
+const getAllPosts = rescue(async (req, res) => {
+  const result = await postServices.getAll();
+
+  return res.status(HTTP_STATUS_OK).json(result);
+});
+
 module.exports = {
-  createPost,  
+  createPost,
+  getAllPosts,
 };
