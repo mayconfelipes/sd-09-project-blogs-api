@@ -19,6 +19,8 @@ app.use(
 
 app.use(bodyParser.json());
 
+app.use('/login', controllers.login);
+
 app.use('/user', controllers.user);
 
 app.use(middlewares.error);
