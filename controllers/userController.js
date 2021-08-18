@@ -11,9 +11,9 @@ const jwtConfig = {
 const userAdd = async (req, res) => {
   const { displayName, email, password, image } = req.body;
   try {
-    if (validateDisplayName(displayName, res)) return;
-    if (validateEmail(email, res)) return;
-    if (validatePassword(password, res)) return;
+    if (await validateDisplayName(displayName, res)) return;
+    if (await validateEmail(email, res)) return;
+    if (await validatePassword(password, res)) return;
     await User.create({ displayName, email, password, image });
 
     const token = jwt.sign({ data: displayName }, secret, jwtConfig);
