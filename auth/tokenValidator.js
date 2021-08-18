@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { messages, codes } = require('../util/responseHandling');
+const { getUserByEmail } = require('../services/userService');
 
 require('dotenv').config();
 
@@ -16,6 +17,7 @@ const tokenValidator = async (req, res, next) => {
     const { email, password } = decoded;
     req.email = email;
     req.password = password;
+    req.id = await getUserByEmail(email);
     next();
   } catch (err) {
     return res.status(codes.CODE_401).json({ message: messages.INVALID_TOKEN });

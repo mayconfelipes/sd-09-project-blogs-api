@@ -4,6 +4,8 @@ const messages = {
   TOKEN_NOT_FOUND: 'Token not found',
   INVALID_TOKEN: 'Expired or invalid token',
   USER_NOT_EXIST: 'User does not exist',
+  POST_NOT_EXIST: 'Post does not exist',
+  CATEGORY_NOT_FOUND: '"categoryIds" not found',
 };
 
 const codes = {

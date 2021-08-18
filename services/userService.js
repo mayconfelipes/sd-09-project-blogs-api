@@ -32,4 +32,9 @@ const getUserById = async (id) => {
   return objectResponse(user, codes.CODE_200);
 };
 
-module.exports = { createUser, getAllUsers, getUserById };
+const getUserByEmail = async (email) => {
+  const { id } = await User.findOne({ where: { email } });
+  return id;
+};
+
+module.exports = { createUser, getAllUsers, getUserById, getUserByEmail };
