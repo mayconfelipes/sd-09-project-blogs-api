@@ -4,6 +4,7 @@ const postServices = require('../services/posts');
 
 const HTTP_STATUS_CREATED = 201;
 const HTTP_STATUS_OK = 200;
+const HTTP_STATUS_NO_CONTENT = 204;
 
 const createPost = rescue(async (req, res) => {
   const { title, content, categoryIds } = req.body;
@@ -39,9 +40,19 @@ const updatePost = rescue(async (req, res) => {
   return res.status(HTTP_STATUS_OK).json(result);
 });
 
+const deletePost = rescue(async (req, res) => {
+  const postId = req.params.id;
+  const userId = req.user.id;
+
+  await postServices.deletePost(postId, userId);
+
+  return res.status(HTTP_STATUS_NO_CONTENT).end();
+});
+
 module.exports = {
   createPost,
   updatePost,
+  deletePost,
   getPostById,
   getAllPosts,
 };

@@ -84,9 +84,28 @@ const updatePost = async (payload, postId, userId) => {
   return { ...post.dataValues, categories };
 };
 
+const validationsPostDelete = async (postId, userId) => {
+  const blogPost = await BlogPost.findByPk(postId);
+  const user = await blogPost.getUser();
+  
+  if (userId !== user.dataValues.id) throw boom.unauthorized('Unauthorized user');
+};
+
+const deletePost = async (postId, userId) => {
+  const postExists = await BlogPost.findByPk(postId);
+  if (!postExists) throw boom.notFound('Post does not exist');
+
+  await validationsPostDelete(postId, userId);
+
+  await BlogPost.destroy({
+    where: { id: postId },  
+  });
+};
+
 module.exports = {
   getAll,
   getById,
+  deletePost,
   createPost,
   updatePost,
 };
