@@ -10,6 +10,7 @@ router.route('/')
   .get(validateToken, controllers.getAll);
 
 router.route('/:id')
-  .get(validateToken, controllers.getById);
+  .get(validateToken, controllers.getById)
+  .delete(validateToken, controllers.deletePost);
 
 module.exports = router;

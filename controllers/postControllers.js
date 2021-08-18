@@ -1,5 +1,5 @@
 const postServices = require('../services/postServices');
-const { created, ok } = require('../helpers/getHttpStatusCode');
+const { created, ok, noContent } = require('../helpers/getHttpStatusCode');
 
 const createPost = async (req, res, next) => {
   const { id } = req.user;
@@ -32,4 +32,14 @@ const getById = async (req, res, next) => {
   }
 };
 
-module.exports = { createPost, getAll, getById };
+const deletePost = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const result = await postServices.deletePost(id);
+    return res.status(noContent).json(result);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = { createPost, getAll, getById, deletePost };
