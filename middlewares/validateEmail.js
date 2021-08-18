@@ -1,7 +1,7 @@
 const { User } = require('../models');
 
 const validateEmail = async (email, res) => {
-  if (!email) {
+  if (!email || email === undefined) {
     return res
     .status(400)
     .json({ message: '"email" is required' });
