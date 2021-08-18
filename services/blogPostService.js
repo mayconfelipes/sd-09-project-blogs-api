@@ -8,6 +8,12 @@ const postValidator = joi.object({
   categoryIds: joi.array().required(),
 });
 
+const editFieldsValidator = joi.object({
+  title: joi.string().required(),
+  content: joi.string().required(),
+  categoryIds: joi.array(),
+});
+
 const categoriesValidator = async (categoryIds) => {
   const categories = await Category.findAll({ where: { id: categoryIds } });
   if (categories.length !== categoryIds.length) {
@@ -52,4 +58,25 @@ const getPostById = async (id) => {
   return objectResponse(post, codes.CODE_200);
 };
 
-module.exports = { createPost, getAllPosts, getPostById };
+const editPost = async (post, userId, id) => {
+  const { error } = editFieldsValidator.validate(post);
+  if (error) return objectError(error.details[0].message, codes.CODE_400);
+  console.log(post);
+  if (post.categoryIds) return objectError(messages.CATEGORY_CANNOT_EDITED, codes.CODE_400);
+  
+  const update = await BlogPost.update(
+    { ...post },
+    { where: { id, userId } },
+  );
+  if (update.includes(0)) return objectError(messages.UNAUTHORIZED_USER, codes.CODE_401);
+  
+  const updatedPost = await BlogPost.findOne({ 
+      where: { id },
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories' }],
+    });
+  return objectResponse(updatedPost, codes.CODE_200);
+};
+
+module.exports = { createPost, getAllPosts, getPostById, editPost };

@@ -6,6 +6,8 @@ const messages = {
   USER_NOT_EXIST: 'User does not exist',
   POST_NOT_EXIST: 'Post does not exist',
   CATEGORY_NOT_FOUND: '"categoryIds" not found',
+  CATEGORY_CANNOT_EDITED: 'Categories cannot be edited',
+  UNAUTHORIZED_USER: 'Unauthorized user',
 };
 
 const codes = {

@@ -30,9 +30,19 @@ const getPostById = async (req, res) => {
     const { response, code } = await BlogPostService.getPostById(id);
     res.status(code).json(response);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: 'Algo deu errado' });
   }
 };
 
-module.exports = { createPost, getAllPosts, getPostById };
+const editPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { response, code } = await BlogPostService.editPost(req.body, req.id, id);
+    res.status(code).json(response);
+  } catch (err) {
+    res.status(500).json({ message: 'Algo deu errado' });
+  }
+};
+
+module.exports = { createPost, getAllPosts, getPostById, editPost };
