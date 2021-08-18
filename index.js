@@ -1,10 +1,31 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const controllers = require('./controllers');
+const middlewares = require('./middlewares');
 
 const app = express();
 
-app.listen(3000, () => console.log('ouvindo porta 3000!'));
+const PORT = 3000;
+
+app.use(
+  cors({
+    origin: `http://localhost:${PORT}`,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Authorization'],
+  }),
+);
+
+app.use(bodyParser.json());
+
+app.use('/user', controllers.user);
+
+app.use(middlewares.error);
+
+app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
 
 // não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (request, response) => {
+app.get('/', (_request, response) => {
   response.send();
 });
