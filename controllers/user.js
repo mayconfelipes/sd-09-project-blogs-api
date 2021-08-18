@@ -24,13 +24,21 @@ const insertUser = rescue(async (req, res) => {
 const logUser = rescue(async (req, res) => {
   const { email } = req.body;
   const userLogged = await User.findOne({ where: { email } });
+  const { dataValues } = userLogged;
   if (!userLogged) res.status(400).json({ message: 'Invalid fields' });
 
-  const token = jwt.sign({ email }, SECRET, jwtConfig);
+  const token = jwt.sign(dataValues, SECRET, jwtConfig);
   res.status(200).json(token);
+});
+
+const listAllUsers = rescue(async (_req, res) => {
+  const users = await User.findAll();
+  return res.status(200).json(users);
 });
 
 module.exports = {
   insertUser,
   logUser,
+  listAllUsers,
+  SECRET,
 }; 
