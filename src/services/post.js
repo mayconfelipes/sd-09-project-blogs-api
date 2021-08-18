@@ -34,12 +34,12 @@ const validatePostEdit = (data) => {
   }
 };
 
-const userCanEdit = async (id, payloadId) => {
+const userCanEditDelete = async (id, payloadId) => {
   const postUser = await BlogPosts.findOne({
     where: { id },
   });
 
-  if (postUser.userId !== payloadId) {
+  if (postUser.dataValues.userId !== payloadId) {
     throw objectError('UNAUTHORIZED', 'Unauthorized user');
   }
 };
@@ -127,7 +127,7 @@ const edit = async (authorization, id, data) => {
 
   validatePostEdit(data);
   hasCategories(data.categoryIds);
-  await userCanEdit(id, payload.id);
+  await userCanEditDelete(id, payload.id);
 
   await BlogPosts.update({ ...data }, { where: { id } });
 
@@ -146,9 +146,27 @@ const edit = async (authorization, id, data) => {
   return postEdited;
 };
 
+// exclude post
+const exclude = async (authorization, id) => {
+  const payload = await validateAuth(authorization);
+
+  const postFind = await BlogPosts.findOne({
+    where: { id },
+  });
+
+  if (!postFind) {
+    throw objectError('NOT_FOUND', 'Post does not exist');
+  }
+
+  await userCanEditDelete(id, payload.id);
+
+  await BlogPosts.destroy({ where: { id } });
+};
+
 module.exports = {
   create,
   list,
   listById,
   edit,
+  exclude,
 };

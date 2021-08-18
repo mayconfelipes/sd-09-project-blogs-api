@@ -59,9 +59,14 @@ const edit = async (req, res, next) => {
 
 const exclude = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'excluir post' });
+    const { authorization } = req.headers;
+    const { id } = req.params;
+
+    const posts = await Post.exclude(authorization, id);
+
+    return res.status(statusHTTP.NO_CONTENT).json(posts);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
