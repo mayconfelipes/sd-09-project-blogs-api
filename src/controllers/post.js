@@ -46,9 +46,14 @@ const listById = async (req, res, next) => {
 
 const edit = async (req, res, next) => {
   try {
-    res.status(200).json({ message: 'editar post' });
+    const { authorization } = req.headers;
+    const { id } = req.params;
+
+    const posts = await Post.edit(authorization, id, req.body);
+
+    return res.status(statusHTTP.OK).json(posts);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 

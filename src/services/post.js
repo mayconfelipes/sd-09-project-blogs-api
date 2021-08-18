@@ -10,15 +10,43 @@ const objectError = (code, message) => ({
   message,
 });
 
-const validateDataPost = (userWithoutImage) => {
+const validatePostCreate = (data) => {
   const { error } = Joi.object({
     title: Joi.string().required(),
     content: Joi.string().required(),
     categoryIds: Joi.array().items(Joi.number()).required(),
-  }).validate(userWithoutImage);
+  }).validate(data);
 
   if (error) {
     throw objectError('BAD_REQUEST', error.details[0].message);
+  }
+};
+
+const validatePostEdit = (data) => {
+  const { error } = Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+    categoryIds: Joi.array().items(Joi.number()).optional(),
+  }).validate(data);
+
+  if (error) {
+    throw objectError('BAD_REQUEST', error.details[0].message);
+  }
+};
+
+const userCanEdit = async (id, payloadId) => {
+  const postUser = await BlogPosts.findOne({
+    where: { id },
+  });
+
+  if (postUser.userId !== payloadId) {
+    throw objectError('UNAUTHORIZED', 'Unauthorized user');
+  }
+};
+
+const hasCategories = (categoryIds) => {
+  if (categoryIds) {
+    throw objectError('BAD_REQUEST', 'Categories cannot be edited');
   }
 };
 
@@ -26,7 +54,7 @@ const validateDataPost = (userWithoutImage) => {
 const create = async (authorization, data) => {
   const payload = await validateAuth(authorization);
 
-  validateDataPost(data);
+  validatePostCreate(data);
 
   const categories = await Categories.findAll({
     where: { id: data.categoryIds },
@@ -69,6 +97,7 @@ const list = async (authorization) => {
 
   return post;
 };
+
 // list post by id
 const listById = async (authorization, id) => {
   await validateAuth(authorization);
@@ -92,8 +121,34 @@ const listById = async (authorization, id) => {
   return post;
 };
 
+// edit post
+const edit = async (authorization, id, data) => {
+  const payload = await validateAuth(authorization);
+
+  validatePostEdit(data);
+  hasCategories(data.categoryIds);
+  await userCanEdit(id, payload.id);
+
+  await BlogPosts.update({ ...data }, { where: { id } });
+
+  const postEdited = await BlogPosts.findOne({
+    where: { id },
+    attributes: { exclude: ['id', 'published', 'updated'] },
+    include: [
+      {
+        model: Categories,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+    ],
+  });
+
+  return postEdited;
+};
+
 module.exports = {
   create,
   list,
   listById,
+  edit,
 };

@@ -44,7 +44,7 @@ const verifyEmailExists = async (type, email) => {
     throw objectError('BAD_REQUEST', 'Invalid fields');
   }
 
-  return emailDB.dataValues;
+  return emailDB;
 };
 
 // create user
@@ -55,7 +55,11 @@ const create = async (data) => {
   await verifyEmailExists('create', data.email);
 
   const users = await Users.create({ ...data });
-  const { password, image: imageDB, ...userWithoutImagePassword } = users;
+  const {
+    password,
+    image: imageDB,
+    ...userWithoutImagePassword
+  } = users.dataValues;
 
   const token = createAuth(userWithoutImagePassword);
 
@@ -67,7 +71,7 @@ const login = async (data) => {
   validateDataLogin(data);
 
   const users = await verifyEmailExists('login', data.email);
-  const { password, image, ...userWithoutImagePassword } = users;
+  const { password, image, ...userWithoutImagePassword } = users.dataValues;
 
   const token = createAuth(userWithoutImagePassword);
 
