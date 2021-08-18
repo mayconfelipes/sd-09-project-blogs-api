@@ -1,18 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
 const { User } = require('../models');
 const services = require('../services');
-
-const jwtConfig = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
-
-const SECRET = process.env.SECRET || 'secret';
 
 router.post('/', async (req, res) => {
   const validate = await services.user.validateUser(req.body);
@@ -30,11 +22,11 @@ router.post('/', async (req, res) => {
     return res.status(409).json({ message: 'User already registered' });
   }
 
-  const token = jwt.sign({ data: req.body }, SECRET, jwtConfig);
+  const signJWT = await services.jwtService.jwtSign(req.body);
 
   await User.create(validate);
 
-  return res.status(201).json({ token });
+  return res.status(201).json({ signJWT });
 });
 
 router.get('/', async (req, res) => {
@@ -44,23 +36,33 @@ router.get('/', async (req, res) => {
     return res.status(401).json({ message: 'Token not found' });
   }
 
-  try {
-    const decoded = await jwt.verify(token, SECRET);
-
-    const existingUser = await User.findAll({
-      where: { email: decoded.data.email },
-    });
-
-    if (existingUser.length === 0) {
-      return res.status(401).json({ message: 'Expired or invalid token' });
-    }
-
-    const users = await User.findAll({});
-    return res.status(200).json(users);
-  } catch (err) {
-    console.error(err);
-    res.status(401).json({ message: 'Expired or invalid token' });
+  const jwtValidation = await services.jwtService.jwtValidate(token);
+  if (jwtValidation.message) {
+    return res.status(401).json({ message: jwtValidation.message });
   }
+
+  const users = await User.findAll({});
+  return res.status(200).json(users);
+});
+
+router.get('/:id', async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token not found' });
+  }
+
+  const jwtValidation = await services.jwtService.jwtValidate(token);
+  if (jwtValidation.message) {
+    return res.status(401).json({ message: jwtValidation.message });
+  }
+
+  const users = await User.findAll({ where: { id: req.params.id } });
+  if (users.length === 0) {
+    return res.status(404).json({ message: 'User does not exist' });
+  }
+
+  return res.status(200).json(users[0]);
 });
 
 module.exports = router;
