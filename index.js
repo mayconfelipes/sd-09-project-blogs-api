@@ -4,6 +4,8 @@ const { validateEmail, validateNamePassword } = require('./services/user');
 
 const app = express();
 
+app.use(express.json());
+
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
 app.post('/user', validateEmail, validateNamePassword, insertUser);
