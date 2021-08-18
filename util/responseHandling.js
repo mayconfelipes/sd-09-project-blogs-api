@@ -8,6 +8,7 @@ const messages = {
   CATEGORY_NOT_FOUND: '"categoryIds" not found',
   CATEGORY_CANNOT_EDITED: 'Categories cannot be edited',
   UNAUTHORIZED_USER: 'Unauthorized user',
+  UNEXPECTED_ERROR: 'Something unexpected happened. try again.',
 };
 
 const codes = {
@@ -17,6 +18,7 @@ const codes = {
   CODE_409: 409,
   CODE_401: 401,
   CODE_404: 404,
+  CODE_204: 204,
 };
 
 const objectError = (message, code) => ({ response: { message }, code });

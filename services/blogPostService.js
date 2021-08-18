@@ -79,4 +79,14 @@ const editPost = async (post, userId, id) => {
   return objectResponse(updatedPost, codes.CODE_200);
 };
 
-module.exports = { createPost, getAllPosts, getPostById, editPost };
+const deletePost = async (userId, id) => {
+  const post = await BlogPost.findOne({ where: { id } });
+  if (!post) return objectError(messages.POST_NOT_EXIST, codes.CODE_404);
+
+  if (post.userId !== userId) return objectError(messages.UNAUTHORIZED_USER, codes.CODE_401);
+
+  await BlogPost.destroy({ where: { id, userId } });
+  return objectResponse(null, codes.CODE_204);
+};
+
+module.exports = { createPost, getAllPosts, getPostById, editPost, deletePost };
