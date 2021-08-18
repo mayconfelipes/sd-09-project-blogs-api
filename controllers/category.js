@@ -22,4 +22,10 @@ router.post('/', auth, async (req, res, next) => {
   res.status(201).json(newCategory);
 });
 
+router.get('/', auth, async (_req, res, _next) => {
+  const categories = await category.readCategories();
+
+  res.status(200).json(categories);
+});
+
 module.exports = router;
