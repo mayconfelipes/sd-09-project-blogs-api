@@ -30,7 +30,8 @@ const getPostById = async (req, res) => {
     const { response, code } = await BlogPostService.getPostById(id);
     res.status(code).json(response);
   } catch (err) {
-    res.status(500).json({ message: 'Algo deu errado' });
+    console.log(err);
+    res.status(500).json({ message: err });
   }
 };
 

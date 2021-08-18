@@ -1,5 +1,5 @@
 const joi = require('joi');
-const { BlogPost, Category } = require('../models');
+const { BlogPost, Category, User } = require('../models');
 const { codes, objectError, objectResponse, messages } = require('../util/responseHandling');
 
 const postValidator = joi.object({
@@ -29,7 +29,10 @@ const createPost = async (title, content, categoryIds, userId) => {
 };
 
 const getAllPosts = async () => {
-  const posts = await BlogPost.findAll();
+  const posts = await BlogPost.findAll({ 
+    include: [{ model: User, as: 'user' }, { model: Category, as: 'categories' }], 
+  });
+  console.log(posts);
   return objectResponse(posts, codes.CODE_200);
 };
 
