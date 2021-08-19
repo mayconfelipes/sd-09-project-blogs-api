@@ -5,7 +5,6 @@ const schema = Joi.object({
 });
 
 const validateCategorie = async (body) => {
-  console.log(body);
   try {
     const validate = await schema.validate(body);
     return validate;

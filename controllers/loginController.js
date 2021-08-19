@@ -1,18 +1,9 @@
-require('dotenv').config();
 const express = require('express');
-const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
 const { User } = require('../models');
 const services = require('../services');
-
-const jwtConfig = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
-
-const SECRET = process.env.SECRET || 'secret';
 
 router.post('/', async (req, res) => {
   const validate = await services.login.validateLogin(req.body);
@@ -30,8 +21,7 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ message: 'Invalid fields' });
   }
 
-  const token = jwt.sign({ data: req.body }, SECRET, jwtConfig);
-
+  const token = await services.jwtService.jwtSign(existingUser[0].dataValues);
   return res.status(200).json({ token });
 });
 

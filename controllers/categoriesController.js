@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 
 const router = express.Router();
@@ -28,6 +27,22 @@ router.post('/', async (req, res) => {
 
   const newCategorie = await Categories.create(validate);
   return res.status(201).json(newCategorie);
+});
+
+router.get('/', async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token not found' });
+  }
+
+  const jwtValidation = await services.jwtService.jwtValidate(token);
+  if (jwtValidation.message) {
+    return res.status(401).json({ message: jwtValidation.message });
+  }
+
+  const users = await Categories.findAll({});
+  return res.status(200).json(users);
 });
 
 module.exports = router;
