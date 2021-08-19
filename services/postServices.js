@@ -81,7 +81,7 @@ const deletePost = async (postId, id) => {
 
 /**
  * [Op.or] -> operador logico "ou"
- * [Op.iLike] -> operador like compara se existe a keyword case insensitive
+ * [Op.like] -> operador like compara se existe a keyword
  * Fonte: https://sequelize.org/v5/manual/querying.html
  */
 const searchKeyword = async (keyword) => {
@@ -89,8 +89,8 @@ const searchKeyword = async (keyword) => {
   const searchResult = await BlogPost.findAll({
     where: {
       [Op.or]: [
-        { title: { [Op.iLike]: `${keyword}` } },
-        { content: { [Op.iLike]: `${keyword}` } },
+        { title: { [Op.like]: `%${keyword}%` } },
+        { content: { [Op.like]: `%${keyword}%` } },
       ],
     },
   });
