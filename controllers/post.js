@@ -22,7 +22,15 @@ router.post('/', auth, async (req, res, next) => {
 
   const newPost = await post.createPost({ title, content, categoryIds }, email);
 
+  if (newPost.message) return next(newPost);
+
   res.status(201).json(newPost);
+});
+
+router.get('/', auth, async (_req, res, _next) => {
+  const posts = await post.readPosts();
+
+  res.status(200).json(posts);
 });
 
 module.exports = router;
