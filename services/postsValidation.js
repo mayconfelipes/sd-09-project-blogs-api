@@ -60,10 +60,17 @@ const isUserOwner = async (email, id) => {
   return null;
 }; 
 
+const doesPostExist = async (id) => {
+  const post = await BlogPost.findByPk(id);
+  if (!post) return { status: 404, message: 'Post does not exist' };
+  return null;
+};
+
 module.exports = {
   isCategoryValid,
   isPostDataValid,
   doesCategoriesExists,
   isUpdateDataValid,
   isUserOwner,
+  doesPostExist,
 };

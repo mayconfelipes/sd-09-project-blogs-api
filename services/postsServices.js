@@ -5,6 +5,7 @@ const {
   doesCategoriesExists,
   isUpdateDataValid,
   isUserOwner,
+  doesPostExist,
 } = require('./postsValidation');
 const { validateToken } = require('./token');
 const { getUserByData } = require('./usersServices');
@@ -100,6 +101,20 @@ const update = async (token, newData, id) => {
     return updatedPost;
 };
 
+const remove = async (token, id) => {
+  const validToken = await validateToken(token);
+  if (validToken.status) return validToken;
+
+  const invalidPost = await doesPostExist(id);
+  if (invalidPost) return invalidPost;
+
+  const invalidUser = await isUserOwner(validToken, id);
+  if (invalidUser) return invalidUser;
+
+  const deleted = await BlogPost.destroy({ where: { id } });
+  return deleted;
+};
+
 module.exports = {
   newCategory,
   getCategories,
@@ -107,4 +122,5 @@ module.exports = {
   getPosts,
   getPost,
   update,
+  remove,
 };

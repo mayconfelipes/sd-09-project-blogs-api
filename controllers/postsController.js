@@ -5,6 +5,7 @@ const {
   getPosts,
   getPost,
   update,
+  remove,
 } = require('../services/postsServices');
 
 const createCategory = async (req, res, _next) => {
@@ -73,6 +74,16 @@ return res.status(201).json(create);
   return res.status(200).json(postUpdated);
  };
 
+ const deletePost = async (req, res, _next) => {
+  const token = req.headers.authorization;
+  const { id } = req.params;
+
+  const deleted = await remove(token, id);
+  if (deleted.status) return res.status(deleted.status).json({ message: deleted.message });
+
+  return res.status(204).json();
+ };
+
 module.exports = {
   createCategory,
   getAllCategories,
@@ -80,4 +91,5 @@ module.exports = {
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 };
