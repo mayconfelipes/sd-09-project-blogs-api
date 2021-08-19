@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { validatePassword, validateEmail } = require('../middlewares');
 const { User } = require('../models');
 require('dotenv').config();
 
@@ -11,7 +10,7 @@ const jwtConfig = {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email } = req.body;
   try {
     const exists = await User.findOne({ where: { email } });
     if (!exists) {
