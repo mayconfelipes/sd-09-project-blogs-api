@@ -31,7 +31,6 @@ const createUser = async (req, res) => {
     console.log('[USER CONTROLLER] : CHAMOU O MÉTODO GET ALL USERS');
    try {
     const users = await UserService.getAllUser();
-    if (users.isError) return res.status(users.status).json(users.err);
     return res.status(200).json(users);
   } catch (error) {
     console.log(`[USER CONTROLLER] : buscar => ${error}`);

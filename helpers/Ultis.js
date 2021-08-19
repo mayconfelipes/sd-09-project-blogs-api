@@ -1,8 +1,8 @@
-const validateError = (status, message) => ({
+const MapError = (status, message) => ({
     status,
     message,
   });
 
   module.exports = {
-    validateError,
+    MapError,
   }; 

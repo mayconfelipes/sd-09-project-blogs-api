@@ -22,7 +22,12 @@ const schemaUser = Joi.object({
    password: Joi.string().length(6).required(),
  });
 
-// eslint-disable-next-line max-lines-per-function
+ const puxadinho = {
+   
+  message: 'User already registered',
+  
+ };
+ 
 const createUser = async (displayName, email, password, image) => {
    const { error } = schemaUser.validate({ displayName, email, password });
    console.log(error, 'antes'); 
@@ -33,16 +38,12 @@ const createUser = async (displayName, email, password, image) => {
       status: StatusCodes.BAD_REQUEST,
     };
   }
-
   const user = await Users.findOne({ where: { email } });
-
+  
   if (user) {
-    return {
-    isError: true,   
-    err: { message: 'User already registered' },
-    status: StatusCodes.CONFLICT,
-  };
+    return { isError: true, err: puxadinho, status: 409 };
   }
+
   const newUser = await Users.create({ displayName, email, password, image });
 
   const { password: _, ...userWithoutPassword } = newUser.dataValues;
