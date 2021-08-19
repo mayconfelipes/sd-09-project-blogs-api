@@ -22,9 +22,21 @@ const createNewUser = async (userInfo) => {
   return token;
 };
 
+const findAll = async () => {
+  const users = User.findAll({ exclude: ['password'] });
+  return users;
+};
+
+const findById = async (id) => {
+  const user = await User.findByPk(id);
+  return user;
+};
+
 const logUser = async (userInfo) => JWTgen(userInfo);
 
 module.exports = {
   createNewUser,
   logUser,
+  findAll,
+  findById,
 };
