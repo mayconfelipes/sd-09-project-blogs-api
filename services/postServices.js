@@ -85,7 +85,6 @@ const deletePost = async (postId, id) => {
  * Fonte: https://sequelize.org/v5/manual/querying.html
  */
 const searchKeyword = async (keyword) => {
-  console.log('[keyword] >', keyword);
   const searchResult = await BlogPost.findAll({
     where: {
       [Op.or]: [
@@ -93,9 +92,11 @@ const searchKeyword = async (keyword) => {
         { content: { [Op.like]: `%${keyword}%` } },
       ],
     },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
   });
-
-  console.log('[searchKeyword] > ', searchResult);
 
   return searchResult;
 };
