@@ -33,4 +33,14 @@ router.get('/', auth, async (_req, res, _next) => {
   res.status(200).json(posts);
 });
 
+router.get('/:id', auth, async (req, res, next) => {
+  const { id } = req.params;
+
+  const posts = await post.readPost(id);
+
+  if (posts.message) return next(posts);
+
+  res.status(200).json(posts);
+});
+
 module.exports = router;

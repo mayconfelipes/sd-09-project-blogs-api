@@ -35,7 +35,21 @@ const readPosts = () => BlogPost.findAll({
   ],
 });
 
+const readPost = async (id) => {
+  const post = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!post) return { message: 'Post does not exist', statusCode: 404 };
+
+  return post;
+};
+
 module.exports = {
   createPost,
   readPosts,
+  readPost,
 };
