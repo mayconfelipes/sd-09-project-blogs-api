@@ -3,6 +3,8 @@ const userController = require('./controllers/user');
 const userServices = require('./services/user');
 const categoriesController = require('./controllers/categories');
 const categoriesServices = require('./services/categories');
+const blogpostController = require('./controllers/blogpost');
+const blogpostServices = require('./services/blogpost');
 const { validateToken } = require('./services/validate');
 
 const app = express();
@@ -40,6 +42,21 @@ categoriesController.insertCategory);
 app.get('/categories',
 validateToken,
 categoriesController.listAllCategories);
+
+// Posts
+
+app.post('/post',
+validateToken,
+blogpostServices.validateTitle,
+blogpostServices.validateContent,
+blogpostServices.validateCategories,
+blogpostController.insertBlogPost);
+
+app.get('/post',
+validateToken,
+blogpostController.listAllPosts);
+
+// General
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {

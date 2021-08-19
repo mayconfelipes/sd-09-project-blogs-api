@@ -6,8 +6,8 @@ const validateToken = async (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'Token not found' });
 
     try {
-        const email = jwt.verify(token, SECRET);
-        req.email = email;
+        const user = jwt.verify(token, SECRET);
+        req.user = user;
 
         next();
     } catch (error) {
