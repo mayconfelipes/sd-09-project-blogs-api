@@ -1,18 +1,20 @@
-const validatePassword = (pass, res) => {
-  if (pass === '') {
+const validatePassword = (req, res, next) => {
+  const { password } = req.body;
+  if (password === '') {
     return res.status(400)
       .json({ message: '"password" is not allowed to be empty' });
   }
-  if (!pass) {
+  if (!password) {
     return res
       .status(400)
       .json({ message: '"password" is required' });
   }
-  if (pass.length !== 6) {
+  if (password.length !== 6) {
     return res
       .status(400)
       .json({ message: '"password" length must be 6 characters long' });
   }
+  next();
 };
 
 module.exports = validatePassword;

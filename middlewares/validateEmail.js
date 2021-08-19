@@ -1,4 +1,5 @@
-const validateEmail = async (email, res) => {
+const validateEmail = async (req, res, next) => {
+  const { email } = req.body;
   if (email === '') {
     return res
       .status(400)
@@ -15,6 +16,7 @@ const validateEmail = async (email, res) => {
         .status(400)
         .json({ message: '"email" must be a valid email' }); 
   }
+  next();
 };
 
 module.exports = validateEmail;

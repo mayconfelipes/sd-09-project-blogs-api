@@ -1,22 +1,18 @@
 const jwt = require('jsonwebtoken');
 const { validatePassword, validateEmail } = require('../middlewares');
 const { User } = require('../models');
+require('dotenv').config();
 
-const secret = 'secret';
+const secret = process.env.JWT_SECRET;
 
 const jwtConfig = {
   algorithm: 'HS256',
-  expiresIn: 60 * 5,
+  expiresIn: 600000,
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email);
-  
   try {
-    if (await validatePassword(password, res)) return;
-    if (await validateEmail(email, res)) return;
-    
     const exists = await User.findOne({ where: { email } });
     if (!exists) {
       return res.status(400).json({ message: 'Invalid fields' });
@@ -24,8 +20,6 @@ const login = async (req, res) => {
       const token = jwt.sign({ data: exists.displayName }, secret, jwtConfig);
       return res.status(200).json({ message: 'Login successful', token });
   } catch (e) {
-    console.log('Erro de Login');
-    
     return res.status(500).json({ message: 'Internal Error', error: e.message });
   }
 };
