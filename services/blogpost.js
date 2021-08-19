@@ -1,4 +1,6 @@
 const { Category } = require('../models');
+const { User } = require('../models');
+const { BlogPost } = require('../models');
 
 const validateTitle = async (req, res, next) => {
   const { title } = req.body;
@@ -32,8 +34,27 @@ const validateCategories = async (req, res, next) => {
   next();
 };
 
+const validateToEditCategories = (req, res, next) => {
+  const { categoryIds } = req.body;
+  if (categoryIds) {
+    return res.status(400).json({ message: 'Categories cannot be edited' });
+  }
+  next();
+};
+
+const validateUser = async (req, res, next) => {
+  const { id } = req.params;
+  const { email } = req.user;
+  const { id: userId } = await User.findOne({ where: { email } });
+  const post = await BlogPost.findOne({ where: { id } });
+  if (post.userId !== userId) return res.status(401).json({ message: 'Unauthorized user' });
+  next();
+};
+
 module.exports = {
   validateTitle,
   validateContent,
   validateCategories,
+  validateToEditCategories,
+  validateUser,
 }; 

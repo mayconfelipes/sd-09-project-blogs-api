@@ -10,7 +10,7 @@ const insertBlogPost = rescue(async (req, res) => {
   const { title, content, categoryIds } = post;
 
   const { id: userId } = await User.findOne({ where: { email } });
-  console.log(userId);
+
   const newPost = await BlogPost.create({ title, content, userId });
   categoryIds.forEach(async (id) => { 
     await PostsCategory.create({ postId: newPost.id, categoryId: id }); 
@@ -28,7 +28,33 @@ const listAllPosts = rescue(async (_req, res) => {
   return res.status(200).json(posts);
 });
 
+const getPostById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const postId = await BlogPost.findOne({
+    where: { id },
+    include: [{ model: User, as: 'user' }, { model: Category, as: 'categories' },
+  ],
+  });
+
+  return (!postId)
+  ? res.status(404).json({ message: 'Post does not exist' })
+  : res.status(200).json(postId);
+});
+
+const updatePost = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+
+  await BlogPost.update({ title, content }, { where: { id } });
+  const post = await BlogPost.findOne({ where: { id },
+    include: [{ model: Category, as: 'categories', through: { attributes: [] } }] });
+
+  res.status(200).json(post);
+});
+
 module.exports = {
   insertBlogPost,
   listAllPosts,
+  getPostById,
+  updatePost,
 }; 

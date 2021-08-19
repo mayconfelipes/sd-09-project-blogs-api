@@ -55,6 +55,17 @@ blogpostController.insertBlogPost);
 app.get('/post',
 validateToken,
 blogpostController.listAllPosts);
+app.get('/post/:id',
+validateToken,
+blogpostController.getPostById);
+
+app.put('/post/:id',
+validateToken,
+blogpostServices.validateTitle,
+blogpostServices.validateContent,
+blogpostServices.validateToEditCategories,
+blogpostServices.validateUser,
+blogpostController.updatePost);
 
 // General
 
