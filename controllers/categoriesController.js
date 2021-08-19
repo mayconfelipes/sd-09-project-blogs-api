@@ -15,6 +15,19 @@ const add = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  await Categories.findAll().then((data) => {
+    const catAtt = [];
+    data.forEach((category) => {
+      const { id, name } = category;
+      const catInfo = { id, name };
+      catAtt.push(catInfo);
+    });
+    return res.status(200).send(catAtt);
+  }).catch((e) => res.status(500).json({ message: e.message }));
+};
+
 module.exports = {
   add,
+  getAll,
 };
