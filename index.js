@@ -2,7 +2,6 @@ require('dotenv/config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
-const { errorMiddleware } = require('./middlewares/error');
 
 const PORT = 3000;
 // process.env.PORT ||
@@ -17,5 +16,5 @@ app.listen(PORT, () => console.log(' BlogsApi Server listening on port 3000!'));
 app.get('/', (request, response) => {
   response.send();
 });
-app.use(errorMiddleware);
+
 app.use('/user', userRoutes);

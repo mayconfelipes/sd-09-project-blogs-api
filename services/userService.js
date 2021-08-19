@@ -1,7 +1,7 @@
+const { StatusCodes } = require('http-status-codes');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
-const { validateError } = require('../helpers/Ultis');
 
 const secret = process.env.JWT_SECRET;
 
@@ -17,27 +17,32 @@ const schemaUser = Joi.object({
   password: Joi.string().length(6).required(),
 });
 
-// const schemaUserLogin = Joi.object({
-//   email: Joi.string().email().required(),
-//   password: Joi.string().length(6).required(),
-// });
+ const schemaUserLogin = Joi.object({
+   email: Joi.string().email().required(),
+   password: Joi.string().length(6).required(),
+ });
 
+// eslint-disable-next-line max-lines-per-function
 const createUser = async (displayName, email, password, image) => {
    const { error } = schemaUser.validate({ displayName, email, password });
-   console.log(error.details[0]); 
+   console.log(error, 'antes'); 
   if (error) {
-   // const qualquernome = error.details[0].message;
-   console.log(error.details[0].message, 'entrou');
-
-    throw validateError(400, error.details[0].message);
+      return {
+      isError: true,
+      err: { message: error.details[0].message },
+      status: StatusCodes.BAD_REQUEST,
+    };
   }
 
   const user = await Users.findOne({ where: { email } });
 
   if (user) {
-    throw validateError(409, 'User already registered');
+    return {
+    isError: true,   
+    err: { message: 'User already registered' },
+    status: StatusCodes.CONFLICT,
+  };
   }
-
   const newUser = await Users.create({ displayName, email, password, image });
 
   const { password: _, ...userWithoutPassword } = newUser.dataValues;
@@ -47,45 +52,54 @@ const createUser = async (displayName, email, password, image) => {
   return token;
 };
 
-// const userLogin = async (email, password) => {
-//   const { error } = schemaUserLogin.validate({ email, password });
+ const userLogin = async (email, password) => {
+   const { error } = schemaUserLogin.validate({ email, password });
+   if (error) {
+    return {
+      isError: true,
+      err: { message: error.details[0].message },
+      status: StatusCodes.BAD_REQUEST,
+    };
+   }
+   const login = await Users.findOne({ where: { email, password } });
+   
+   if (!login) {
+    return { isError: true,
+       err: { message: 'Invalid fields' },
+      status: StatusCodes.BAD_REQUEST,
+    };
+   }
 
-//   if (error) {
-//     throw validateError(400, error.details[0].message);
-//   }
+   const { password: _, ...userWithoutPassword } = login.dataValues;
 
-//   const login = await Users.findOne({ where: { email, password } });
+   const token = jwt.sign(userWithoutPassword, secret, jwtConfig);
 
-//   if (!login) {
-//     throw validateError(400, 'Invalid fields');
-//   }
+   return token;
+ };
 
-//   const { password: _, ...userWithoutPassword } = login.dataValues;
+ const getAllUser = async () => {
+   const users = await Users.findAll();
 
-//   const token = jwt.sign(userWithoutPassword, secret, jwtConfig);
+   return users;
+ };
 
-//   return token;
-// };
+ const getById = async (id) => {
+   const user = await Users.findByPk(id);
 
-// const getAllUser = async () => {
-//   const users = await Users.findAll();
+   if (!user) {
+    return {
+      isError: true,
+      err: { message: 'User does not exist' },
+      status: StatusCodes.NOT_FOUND,
+    };
+   }
 
-//   return users;
-// };
-
-// const getById = async (id) => {
-//   const user = await Users.findByPk(id);
-
-//   if (!user) {
-//     throw validateError(404, 'User does not exist');
-//   }
-
-//   return user;
-// };
+   return user;
+ };
 
 module.exports = {
   createUser,
-  // userLogin,
-  // getAllUser,
-  // getById,
+   userLogin,
+   getAllUser,
+   getById,
 }; 
