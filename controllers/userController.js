@@ -34,4 +34,19 @@ const getAll = async (req, res) => {
   }).catch((e) => res.status(500).json({ message: e.message }));
 };
 
-module.exports = { userAdd, getAll };
+const getUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+      return res
+        .status(404).json({ message: 'User does not exist' });
+    }
+    const numberId = Number(id);
+    const { displayName, email, image } = user;
+    const userInfo = { id: numberId, displayName, email, image };
+    return res.status(200).send(userInfo);
+  } catch (e) { res.status(500).json({ message: e.message }); }
+};
+
+module.exports = { userAdd, getAll, getUser };
