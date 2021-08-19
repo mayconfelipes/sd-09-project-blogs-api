@@ -51,6 +51,8 @@ const updatePost = async (postData, postId, userId) => {
     include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
   });
 
+  if (!post) return { message: 'Post does not exist', statusCode: 404 };
+
   if (post.userId !== userId) return { message: 'Unauthorized user', statusCode: 401 };
 
   await BlogPost.update(postData, { where: { id: postId } });
@@ -60,9 +62,20 @@ const updatePost = async (postData, postId, userId) => {
   });
 };
 
+const deletePost = async (postId, userId) => {
+  const post = await BlogPost.findByPk(postId);
+
+  if (!post) return { message: 'Post does not exist', statusCode: 404 };
+
+  if (post.userId !== userId) return { message: 'Unauthorized user', statusCode: 401 };
+
+  return BlogPost.destroy({ where: { id: postId } });
+};
+
 module.exports = {
   createPost,
   readPosts,
   readPost,
   updatePost,
+  deletePost,
 };

@@ -66,4 +66,15 @@ router.put('/:id', auth, async (req, res, next) => {
   res.status(200).json(newPost);
 });
 
+router.delete('/:id', auth, async (req, res, next) => {
+  const userId = req.user.id;
+  const postId = req.params.id;
+
+  const deletePost = await post.deletePost(postId, userId);
+
+  if (deletePost.message) return next(deletePost);
+
+  res.status(204).end();
+});
+
 module.exports = router;
