@@ -27,7 +27,7 @@ const logUser = rescue(async (req, res) => {
   if (!userLogged) res.status(400).json({ message: 'Invalid fields' });
 
   const token = jwt.sign({ email }, SECRET, jwtConfig);
-  res.status(200).json(token);
+  res.status(200).json({ token });
 });
 
 const listAllUsers = rescue(async (_req, res) => {
@@ -35,9 +35,18 @@ const listAllUsers = rescue(async (_req, res) => {
   return res.status(200).json(users);
 });
 
+const getUserById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findOne({ where: { id } });
+
+  if (!user) return res.status(404).json({ message: 'User does not exist' });
+  return res.status(200).json(user);
+});
+
 module.exports = {
   insertUser,
   logUser,
   listAllUsers,
   SECRET,
+  getUserById,
 }; 

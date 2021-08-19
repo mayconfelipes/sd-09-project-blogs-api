@@ -21,6 +21,7 @@ describe('3 - Sua aplicação deve ter o endpoint GET `/user`', () => {
       .expect('status', 200)
       .then((response) => {
         const { body } = response;
+        console.log(`Response: ${body}`);
         const result = JSON.parse(body);
         token = result.token;
       });
