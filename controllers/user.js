@@ -36,7 +36,7 @@ router.post('/', async (req, res, next) => {
 
   if (newUser.message) return next(newUser);
 
-  const token = tokenGenerator({ email });
+  const token = tokenGenerator({ email, id: newUser.id });
 
   res.status(201).json({ token });
 });

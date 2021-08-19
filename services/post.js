@@ -1,6 +1,6 @@
 const { User, BlogPost, PostCategory, Category } = require('../models');
 
-const createPost = async (postData, userEmail) => {
+const createPost = async (postData, id) => {
   const { title, content, categoryIds } = postData;
   const categories = [];
   let error = false;
@@ -15,10 +15,8 @@ const createPost = async (postData, userEmail) => {
 
   if (error) return { message: '"categoryIds" not found', statusCode: 400 };
 
-  const user = await User.findOne({ where: { email: userEmail } });
-
   const newPost = await BlogPost.create(
-    { title, content, userId: user.id, published: Date.now(), updated: Date.now() },
+    { title, content, userId: id, published: Date.now(), updated: Date.now() },
   );
 
   categoryIds.forEach((categoryId) => {
@@ -48,8 +46,23 @@ const readPost = async (id) => {
   return post;
 };
 
+const updatePost = async (postData, postId, userId) => {
+  const post = await BlogPost.findByPk(postId, {
+    include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+
+  if (post.userId !== userId) return { message: 'Unauthorized user', statusCode: 401 };
+
+  await BlogPost.update(postData, { where: { id: postId } });
+
+  return BlogPost.findByPk(postId, {
+    include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+};
+
 module.exports = {
   createPost,
   readPosts,
   readPost,
+  updatePost,
 };

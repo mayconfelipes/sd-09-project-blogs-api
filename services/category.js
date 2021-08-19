@@ -1,12 +1,6 @@
 const { Category } = require('../models');
 
-const createCategory = async (data) => {
-  const { name } = data;
-
-  const category = await Category.create({ name });
-
-  return category;
-};
+const createCategory = (data) => Category.create(data);
 
 const readCategories = () => Category.findAll();
 
