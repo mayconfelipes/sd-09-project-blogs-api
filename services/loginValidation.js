@@ -2,7 +2,7 @@
 // verifica se email está cadasrado
 const Joi = require('joi');
 const { validateExistingUser } = require('./userValidation');
-const { getUserByData } = require('./users');
+const { getUserByData } = require('./usersServices');
 
 const checkLoginData = Joi.object({
   email: Joi.string()

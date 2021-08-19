@@ -1,6 +1,6 @@
-const { createNewUser, getAllUsers, getUserById } = require('../middlewares/users');
-const { validateNewUser } = require('../middlewares/userValidation');
-const { validateToken } = require('../middlewares/token');
+const { createNewUser, getAllUsers, getUserById } = require('../services/usersServices');
+const { validateNewUser } = require('../services/userValidation');
+const { validateToken } = require('../services/token');
 
 const createUser = async (req, res, _next) => {
   const newUser = req.body;

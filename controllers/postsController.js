@@ -1,5 +1,5 @@
-// const {  } = require('../middlewares/postsValidation');
-const { newCategory, getCategories } = require('../middlewares/posts');
+// const {  } = require('../services/postsValidation');
+const { newCategory, getCategories } = require('../services/postsServices');
 
 const createCategory = async (req, res, _next) => {
   const category = req.body;
@@ -24,6 +24,14 @@ const getAllCategories = async (req, res, _next) => {
 
   return res.status(200).json(categoriesList);
 };
+
+// const createPost = async (req, res, _next) => {
+//   const postData = req.body;
+  
+//   const invalidData = await isPostDataValid(postData);
+//   if (invalidData) return res.status(invalidData.status).json(invalidData.message);
+
+//  };
 
 module.exports = {
   createCategory,

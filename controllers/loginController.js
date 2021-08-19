@@ -1,5 +1,5 @@
-const { isUserValid } = require('../middlewares/loginValidation');
-const { generateToken } = require('../middlewares/token');
+const { isUserValid } = require('../services/loginValidation');
+const { generateToken } = require('../services/token');
 
 const newLogin = async (req, res, _next) => {
   const loginData = req.body;
