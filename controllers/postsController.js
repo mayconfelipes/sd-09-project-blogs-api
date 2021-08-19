@@ -1,4 +1,11 @@
-const { newCategory, getCategories, newPost, getPosts } = require('../services/postsServices');
+const {
+  newCategory,
+  getCategories,
+  newPost,
+  getPosts,
+  getPost,
+  update,
+} = require('../services/postsServices');
 
 const createCategory = async (req, res, _next) => {
   const category = req.body;
@@ -43,9 +50,34 @@ return res.status(201).json(create);
   return res.status(200).json(allPosts);
  };
 
+ const getPostById = async (req, res, _next) => {
+  const token = req.headers.authorization;
+  const { id } = req.params;
+
+  const postById = await getPost(token, id);
+  if (postById.status) return res.status(postById.status).json({ message: postById.message });
+
+  return res.status(200).json(postById);
+ };
+
+ const updatePost = async (req, res, _next) => {
+  const newData = req.body;
+  const token = req.headers.authorization;
+  const { id } = req.params;
+
+  const postUpdated = await update(token, newData, id);
+  if (postUpdated.status) {
+    return res.status(postUpdated.status).json({ message: postUpdated.message });
+  }
+
+  return res.status(200).json(postUpdated);
+ };
+
 module.exports = {
   createCategory,
   getAllCategories,
   createPost,
   getAllPosts,
+  getPostById,
+  updatePost,
 };

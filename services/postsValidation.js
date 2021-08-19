@@ -1,5 +1,6 @@
 const Joi = require('joi');
-const { Category } = require('../models');
+const { Category, BlogPost } = require('../models');
+const { getUserByData } = require('./usersServices');
 
 const validateCategory = Joi.object({
   name: Joi.string().required().messages({
@@ -11,6 +12,11 @@ const validatePostData = Joi.object({
   title: Joi.string().required(),
   content: Joi.string().required(),
   categoryIds: Joi.array().items(Joi.number().required()),
+});
+
+const validateUpdateData = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
 });
 
 const isCategoryValid = async (category) => {
@@ -39,8 +45,25 @@ const isPostDataValid = async (data) => {
   return null;
 };
 
+const isUpdateDataValid = async (updateData) => {
+  const { error } = await validateUpdateData.validate(updateData);
+  if (error) return { status: 400, message: error.message };
+  
+  return null;
+};
+
+const isUserOwner = async (email, id) => {
+  const userToken = await getUserByData('email', email).then((user) => user.dataValues.id);
+  const userPost = await BlogPost.findByPk(id).then((data) => data.userId);
+  if (userToken !== userPost) return { status: 401, message: 'Unauthorized user' };
+  
+  return null;
+}; 
+
 module.exports = {
   isCategoryValid,
   isPostDataValid,
   doesCategoriesExists,
+  isUpdateDataValid,
+  isUserOwner,
 };

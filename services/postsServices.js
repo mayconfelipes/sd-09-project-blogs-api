@@ -1,5 +1,11 @@
 const { Category, BlogPost, User } = require('../models');
-const { isCategoryValid, isPostDataValid, doesCategoriesExists } = require('./postsValidation');
+const {
+  isCategoryValid,
+  isPostDataValid,
+  doesCategoriesExists,
+  isUpdateDataValid,
+  isUserOwner,
+} = require('./postsValidation');
 const { validateToken } = require('./token');
 const { getUserByData } = require('./usersServices');
 
@@ -59,9 +65,46 @@ const getPosts = async (token) => {
   return allPosts;
 };
 
+const getPost = async (token, id) => {
+  const validToken = await validateToken(token);
+  if (validToken.status) return validToken;
+
+  const postById = await BlogPost.findByPk(id, { include: [
+    { model: User, as: 'user', attributes: ['id', 'displayName', 'email', 'image'] },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ] });
+
+  if (!postById) return { status: 404, message: 'Post does not exist' };
+  console.log(postById);
+  return postById;
+};
+
+const update = async (token, newData, id) => {
+  const validToken = await validateToken(token);
+  if (validToken.status) return validToken;
+
+  const invalidUser = await isUserOwner(validToken, id);
+  if (invalidUser) return invalidUser;
+
+  if (newData.categoryIds) return { status: 400, message: 'Categories cannot be edited' };
+
+  const invalidPostUpdate = await isUpdateDataValid(newData);
+  if (invalidPostUpdate) return invalidPostUpdate;
+
+  await BlogPost
+    .update({ content: newData.content, title: newData.title }, { where: { id } });
+  
+    const updatedPost = await BlogPost.findByPk(id, { include: [
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ] });
+    return updatedPost;
+};
+
 module.exports = {
   newCategory,
   getCategories,
   newPost,
   getPosts,
+  getPost,
+  update,
 };
