@@ -1,4 +1,4 @@
-const { Category, BlogPost } = require('../models');
+const { Category, BlogPost, User } = require('../models');
 const { isCategoryValid, isPostDataValid, doesCategoriesExists } = require('./postsValidation');
 const { validateToken } = require('./token');
 const { getUserByData } = require('./usersServices');
@@ -42,8 +42,26 @@ const newPost = async (data, token) => {
   return create;
 };
 
+const getPosts = async (token) => {
+  const validToken = await validateToken(token);
+  if (validToken.status) return validToken;
+
+//   [options.attributes] - A list of the attributes that you want to select, or an object with include and exclude keys.
+// [options.include[].attributes] - A list of attributes to select from the child model.
+// [options.include[].through.where] - Filter on the join model for belongsToMany relations.
+// [options.include[].through.attributes] - A list of attributes to select from the join model for belongsToMany relations.
+
+  const allPosts = await BlogPost.findAll({ include: [
+    { model: User, as: 'user', attributes: ['id', 'displayName', 'email', 'image'] },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ] });
+
+  return allPosts;
+};
+
 module.exports = {
   newCategory,
   getCategories,
   newPost,
+  getPosts,
 };

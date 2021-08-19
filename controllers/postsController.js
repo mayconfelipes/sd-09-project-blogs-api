@@ -1,5 +1,4 @@
-// const {  } = require('../services/postsValidation');
-const { newCategory, getCategories, newPost } = require('../services/postsServices');
+const { newCategory, getCategories, newPost, getPosts } = require('../services/postsServices');
 
 const createCategory = async (req, res, _next) => {
   const category = req.body;
@@ -35,8 +34,18 @@ const createPost = async (req, res, _next) => {
 return res.status(201).json(create);
  };
 
+ const getAllPosts = async (req, res, _next) => {
+  const token = req.headers.authorization;
+
+  const allPosts = await getPosts(token);
+  if (allPosts.status) return res.status(allPosts.status).json({ message: allPosts.message });
+
+  return res.status(200).json(allPosts);
+ };
+
 module.exports = {
   createCategory,
   getAllCategories,
   createPost,
+  getAllPosts,
 };
