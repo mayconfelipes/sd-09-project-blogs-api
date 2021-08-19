@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { generateToken } = require('./token');
+const { generateToken, validateToken } = require('./token');
 
 const getUserByData = async (field, value) => {
   const user = await User.findOne({ where: { [field]: value } });
@@ -24,9 +24,18 @@ const createNewUser = async (newUser) => {
   return token;
 };
 
+const removeUser = async (token) => {
+  const validToken = await validateToken(token);
+  if (validToken.status) return { message: validToken.message };
+
+  const deleted = await User.destroy({ where: { email: validToken } });
+  return deleted;
+};
+
 module.exports = {
   createNewUser,
   getUserByData,
   getAllUsers,
   getUserById,
+  removeUser,
 };
