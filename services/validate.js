@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { SECRET } = require('../controllers/user');
 
-const validate = async (req, res, next) => {
+const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) return res.status(401).json({ message: 'Token not found' });
 
@@ -16,5 +16,5 @@ const validate = async (req, res, next) => {
 };
 
 module.exports = {
-  validate,
+  validateToken,
 };
