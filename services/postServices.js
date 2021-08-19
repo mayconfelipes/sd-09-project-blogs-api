@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 const { Category, BlogPost, User } = require('../models');
 const { schema, validateError } = require('./schemas/postSchema');
 const {
@@ -15,11 +17,6 @@ const checkIfPostExist = async (id) => {
   const post = await BlogPost.findByPk(id);
   return post;
 };
-/*
-const checkPostOwner = async (postId, userId) => {
-  const post = await BlogPost.findByPk(postId);
-  return
-}; */
 
 const createPost = async (postData) => {
   const { userId: _, ...data } = postData;
@@ -82,4 +79,31 @@ const deletePost = async (postId, id) => {
   return result;
 };
 
-module.exports = { createPost, getAll, getById, deletePost };
+/**
+ * [Op.or] -> operador logico "ou"
+ * [Op.iLike] -> operador like compara se existe a keyword case insensitive
+ * Fonte: https://sequelize.org/v5/manual/querying.html
+ */
+const searchKeyword = async (keyword) => {
+  console.log('[keyword] >', keyword);
+  const searchResult = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.iLike]: `${keyword}` } },
+        { content: { [Op.iLike]: `${keyword}` } },
+      ],
+    },
+  });
+
+  console.log('[searchKeyword] > ', searchResult);
+
+  return searchResult;
+};
+
+module.exports = {
+  createPost,
+  getAll,
+  getById,
+  deletePost,
+  searchKeyword,
+};

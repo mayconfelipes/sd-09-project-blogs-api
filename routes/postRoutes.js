@@ -9,6 +9,8 @@ router.route('/')
   .post(validateToken, controllers.createPost)
   .get(validateToken, controllers.getAll);
 
+router.route('/search').get(validateToken, controllers.searchKeyword);
+
 router.route('/:id')
   .get(validateToken, controllers.getById)
   .delete(validateToken, controllers.deletePost);
