@@ -1,6 +1,10 @@
 const { Category, BlogPost, User } = require('../models');
 const { schema, validateError } = require('./schemas/postSchema');
-const { badRequest, notFound } = require('../helpers/getHttpStatusCode');
+const {
+  badRequest,
+  notFound,
+  unauthorized,
+} = require('../helpers/getHttpStatusCode');
 
 const checkIfCategoriesExist = async (categoryIds) => {
   const categories = await Promise.all(categoryIds.map((id) => Category.findByPk(id)));
@@ -11,6 +15,11 @@ const checkIfPostExist = async (id) => {
   const post = await BlogPost.findByPk(id);
   return post;
 };
+/*
+const checkPostOwner = async (postId, userId) => {
+  const post = await BlogPost.findByPk(postId);
+  return
+}; */
 
 const createPost = async (postData) => {
   const { userId: _, ...data } = postData;
@@ -60,8 +69,16 @@ const getById = async (postId) => {
   return post;
 };
 
-const deletePost = async (id) => {
+const deletePost = async (postId, id) => {
+  // Busca o id dono do post para verificacoes
+  const post = await BlogPost.findByPk(postId);
+  // Verifica se o post existe
+  if (!post) throw validateError(notFound, 'Post does not exist');
+  // Verifica se quem esta tentando remover o post e dono do post
+  if (post.userId !== id) throw validateError(unauthorized, 'Unauthorized user');
+
   const result = await BlogPost.destroy({ where: { id } });
+
   return result;
 };
 
