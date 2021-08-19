@@ -4,7 +4,7 @@ require('dotenv').config();
 const add = async (req, res) => {
   const { name } = req.body;
   if (!name) {
-    return res.status(201).json({ message: '"name" is required' });
+    return res.status(400).json({ message: '"name" is required' });
   }
   try {
     const addCat = await Categories.create({ name });
