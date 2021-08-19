@@ -32,6 +32,10 @@ app.get('/user/:id',
 validateToken,
 userController.getUserById);
 
+app.delete('/user/me',
+validateToken,
+userController.deleteUser);
+
 // Categories
 
 app.post('/categories',
@@ -66,6 +70,10 @@ blogpostServices.validateContent,
 blogpostServices.validateToEditCategories,
 blogpostServices.validateUser,
 blogpostController.updatePost);
+
+app.delete('/post/:id',
+validateToken,
+blogpostController.deletePost);
 
 // General
 

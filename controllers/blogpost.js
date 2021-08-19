@@ -32,7 +32,8 @@ const getPostById = rescue(async (req, res) => {
   const { id } = req.params;
   const postId = await BlogPost.findOne({
     where: { id },
-    include: [{ model: User, as: 'user' }, { model: Category, as: 'categories' },
+    include: [{ model: User, as: 'user' },
+    { model: Category, as: 'categories', through: { attributes: [] } },
   ],
   });
 
@@ -52,9 +53,29 @@ const updatePost = rescue(async (req, res) => {
   res.status(200).json(post);
 });
 
+const deletePost = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { email } = req.user;
+  const { id: userId } = await User.findOne({ where: { email } });
+
+  const post = await BlogPost.findOne({ where: { id } });
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post does not exist' });
+  }
+
+  if (post.userId !== userId) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+
+  await BlogPost.destroy({ where: { id } });
+  return res.status(204).json();
+});
+
 module.exports = {
   insertBlogPost,
   listAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 }; 

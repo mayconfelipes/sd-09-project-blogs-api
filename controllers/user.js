@@ -43,10 +43,18 @@ const getUserById = rescue(async (req, res) => {
   return res.status(200).json(user);
 });
 
+const deleteUser = rescue(async (req, res) => {
+  const { email } = req.user;
+  const { id } = await User.findOne({ where: { email } });
+  await User.destroy({ where: { id } });
+  return res.status(204).json();
+});
+
 module.exports = {
   insertUser,
   logUser,
   listAllUsers,
   SECRET,
   getUserById,
+  deleteUser,
 }; 

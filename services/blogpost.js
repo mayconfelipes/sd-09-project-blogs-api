@@ -47,7 +47,9 @@ const validateUser = async (req, res, next) => {
   const { email } = req.user;
   const { id: userId } = await User.findOne({ where: { email } });
   const post = await BlogPost.findOne({ where: { id } });
-  if (post.userId !== userId) return res.status(401).json({ message: 'Unauthorized user' });
+  if (post.userId !== userId) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
   next();
 };
 
