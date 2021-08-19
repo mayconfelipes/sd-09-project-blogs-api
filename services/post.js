@@ -56,7 +56,7 @@ const updatePost = async (postData, postId, userId) => {
 
   if (post.userId !== userId) return { message: 'Unauthorized user', statusCode: 401 };
 
-  await BlogPost.update(postData, { where: { id: postId } });
+  await BlogPost.update({ updated: Date.now(), ...postData }, { where: { id: postId } });
 
   return BlogPost.findByPk(postId, {
     include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
