@@ -25,6 +25,8 @@ app.use('/user', controllers.user);
 
 app.use('/categories', controllers.category);
 
+app.use('/post', controllers.post);
+
 app.use(middlewares.error);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));

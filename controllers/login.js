@@ -16,7 +16,7 @@ const schema = joi.object({
 
 const tokenGenerator = (payload) => {
   const jwtConfig = {
-    expiresIn: '1h',
+    expiresIn: '10h',
   };
 
   return jwt.sign(payload, JWT_SECRET, jwtConfig);
