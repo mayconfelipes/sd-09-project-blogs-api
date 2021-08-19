@@ -10,7 +10,7 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-// metodo de validaçao retirado do codigo do aluno mauro henrique turma sd-09
+// Metodo inspirado Aula validacao com joi marioto feat aluno mauro henrique turma sd-09 / 
 const schemaUser = Joi.object({
   displayName: Joi.string().min(8).required(),
   email: Joi.string().email().required(),
@@ -24,9 +24,11 @@ const schemaUser = Joi.object({
 
 const createUser = async (displayName, email, password, image) => {
    const { error } = schemaUser.validate({ displayName, email, password });
-   console.error(error.details); 
+   console.log(error.details[0]); 
   if (error) {
    // const qualquernome = error.details[0].message;
+   console.log(error.details[0].message, 'entrou');
+
     throw validateError(400, error.details[0].message);
   }
 

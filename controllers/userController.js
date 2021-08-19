@@ -8,7 +8,8 @@ const createUser = async (req, res, next) => {
       const result = await UserService.createUser(displayName, email, password, image);
         return res.status(StatusCodes.CREATED).json({ result });
    } catch (err) {
-    console.log(`[USER CONTROLLER] : buscar => ${err}`);
+     console.log(err);
+      console.log(`[USER CONTROLLER] : buscar => ${err.message}`);
     return next(err);
    }
 };
