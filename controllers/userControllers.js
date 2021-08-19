@@ -1,5 +1,5 @@
 const userServices = require('../services/userServices');
-const { created, ok } = require('../helpers/getHttpStatusCode');
+const { created, ok, noContent } = require('../helpers/getHttpStatusCode');
 const removeUsersPassword = require('../helpers/removeUsersPassword');
 const filterUserData = require('../helpers/filterUserData');
 
@@ -37,4 +37,20 @@ const findById = async (req, res, next) => {
   }
 };
 
-module.exports = { createUser, findUsers, findById };
+const deleteUser = async (req, res, next) => {
+  const { id } = req.user;
+
+  try {
+    const result = await userServices.deleteUser(id);
+    return res.status(noContent).json(result);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = {
+  createUser,
+  findUsers,
+  findById,
+  deleteUser,
+};
