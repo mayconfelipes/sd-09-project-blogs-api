@@ -38,6 +38,14 @@ router.get('/', auth, async (_req, res, _next) => {
   res.status(200).json(posts);
 });
 
+router.get('/search', auth, async (req, res, _next) => {
+  const query = req.query.q;
+
+  const posts = await post.searchPosts(query);
+
+  res.status(200).json(posts);
+});
+
 router.get('/:id', auth, async (req, res, next) => {
   const { id } = req.params;
 
