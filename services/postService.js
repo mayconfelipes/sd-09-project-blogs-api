@@ -55,7 +55,7 @@ const validateUpdatePost = async (body) => {
 
 const findOnePost = async (id) => BlogPost.findByPk(id, {
   include: { model: Categories, as: 'categories', through: { attributes: [] } },
-  attributes: { exclude: ['published', 'updated', 'categories'] },
+  attributes: { exclude: ['published', 'updated'] },
 });
 
 const getPostById = async (idFromReq, userId, body) => {
@@ -67,7 +67,6 @@ const getPostById = async (idFromReq, userId, body) => {
       res: { message: 'Unauthorized user' },
     };
   }
-  console.log(post);
 
   await BlogPost.update({ title, content }, { where: { id: idFromReq } });
 
@@ -79,10 +78,35 @@ const getPostById = async (idFromReq, userId, body) => {
   };
 };
 
+const verifyAndDeletePost = async (idFromReq, userId) => {
+  const post = await BlogPost.findByPk(idFromReq, {});
+  if (!post) {
+    return {
+      status: 404,
+      res: { message: 'Post does not exist' },
+    };
+  }
+
+  if (post.dataValues.userId !== userId) {
+    console.log('diferente');
+    return {
+      status: 401,
+      res: { message: 'Unauthorized user' },
+    };
+  }
+
+  await BlogPost.destroy({ where: { id: idFromReq } });
+
+  return {
+    status: 204,
+  };
+};
+
 module.exports = {
   validatePost,
   createPostStructure,
   validateIds,
   validateUpdatePost,
   getPostById,
+  verifyAndDeletePost,
 };
