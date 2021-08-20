@@ -8,7 +8,8 @@ const { validatePost, verifyCategories } = require('../middlewares/blogPosts');
 
 const OK_STATUS = 200;
 const CREATED_STATUS = 201;
-const NOT_FOUND_STATUS = 400;
+const BAD_REQUEST_STATUS = 400;
+const NOT_FOUND_STATUS = 404;
 
 const postControllers = new Router();
 
@@ -20,7 +21,7 @@ postControllers.post('/', validateToken, validatePost,
     const result = await verifyCategories(categoryIds);
     if (!result) {
       const message = '"categoryIds" not found';
-      return res.status(NOT_FOUND_STATUS).json({ message });
+      return res.status(BAD_REQUEST_STATUS).json({ message });
     }
     const newPost = await blogPostsServices
       .createPost(title, content, id);
@@ -29,6 +30,16 @@ postControllers.post('/', validateToken, validatePost,
 
 postControllers.get('/', validateToken, rescue(async (_req, res, _next) => {
   const result = await blogPostsServices.getAllPosts();
+  return res.status(OK_STATUS).json(result);
+}));
+
+postControllers.get('/:id', validateToken, rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const result = await blogPostsServices.getPostById(id);
+  if (!result) {
+    const message = 'Post does not exist';
+    return res.status(NOT_FOUND_STATUS).json({ message });
+  }
   return res.status(OK_STATUS).json(result);
 }));
 
