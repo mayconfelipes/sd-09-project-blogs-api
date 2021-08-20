@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const services = require('../services');
-const { BlogPost } = require('../models');
+const { User, BlogPost, Categories } = require('../models');
 
 router.post('/', async (req, res) => {
   const token = req.headers.authorization;
@@ -26,10 +26,63 @@ router.post('/', async (req, res) => {
   return res.status(201).json(sendNewPost);
 });
 
+router.get('/', async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (!token) return res.status(401).json({ message: 'Token not found' });
+
+  const jwtValidation = await services.jwtService.jwtValidate(token);
+  if (jwtValidation.message) return res.status(401).json({ message: jwtValidation.message });
+
+  const posts = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return res.status(200).json(posts);
+});
+
+router.get('/:id', async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (!token) return res.status(401).json({ message: 'Token not found' });
+
+  const jwtValidation = await services.jwtService.jwtValidate(token);
+  if (jwtValidation.message) return res.status(401).json({ message: jwtValidation.message });
+
+  const posts = await BlogPost.findByPk(req.params.id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!posts) {
+    return res.status(404).json({ message: 'Post does not exist' });
+  }
+
+  return res.status(200).json(posts);
+});
+
+router.put('/:id', async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (req.body.categoryIds) return res.status(400).json({ message: 'Categories cannot be edited' });
+
+  if (!token) return res.status(401).json({ message: 'Token not found' });
+
+  const validate = await services.post.validateUpdatePost(req.body);
+
+  if (validate.isJoi) return res.status(400).json({ message: validate.details[0].message });
+
+  const jwtValidation = await services.jwtService.jwtValidate(token);
+  if (jwtValidation.message) return res.status(401).json({ message: jwtValidation.message });
+
+  const post = await services.post.getPostById(req.params.id, jwtValidation.data.id, req.body);
+
+  return res.status(post.status).json(post.res);
+});
+
 module.exports = router;
-
-  // const categories = await Categories.findAll({
-  //   where: { id: { [Op.or]: req.body.categoryIds } },
-  // });
-
-  // const newPost = await services.post.createPostStructure(req.body, jwtValidation, categories);

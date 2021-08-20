@@ -1,11 +1,16 @@
 const Joi = require('joi');
 
-const { Categories } = require('../models');
+const { BlogPost, Categories } = require('../models');
 
 const schema = Joi.object({
   title: Joi.string().required(),
   content: Joi.string().required(),
   categoryIds: Joi.required(),
+});
+
+const schemaUpdate = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
 });
 
 const validatePost = async (body) => {
@@ -38,8 +43,46 @@ const validateIds = async (categoryIds) => {
   return invalidId;
 };
 
+const validateUpdatePost = async (body) => {
+  try {
+    const validate = await schemaUpdate.validate(body);
+    return validate;
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
+const findOnePost = async (id) => BlogPost.findByPk(id, {
+  include: { model: Categories, as: 'categories', through: { attributes: [] } },
+  attributes: { exclude: ['published', 'updated', 'categories'] },
+});
+
+const getPostById = async (idFromReq, userId, body) => {
+  const { title, content } = body;
+  let post = await findOnePost(idFromReq);
+  if (post.dataValues.userId !== userId) {
+    return {
+      status: 401,
+      res: { message: 'Unauthorized user' },
+    };
+  }
+  console.log(post);
+
+  await BlogPost.update({ title, content }, { where: { id: idFromReq } });
+
+  post = await findOnePost(idFromReq);
+
+  return {
+    status: 200,
+    res: post,
+  };
+};
+
 module.exports = {
   validatePost,
   createPostStructure,
   validateIds,
+  validateUpdatePost,
+  getPostById,
 };
