@@ -64,4 +64,21 @@ router.get('/:id', async (req, res) => {
   return res.status(200).json(users[0]);
 });
 
+router.delete('/me', async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token not found' });
+  }
+
+  const jwtValidation = await services.jwtService.jwtValidate(token);
+  if (jwtValidation.message) {
+    return res.status(401).json({ message: jwtValidation.message });
+  }
+
+  await User.destroy({ where: { id: jwtValidation.data.id } });
+
+  return res.status(204).json();
+});
+
 module.exports = router;
