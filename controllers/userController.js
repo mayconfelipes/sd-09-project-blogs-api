@@ -18,8 +18,6 @@ const create = async (req, res, next) => {
   return res.status(201).json({ token });
 };
 
-// ======================
-
 module.exports = {
   create,
   
