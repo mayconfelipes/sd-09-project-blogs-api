@@ -23,11 +23,12 @@ const validateToken = async (request, response, next) => {
   try {
     const decoded = jwt.verify(token, SECRET);
     request.user = decoded.user;
+    return next();
   } catch (err) {
+    console.log(err);
     const message = 'Expired or invalid token';
     return response.status(UNAUTHORIZED_STATUS).json({ message });
   }
-  next();
 };
 
 module.exports = {
