@@ -36,5 +36,6 @@ router.post('/post', validateToken, validateCategory, validatePostContent, postC
 router.get('/post', validateToken, postController.getAll);
 router.get('/post/:id', validateToken, postController.getOne);
 router.put('/post/:id', validateToken, validateUpdateContent, postController.update);
+router.delete('/post/:id', validateToken, postController.deletePost);
 
 module.exports = router;

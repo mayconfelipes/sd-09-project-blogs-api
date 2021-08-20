@@ -66,9 +66,26 @@ const update = async (req, res) => {
   } catch (e) { return res.status(500).json({}); }
 };
 
+const deletePost = async (req, res) => {
+  const userId = req.user;
+  const { id } = req.params;
+  try {
+    const post = await BlogPosts.findOne({ where: { id },
+      include: [{ model: User, as: 'user' }, { model: Categories, as: 'categories' }],
+    });
+    if (!post) { return res.status(404).json({ message: 'Post does not exist' }); }
+    const authorId = post.dataValues.userId;
+    const myUser = Number(userId);
+    if (myUser !== authorId) return res.status(401).json({ message: 'Unauthorized user' });
+    await BlogPosts.destroy({ where: { id } });
+    return res.status(204).end();
+  } catch (e) { return res.status(500).json({}); }
+};
+
 module.exports = {
   add,
   getAll,
   getOne,
   update,
+  deletePost,
 };
