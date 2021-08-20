@@ -49,4 +49,12 @@ const getUser = async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 };
 
-module.exports = { userAdd, getAll, getUser };
+const deleteMe = async (req, res) => {
+  const id = req.user;
+  try {
+    await User.destroy({ where: { id } });
+    return res.status(204).end();
+  } catch (e) { return res.status(500).json({}); }
+};
+
+module.exports = { userAdd, getAll, getUser, deleteMe };

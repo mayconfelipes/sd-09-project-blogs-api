@@ -23,6 +23,7 @@ router.post('/user',
   validateEmail, 
   validateUserExists, 
   userController.userAdd);
+router.delete('/user/me', validateToken, userController.deleteMe);
 
 router.post('/login', 
   validatePassword, 
