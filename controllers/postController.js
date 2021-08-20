@@ -45,8 +45,30 @@ const getOne = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  const { title, content, categoryIds } = req.body;
+  const userId = req.user;
+  const { id } = req.params;
+  if (categoryIds) { return res.status(400).json({ message: 'Categories cannot be edited' }); }
+  try {
+    const post = await BlogPosts.findOne({ where: { id },
+      include: [{ model: User, as: 'user' }, { model: Categories, as: 'categories' }],
+    });
+    if (!post) { return res.status(404).json({ message: 'Post does not exist' }); }
+    const authorId = post.dataValues.userId;
+    const myUser = Number(userId);
+    if (myUser !== authorId) return res.status(401).json({ message: 'Unauthorized user' });
+    await BlogPosts.update({ title, content }, { where: { id } });
+    const updatePost = await BlogPosts.findOne({ where: { id },
+      include: [{ model: User, as: 'user' }, { model: Categories, as: 'categories' }],
+    });
+    return res.status(200).json(updatePost);
+  } catch (e) { return res.status(500).json({}); }
+};
+
 module.exports = {
   add,
   getAll,
   getOne,
+  update,
 };

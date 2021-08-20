@@ -10,7 +10,8 @@ const {
   validatePassword,
   validatePostContent,
   validateCategory, 
-  validateToken } = require('../middlewares');
+  validateToken, 
+  validateUpdateContent } = require('../middlewares');
 
 const router = express.Router();
 
@@ -34,6 +35,6 @@ router.get('/categories', validateToken, categoriesController.getAll);
 router.post('/post', validateToken, validateCategory, validatePostContent, postController.add);
 router.get('/post', validateToken, postController.getAll);
 router.get('/post/:id', validateToken, postController.getOne);
-// router.put('/post/:id', validateToken, postController.update);
+router.put('/post/:id', validateToken, validateUpdateContent, postController.update);
 
 module.exports = router;

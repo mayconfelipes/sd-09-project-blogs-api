@@ -5,6 +5,7 @@ const validateToken = require('./validateToken');
 const validateUserExists = require('./validateUserExists');
 const validatePostContent = require('./validatePostContent');
 const validateCategory = require('./validateCategory');
+const validateUpdateContent = require('./validateUpdateContent');
 
 module.exports = {
   validateDisplayName,
@@ -14,4 +15,5 @@ module.exports = {
   validateUserExists,
   validatePostContent,
   validateCategory,
+  validateUpdateContent,
 };
