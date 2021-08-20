@@ -14,9 +14,9 @@ const validateToken = async (req, res, next) => {
     const decoded = jwt.verify(token, secret);
     const displayName = decoded.data;
     const user = await User.findOne({ where: { displayName } });
-    const userID = user.dataValues.id;
+    const userId = user.dataValues.id;
     if (!user) { return res.status(401).json({ message: 'User not found' }); }
-    req.user = userID;
+    req.user = userId;
   } catch (e) {
     return res.status(401).json({ message: 'Expired or invalid token' });
   } 

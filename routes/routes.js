@@ -1,13 +1,16 @@
 const express = require('express');
 const userController = require('../controllers/userController');
 const categoriesController = require('../controllers/categoriesController');
+const postController = require('../controllers/postController');
 const login = require('../controllers/login');
-const validateToken = require('../middlewares/validateToken');
 const { 
   validateEmail, 
   validateUserExists, 
   validateDisplayName, 
-  validatePassword } = require('../middlewares');
+  validatePassword,
+  validatePostContent,
+  validateCategory, 
+  validateToken } = require('../middlewares');
 
 const router = express.Router();
 
@@ -26,7 +29,8 @@ router.post('/login',
   login);
 
 router.post('/categories', validateToken, categoriesController.add);
-
 router.get('/categories', validateToken, categoriesController.getAll);
+
+router.post('/post', validateToken, validateCategory, validatePostContent, postController.add);
 
 module.exports = router;
