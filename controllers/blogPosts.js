@@ -2,9 +2,10 @@ const { Router } = require('express');
 const rescue = require('express-rescue');
 
 const blogPostsServices = require('../services/blogPosts');
+const blogPostsMiddlewares = require('../middlewares/blogPosts');
 const usersServices = require('../services/users');
 const { validateToken } = require('../middlewares/token');
-const { validatePost, verifyCategories } = require('../middlewares/blogPosts');
+// { validatePost, verifyCategories, validateUpdate }
 
 const OK_STATUS = 200;
 const CREATED_STATUS = 201;
@@ -13,12 +14,12 @@ const NOT_FOUND_STATUS = 404;
 
 const postControllers = new Router();
 
-postControllers.post('/', validateToken, validatePost,
+postControllers.post('/', validateToken, blogPostsMiddlewares.validatePost,
   rescue(async (req, res, _next) => {
     const { title, content, categoryIds } = req.body;
     const { email } = req.user;
     const { id } = await usersServices.getUserByEmail(email);
-    const result = await verifyCategories(categoryIds);
+    const result = await blogPostsMiddlewares.verifyCategories(categoryIds);
     if (!result) {
       const message = '"categoryIds" not found';
       return res.status(BAD_REQUEST_STATUS).json({ message });
@@ -42,5 +43,13 @@ postControllers.get('/:id', validateToken, rescue(async (req, res, _next) => {
   }
   return res.status(OK_STATUS).json(result);
 }));
+
+postControllers.put('/:id', validateToken, blogPostsMiddlewares.validateEdit,
+  rescue(async (req, res, _next) => {
+    const { id } = req.params;
+    const { title, content } = req.body;
+    const result = await blogPostsServices.updatePost(id, title, content);
+    return res.status(OK_STATUS).json(result);
+  }));
 
 module.exports = postControllers; 
