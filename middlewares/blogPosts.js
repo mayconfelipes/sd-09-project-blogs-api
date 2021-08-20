@@ -73,8 +73,21 @@ const validateEdit = [
   },
 ];
 
+const validateDelete = [
+  async (req, res, next) => {
+    const { id } = req.params;
+    const post = await BlogPosts.findOne({ where: { id } });
+    if (!post) {
+      const message = 'Post does not exist';
+      return res.status(NOT_FOUND_STATUS).json({ message });
+    }
+    return next();
+  },
+];
+
 module.exports = {
   validatePost,
   verifyCategories,
   validateEdit,
+  validateDelete,
 };

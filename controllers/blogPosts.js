@@ -9,7 +9,9 @@ const { validateToken } = require('../middlewares/token');
 
 const OK_STATUS = 200;
 const CREATED_STATUS = 201;
+const NO_CONTENT_STATUS = 204;
 const BAD_REQUEST_STATUS = 400;
+const UNAUTHORIZED_STATUS = 401;
 const NOT_FOUND_STATUS = 404;
 
 const postControllers = new Router();
@@ -50,6 +52,22 @@ postControllers.put('/:id', validateToken, blogPostsMiddlewares.validateEdit,
     const { title, content } = req.body;
     const result = await blogPostsServices.updatePost(id, title, content);
     return res.status(OK_STATUS).json(result);
+  }));
+
+postControllers.delete('/:id', validateToken, blogPostsMiddlewares.validateDelete,
+  rescue(async (req, res, _next) => {
+    let message;
+    const { id } = req.params;
+    const { email } = req.user;
+    const { id: userId } = await usersServices.getUserByEmail(email);
+    const { dataValues } = await blogPostsServices.getPostById(id);
+    const dataId = dataValues.userId;
+    if (dataId !== userId) {
+      message = 'Unauthorized user';
+      return res.status(UNAUTHORIZED_STATUS).json({ message });
+    }
+    await blogPostsServices.deletePost(id, userId);
+    return res.status(NO_CONTENT_STATUS).end();
   }));
 
 module.exports = postControllers; 

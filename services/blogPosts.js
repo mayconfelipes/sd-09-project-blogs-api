@@ -29,9 +29,17 @@ const updatePost = async (id, title, content) => {
   const result = await BlogPosts.findOne({
     where: { id },
     attributes: { exclude: ['id', 'published', 'updated'] },
-    include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
+    include: [{
+      model: Categories,
+      as: 'categories',
+      through: { attributes: [] },
+    }],
   });
   return result;
+};
+
+const deletePost = async (id) => {
+  await BlogPosts.destroy({ where: { id } });
 };
 
 module.exports = {
@@ -39,4 +47,5 @@ module.exports = {
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 }; 
