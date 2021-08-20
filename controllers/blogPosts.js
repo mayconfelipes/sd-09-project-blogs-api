@@ -6,6 +6,7 @@ const usersServices = require('../services/users');
 const { validateToken } = require('../middlewares/token');
 const { validatePost, verifyCategories } = require('../middlewares/blogPosts');
 
+const OK_STATUS = 200;
 const CREATED_STATUS = 201;
 const NOT_FOUND_STATUS = 400;
 
@@ -25,5 +26,10 @@ postControllers.post('/', validateToken, validatePost,
       .createPost(title, content, id);
     return res.status(CREATED_STATUS).json(newPost);
   }));
+
+postControllers.get('/', validateToken, rescue(async (_req, res, _next) => {
+  const result = await blogPostsServices.getAllPosts();
+  return res.status(OK_STATUS).json(result);
+}));
 
 module.exports = postControllers; 

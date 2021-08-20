@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const rescue = require('express-rescue');
 
 const categoriesServices = require('../services/categories');
 const { validateToken } = require('../middlewares/token');
@@ -9,7 +10,7 @@ const BAD_REQUEST_STATUS = 400;
 
 const categoriesControllers = new Router();
 
-categoriesControllers.post('/', validateToken, async (req, res, _next) => {
+categoriesControllers.post('/', validateToken, rescue(async (req, res, _next) => {
   const category = req.body;
   if (!category.name || category.name === undefined) {
     const message = '"name" is required';
@@ -17,11 +18,11 @@ categoriesControllers.post('/', validateToken, async (req, res, _next) => {
   }
   const result = await categoriesServices.createCategory(category);
   return res.status(CREATED_STATUS).json(result);
-});
+}));
 
-categoriesControllers.get('/', validateToken, async (_req, res, _next) => {
+categoriesControllers.get('/', validateToken, rescue(async (_req, res, _next) => {
   const categories = await categoriesServices.getAllCategories();
   return res.status(OK_STATUS).json(categories);
-});
+}));
 
 module.exports = categoriesControllers;
